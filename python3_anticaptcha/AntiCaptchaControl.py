@@ -6,7 +6,6 @@ from config import get_balance_url, incorrect_captcha_url
 class AntiCaptchaControl:
     def __init__(self, anticaptcha_key):
         self.ANTICAPTCHA_KEY = anticaptcha_key
-        self.get_balance_url = get_balance_url
 
     def get_balance(self):
         '''
