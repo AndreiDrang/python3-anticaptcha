@@ -1,10 +1,6 @@
 import requests
-import time
 
-# from .errors import RuCaptchaError
 from config import get_balance_url, incorrect_captcha_url
-
-from config import TEST_KEY
 
 
 class AntiCaptchaControl:
@@ -40,6 +36,3 @@ class AntiCaptchaControl:
             return True
         else:
             return False
-
-
-print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).complaint_on_result(reported_id = -5))
