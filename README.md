@@ -1,4 +1,4 @@
-# python-rucaptcha
+# python3-anticaptcha
 
 Python 3 library for AntiCaptcha.
 
