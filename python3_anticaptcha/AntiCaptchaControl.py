@@ -43,3 +43,4 @@ class AntiCaptchaControl:
 
 
 print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).complaint_on_result(reported_id = -5))
+print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).get_balance())
