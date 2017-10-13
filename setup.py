@@ -1,11 +1,11 @@
 from setuptools import setup
 
 setup(
-	name='python-anticaptcha',
+	name='python3-anticaptcha',
 	version='0.9.8.b',
 	author='AndreiDrang, redV0ID',
 	
-	packages=['python_anticaptcha'],
+	packages=['python3_anticaptcha'],
 	install_requires=[
 		'requests>=2.18',
 	],
