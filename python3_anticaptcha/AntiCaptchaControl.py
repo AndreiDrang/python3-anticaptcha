@@ -1,5 +1,4 @@
 import requests
-import time
 
 # from .errors import RuCaptchaError
 from config import get_balance_url, incorrect_captcha_url
@@ -10,7 +9,6 @@ from config import TEST_KEY
 class AntiCaptchaControl:
     def __init__(self, anticaptcha_key):
         self.ANTICAPTCHA_KEY = anticaptcha_key
-        self.get_balance_url = get_balance_url
 
     def get_balance(self):
         '''
