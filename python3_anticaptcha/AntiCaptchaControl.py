@@ -1,9 +1,6 @@
 import requests
 
-# from .errors import RuCaptchaError
 from config import get_balance_url, incorrect_captcha_url
-
-from config import TEST_KEY
 
 
 class AntiCaptchaControl:
@@ -24,7 +21,7 @@ class AntiCaptchaControl:
 
     def complaint_on_result(self, reported_id):
         '''
-        Позволяет отправить жалобуна неправильно решённую капчу.
+        Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
         :return: Возвращает True/False, в зависимости от результата
         '''
@@ -38,7 +35,10 @@ class AntiCaptchaControl:
             return True
         else:
             return False
+<<<<<<< HEAD
+=======
 
 
 print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).complaint_on_result(reported_id = -5))
 print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).get_balance())
+>>>>>>> 7bdfa87a338180c8b9157f4850da9ebf39558cb6
