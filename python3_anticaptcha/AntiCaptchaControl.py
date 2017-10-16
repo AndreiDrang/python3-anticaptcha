@@ -35,3 +35,10 @@ class AntiCaptchaControl:
             return True
         else:
             return False
+<<<<<<< HEAD
+=======
+
+
+print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).complaint_on_result(reported_id = -5))
+print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).get_balance())
+>>>>>>> 7bdfa87a338180c8b9157f4850da9ebf39558cb6
