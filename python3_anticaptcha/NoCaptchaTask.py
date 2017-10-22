@@ -35,8 +35,8 @@ class NoCaptchaTask:
 
     if kwargs:
         for key in kwargs:
-            self.task_payload['task'].update(kwars) # is it error?
-
+            self.task_payload['task'].update({key: kwargs[key]})
+            
 
     def captcha_handler(self):
         #TODO
