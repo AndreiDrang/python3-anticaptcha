@@ -1,6 +1,6 @@
 import requests
 
-from .config import create_tast_url, get_result_url, app_key
+from .config import create_task_url, get_result_url, app_key
 #TODO from .errors import AntiCaptchaError
 
 
@@ -33,10 +33,11 @@ class NoCaptchaTask:
                                 "proxy_password": ""
                              }}
 
-    if kwargs:
-        for key in kwargs:
-            self.task_payload['task'].update(kwars) # is it error?
+        if kwargs:
+            for key in kwargs:
+                self.task_payload['task'].update(kwargs) # is it error?
 
 
     def captcha_handler(self):
         #TODO
+        pass
