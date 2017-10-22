@@ -6,3 +6,4 @@
 .idea/modules.xml
 .idea/workspace.xml
 /test.py
+/python3_anticaptcha/config.py
