@@ -1,6 +1,6 @@
 import requests
 
-from config import get_balance_url, incorrect_captcha_url
+from .config import get_balance_url, incorrect_captcha_url
 
 
 class AntiCaptchaControl:
@@ -15,7 +15,7 @@ class AntiCaptchaControl:
         answer = requests.post(get_balance_url, json = {'clientKey': self.ANTICAPTCHA_KEY})
 
         if answer.json()['errorId'] == 0:
-            return answer.json()['balance']
+            return answer.json()
         else:
             return answer.json()
 
@@ -35,10 +35,3 @@ class AntiCaptchaControl:
             return True
         else:
             return False
-<<<<<<< HEAD
-=======
-
-
-print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).complaint_on_result(reported_id = -5))
-print(AntiCaptchaControl(anticaptcha_key = TEST_KEY).get_balance())
->>>>>>> 7bdfa87a338180c8b9157f4850da9ebf39558cb6
