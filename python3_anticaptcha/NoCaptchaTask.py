@@ -23,15 +23,16 @@ class NoCaptchaTask:
         #TODO заполнить пайлоад для решения рекапчи
         self.task_payload = {"clientKey": self.ANTIKAPTCHA_KEY,
                              "task":
-                             {
-                                "type": "NoCaptchaTask",
-                                "website_url": self.website_url,
-                                "website_key": self.website_key,
-                                "proxy_type": self.proxy_type,
-                                "proxy_adress": "",
-                                "proxy_login": "",
-                                "proxy_password": ""
-                             }}
+                                     {
+                                        "type": "NoCaptchaTask",
+                                        "website_url": self.website_url,
+                                        "website_key": self.website_key,
+                                        "proxy_type": self.proxy_type,
+                                        "proxy_adress": "",
+                                        "proxy_login": "",
+                                        "proxy_password": ""
+                                     }
+                             }
 
         if kwargs:
             for key in kwargs:
