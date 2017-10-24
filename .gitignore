@@ -5,3 +5,7 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/workspace.xml
+/test.py
+.idea/preferred-vcs.xml
+.idea/python3-anticaptcha.iml
+python3_anticaptcha/__pycache__/
