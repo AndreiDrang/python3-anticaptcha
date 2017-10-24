@@ -2,10 +2,8 @@ import requests
 import time
 
 from .config import create_task_url, get_result_url, app_key, user_agent_data
-
-
 # from .errors import RuCaptchaError
-
+#TODO Добавить документацию
 
 class FunCaptchaTask:
 	def __init__(self, anticaptcha_key, sleep_time=5, proxyType = 'http', proxyAddress = None, proxyPort = None, **kwargs):
