@@ -41,16 +41,16 @@ class NoCaptchaTask:
             self.task_payload['task'].update({key: kwargs[key]})
 
 
-    def captcha_handler(self, website_url, website_key):
+    def captcha_handler(self):
         # отправляем реквест
         captcha_id = requests.post(create_task_url, json=self.task_payload).json()
 
-    if captcha_id['errorId'] == 0:
-        captcha_id = captcha_id["taskId"]
-        self.result_payload.update({"taskId": captcha_id})
-    else:
-        return captcha_id
+        if captcha_id['errorId'] == 0:
+            captcha_id = captcha_id["taskId"]
+            self.result_payload.update({"taskId": captcha_id})
+        else:
+            return captcha_id
 
-    time.sleep(self.sleep_time)
-    while True:
-        pass
+        time.sleep(self.sleep_time)
+        while True:
+            pass
