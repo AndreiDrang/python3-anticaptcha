@@ -9,7 +9,7 @@ class NoCaptchaTask:
     """
     # Добавить прокси адрес
     def __init__(self, anticaptcha_key, website_url, website_key, proxy_type="http", proxy_adress="?", 
-                 proxy_prot=None, proxy_password=None sleep_time=5, user_agent=user_agent_data, **kwargs):
+                 proxy_prot=None, proxy_password=None, sleep_time=5, user_agent=user_agent_data, **kwargs):
         """
         TODO
         :params
@@ -34,9 +34,9 @@ class NoCaptchaTask:
                                  }
                              }
 
-    if kwargs:
-        for key in kwargs:
-            self.task_payload['task'].update({key: kwargs[key]})
+        if kwargs:
+            for key in kwargs:
+                self.task_payload['task'].update({key: kwargs[key]})
 
 
     def captcha_handler(self):

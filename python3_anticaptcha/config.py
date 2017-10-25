@@ -16,6 +16,8 @@ from fake_useragent import UserAgent
 
 user_agent_data = UserAgent(cache=False).random
 
+
+# todo Удалить это всё
 TEST_KEY = 'ae23fffcfaa29b170e3843e3a486ef19'
 
 
