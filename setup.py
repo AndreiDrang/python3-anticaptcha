@@ -7,8 +7,8 @@ setup(
 	
 	packages=['python3_anticaptcha'],
 	install_requires=[
-		'requests>=2.18',
-	],
+						'requests>=2.18',
+					],
 	description='Python 3 AntiCaptcha library.',
 	url='https://github.com/AndreiDrang/python3-anticaptcha',
 	author_email='drang.andray@gmail.com',
@@ -16,13 +16,12 @@ setup(
 	keywords='''captcha 
 				anticaptcha 
 				python3
-				flask
 				recaptcha
 				captcha
 				security
 				api
 				python-library
 				python-anticaptcha
-				rucaptcha-client''',
+				anticaptcha-client''',
 	python_requires='>=3.3',
 )

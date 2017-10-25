@@ -25,6 +25,93 @@ python setup.py install
 По всем вопросам можете писать в [Telegram](https://t.me/joinchat/CD2EtQ5Pm0dmoSQQMTkVlw) чат.
 ***
 ### На данный момент реализованы следующие методы:
-1 .[Модуль для получения инофрмации о балансе аккаунта и отправке жалоб.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/python3_anticaptcha/AntiCaptchaControl.py)
+
+1.[Решение капчи-изображения.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/python3_anticaptcha/ImageToTextTask.py)
+
+Краткий пример:
+```python
+from python3_anticaptcha import ImageToTextTask
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта
+ANTICAPTCHA_KEY = ""
+# Ссылка на изображения для расшифровки
+image_link = "http://85.255.8.26/static/image/common_image_example/800070.png"
+# Возвращается строка-расшифровка капчи
+user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).captcha_handler(captcha_link=image_link)
+
+print(user_answer)
+```
+
+2.[Решение новой ReCaptcha v2 с прокси.](https://github.com/AndreiDrang/python-rucaptcha/blob/master/python_rucaptcha/ReCaptchaV2.py)
+
+Краткий пример:
+```python
+from python3_anticaptcha import NoCaptchaTask
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта
+ANTICAPTCHA_KEY = ""
+# G-ReCaptcha ключ сайта
+SITE_KEY = ""
+# Ссылка на страницу с капчёй
+PAGE_URL = ""
+# Возвращается строка-расшифровка капчи
+user_answer = NoCaptchaTask.NoCaptchaTask(rucaptcha_key=ANTICAPTCHA_KEY).captcha_handler(site_key=SITE_KEY, 
+                                                                                         page_url=PAGE_URL)
+
+print(user_answer)
+```
+
+3.[Решение новой ReCaptcha v2 без прокси.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/python3_anticaptcha/NoCaptchaTaskProxyless.py)
+
+Краткий пример:
+```python
+from python3_anticaptcha import NoCaptchaTaskProxyless
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта
+ANTICAPTCHA_KEY = ""
+# G-ReCaptcha ключ сайта
+SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
+# Ссылка на страницу с капчёй
+PAGE_URL = 'https://www.google.com/recaptcha/intro/android.html'
+# Возвращается строка-расшифровка капчи
+user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(rucaptcha_key=ANTICAPTCHA_KEY).captcha_handler(websiteURL=PAGE_URL,
+                                                                                                           websiteKey=SITE_KEY)
+
+print(user_answer)
+```
+
+4.[Решение FunCaptchaTask.](https://github.com/AndreiDrang/python-rucaptcha/blob/master/python_rucaptcha/RotateCaptcha.py)
+
+Краткий пример:
+```python
+from python3_anticaptcha import FunCaptchaTask
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта
+ANTICAPTCHA_KEY = ""
+# G-ReCaptcha ключ сайта
+SITE_KEY = ''
+# Ссылка на страницу с капчёй
+PAGE_URL = ''
+# Возвращается строка с ключём для отправки на проверку
+user_answer = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
+                                            proxyType="HTTP",
+                                            proxyAddress="8.8.8.8",
+                                            proxyPort=8080)
+                                            .captcha_handler(websiteURL=PAGE_URL,
+                                                             websitePublicKey=SITE_KEY)
+
+print(user_answer)
+```
+
+5.[Модуль для получения инофрмации о балансе аккаунта и отправке жалоб.](https://github.com/AndreiDrang/python-rucaptcha/blob/master/python_rucaptcha/RuCaptchaControl.py)
+
+Краткий пример:
+```python
+from python3_anticaptcha import AntiCaptchaControl
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта
+ANTICAPTCHA_KEY = ""
+# Возвращается строка c балансом
+user_answer = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_balance()
+
+print(user_answer)
+```
 ***
 Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](http://85.255.8.26/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
+
+Присутствуют [примеры работы с библиотекой](https://github.com/AndreiDrang/python-rucaptcha/tree/master/CaptchaTester), которые демонстрируются на примере данного сайта

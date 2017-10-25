@@ -6,7 +6,6 @@ import os
 import base64
 
 from .config import create_task_url, get_result_url, app_key
-#from .errors import RuCaptchaError
 
 
 class ImageToTextTask:

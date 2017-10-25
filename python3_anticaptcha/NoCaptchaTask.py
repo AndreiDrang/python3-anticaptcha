@@ -30,12 +30,9 @@ class NoCaptchaTask:
                                  },
                              }
 
-        # пайлоад для получения ответа сервиса
-        self.result_payload = {"clientKey": anticaptcha_key}
-        # заполнить пайлоад остальными аргументами
-        if kwargs:
-            for key in kwargs:
-                self.task_payload['task'].update({key: kwargs[key]})
+    if kwargs:
+        for key in kwargs:
+            self.task_payload['task'].update({key: kwargs[key]})
 
     # Работа с капчей
     def captcha_handler(self, websiteURL, websiteKey):
