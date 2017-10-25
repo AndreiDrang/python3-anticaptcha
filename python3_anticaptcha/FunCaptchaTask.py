@@ -31,8 +31,7 @@ class FunCaptchaTask:
 			                     },
 		                     }
 		
-		# отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
-		# если всё ок - идём дальше
+		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": self.ANTICAPTCHA_KEY}
 		
 		# Если переданы ещё параметры - вносим их в payload
@@ -50,13 +49,14 @@ class FunCaptchaTask:
 		"""
 		self.task_payload['task'].update({"websiteURL": websiteURL,
 		                                  "websiteKey": websitePublicKey})
-		# Отправляем на антикапча изображение капчи и другие парметры,
+		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
 		captcha_id = requests.post(create_task_url, json=self.task_payload).json()
 
 		# Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
 		if captcha_id['errorId'] == 0:
 			captcha_id = captcha_id["taskId"]
+			# обновляем пайлоад на получение решения капчи
 			self.result_payload.update({"taskId": captcha_id})
 		else:
 			return captcha_id

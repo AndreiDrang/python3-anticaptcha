@@ -1,11 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/.name
 .idea/PythonAntiCaptcha.iml
-.idea/inspectionProfiles/
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
 /test.py
-.idea/preferred-vcs.xml
-.idea/python3-anticaptcha.iml
 python3_anticaptcha/__pycache__/
+/.idea/
