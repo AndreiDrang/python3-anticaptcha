@@ -1,6 +1,5 @@
 import requests
-
-from .config import create_task_url, get_result_url, app_key
+from .config import create_task_url, get_result_url, app_key, user_agent_data
 #TODO from .errors import AntiCaptchaError
 
 
@@ -10,7 +9,7 @@ class NoCaptchaTask:
     """
     # Добавить прокси адрес
     def __init__(self, anticaptcha_key, website_url, website_key, proxy_type="http", proxy_adress="?", 
-                 proxy_prot=None, proxy_password=None sleep_time=5, user_agent="", **kwargs):
+                 proxy_prot=None, proxy_password=None sleep_time=5, user_agent=user_agent_data, **kwargs):
         """
         TODO
         :params
@@ -32,7 +31,6 @@ class NoCaptchaTask:
                                     "proxy_adress": None,
                                     "proxy_login": None,
                                     "proxy_password": None
-                                    "user_agent": None
                                  }
                              }
 
