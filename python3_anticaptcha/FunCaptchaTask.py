@@ -2,11 +2,19 @@ import requests
 import time
 
 from .config import create_task_url, get_result_url, app_key, user_agent_data
-# from .errors import RuCaptchaError
-#TODO Добавить документацию
 
 class FunCaptchaTask:
 	def __init__(self, anticaptcha_key, sleep_time=5, proxyType = 'http', proxyAddress = None, proxyPort = None, **kwargs):
+		"""
+		Модуль отвечает за решение FunCaptcha
+		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
+		:param anticaptcha_key: Ключ от АнтиКапчи
+		:param sleep_time: Время ожидания решения
+		:param proxyType: Тип прокси http/socks5/socks4
+		:param proxyAddress: Адрес прокси-сервера
+		:param proxyPort: Порт сервера
+		:param kwargs: Можно передать необязательные параметры и переопределить userAgent
+		"""
 
 		self.ANTICAPTCHA_KEY = anticaptcha_key
 		self.sleep_time = sleep_time
@@ -34,7 +42,12 @@ class FunCaptchaTask:
 		
 	# Работа с капчёй
 	def captcha_handler(self, websiteURL, websitePublicKey):
-		
+		"""
+		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
+		:param websiteURL: Ссылка на страницу с капчёй
+		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
+		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
+		"""
 		self.task_payload['task'].update({"websiteURL": websiteURL,
 		                                  "websiteKey": websitePublicKey})
 		# Отправляем на антикапча изображение капчи и другие парметры,
