@@ -1,6 +1,6 @@
 import requests
 
-from config import get_balance_url, incorrect_captcha_url
+from .config import get_balance_url, incorrect_captcha_url
 
 
 class AntiCaptchaControl:
@@ -15,13 +15,13 @@ class AntiCaptchaControl:
         answer = requests.post(get_balance_url, json = {'clientKey': self.ANTICAPTCHA_KEY})
 
         if answer.json()['errorId'] == 0:
-            return answer.json()['balance']
+            return answer.json()
         else:
             return answer.json()
 
     def complaint_on_result(self, reported_id):
         '''
-        Позволяет отправить жалобуна неправильно решённую капчу.
+        Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
         :return: Возвращает True/False, в зависимости от результата
         '''

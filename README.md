@@ -2,6 +2,8 @@
 
 Python 3 library for AntiCaptcha.
 
+Tested on UNIX based OS.
+
 Библиотека предназначена для разрабаотчиков ПО и служит для облегчения работы с API сервиса AntiCaptcha.
 
 ## How to install? Как установить?
