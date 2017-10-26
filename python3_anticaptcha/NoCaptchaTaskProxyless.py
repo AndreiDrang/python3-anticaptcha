@@ -8,7 +8,12 @@ from .config import create_task_url, get_result_url, app_key
 
 class NoCaptchaTaskProxyless:
 	def __init__(self, anticaptcha_key, sleep_time=5, **kwargs):
-		
+		"""
+		Модуль отвечает за решение ReCaptcha без прокси
+		:param anticaptcha_key: Ключ антикапчи
+		:param sleep_time: Время ожидания решения капчи
+		:param kwargs: Другие необязательные параметры из документации
+		"""
 		self.ANTICAPTCHA_KEY = anticaptcha_key
 		self.sleep_time = sleep_time
 		
@@ -20,8 +25,7 @@ class NoCaptchaTaskProxyless:
 			                     },
 		                     }
 		
-		# отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
-		# если всё ок - идём дальше
+		# Пайлоад для получения результата
 		self.result_payload = {"clientKey": self.ANTICAPTCHA_KEY}
 		
 		# Если переданы ещё параметры - вносим их в payload
@@ -31,6 +35,12 @@ class NoCaptchaTaskProxyless:
 	
 	# Работа с капчёй
 	def captcha_handler(self, websiteURL, websiteKey):
+		"""
+		Метод решения ReCaptcha
+		:param websiteURL: Ссылка на страницу с капчёй
+		:param websiteKey: Ключ капчи сайта(как получить - написано в документации)
+		:return: Возвращает ответ сервера в виде JSON-строки
+		"""
 		
 		# вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
 		self.task_payload['task'].update({"websiteURL": websiteURL,
