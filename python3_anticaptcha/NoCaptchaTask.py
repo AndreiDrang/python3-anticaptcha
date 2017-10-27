@@ -49,6 +49,15 @@ class NoCaptchaTask:
         else:
             return captcha_id
 
+        # Ждем решения капчи
         time.sleep(self.sleep_time)
         while True:
-            pass
+            captcha_response = requests.post(get_result_url, json=self.result_payload)
+
+            if captcha_response.json()["errorId"] == 0:
+                if captcha_response.json()["status"] == "processing":
+                    time.sleep(self.sleep_time)
+                else:
+                    return captcha_response.json()
+            else:
+                return captcha_response.json()
