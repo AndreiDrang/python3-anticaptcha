@@ -4,11 +4,8 @@ from .config import create_task_url, get_result_url, app_key, user_agent_data
 
 
 class NoCaptchaTask:
-    """
-    TODO
-    """
-    # Добавить прокси адрес
-    def __init__(self, anticaptcha_key, website_url, website_key, proxy_type="http", proxy_adress="?", 
+
+    def __init__(self, anticaptcha_key, website_url, website_key, proxy_type="http", proxy_adress=None, 
                  proxy_prot=None, proxy_password=None sleep_time=5, user_agent=user_agent_data, **kwargs):
         """
         TODO
@@ -20,15 +17,19 @@ class NoCaptchaTask:
         self.website_url = website_url
         self.website_key = website_key
         self.proxy_type = proxy_type
+        self.proxy_adress = proxy_adress
+        self.proxy_login = proxy_login
+        self.proxy_password = proxy_password
+
         #TODO заполнить пайлоад для решения рекапчи
         self.task_payload = {"clientKey": self.ANTIKAPTCHA_KEY,
                              "task":
                                 {
                                     "type": "NoCaptchaTask",
                                     "proxy_type": self.proxy_type,
-                                    "proxy_adress": None,
-                                    "proxy_login": None,
-                                    "proxy_password": None
+                                    "proxy_adress": self.proxy_adress,
+                                    "proxy_login": self.proxy_login,
+                                    "proxy_password": self.proxy_password
                                  }
                              }
 
