@@ -25,8 +25,6 @@ class NoCaptchaTask:
                              "task":
                                 {
                                     "type": "NoCaptchaTask",
-                                    "website_url": self.website_url,
-                                    "website_key": self.website_key,
                                     "proxy_type": self.proxy_type,
                                     "proxy_adress": None,
                                     "proxy_login": None,
@@ -39,7 +37,9 @@ class NoCaptchaTask:
             self.task_payload['task'].update({key: kwargs[key]})
 
 
-    def captcha_handler(self):
+    def captcha_handler(self, websiteURL, websiteKey):
+        self.task_payload['task'].update({"websiteURL": websiteURL,
+                                          "websiteKey": websiteKey})
         # отправляем реквест
         captcha_id = requests.post(create_task_url, json=self.task_payload).json()
 
