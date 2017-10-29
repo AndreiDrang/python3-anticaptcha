@@ -14,10 +14,7 @@ class AntiCaptchaControl:
         '''
         answer = requests.post(get_balance_url, json = {'clientKey': self.ANTICAPTCHA_KEY})
 
-        if answer.json()['errorId'] == 0:
-            return answer.json()
-        else:
-            return answer.json()
+        return answer.json()
 
     def complaint_on_result(self, reported_id):
         '''
