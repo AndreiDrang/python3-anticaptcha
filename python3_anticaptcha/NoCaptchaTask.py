@@ -1,6 +1,5 @@
 import requests
 from .config import create_task_url, get_result_url, app_key, user_agent_data
-#TODO from .errors import AntiCaptchaError
 
 
 class NoCaptchaTask:

@@ -4,3 +4,4 @@
 /test.py
 python3_anticaptcha/__pycache__/
 /.idea/
+/python3_anticaptcha.egg-info/

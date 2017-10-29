@@ -1,8 +1,8 @@
 from python3_anticaptcha import ImageToTextTask, config, AntiCaptchaControl, FunCaptchaTask, NoCaptchaTaskProxyless
 
 key = config.TEST_KEY
-#print(ImageToTextTask.ImageToTextTask(key, save_format = 'const').captcha_handler('http://85.255.8.26/static/image/common_image_example/800070.png'))
-#print(AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = config.TEST_KEY).complaint_on_result(reported_id = -5))
+print(ImageToTextTask.ImageToTextTask(key, save_format = 'const').captcha_handler('http://85.255.8.26/static/image/common_image_example/800070.png'))
+print(AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = config.TEST_KEY).complaint_on_result(reported_id = -5))
 print(AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = config.TEST_KEY).get_balance())
 '''
 print(FunCaptchaTask.FunCaptchaTask(config.TEST_KEY,
