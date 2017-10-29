@@ -1,5 +1,6 @@
 import requests
 import time
+
 from .config import create_task_url, get_result_url, app_key, user_agent_data
 
 
@@ -30,6 +31,9 @@ class NoCaptchaTask:
                                  },
                              }
 
+        # пайлоад для получения ответа сервиса
+        self.result_payload = {"clientKey": anticaptcha_key}
+        # заполнить пайлоад остальными аргументами
         if kwargs:
             for key in kwargs:
                 self.task_payload['task'].update({key: kwargs[key]})
