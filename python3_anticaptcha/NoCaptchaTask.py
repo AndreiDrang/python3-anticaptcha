@@ -30,9 +30,9 @@ class NoCaptchaTask:
                                  },
                              }
 
-    if kwargs:
-        for key in kwargs:
-            self.task_payload['task'].update({key: kwargs[key]})
+        if kwargs:
+            for key in kwargs:
+                self.task_payload['task'].update({key: kwargs[key]})
 
     # Работа с капчей
     def captcha_handler(self, websiteURL, websiteKey):
