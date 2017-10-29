@@ -65,7 +65,7 @@ class ImageToTextTask:
         Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
         :return: Возвращает ID капчи
         '''
-        img_path = 'PythonRuCaptchaImages'
+        img_path = 'PythonAntiCaptchaImages'
 
         if not os.path.exists(img_path):
             os.mkdir(img_path)
