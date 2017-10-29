@@ -26,13 +26,11 @@ class ImageToTextTask:
         :param language: Язык капчи
         :param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
         '''
-
-        self.ANTICAPTCHA_KEY = anticaptcha_key
         self.sleep_time = sleep_time
         self.save_format = save_format
 
         # Пайлоад для создания задачи
-        self.task_payload = {"clientKey": self.ANTICAPTCHA_KEY,
+        self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
                                  {
                                        "type": "ImageToTextTask",
@@ -42,7 +40,7 @@ class ImageToTextTask:
 
         # отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
         # если всё ок - идём дальше
-        self.result_payload = {"clientKey": self.ANTICAPTCHA_KEY}
+        self.result_payload = {"clientKey": anticaptcha_key}
         
         # Если переданы ещё параметры - вносим их в payload
         if kwargs:

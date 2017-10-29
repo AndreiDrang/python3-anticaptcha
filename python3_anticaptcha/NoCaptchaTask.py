@@ -1,41 +1,36 @@
 import requests
+import time
+
 from .config import create_task_url, get_result_url, app_key, user_agent_data
-#TODO from .errors import AntiCaptchaError
 
 
 class NoCaptchaTask:
 
-    def __init__(self, anticaptcha_key, website_url, website_key, proxy_type="http", proxy_adress=None, 
-                 proxy_prot=None, proxy_password=None sleep_time=5, user_agent=user_agent_data, **kwargs):
+    def __init__(self, anticaptcha_key, proxyAddress, proxyPort, sleep_time=5, proxyType = 'http', **kwargs):
         """
-        TODO
         :params
         return:
         """
-        self.ANTIKAPTCHA_KEY = anticaptcha_key
         self.sleep_time = sleep_time
-        self.website_url = website_url
-        self.website_key = website_key
-        self.proxy_type = proxy_type
-        self.proxy_adress = proxy_adress
-        self.proxy_login = proxy_login
-        self.proxy_password = proxy_password
 
-        #TODO заполнить пайлоад для решения рекапчи
-        self.task_payload = {"clientKey": self.ANTIKAPTCHA_KEY,
+        # Пайлоад для создания задачи
+        self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
-                                {
-                                    "type": "NoCaptchaTask",
-                                    "proxy_type": self.proxy_type,
-                                    "proxy_adress": self.proxy_adress,
-                                    "proxy_login": self.proxy_login,
-                                    "proxy_password": self.proxy_password
-                                 }
+                                 {
+                                     "type": "FunCaptchaTask",
+                                     "userAgent": user_agent_data,
+                                     "proxyType": proxyType,
+                                     "proxyAddress": proxyAddress,
+                                     "proxyPort": proxyPort,
+                                 },
                              }
 
-    if kwargs:
-        for key in kwargs:
-            self.task_payload['task'].update({key: kwargs[key]})
+        # пайлоад для получения ответа сервиса
+        self.result_payload = {"clientKey": anticaptcha_key}
+        
+        if kwargs:
+            for key in kwargs:
+                self.task_payload['task'].update({key: kwargs[key]})
 
 
     def captcha_handler(self, websiteURL, websiteKey):

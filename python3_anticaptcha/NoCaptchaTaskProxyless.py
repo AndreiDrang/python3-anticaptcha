@@ -9,11 +9,10 @@ from .config import create_task_url, get_result_url, app_key
 class NoCaptchaTaskProxyless:
 	def __init__(self, anticaptcha_key, sleep_time=5, **kwargs):
 		
-		self.ANTICAPTCHA_KEY = anticaptcha_key
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
-		self.task_payload = {"clientKey": self.ANTICAPTCHA_KEY,
+		self.task_payload = {"clientKey": anticaptcha_key,
 		                     "task":
 			                     {
 				                     "type": "NoCaptchaTaskProxyless",
@@ -22,7 +21,7 @@ class NoCaptchaTaskProxyless:
 		
 		# отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
 		# если всё ок - идём дальше
-		self.result_payload = {"clientKey": self.ANTICAPTCHA_KEY}
+		self.result_payload = {"clientKey": anticaptcha_key}
 		
 		# Если переданы ещё параметры - вносим их в payload
 		if kwargs:

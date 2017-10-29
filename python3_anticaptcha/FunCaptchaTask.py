@@ -4,7 +4,7 @@ import time
 from .config import create_task_url, get_result_url, app_key, user_agent_data
 
 class FunCaptchaTask:
-	def __init__(self, anticaptcha_key, sleep_time=5, proxyType = 'http', proxyAddress = None, proxyPort = None, **kwargs):
+	def __init__(self, anticaptcha_key, proxyAddress, proxyPort, sleep_time=5, proxyType = 'http', **kwargs):
 		"""
 		Модуль отвечает за решение FunCaptcha
 		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
@@ -15,12 +15,10 @@ class FunCaptchaTask:
 		:param proxyPort: Порт сервера
 		:param kwargs: Можно передать необязательные параметры и переопределить userAgent
 		"""
-
-		self.ANTICAPTCHA_KEY = anticaptcha_key
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
-		self.task_payload = {"clientKey": self.ANTICAPTCHA_KEY,
+		self.task_payload = {"clientKey": anticaptcha_key,
 		                     "task":
 			                     {
 				                     "type": "FunCaptchaTask",
@@ -32,7 +30,7 @@ class FunCaptchaTask:
 		                     }
 		
 		# пайлоад для получения ответа сервиса
-		self.result_payload = {"clientKey": self.ANTICAPTCHA_KEY}
+		self.result_payload = {"clientKey": anticaptcha_key}
 		
 		# Если переданы ещё параметры - вносим их в payload
 		if kwargs:
