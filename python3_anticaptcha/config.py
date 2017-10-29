@@ -15,13 +15,3 @@ app_key = "1899"
 from fake_useragent import UserAgent
 
 user_agent_data = UserAgent(cache=False).random
-
-
-# todo Удалить это всё
-TEST_KEY = 'ae23fffcfaa29b170e3843e3a486ef19'
-
-
-# для тестирования ReCaptcha
-websiteURL='https://www.google.com/recaptcha/intro/android.html'
-websiteKey='6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
-

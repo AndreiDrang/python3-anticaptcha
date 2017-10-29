@@ -2,8 +2,6 @@ import requests
 import time
 
 from .config import create_task_url, get_result_url, app_key
-# from .errors import RuCaptchaError
-#TODO Добавить документацию
 
 
 class NoCaptchaTaskProxyless:
