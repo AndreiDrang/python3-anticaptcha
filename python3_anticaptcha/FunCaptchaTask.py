@@ -13,7 +13,8 @@ class FunCaptchaTask:
 		:param proxyType: Тип прокси http/socks5/socks4
 		:param proxyAddress: Адрес прокси-сервера
 		:param proxyPort: Порт сервера
-		:param kwargs: Можно передать необязательные параметры и переопределить userAgent
+		:param kwargs: Можно передать необязательные параметры и переопределить userAgent, все необязательные параметры
+						описаны в документации к API на сайте антикапчи
 		"""
 		self.sleep_time = sleep_time
 		
