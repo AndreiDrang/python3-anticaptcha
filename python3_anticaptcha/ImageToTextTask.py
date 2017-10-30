@@ -258,8 +258,8 @@ class aioImageToTextTask:
         # Ожидаем решения капчи
         await asyncio.sleep(self.sleep_time)
         # отправляем запрос на результат решения капчи, если не решена ожидаем
-        while True:
-            async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession() as session:
+            while True:
                 async with session.post(get_result_url, json=self.result_payload) as resp:
                     json_result = await resp.json()
                     
