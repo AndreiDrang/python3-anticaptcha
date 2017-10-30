@@ -1,3 +1,5 @@
+import asyncio
+
 from python3_anticaptcha import ImageToTextTask
 
 ANTICAPTCHA_KEY = ""
@@ -18,3 +20,20 @@ save_format = 'const' .
 result = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY)\
 									.captcha_handler('http://85.255.8.26/static/image/common_image_example/800070.png')
 print(result)
+
+
+# Пример асинхронного запуска решения капчи
+async def run():
+	try:
+		resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY, save_format='const')\
+									.captcha_handler('http://85.255.8.26/static/image/common_image_example/800070.png')
+		
+		print(resolve)
+	except Exception as err:
+		print(err)
+
+
+if __name__ == '__main__':
+	loop = asyncio.get_event_loop()
+	loop.run_until_complete(run())
+	loop.close()
