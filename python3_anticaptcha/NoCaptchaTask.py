@@ -2,6 +2,7 @@ import requests
 import time
 import asyncio
 import aiohttp
+
 from .config import create_task_url, get_result_url, app_key, user_agent_data
 
 
@@ -140,11 +141,11 @@ class aioNoCaptchaTask:
                     json_result = await resp.json()
                     # Если нет ошибки - проверяем статус капчи
                     if json_result["errorId"] == 0:
-                        # Если еще не оешена, ожидаем
+                        # Если еще не решена, ожидаем
                         if json_result["status"] == "processing":
                             await asyncio.sleep(self.sleep_time)
                         # Иначе возвращаем ответ
                         else:
                             return json_result
                     else:
-                        json_result
+                        return json_result
