@@ -14,4 +14,4 @@ app_key = "1899"
 # получаем рандомный userAgent
 from fake_useragent import UserAgent
 
-user_agent_data = UserAgent(cache=False).random
+user_agent_data = UserAgent().random
