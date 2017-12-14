@@ -37,3 +37,31 @@ if __name__ == '__main__':
 	loop = asyncio.get_event_loop()
 	loop.run_until_complete(run())
 	loop.close()
+
+"""
+Пример работы со скачанными файлами изображений капчи
+"""
+# Синхронный
+# папка в которой находится изображение, один из вариантов написания
+captcha_file = r'D:\Python\933588.png'
+# так же есть возможность передать так:
+# captcha_file = 'D:\/Python\/933588.png'
+
+result = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).captcha_handler(captcha_file = captcha_file)
+print(result)
+
+# Асинхронный пример
+
+async def run():
+	try:
+		resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(captcha_file=captcha_file)
+		
+		print(resolve)
+	except Exception as err:
+		print(err)
+
+
+if __name__ == '__main__':
+	loop = asyncio.get_event_loop()
+	loop.run_until_complete(run())
+	loop.close()
