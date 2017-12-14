@@ -8,6 +8,7 @@ import os
 import base64
 
 from .config import create_task_url, get_result_url, app_key
+from .errors import ParamError, DownloadError, ReadError, IdGetError
 
 
 class ImageToTextTask:
@@ -53,7 +54,7 @@ class ImageToTextTask:
         Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
         :return: Возвращает ID капчи
         '''
-        with tempfile.NamedTemporaryFile(suffix='.png') as captcha_image:
+        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as captcha_image:
             captcha_image.write(content)
             # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
             self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
@@ -89,33 +90,54 @@ class ImageToTextTask:
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
 
         return captcha_id
-
+    
+    def read_captcha_image_file(self, content):
+        """
+        Функция отвечает за чтение уже сохранённого файла
+        :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
+        :return: Возвращает ID капчи
+        """
+        try:
+            with open(content, 'rb') as captcha_image:
+                # Добавляем в пайлоад картинку и отправляем
+                self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
+                # Отправляем на антикапча изображение капчи и другие парметры,
+                # в результате получаем JSON ответ содержащий номер решаемой капчи
+                captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+        except IOError:
+            raise ReadError()
+    
+        return captcha_id
+    
+    
     # Работа с капчёй
-    def captcha_handler(self, captcha_link):
+    def captcha_handler(self, captcha_link = None, captcha_file = None):
         '''
         Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
         RuCaptcha, дожидается решения капчи и вовзращает вам результат
         :param captcha_link: Ссылка на изображение
+        :param captcha_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
         :return: Возвращает весь ответ сервера JSON-строкой.
         '''
-
-        content = requests.get(captcha_link).content
-
-        # согласно значения переданного параметра выбираем функцию для сохранения изображения
-        if self.save_format == 'const':
-            captcha_id = self.image_const_saver(content)
-        elif self.save_format == 'temp':
-            captcha_id = self.image_temp_saver(content)
+        if captcha_file:
+            captcha_id = self.read_captcha_image_file(captcha_file)
+        elif captcha_link:
+            content = requests.get(captcha_link).content
+            # согласно значения переданного параметра выбираем функцию для сохранения изображения
+            if self.save_format == 'const':
+                captcha_id = self.image_const_saver(content)
+            elif self.save_format == 'temp':
+                captcha_id = self.image_temp_saver(content)
         else:
-            return """Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n 
-                    Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'."""
+            raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
+                                        Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id['errorId'] == 0:
             captcha_id = captcha_id["taskId"]
             self.result_payload.update({"taskId": captcha_id})
         else:
-            return captcha_id
+            raise IdGetError(server_answer=captcha_id)
 
         # Ожидаем решения капчи
         time.sleep(self.sleep_time)
@@ -229,32 +251,48 @@ class aioImageToTextTask:
         # удаляем файл капчи
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
         return captcha_id
+
+    async def read_captcha_image_file(self, content):
+        try:
+            with open(content, 'rb') as captcha_image:
+                # Добавляем в пайлоад картинку и отправляем
+                self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
+                # Отправляем на антикапча изображение капчи и другие парметры,
+                # в результате получаем JSON ответ содержащий номер решаемой капчи
+                captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+        except IOError:
+            raise ReadError()
     
+        return captcha_id
+
     # Работа с капчёй
-    async def captcha_handler(self, captcha_link):
+    async def captcha_handler(self, captcha_link = None, captcha_file = None):
         '''
 		Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
 		RuCaptcha, дожидается решения капчи и вовзращает вам результат
 		:param captcha_link: Ссылка на изображение
 		:return: Возвращает весь ответ сервера JSON-строкой.
 		'''
-        
-        # согласно значения переданного параметра выбираем функцию для сохранения изображения
-        if self.save_format == 'const':
-            captcha_id = await self.image_const_saver(captcha_link)
-        elif self.save_format == 'temp':
-            captcha_id = await self.image_temp_saver(captcha_link)
+        # если был передан линк на локальный скачаный файл
+        if captcha_file:
+            captcha_id = await self.read_captcha_image_file(captcha_file)
+        elif captcha_link:
+            # согласно значения переданного параметра выбираем функцию для сохранения изображения
+            if self.save_format == 'const':
+                captcha_id = await self.image_const_saver(captcha_link)
+            elif self.save_format == 'temp':
+                captcha_id = await self.image_temp_saver(captcha_link)
         else:
-            return """Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
-                    Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'."""
+            raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
+                                        Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")
         
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id['errorId'] == 0:
             captcha_id = captcha_id["taskId"]
             self.result_payload.update({"taskId": captcha_id})
         else:
-            return captcha_id
-        
+            raise IdGetError(server_answer=captcha_id)
+
         # Ожидаем решения капчи
         await asyncio.sleep(self.sleep_time)
         # отправляем запрос на результат решения капчи, если не решена ожидаем
