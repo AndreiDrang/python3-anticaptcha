@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name='python3-anticaptcha',
-	version='0.7',
+	version='0.8',
 	author='AndreiDrang, redV0ID',
 	
 	packages=['python3_anticaptcha'],
