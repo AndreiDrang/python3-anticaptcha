@@ -13,5 +13,7 @@ app_key = "1899"
 # random user agent data
 # получаем рандомный userAgent
 from fake_useragent import UserAgent
-
-user_agent_data = UserAgent().random
+try:
+	user_agent_data = UserAgent().random
+except:
+	user_agent_data = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; Touch)'
