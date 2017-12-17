@@ -23,6 +23,7 @@ class NoCaptchaTaskProxyless:
 			                     {
 				                     "type": "NoCaptchaTaskProxyless",
 			                     },
+                             "softId": app_key
 		                     }
 		
 		# Пайлоад для получения результата
@@ -92,6 +93,7 @@ class aioNoCaptchaTaskProxyless:
 			                     {
 				                     "type": "NoCaptchaTaskProxyless",
 			                     },
+                             "softId": app_key
 		                     }
 		
 		# Пайлоад для получения результата

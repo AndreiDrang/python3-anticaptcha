@@ -37,7 +37,8 @@ class ImageToTextTask:
                                  {
                                        "type": "ImageToTextTask",
                                  },
-                             "languagePool": language
+                             "languagePool": language,
+                             "softId": app_key
                              }
 
         # отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
@@ -185,7 +186,8 @@ class aioImageToTextTask:
                                  {
                                      "type": "ImageToTextTask",
                                  },
-                             "languagePool": language
+                             "languagePool": language,
+                             "softId": app_key
                              }
         
         # отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек

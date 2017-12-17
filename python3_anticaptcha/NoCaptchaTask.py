@@ -31,6 +31,7 @@ class NoCaptchaTask:
                                      "proxyAddress": proxyAddress,
                                      "proxyPort": proxyPort,
                                  },
+                             "softId": app_key
                              }
 
         # пайлоад для получения ответа сервиса
@@ -100,6 +101,7 @@ class aioNoCaptchaTask:
                                      "proxyAddress": proxyAddress,
                                      "proxyPort": proxyPort,
                                  },
+                             "softId": app_key
                              }
 
         # пайлоад для получения ответа сервиса

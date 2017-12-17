@@ -30,6 +30,7 @@ class FunCaptchaTask:
 				                     "proxyAddress": proxyAddress,
 				                     "proxyPort": proxyPort,
 			                     },
+                             "softId": app_key
 		                     }
 		
 		# пайлоад для получения ответа сервиса
@@ -106,6 +107,7 @@ class aioFunCaptchaTask:
 				                     "proxyAddress": proxyAddress,
 				                     "proxyPort": proxyPort,
 			                     },
+                             "softId": app_key
 		                     }
 		
 		# пайлоад для получения ответа сервиса
