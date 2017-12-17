@@ -64,8 +64,8 @@ print(result)
 
 async def run():
     try:
-        resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
-            captcha_file=captcha_file)
+        resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY)\
+	        .captcha_handler(captcha_file=captcha_file)
 
         print(resolve)
     except Exception as err:
