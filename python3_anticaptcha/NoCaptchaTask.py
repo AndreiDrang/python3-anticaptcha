@@ -25,7 +25,7 @@ class NoCaptchaTask:
         self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
                                  {
-                                     "type": "FunCaptchaTask",
+                                     "type": "NoCaptchaTask",
                                      "userAgent": user_agent_data,
                                      "proxyType": proxyType,
                                      "proxyAddress": proxyAddress,
