@@ -42,7 +42,7 @@ class NoCaptchaTask:
                 self.task_payload['task'].update({key: kwargs[key]})
 
     # Работа с капчей
-    def captcha_handler(self, websiteURL, websiteKey):
+    def captcha_handler(self, websiteURL, websiteKey, **kwargs):
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй
@@ -52,7 +52,7 @@ class NoCaptchaTask:
         self.task_payload['task'].update({"websiteURL": websiteURL,
                                           "websiteKey": websiteKey})
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
-        captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id['errorId'] == 0:

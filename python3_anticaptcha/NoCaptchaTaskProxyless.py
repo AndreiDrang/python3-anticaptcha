@@ -35,7 +35,7 @@ class NoCaptchaTaskProxyless:
 				self.task_payload['task'].update({key: kwargs[key]})
 	
 	# Работа с капчёй
-	def captcha_handler(self, websiteURL, websiteKey):
+	def captcha_handler(self, websiteURL, websiteKey, **kwargs):
 		"""
 		Метод решения ReCaptcha
 		:param websiteURL: Ссылка на страницу с капчёй
@@ -48,7 +48,7 @@ class NoCaptchaTaskProxyless:
 		                                  "websiteKey": websiteKey})
 		# Отправляем на антикапчу пайлоад
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
-		captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+		captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
 		
 		# Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
 		if captcha_id['errorId'] == 0:

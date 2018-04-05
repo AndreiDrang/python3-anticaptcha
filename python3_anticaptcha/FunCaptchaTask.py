@@ -42,7 +42,7 @@ class FunCaptchaTask:
 				self.task_payload['task'].update({key: kwargs[key]})
 		
 	# Работа с капчёй
-	def captcha_handler(self, websiteURL, websitePublicKey):
+	def captcha_handler(self, websiteURL, websitePublicKey, **kwargs):
 		"""
 		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
 		:param websiteURL: Ссылка на страницу с капчёй
@@ -53,7 +53,7 @@ class FunCaptchaTask:
 		                                  "websiteKey": websitePublicKey})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
-		captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+		captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
 
 		# Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
 		if captcha_id['errorId'] == 0:

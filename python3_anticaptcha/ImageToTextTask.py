@@ -112,7 +112,7 @@ class ImageToTextTask:
     
     
     # Работа с капчёй
-    def captcha_handler(self, captcha_link = None, captcha_file = None):
+    def captcha_handler(self, captcha_link = None, captcha_file = None, **kwargs):
         '''
         Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
         RuCaptcha, дожидается решения капчи и вовзращает вам результат
@@ -123,7 +123,7 @@ class ImageToTextTask:
         if captcha_file:
             captcha_id = self.read_captcha_image_file(captcha_file)
         elif captcha_link:
-            content = requests.get(captcha_link).content
+            content = requests.get(captcha_link, **kwargs).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
                 captcha_id = self.image_const_saver(content)
