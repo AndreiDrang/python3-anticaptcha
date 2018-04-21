@@ -2,6 +2,8 @@
 
 Python 3 library for AntiCaptcha.
 
+[Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
+
 Tested on UNIX based OS.
 
 **If you work with ImageCaptcha on Windows, please use  `save_format = 'const'`.**
