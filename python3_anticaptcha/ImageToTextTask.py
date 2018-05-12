@@ -92,27 +92,31 @@ class ImageToTextTask:
 
         return captcha_id
     
-    def read_captcha_image_file(self, content):
+    def read_captcha_image_file(self, content, content_type="file"):
         """
         Функция отвечает за чтение уже сохранённого файла
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
         :return: Возвращает ID капчи
         """
         try:
-            with open(content, 'rb') as captcha_image:
-                # Добавляем в пайлоад картинку и отправляем
-                self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
-                # Отправляем на антикапча изображение капчи и другие парметры,
-                # в результате получаем JSON ответ содержащий номер решаемой капчи
-                captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+            if content_type == "file":
+                with open(content, 'rb') as captcha_image:
+                    # Добавляем в пайлоад картинку и отправляем
+                    self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
+            elif content_type == "base64":
+                self.task_payload["task"].update({"body": content.decode('utf-8')})
+            else:
+                raise Exception
+            # Отправляем на антикапча изображение капчи и другие парметры,
+            # в результате получаем JSON ответ содержащий номер решаемой капчи
+            captcha_id = requests.post(create_task_url, json=self.task_payload).json()
         except IOError:
             raise ReadError()
     
         return captcha_id
     
-    
     # Работа с капчёй
-    def captcha_handler(self, captcha_link = None, captcha_file = None, **kwargs):
+    def captcha_handler(self, captcha_link=None, captcha_file=None, captcha_base64=None, **kwargs):
         '''
         Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
         RuCaptcha, дожидается решения капчи и вовзращает вам результат
@@ -121,7 +125,9 @@ class ImageToTextTask:
         :return: Возвращает весь ответ сервера JSON-строкой.
         '''
         if captcha_file:
-            captcha_id = self.read_captcha_image_file(captcha_file)
+            captcha_id = self.read_captcha_image_file(captcha_file, content_type="file")
+        elif captcha_base64:
+            captcha_id = self.read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             content = requests.get(captcha_link, **kwargs).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
