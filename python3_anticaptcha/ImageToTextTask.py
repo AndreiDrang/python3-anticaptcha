@@ -104,7 +104,7 @@ class ImageToTextTask:
                     # Добавляем в пайлоад картинку и отправляем
                     self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
             elif content_type == "base64":
-                self.task_payload["task"].update({"body": content.decode('utf-8')})
+                self.task_payload["task"].update({"body": content})
             else:
                 raise Exception
             # Отправляем на антикапча изображение капчи и другие парметры,
