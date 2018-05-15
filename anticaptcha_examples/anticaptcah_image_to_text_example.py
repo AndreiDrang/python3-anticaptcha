@@ -1,6 +1,7 @@
 import asyncio
 
 from python3_anticaptcha import ImageToTextTask
+from python3_anticaptcha import errors
 
 ANTICAPTCHA_KEY = ""
 """
@@ -25,7 +26,15 @@ result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY) \
     .captcha_handler(captcha_link='http://85.255.8.26/static/image/common_image_example/800070.png')
 print(result)
 
+"""
+Пример работы с передачей файла капчи уже закодированного в base64
+"""
+# закодировано: 976979
+base_64_file = open('base64image.txt', 'rb')
 
+user_answer_base64 = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(captcha_base64=base_64_file)
+
+print(user_answer_base64)
 # Пример асинхронного запуска решения капчи
 # AsyncIO example. Work with constant-saved file.
 async def run():
@@ -50,14 +59,35 @@ Example for working with downloaded file.
 # Синхронный
 # папка в которой находится изображение, один из вариантов написания
 # The path to the file must be transferred in this format to the method
-captcha_file = r'D:\Python\933588.png'
+captcha_file = '088636.png'
 # так же есть возможность передать так:
 # or in this format:
 # captcha_file = 'D:\/Python\/933588.png'
+# captcha_file = r'D:\Python\933588.png'
 
 result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(captcha_file=captcha_file)
 print(result)
+"""
+Пример для работы с локальными файлами
+"""
+# папка в которой находится изображение, один из вариантов написания
 
+# так же есть возможность передать так:
+# captcha_file = r'D:\Python\933588.png'
+# captcha_file = 'D:\/Python\/933588.png'
+try:
+    user_answer_local = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(captcha_file=captcha_file)
+    if user_answer_local['errorId'] == 0:
+        # решение капчи
+        print(user_answer_local['captchaSolve'])
+        print(user_answer_local['taskId'])
+    elif user_answer_local['errorId'] == 1:
+        # Тело ошибки, если есть
+        print(user_answer_local['errorBody'])
+
+# отлов ошибки при проблемах чтения файла-изображения
+except errors.ReadError as err:
+    print(err)
 
 # Асинхронный пример
 # AsyncIO example.
