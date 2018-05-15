@@ -19,6 +19,9 @@ class NoCaptchaTask:
         :param sleeptime: Время ожидания решения
         :param kwargs: Необязательные параметры, можно переопределить userAgent
         """
+
+        if sleep_time < 5:
+            raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи

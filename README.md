@@ -1,5 +1,8 @@
 # python3-anticaptcha
 
+[![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
+[![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
+
 Python 3 library for AntiCaptcha.
 
 [Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).

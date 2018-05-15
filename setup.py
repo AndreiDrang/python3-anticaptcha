@@ -2,14 +2,14 @@ from setuptools import setup
 
 setup(
 	name='python3-anticaptcha',
-	version='0.9.2',
+	version='0.9.3',
 	author='AndreiDrang, redV0ID',
 	
 	packages=['python3_anticaptcha'],
 	install_requires=[
 						'fake-useragent==0.1.10',
 						'requests>=2.18',
-						'aiohttp>=2.3'
+						'aiohttp>=3'
 					],
 	description='Python 3 AntiCaptcha library.',
 	url='https://github.com/AndreiDrang/python3-anticaptcha',
@@ -25,5 +25,5 @@ setup(
 				python-library
 				python-anticaptcha
 				anticaptcha-client''',
-	python_requires='>=3.5.0',
+	python_requires='>=3.6',
 )

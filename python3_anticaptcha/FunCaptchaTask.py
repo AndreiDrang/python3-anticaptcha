@@ -18,20 +18,22 @@ class FunCaptchaTask:
 		:param kwargs: Можно передать необязательные параметры и переопределить userAgent, все необязательные параметры
 						описаны в документации к API на сайте антикапчи
 		"""
+		if sleep_time < 5:
+			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
 		self.task_payload = {"clientKey": anticaptcha_key,
-		                     "task":
-			                     {
-				                     "type": "FunCaptchaTask",
-				                     "userAgent": user_agent_data,
-				                     "proxyType": proxyType,
-				                     "proxyAddress": proxyAddress,
-				                     "proxyPort": proxyPort,
-			                     },
-                             "softId": app_key
-		                     }
+							 "task":
+								 {
+									 "type": "FunCaptchaTask",
+									 "userAgent": user_agent_data,
+									 "proxyType": proxyType,
+									 "proxyAddress": proxyAddress,
+									 "proxyPort": proxyPort,
+								 },
+							 "softId": app_key
+							 }
 		
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
@@ -50,7 +52,7 @@ class FunCaptchaTask:
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
 		self.task_payload['task'].update({"websiteURL": websiteURL,
-		                                  "websiteKey": websitePublicKey})
+										  "websiteKey": websitePublicKey})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
 		captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
@@ -95,20 +97,22 @@ class aioFunCaptchaTask:
 		:param kwargs: Можно передать необязательные параметры и переопределить userAgent, все необязательные параметры
 						описаны в документации к API на сайте антикапчи
 		"""
+		if sleep_time < 5:
+			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
 		self.task_payload = {"clientKey": anticaptcha_key,
-		                     "task":
-			                     {
-				                     "type": "FunCaptchaTask",
-				                     "userAgent": user_agent_data,
-				                     "proxyType": proxyType,
-				                     "proxyAddress": proxyAddress,
-				                     "proxyPort": proxyPort,
-			                     },
-                             "softId": app_key
-		                     }
+							 "task":
+								 {
+									 "type": "FunCaptchaTask",
+									 "userAgent": user_agent_data,
+									 "proxyType": proxyType,
+									 "proxyAddress": proxyAddress,
+									 "proxyPort": proxyPort,
+								 },
+							 "softId": app_key
+							 }
 		
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
@@ -127,7 +131,7 @@ class aioFunCaptchaTask:
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
 		self.task_payload['task'].update({"websiteURL": websiteURL,
-		                                  "websiteKey": websitePublicKey})
+										  "websiteKey": websitePublicKey})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
 		async with aiohttp.ClientSession() as session:

@@ -8,8 +8,9 @@ class DownloadError(AntiCaptchaApiException):
 
 
 class ReadError(AntiCaptchaApiException):
-	def __init__(self):
-		AntiCaptchaApiException.__init__(self, """\nПораждается, при проблеме во время чтения сохранённого файла.""")
+	def __init__(self, error):
+		AntiCaptchaApiException.__init__(self, """\nПораждается, при проблеме во время чтения сохранённого файла.
+													\n\t{0}""".format(error))
 
 
 class ParamError(AntiCaptchaApiException):

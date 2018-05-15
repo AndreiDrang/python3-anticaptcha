@@ -14,7 +14,8 @@ class NoCaptchaTaskProxyless:
 		:param sleep_time: Время ожидания решения капчи
 		:param kwargs: Другие необязательные параметры из документации
 		"""
-		self.ANTICAPTCHA_KEY = anticaptcha_key
+		if sleep_time < 5:
+			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
@@ -27,7 +28,7 @@ class NoCaptchaTaskProxyless:
 		                     }
 		
 		# Пайлоад для получения результата
-		self.result_payload = {"clientKey": self.ANTICAPTCHA_KEY}
+		self.result_payload = {"clientKey": anticaptcha_key}
 		
 		# Если переданы ещё параметры - вносим их в payload
 		if kwargs:
@@ -84,7 +85,8 @@ class aioNoCaptchaTaskProxyless:
 		:param sleep_time: Время ожидания решения капчи
 		:param kwargs: Другие необязательные параметры из документации
 		"""
-		self.ANTICAPTCHA_KEY = anticaptcha_key
+		if sleep_time < 5:
+			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
@@ -97,7 +99,7 @@ class aioNoCaptchaTaskProxyless:
 		                     }
 		
 		# Пайлоад для получения результата
-		self.result_payload = {"clientKey": self.ANTICAPTCHA_KEY}
+		self.result_payload = {"clientKey": anticaptcha_key}
 		
 		# Если переданы ещё параметры - вносим их в payload
 		if kwargs:

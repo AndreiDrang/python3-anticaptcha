@@ -28,9 +28,17 @@ class ImageToTextTask:
         :param language: Язык капчи
         :param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
         '''
+        if sleep_time < 5:
+            raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
         self.sleep_time = sleep_time
-        self.save_format = save_format
-
+        # проверяем переданный параметр способа сохранения капчи
+        if save_format in ['const', 'temp']:
+            self.save_format = save_format
+        else:
+            raise ValueError('\nПередан неверный формат сохранения файла изображения. '
+                             f'\n\tВозможные варинты: `temp` и `const`. Вы передали - `{save_format}`'
+                             '\nWrong `save_format` parameter. Valid params: `const` or `temp`.'
+                             f'\n\tYour param - `{save_format}`')
         # Пайлоад для создания задачи
         self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
@@ -94,8 +102,9 @@ class ImageToTextTask:
     
     def read_captcha_image_file(self, content, content_type="file"):
         """
-        Функция отвечает за чтение уже сохранённого файла
+        Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
+        :param content_type: Тип переданной переменной. Возможны варианты: `file` и `base64`
         :return: Возвращает ID капчи
         """
         try:
@@ -106,12 +115,15 @@ class ImageToTextTask:
             elif content_type == "base64":
                 self.task_payload["task"].update({"body": content})
             else:
-                raise Exception
+                raise ValueError('\nПередан неверный формат файла.'
+                                 f'\n\tВозможные варинты: `file` и `base64`. Вы передали - `{content_type}`'
+                                 f'\nWrong `content_type` parameter. Valid params: `file` or `base64`.'
+                                 f'\n\tYour param - `{content_type}`')
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
             captcha_id = requests.post(create_task_url, json=self.task_payload).json()
-        except IOError:
-            raise ReadError()
+        except (IOError, FileNotFoundError) as err:
+            raise ReadError(err)
     
         return captcha_id
     
@@ -122,6 +134,7 @@ class ImageToTextTask:
         RuCaptcha, дожидается решения капчи и вовзращает вам результат
         :param captcha_link: Ссылка на изображение
         :param captcha_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
+        :param captcha_base64: Загрузка изображения в кодировке base64
         :return: Возвращает весь ответ сервера JSON-строкой.
         '''
         if captcha_file:
@@ -183,8 +196,17 @@ class aioImageToTextTask:
 		:param language: Язык капчи
 		:param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
 		'''
+        if sleep_time < 5:
+            raise ValueError(f'Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}')
         self.sleep_time = sleep_time
-        self.save_format = save_format
+        # проверяем переданный параметр способа сохранения капчи
+        if save_format in ['const', 'temp']:
+            self.save_format = save_format
+        else:
+            raise ValueError('\nПередан неверный формат сохранения файла изображения. '
+                             f'\n\tВозможные варинты: `temp` и `const`. Вы передали - `{save_format}`'
+                             '\nWrong `save_format` parameter. Valid params: `const` or `temp`.'
+                             f'\n\tYour param - `{save_format}`')
         
         # Пайлоад для создания задачи
         self.task_payload = {"clientKey": anticaptcha_key,
@@ -260,21 +282,35 @@ class aioImageToTextTask:
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
         return captcha_id
 
-    async def read_captcha_image_file(self, content):
+    async def read_captcha_image_file(self, content, content_type='file'):
+        """
+        Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
+        :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
+        :param content_type: Тип переданной переменной. Возможны варианты: `file` и `base64`
+        :return: Возвращает ID капчи
+        """
         try:
-            with open(content, 'rb') as captcha_image:
-                # Добавляем в пайлоад картинку и отправляем
-                self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
-                # Отправляем на антикапча изображение капчи и другие парметры,
-                # в результате получаем JSON ответ содержащий номер решаемой капчи
-                captcha_id = requests.post(create_task_url, json=self.task_payload).json()
-        except IOError:
-            raise ReadError()
-    
+            if content_type == "file":
+                with open(content, 'rb') as captcha_image:
+                    # Добавляем в пайлоад картинку и отправляем
+                    self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
+            elif content_type == "base64":
+                self.task_payload["task"].update({"body": content})
+            else:
+                raise ValueError('\nПередан неверный формат файла.'
+                                 f'\n\tВозможные варинты: `file` и `base64`. Вы передали - `{content_type}`'
+                                 f'\nWrong `content_type` parameter. Valid params: `file` or `base64`.'
+                                 f'\n\tYour param - `{content_type}`')
+            # Отправляем на антикапча изображение капчи и другие парметры,
+            # в результате получаем JSON ответ содержащий номер решаемой капчи
+            captcha_id = requests.post(create_task_url, json = self.task_payload).json()
+        except (IOError, FileNotFoundError) as err:
+            raise ReadError(err)
+
         return captcha_id
 
     # Работа с капчёй
-    async def captcha_handler(self, captcha_link = None, captcha_file = None):
+    async def captcha_handler(self, captcha_link = None, captcha_file = None, captcha_base64=None):
         '''
 		Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
 		RuCaptcha, дожидается решения капчи и вовзращает вам результат
@@ -283,7 +319,9 @@ class aioImageToTextTask:
 		'''
         # если был передан линк на локальный скачаный файл
         if captcha_file:
-            captcha_id = await self.read_captcha_image_file(captcha_file)
+            captcha_id = self.read_captcha_image_file(captcha_file, content_type="file")
+        elif captcha_base64:
+            captcha_id = self.read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
