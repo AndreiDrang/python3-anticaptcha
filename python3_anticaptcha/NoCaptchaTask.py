@@ -125,7 +125,6 @@ class aioNoCaptchaTask:
         self.task_payload["task"].update({"websiteURL": websiteURL,
                                           "websiteKey": websiteKey})
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
-        captcha_id = requests.post(create_task_url, json=self.task_payload).json()
         async with aiohttp.ClientSession() as session:
             async with session.post(create_task_url, json=self.task_payload) as resp:
                 captcha_id = await resp.json()
