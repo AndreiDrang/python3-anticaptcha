@@ -70,7 +70,6 @@ class NoCaptchaTask:
         return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
-
 class aioNoCaptchaTask:
 
     def __init__(self, anticaptcha_key, proxyAddress, proxyPort, sleep_time=5, proxyType = 'http', **kwargs):

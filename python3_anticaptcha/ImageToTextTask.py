@@ -7,8 +7,9 @@ import hashlib
 import os
 import base64
 
-from .config import create_task_url, get_result_url, app_key
-from .errors import ParamError, DownloadError, ReadError, IdGetError
+from .config import create_task_url, app_key
+from .errors import ParamError, ReadError, IdGetError
+from .get_answer import get_sync_result, get_async_result
 
 
 class ImageToTextTask:
@@ -159,24 +160,9 @@ class ImageToTextTask:
         else:
             raise IdGetError(server_answer=captcha_id)
 
-        # Ожидаем решения капчи
+        # Ждем решения капчи
         time.sleep(self.sleep_time)
-        while True:
-            # отправляем запрос на результат решения капчи, если не решена ожидаем
-            captcha_response = requests.post(get_result_url, json = self.result_payload)
-
-            # Если ошибки нет - проверяем статус капчи
-            if captcha_response.json()['errorId'] == 0:
-                # Если капча ещё не готова- ожидаем
-                if captcha_response.json()["status"] == "processing":
-                    time.sleep(self.sleep_time)
-                # если уже решена - возвращаем ответ сервера
-                else:
-                    return captcha_response.json()
-            # Иначе возвращаем ответ сервера
-            else:
-                return captcha_response.json()
-
+        return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
 class aioImageToTextTask:
@@ -339,23 +325,8 @@ class aioImageToTextTask:
         else:
             raise IdGetError(server_answer=captcha_id)
 
-        # Ожидаем решения капчи
+        # Ждем решения капчи
         await asyncio.sleep(self.sleep_time)
-        # отправляем запрос на результат решения капчи, если не решена ожидаем
-        async with aiohttp.ClientSession() as session:
-            while True:
-                async with session.post(get_result_url, json=self.result_payload) as resp:
-                    json_result = await resp.json()
-                    
-                    # Если ошибки нет - проверяем статус капчи
-                    if json_result['errorId'] == 0:
-                        # Если капча ещё не готова- ожидаем
-                        if json_result["status"] == "processing":
-                            await asyncio.sleep(self.sleep_time)
-                        # если уже решена - возвращаем ответ сервера
-                        else:
-                            return json_result
-                    # Иначе возвращаем ответ сервера
-                    else:
-                        return json_result
+        return await get_async_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
+
 
