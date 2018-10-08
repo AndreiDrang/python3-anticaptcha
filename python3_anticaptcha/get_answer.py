@@ -29,7 +29,7 @@ def get_sync_result(result_payload: dict, sleep_time: int):
 
 async def get_async_result(result_payload: dict, sleep_time: int):
     # Отправляем запрос на статус решения капчи.
-    async with aiohttp.ClientSession as session:
+    async with aiohttp.ClientSession() as session:
         while True:
             async with session.post(get_result_url, json=result_payload) as resp:
                 json_result = await resp.json()
