@@ -11,13 +11,13 @@ ANTICAPTCHA_KEY = ""
 1. В качестве временного файла, параметр задаётся по умолчанию: 
 save_format = 'temp' .
 2. В качестве обычного файла, для этого нужно передать:
-save_format = 'const' . !!!Используйте данный параметр при работе через Windows. USE IT ON WINDOWS!!!
+save_format = 'const' . 
 ========================================================================================================================
 This library implements two different methods for saving images (for their subsequent transfer to the service):
 1. As a temporary file, the parameter is set by default: 
 save_format = 'temp'.
 2. As a normal file, you need to pass this:
-save_format = 'const' . !!! USE IT ON WINDOWS !!!
+save_format = 'const' .
 """
 # Пример который показывает работу антикапчи при решении капчи-изображением и сохранением её в качестве обычного файла в
 # папку.
