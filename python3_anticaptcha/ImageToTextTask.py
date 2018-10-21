@@ -299,9 +299,9 @@ class aioImageToTextTask:
 		'''
         # если был передан линк на локальный скачаный файл
         if captcha_file:
-            captcha_id = self.read_captcha_image_file(captcha_file, content_type="file")
+            captcha_id = await self.read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
-            captcha_id = self.read_captcha_image_file(captcha_base64, content_type="base64")
+            captcha_id = await self.read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
