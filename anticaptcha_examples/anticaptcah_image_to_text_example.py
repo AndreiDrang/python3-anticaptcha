@@ -73,7 +73,6 @@ try:
     if user_answer_local['errorId'] == 0:
         # решение капчи
         print(user_answer_local['solution']['text'])
-        print(user_answer_local['taskId'])
     elif user_answer_local['errorId'] == 1:
         # Тело ошибки, если есть
         print(user_answer_local['errorBody'])
