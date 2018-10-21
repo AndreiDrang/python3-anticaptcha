@@ -9,8 +9,6 @@ Python 3 library for AntiCaptcha.
 
 Tested on UNIX based OS.
 
-**If you work with ImageCaptcha on Windows, please use  `ImageToTextTask.ImageToTextTask(save_format='const')`.**
-
 Библиотека предназначена для разрабаотчиков ПО и служит для облегчения работы с API сервиса AntiCaptcha.
 
 ## How to install? Как установить?
