@@ -2,7 +2,6 @@ import requests
 import time
 import aiohttp
 import asyncio
-import tempfile
 import hashlib
 import os
 import base64
@@ -64,13 +63,11 @@ class ImageToTextTask:
         Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
         :return: Возвращает ID капчи
         '''
-        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as captcha_image:
-            captcha_image.write(content)
-            # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-            self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
-            # Отправляем на рукапча изображение капчи и другие парметры,
-            # в результате получаем JSON ответ с номером решаемой капчи и получая ответ - извлекаем номер
-            captcha_id = (requests.post(create_task_url, json = self.task_payload).json())
+        # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
+        self.task_payload['task'].update({"body": base64.b64encode(content).decode('utf-8')})
+        # Отправляем на рукапча изображение капчи и другие парметры,
+        # в результате получаем JSON ответ с номером решаемой капчи и получая ответ - извлекаем номер
+        captcha_id = requests.post(create_task_url, json = self.task_payload).json()
         return captcha_id
 
     def image_const_saver(self, content):
@@ -222,16 +219,13 @@ class aioImageToTextTask:
         async with aiohttp.ClientSession() as session:
             async with session.get(captcha_link) as resp:
                 content = await resp.content.readany()
-        
-        with tempfile.NamedTemporaryFile(suffix='.png') as captcha_image:
-            captcha_image.write(content)
-            # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-            self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
-            # Отправляем на рукапча изображение капчи и другие парметры,
-            # в результате получаем JSON ответ с номером решаемой капчи
-            async with aiohttp.ClientSession() as session:
-                async with session.post(create_task_url, json=self.task_payload) as resp:
-                    return await resp.json()
+                # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
+                self.task_payload['task'].update({"body": base64.b64encode(content).decode('utf-8')})
+                # Отправляем на рукапча изображение капчи и другие парметры,
+                # в результате получаем JSON ответ с номером решаемой капчи
+        async with aiohttp.ClientSession() as session:
+            async with session.post(create_task_url, json=self.task_payload) as resp:
+                return await resp.json()
     
     async def image_const_saver(self, captcha_link):
         '''
