@@ -9,9 +9,10 @@ incorrect_captcha_url = "https://api.anti-captcha.com/reportIncorrectImageCaptch
 # Адрес для получения информации об очереди
 get_queue_status_url = "https://api.anti-captcha.com/getQueueStats"
 # ключ приложения
-app_key = "1899"
+app_key = "867"
 # random user agent data
 # получаем рандомный userAgent
+# TODO протестировать `fake_useragent` на исправление старых беспричинных падений и обновить получение данных
 from fake_useragent import UserAgent
 try:
 	user_agent_data = UserAgent().random
