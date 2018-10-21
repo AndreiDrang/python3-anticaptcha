@@ -2,13 +2,13 @@ import requests
 import time
 import aiohttp
 import asyncio
-import tempfile
 import hashlib
 import os
 import base64
 
-from .config import create_task_url, get_result_url, app_key
-from .errors import ParamError, DownloadError, ReadError, IdGetError
+from .config import create_task_url, app_key
+from .errors import ParamError, ReadError, IdGetError
+from .get_answer import get_sync_result, get_async_result
 
 
 class ImageToTextTask:
@@ -63,13 +63,11 @@ class ImageToTextTask:
         Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
         :return: Возвращает ID капчи
         '''
-        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as captcha_image:
-            captcha_image.write(content)
-            # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-            self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
-            # Отправляем на рукапча изображение капчи и другие парметры,
-            # в результате получаем JSON ответ с номером решаемой капчи и получая ответ - извлекаем номер
-            captcha_id = (requests.post(create_task_url, json = self.task_payload).json())
+        # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
+        self.task_payload['task'].update({"body": base64.b64encode(content).decode('utf-8')})
+        # Отправляем на рукапча изображение капчи и другие парметры,
+        # в результате получаем JSON ответ с номером решаемой капчи и получая ответ - извлекаем номер
+        captcha_id = requests.post(create_task_url, json = self.task_payload).json()
         return captcha_id
 
     def image_const_saver(self, content):
@@ -159,24 +157,9 @@ class ImageToTextTask:
         else:
             raise IdGetError(server_answer=captcha_id)
 
-        # Ожидаем решения капчи
+        # Ждем решения капчи
         time.sleep(self.sleep_time)
-        while True:
-            # отправляем запрос на результат решения капчи, если не решена ожидаем
-            captcha_response = requests.post(get_result_url, json = self.result_payload)
-
-            # Если ошибки нет - проверяем статус капчи
-            if captcha_response.json()['errorId'] == 0:
-                # Если капча ещё не готова- ожидаем
-                if captcha_response.json()["status"] == "processing":
-                    time.sleep(self.sleep_time)
-                # если уже решена - возвращаем ответ сервера
-                else:
-                    return captcha_response.json()
-            # Иначе возвращаем ответ сервера
-            else:
-                return captcha_response.json()
-
+        return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
 class aioImageToTextTask:
@@ -236,16 +219,13 @@ class aioImageToTextTask:
         async with aiohttp.ClientSession() as session:
             async with session.get(captcha_link) as resp:
                 content = await resp.content.readany()
-        
-        with tempfile.NamedTemporaryFile(suffix='.png') as captcha_image:
-            captcha_image.write(content)
-            # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-            self.task_payload['task'].update({"body": base64.b64encode(captcha_image.read()).decode('utf-8')})
-            # Отправляем на рукапча изображение капчи и другие парметры,
-            # в результате получаем JSON ответ с номером решаемой капчи
-            async with aiohttp.ClientSession() as session:
-                async with session.post(create_task_url, json=self.task_payload) as resp:
-                    return await resp.json()
+                # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
+                self.task_payload['task'].update({"body": base64.b64encode(content).decode('utf-8')})
+                # Отправляем на рукапча изображение капчи и другие парметры,
+                # в результате получаем JSON ответ с номером решаемой капчи
+        async with aiohttp.ClientSession() as session:
+            async with session.post(create_task_url, json=self.task_payload) as resp:
+                return await resp.json()
     
     async def image_const_saver(self, captcha_link):
         '''
@@ -319,9 +299,9 @@ class aioImageToTextTask:
 		'''
         # если был передан линк на локальный скачаный файл
         if captcha_file:
-            captcha_id = self.read_captcha_image_file(captcha_file, content_type="file")
+            captcha_id = await self.read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
-            captcha_id = self.read_captcha_image_file(captcha_base64, content_type="base64")
+            captcha_id = await self.read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
@@ -339,23 +319,8 @@ class aioImageToTextTask:
         else:
             raise IdGetError(server_answer=captcha_id)
 
-        # Ожидаем решения капчи
+        # Ждем решения капчи
         await asyncio.sleep(self.sleep_time)
-        # отправляем запрос на результат решения капчи, если не решена ожидаем
-        async with aiohttp.ClientSession() as session:
-            while True:
-                async with session.post(get_result_url, json=self.result_payload) as resp:
-                    json_result = await resp.json()
-                    
-                    # Если ошибки нет - проверяем статус капчи
-                    if json_result['errorId'] == 0:
-                        # Если капча ещё не готова- ожидаем
-                        if json_result["status"] == "processing":
-                            await asyncio.sleep(self.sleep_time)
-                        # если уже решена - возвращаем ответ сервера
-                        else:
-                            return json_result
-                    # Иначе возвращаем ответ сервера
-                    else:
-                        return json_result
+        return await get_async_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
+
 

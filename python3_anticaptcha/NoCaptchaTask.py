@@ -1,9 +1,10 @@
-import requests
 import time
+import requests
 import asyncio
 import aiohttp
 
-from .config import create_task_url, get_result_url, app_key, user_agent_data
+from .config import create_task_url, app_key, user_agent_data
+from .get_answer import get_sync_result, get_async_result
 
 
 class NoCaptchaTask:
@@ -66,17 +67,7 @@ class NoCaptchaTask:
 
         # Ждем решения капчи
         time.sleep(self.sleep_time)
-        while True:
-            captcha_response = requests.post(get_result_url, json=self.result_payload)
-
-            if captcha_response.json()["errorId"] == 0:
-                if captcha_response.json()["status"] == "processing":
-                    time.sleep(self.sleep_time)
-                else:
-                    return captcha_response.json()
-            else:
-                return captcha_response.json()
-
+        return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
 class aioNoCaptchaTask:
@@ -138,18 +129,4 @@ class aioNoCaptchaTask:
 
         # Ждем решения капчи
         await asyncio.sleep(self.sleep_time)
-        # Отправляем запрос на статус решения капчи.
-        async with aiohttp.ClientSession as session:
-            while True:
-                async with session.post(get_result_url, json=self.result_payload) as resp:
-                    json_result = await resp.json()
-                    # Если нет ошибки - проверяем статус капчи
-                    if json_result["errorId"] == 0:
-                        # Если еще не решена, ожидаем
-                        if json_result["status"] == "processing":
-                            await asyncio.sleep(self.sleep_time)
-                        # Иначе возвращаем ответ
-                        else:
-                            return json_result
-                    else:
-                        return json_result
+        return await get_async_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
