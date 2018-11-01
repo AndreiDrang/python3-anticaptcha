@@ -160,7 +160,7 @@ class ImageToTextTask:
             captcha_id = captcha_id["taskId"]
             self.result_payload.update({"taskId": captcha_id})
         else:
-            raise IdGetError(server_answer=captcha_id)
+            return captcha_id
 
         # если передан параметр `callbackUrl` - не ждём решения капчи а возвращаем незаполненный ответ
         if self.task_payload.get('callbackUrl'):
@@ -332,7 +332,7 @@ class aioImageToTextTask:
             captcha_id = captcha_id["taskId"]
             self.result_payload.update({"taskId": captcha_id})
         else:
-            raise IdGetError(server_answer=captcha_id)
+            return captcha_id
 
         # если передан параметр `callbackUrl` - не ждём решения капчи а возвращаем незаполненный ответ
         if self.task_payload.get('callbackUrl'):

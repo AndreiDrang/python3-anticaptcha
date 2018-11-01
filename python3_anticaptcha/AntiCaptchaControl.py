@@ -5,7 +5,7 @@ from .config import get_balance_url, incorrect_captcha_url
 
 
 class AntiCaptchaControl:
-    def __init__(self, anticaptcha_key):
+    def __init__(self, anticaptcha_key: str):
         """
         Синхронный метод работы с балансом и жалобами
         :param anticaptcha_key: Ключ антикапчи
@@ -21,7 +21,7 @@ class AntiCaptchaControl:
 
         return answer.json()
 
-    def complaint_on_result(self, reported_id):
+    def complaint_on_result(self, reported_id: int):
         '''
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
@@ -37,7 +37,7 @@ class AntiCaptchaControl:
 
 
 class aioAntiCaptchaControl:
-    def __init__(self, anticaptcha_key):
+    def __init__(self, anticaptcha_key: str):
         """
         Асинхронный метод работы с балансом и жалобами
         :param anticaptcha_key: Ключ антикапчи
@@ -53,7 +53,7 @@ class aioAntiCaptchaControl:
             async with session.post(get_balance_url, json={'clientKey': self.ANTICAPTCHA_KEY}) as resp:
                 return await resp.json()
 
-    async def complaint_on_result(self, reported_id):
+    async def complaint_on_result(self, reported_id: int):
         '''
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
