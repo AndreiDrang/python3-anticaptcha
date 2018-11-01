@@ -7,19 +7,16 @@ from .config import create_task_url, app_key, user_agent_data
 from .get_answer import get_sync_result, get_async_result
 
 
-class FunCaptchaTask:
-	def __init__(self, anticaptcha_key: str, proxyAddress: str, proxyPort: int, sleep_time: int = 5, proxyType: str = 'http', callbackUrl: str = None, **kwargs):
+class CustomCaptchaTask:
+	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, assignment: str = None, forms: dict = None, callbackUrl: str = None):
 		"""
-		Модуль отвечает за решение FunCaptcha
+		Модуль отвечает за решение CustomCaptchaTask
 		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
 		:param anticaptcha_key: Ключ от АнтиКапчи
 		:param sleep_time: Время ожидания решения
-		:param proxyType: Тип прокси http/socks5/socks4
-		:param proxyAddress: Адрес прокси-сервера
-		:param proxyPort: Порт сервера
+        :param assignment: Опишите что работник должен сделать на английском языке
+        :param forms: Произвольная форма в формате JSON
         :param callbackUrl: URL для решения капчи с ответом через callback
-		:param kwargs: Можно передать необязательные параметры и переопределить userAgent, все необязательные параметры
-						описаны в документации к API на сайте антикапчи
 		"""
 		if sleep_time < 5:
 			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
@@ -29,14 +26,16 @@ class FunCaptchaTask:
 		self.task_payload = {"clientKey": anticaptcha_key,
 							 "task":
 								 {
-									 "type": "FunCaptchaTask",
-									 "userAgent": user_agent_data,
-									 "proxyType": proxyType,
-									 "proxyAddress": proxyAddress,
-									 "proxyPort": proxyPort,
+									 "type": "CustomCaptchaTask",
 								 },
 							 "softId": app_key
-							 }
+                             }
+        # заполняем поле с заданием пользователю        
+        if assignment:
+            self.task_payload['task'].update({'assignment': assignment})
+        # заполняем поле с произвольной формой в формате JSON
+        if forms:
+            self.task_payload['task'].update({'forms': forms})
 		
         # задаём callbackUrl если передан
 		if callbackUrl:
@@ -45,24 +44,18 @@ class FunCaptchaTask:
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
 		
-		# Если переданы ещё параметры - вносим их в payload
-		if kwargs:
-			for key in kwargs:
-				self.task_payload['task'].update({key: kwargs[key]})
 		
 	# Работа с капчёй
-	def captcha_handler(self, websiteURL: str, websitePublicKey: str, **kwargs):
+	def captcha_handler(self, imageUrl: str):
 		"""
-		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
-		:param websiteURL: Ссылка на страницу с капчёй
-		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
+		Метод получает ссылку изображение для задания
+		:param imageUrl: URL картинки
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
-		self.task_payload['task'].update({"websiteURL": websiteURL,
-										  "websiteKey": websitePublicKey})
+		self.task_payload['task'].update({"imageUrl": imageUrl})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
-		captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
+		captcha_id = requests.post(create_task_url, json=self.task_payload).json()
 
 		# Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
 		if captcha_id['errorId'] == 0:
@@ -81,19 +74,17 @@ class FunCaptchaTask:
 			return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
-class aioFunCaptchaTask:
-	def __init__(self, anticaptcha_key: str, proxyAddress: str, proxyPort: int, sleep_time: int = 5, proxyType: str = 'http', callbackUrl: str = None, **kwargs):
+
+class aioCustomCaptchaTask:
+	def __init__(self, anticaptcha_key: str, imageUrl: str, sleep_time: int = 5, assignment: str = None, forms: dict = None, callbackUrl: str = None):
 		"""
-		Модуль отвечает за асинхронное решение FunCaptcha
+		Модуль отвечает за решение CustomCaptchaTask
 		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
 		:param anticaptcha_key: Ключ от АнтиКапчи
 		:param sleep_time: Время ожидания решения
-		:param proxyType: Тип прокси http/socks5/socks4
-		:param proxyAddress: Адрес прокси-сервера
-		:param proxyPort: Порт сервера
-		:param callbackUrl: URL для решения капчи с ответом через callback
-		:param kwargs: Можно передать необязательные параметры и переопределить userAgent, все необязательные параметры
-						описаны в документации к API на сайте антикапчи
+        :param assignment: Опишите что работник должен сделать на английском языке
+        :param forms: Произвольная форма в формате JSON
+        :param callbackUrl: URL для решения капчи с ответом через callback
 		"""
 		if sleep_time < 5:
 			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
@@ -103,14 +94,16 @@ class aioFunCaptchaTask:
 		self.task_payload = {"clientKey": anticaptcha_key,
 							 "task":
 								 {
-									 "type": "FunCaptchaTask",
-									 "userAgent": user_agent_data,
-									 "proxyType": proxyType,
-									 "proxyAddress": proxyAddress,
-									 "proxyPort": proxyPort,
+									 "type": "CustomCaptchaTask",
 								 },
 							 "softId": app_key
-							 }
+                             }
+        # заполняем поле с заданием пользователю        
+        if assignment:
+            self.task_payload['task'].update({'assignment': assignment})
+        # заполняем поле с произвольной формой в формате JSON
+        if forms:
+            self.task_payload['task'].update({'forms': forms})
 		
         # задаём callbackUrl если передан
 		if callbackUrl:
@@ -118,22 +111,15 @@ class aioFunCaptchaTask:
 
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
-		
-		# Если переданы ещё параметры - вносим их в payload
-		if kwargs:
-			for key in kwargs:
-				self.task_payload['task'].update({key: kwargs[key]})
-	
+
 	# Работа с капчёй
-	async def captcha_handler(self, websiteURL: str, websitePublicKey: str):
+	async def captcha_handler(self, imageUrl: str):
 		"""
-		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
-		:param websiteURL: Ссылка на страницу с капчёй
-		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
+		Метод получает ссылку изображение для задания
+		:param imageUrl: URL картинки
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
-		self.task_payload['task'].update({"websiteURL": websiteURL,
-										  "websiteKey": websitePublicKey})
+		self.task_payload['task'].update({{"imageUrl": imageUrl}})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
 		async with aiohttp.ClientSession() as session:
