@@ -3,7 +3,7 @@ import time
 import aiohttp
 import asyncio
 
-from .config import create_task_url, app_key, user_agent_data
+from .config import create_task_url, app_key
 from .get_answer import get_sync_result, get_async_result
 
 
@@ -106,7 +106,7 @@ class aioGeeTestTask:
         if kwargs:
             for key in kwargs:
                 self.task_payload['task'].update({key: kwargs[key]})
-                
+
         # задаём callbackUrl если передан
 		if callbackUrl:
 			self.task_payload.update({'callbackUrl': callbackUrl})

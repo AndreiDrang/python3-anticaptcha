@@ -3,23 +3,18 @@ import time
 import aiohttp
 import asyncio
 
-from .config import create_task_url, app_key, user_agent_data
+from .config import create_task_url, app_key
 from .get_answer import get_sync_result, get_async_result
 
 
 class FunCaptchaTask:
-	def __init__(self, anticaptcha_key: str, proxyAddress: str, proxyPort: int, sleep_time: int = 5, proxyType: str = 'http', callbackUrl: str = None, **kwargs):
+	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs):
 		"""
 		Модуль отвечает за решение FunCaptcha
-		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
 		:param anticaptcha_key: Ключ от АнтиКапчи
 		:param sleep_time: Время ожидания решения
-		:param proxyType: Тип прокси http/socks5/socks4
-		:param proxyAddress: Адрес прокси-сервера
-		:param proxyPort: Порт сервера
         :param callbackUrl: URL для решения капчи с ответом через callback
-		:param kwargs: Можно передать необязательные параметры и переопределить userAgent, все необязательные параметры
-						описаны в документации к API на сайте антикапчи
+        :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_fun_example.py
 		"""
 		if sleep_time < 5:
 			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
@@ -30,10 +25,6 @@ class FunCaptchaTask:
 							 "task":
 								 {
 									 "type": "FunCaptchaTask",
-									 "userAgent": user_agent_data,
-									 "proxyType": proxyType,
-									 "proxyAddress": proxyAddress,
-									 "proxyPort": proxyPort,
 								 },
 							 "softId": app_key
 							 }
@@ -82,18 +73,13 @@ class FunCaptchaTask:
 
 
 class aioFunCaptchaTask:
-	def __init__(self, anticaptcha_key: str, proxyAddress: str, proxyPort: int, sleep_time: int = 5, proxyType: str = 'http', callbackUrl: str = None, **kwargs):
+	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs):
 		"""
-		Модуль отвечает за асинхронное решение FunCaptcha
-		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
+		Модуль отвечает за решение FunCaptcha
 		:param anticaptcha_key: Ключ от АнтиКапчи
 		:param sleep_time: Время ожидания решения
-		:param proxyType: Тип прокси http/socks5/socks4
-		:param proxyAddress: Адрес прокси-сервера
-		:param proxyPort: Порт сервера
-		:param callbackUrl: URL для решения капчи с ответом через callback
-		:param kwargs: Можно передать необязательные параметры и переопределить userAgent, все необязательные параметры
-						описаны в документации к API на сайте антикапчи
+        :param callbackUrl: URL для решения капчи с ответом через callback
+        :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_fun_example.py
 		"""
 		if sleep_time < 5:
 			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
@@ -104,10 +90,6 @@ class aioFunCaptchaTask:
 							 "task":
 								 {
 									 "type": "FunCaptchaTask",
-									 "userAgent": user_agent_data,
-									 "proxyType": proxyType,
-									 "proxyAddress": proxyAddress,
-									 "proxyPort": proxyPort,
 								 },
 							 "softId": app_key
 							 }

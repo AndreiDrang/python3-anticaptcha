@@ -3,7 +3,7 @@ import time
 import aiohttp
 import asyncio
 
-from .config import create_task_url, app_key, user_agent_data
+from .config import create_task_url, app_key
 from .get_answer import get_sync_result, get_async_result
 
 
@@ -11,7 +11,6 @@ class CustomCaptchaTask:
 	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, assignment: str = None, forms: dict = None, callbackUrl: str = None):
 		"""
 		Модуль отвечает за решение CustomCaptchaTask
-		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
 		:param anticaptcha_key: Ключ от АнтиКапчи
 		:param sleep_time: Время ожидания решения
         :param assignment: Опишите что работник должен сделать на английском языке
@@ -79,7 +78,6 @@ class aioCustomCaptchaTask:
 	def __init__(self, anticaptcha_key: str, imageUrl: str, sleep_time: int = 5, assignment: str = None, forms: dict = None, callbackUrl: str = None):
 		"""
 		Модуль отвечает за решение CustomCaptchaTask
-		Параметр userAgent рандомно берётся из актульного списка браузеров-параметров
 		:param anticaptcha_key: Ключ от АнтиКапчи
 		:param sleep_time: Время ожидания решения
         :param assignment: Опишите что работник должен сделать на английском языке
