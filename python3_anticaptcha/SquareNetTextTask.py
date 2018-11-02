@@ -42,10 +42,10 @@ class SquareNetTextTask:
         self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
                                  {
-                                       "type": "SquareNetTextTask",
+                                       "type": "SquareNetTask",
                                  },
                              "softId": app_key
-                             }
+							}
 
         # задаём callbackUrl если передан
         if callbackUrl:
@@ -137,7 +137,7 @@ class SquareNetTextTask:
         :return: Возвращает весь ответ сервера JSON-строкой.
         '''
         # проверка параметров сетки
-        if (2<rowsCount<5) and (2<columnsCount<5):
+        if not 2<=rowsCount<=5 or not 2<=columnsCount<=5:
             raise ValueError('Параметр `rowsCount` и `columnsCount` должен быть больше 2 и меньше 5.' 
                             f'Вы передали - `rowsCount`:{rowsCount}, `columnsCount`:{columnsCount}')
 
@@ -214,7 +214,7 @@ class aioSquareNetTextTask:
         self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
                                  {
-                                       "type": "SquareNetTextTask",
+                                       "type": "SquareNetTask",
                                  },
                              "softId": app_key
                              }
