@@ -133,7 +133,7 @@ if answer == 'OK':
 
     # создаём задание с callbackURL параметром
     result = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY, 
-                                             callbackUrl=f'http://85.255.8.26:8001/anticaptcha/nocaptcha/{QUEUE_KEY}'
+                                             callbackUrl=f'http://85.255.8.26:8001/anticaptcha/image_to_text/{QUEUE_KEY}'
                                             ).captcha_handler(captcha_link='http://85.255.8.26/static/image/common_image_example/800070.png')
     print(result)
 

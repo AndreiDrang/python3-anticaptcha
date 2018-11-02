@@ -22,7 +22,7 @@ QUEUE_KEY = 'wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue'
 """
 
 """
-Перед тем тем как начать пользоваться сервисом нужно создать для своей задачи отдельную очередь
+Перед тем как начать пользоваться сервисом нужно создать для своей задачи отдельную очередь
 Очередь можно создать один раз и пользоваться постоянно
 
 Для создания очереди нужно передать два параметра:
@@ -45,8 +45,18 @@ if answer == 'OK':
 
     # получение результата из кеша
     print(CallbackClient.CallbackClient(task_id=result['taskId']).captcha_handler())
-    # получение результата из RabbitMQ очереди
-    print(CallbackClient.CallbackClient(task_id=result['taskId'], queue_name=QUEUE_KEY, call_type='queue').captcha_handler())
+    # получение результата из RabbitMQ очереди с переопределением стандартных параметров
+    print(CallbackClient.CallbackClient(task_id=result['taskId'], queue_name=QUEUE_KEY, call_type='queue').captcha_handler(requests_timeout=0.5,
+                                                                                                                           auth_params = {
+                                                                                                                                'host': '85.255.8.26',
+                                                                                                                                'port': '8001',
+                                                                                                                                'rtmq_username': 'hardworker_1',
+                                                                                                                                'rtmq_password': 'password',
+                                                                                                                                'rtmq_host': '85.255.8.26',
+                                                                                                                                'rtmq_port': '5672',
+                                                                                                                                'rtmq_vhost': 'anticaptcha_vhost'
+                                                                                                                                }
+                                                                                                                          ))
 
     # Асинхронный пример
     async def run():
@@ -59,7 +69,7 @@ if answer == 'OK':
                     
             # получение результата из кеша
             print(CallbackClient.CallbackClient(task_id=result['taskId']).captcha_handler())
-            # получение результата из RabbitMQ очереди
+            # получение результата из RabbitMQ очереди, со стандартными параметрами
             print(CallbackClient.CallbackClient(task_id=result['taskId'], queue_name=QUEUE_KEY, call_type='queue').captcha_handler())
 
         except Exception as err:

@@ -69,7 +69,7 @@ if answer == 'OK':
                                            proxyPort=8080,
                                            proxyLogin="proxyLoginHere",
                                            proxyPassword="proxyPasswordHere",
-                                           callbackUrl=f'http://85.255.8.26:8001/anticaptcha/nocaptcha/{QUEUE_KEY}') \
+                                           callbackUrl=f'http://85.255.8.26:8001/anticaptcha/fun_captcha/{QUEUE_KEY}') \
             .captcha_handler(websiteURL=WEB_URL,
                              websitePublicKey=SITE_KEY)    
     print(result)
