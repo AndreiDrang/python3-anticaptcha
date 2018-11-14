@@ -8,11 +8,12 @@ from .get_answer import get_sync_result, get_async_result
 
 
 class NoCaptchaTaskProxyless:
-	def __init__(self, anticaptcha_key, sleep_time=5, **kwargs):
+	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs):
 		"""
 		Модуль отвечает за решение ReCaptcha без прокси
 		:param anticaptcha_key: Ключ антикапчи
 		:param sleep_time: Время ожидания решения капчи
+        :param callbackUrl: URL для решения капчи с ответом через callback
 		:param kwargs: Другие необязательные параметры из документации
 		"""
 		if sleep_time < 5:
@@ -27,7 +28,10 @@ class NoCaptchaTaskProxyless:
 			                     },
                              "softId": app_key
 		                     }
-		
+		# задаём callbackUrl если передан
+		if callbackUrl:
+			self.task_payload.update({'callbackUrl': callbackUrl})
+
 		# Пайлоад для получения результата
 		self.result_payload = {"clientKey": anticaptcha_key}
 		
@@ -59,17 +63,23 @@ class NoCaptchaTaskProxyless:
 		else:
 			return captcha_id
 
-		# Ждем решения капчи
-		time.sleep(self.sleep_time)
-		return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
+        # если передан параметр `callbackUrl` - не ждём решения капчи а возвращаем незаполненный ответ
+		if self.task_payload.get('callbackUrl'):
+			return self.result_payload
+			
+		else:
+			# Ожидаем решения капчи
+			time.sleep(self.sleep_time)
+			return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
 class aioNoCaptchaTaskProxyless:
-	def __init__(self, anticaptcha_key, sleep_time=5, **kwargs):
+	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs):
 		"""
 		Модуль отвечает за решение ReCaptcha без прокси
 		:param anticaptcha_key: Ключ антикапчи
 		:param sleep_time: Время ожидания решения капчи
+		:param callbackUrl: URL для решения капчи с ответом через callback
 		:param kwargs: Другие необязательные параметры из документации
 		"""
 		if sleep_time < 5:
@@ -85,6 +95,10 @@ class aioNoCaptchaTaskProxyless:
                              "softId": app_key
 		                     }
 		
+        # задаём callbackUrl если передан
+		if callbackUrl:
+			self.task_payload.update({'callbackUrl': callbackUrl})
+
 		# Пайлоад для получения результата
 		self.result_payload = {"clientKey": anticaptcha_key}
 		
@@ -118,6 +132,11 @@ class aioNoCaptchaTaskProxyless:
 		else:
 			return captcha_id
 
-		# Ждем решения капчи
-		await asyncio.sleep(self.sleep_time)
-		return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
+        # если передан параметр `callbackUrl` - не ждём решения капчи а возвращаем незаполненный ответ
+		if self.task_payload.get('callbackUrl'):
+			return self.result_payload
+        
+		else:
+            # Ждем решения капчи
+			await asyncio.sleep(self.sleep_time)
+			return await get_async_result(result_payload = self.result_payload, sleep_time = self.sleep_time)

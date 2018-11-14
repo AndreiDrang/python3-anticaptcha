@@ -11,13 +11,13 @@ from .errors import ParamError, ReadError, IdGetError
 from .get_answer import get_sync_result, get_async_result
 
 
-class ImageToTextTask:
+class SquareNetTextTask:
     '''
     Данный метод подходит для решения капчи-изображение.
     Подробней информацию смотрите в методе 'captcha_handler' и '__init__'
     '''
 
-    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, save_format: str = 'temp', language: str = 'en', callbackUrl: str = None, **kwargs):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, save_format: str = 'temp', callbackUrl: str = None):
         '''
         Инициализация нужных переменных, создание папки для изображений и кэша
         После завершения работы - удаляются временные фалйы и папки
@@ -25,9 +25,7 @@ class ImageToTextTask:
         :param sleep_time: Вермя ожидания решения капчи
         :param save_format: Формат в котором будет сохраняться изображение, либо как временный файл - 'temp',
                             либо как обычное изображение в папку созданную библиотекой - 'const'.
-        :param language: Язык капчи
         :param callbackUrl: URL для решения капчи с ответом через callback
-        :param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
         '''
         if sleep_time < 5:
             raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
@@ -44,11 +42,10 @@ class ImageToTextTask:
         self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
                                  {
-                                       "type": "ImageToTextTask",
+                                       "type": "SquareNetTask",
                                  },
-                             "languagePool": language,
                              "softId": app_key
-                             }
+							}
 
         # задаём callbackUrl если передан
         if callbackUrl:
@@ -58,10 +55,6 @@ class ImageToTextTask:
         # если всё ок - идём дальше
         self.result_payload = {"clientKey": anticaptcha_key}
         
-        # Если переданы ещё параметры - вносим их в payload
-        if kwargs:
-            for key in kwargs:
-                self.task_payload['task'].update({key: kwargs[key]})
 
     def image_temp_saver(self, content: bytes):
         '''
@@ -131,21 +124,39 @@ class ImageToTextTask:
         return captcha_id
     
     # Работа с капчёй
-    def captcha_handler(self, captcha_link: str = None, captcha_file: str = None, captcha_base64: str = None, **kwargs):
+    def captcha_handler(self, objectName: str, rowsCount: int, columnsCount:int, image_link: str = None, image_file: str = None, image_base64: str = None):
         '''
-        Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
-        RuCaptcha, дожидается решения капчи и вовзращает вам результат
-        :param captcha_link: Ссылка на изображение
-        :param captcha_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
-        :param captcha_base64: Загрузка изображения в кодировке base64
+        Этот тип задачи берет вашу картинку, добавляет на нее сетку нужного размера и отдает работнику с требованием выбрать объекты нужного типа.
+        :param objectName: Имя объекта.
+        :param rowsCount: Кол-во строк. Min 2, max 5
+        :param columnsCount: Кол-во колонок. Min 2, max 5
+
+        :param image_link: Ссылка на изображение
+        :param image_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
+        :param image_base64: Загрузка изображения в кодировке base64
         :return: Возвращает весь ответ сервера JSON-строкой.
         '''
-        if captcha_file:
-            captcha_id = self.read_captcha_image_file(captcha_file, content_type="file")
-        elif captcha_base64:
-            captcha_id = self.read_captcha_image_file(captcha_base64, content_type="base64")
-        elif captcha_link:
-            content = requests.get(captcha_link, **kwargs).content
+        # проверка параметров сетки
+        if not 2<=rowsCount<=5 or not 2<=columnsCount<=5:
+            raise ValueError('Параметр `rowsCount` и `columnsCount` должен быть больше 2 и меньше 5.' 
+                            f'Вы передали - `rowsCount`:{rowsCount}, `columnsCount`:{columnsCount}')
+
+        # обновляем task_payload новыми данными для сетки разметки и названия предмета
+        self.task_payload['task'].update({"objectName": objectName})
+        self.task_payload['task'].update({"rowsCount": rowsCount})
+        self.task_payload['task'].update({"columnsCount": columnsCount})
+
+        # проводим действия над файлом(декодируем и передаём на сервер)
+        if image_file:
+            captcha_id = self.read_captcha_image_file(image_file, content_type="file")
+
+        # проводим действия над файлом уже закодированном в base64(передаём на сервер)
+        elif image_base64:
+            captcha_id = self.read_captcha_image_file(image_base64, content_type="base64")
+
+        # проводим действия над ссылкой на файл(скачиваем, сохраняем и передаём на сервер)
+        elif image_link:
+            content = requests.get(image_link).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
                 captcha_id = self.image_const_saver(content)
@@ -172,26 +183,24 @@ class ImageToTextTask:
             return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
-class aioImageToTextTask:
+class aioSquareNetTextTask:
     '''
 	Данный метод подходит для всинхронного решения капчи-изображение.
 	Подробней информацию смотрите в методе 'captcha_handler' и '__init__'
 	'''
     
-    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, save_format: str = 'temp', language: str = 'en', callbackUrl: str = None, **kwargs):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, save_format: str = 'temp', callbackUrl: str = None):
         '''
-		Инициализация нужных переменных, создание папки для изображений и кэша
-		После завершения работы - удаляются временные фалйы и папки
-		:param anticaptcha_key:  АПИ ключ капчи из кабинета пользователя
-		:param sleep_time: Вермя ожидания решения капчи
-		:param save_format: Формат в котором будет сохраняться изображение, либо как временный файл - 'temp',
-							либо как обычное изображение в папку созданную библиотекой - 'const'.
-		:param language: Язык капчи
-		:param callbackUrl: URL для решения капчи с ответом через callback
-		:param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
-		'''
+        Инициализация нужных переменных, создание папки для изображений и кэша
+        После завершения работы - удаляются временные фалйы и папки
+        :param anticaptcha_key:  АПИ ключ капчи из кабинета пользователя
+        :param sleep_time: Вермя ожидания решения капчи
+        :param save_format: Формат в котором будет сохраняться изображение, либо как временный файл - 'temp',
+                            либо как обычное изображение в папку созданную библиотекой - 'const'.
+        :param callbackUrl: URL для решения капчи с ответом через callback
+        '''
         if sleep_time < 5:
-            raise ValueError(f'Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}')
+            raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
         if save_format in ['const', 'temp']:
@@ -201,17 +210,15 @@ class aioImageToTextTask:
                              f'\n\tВозможные варинты: `temp` и `const`. Вы передали - `{save_format}`'
                              '\nWrong `save_format` parameter. Valid params: `const` or `temp`.'
                              f'\n\tYour param - `{save_format}`')
-        
         # Пайлоад для создания задачи
         self.task_payload = {"clientKey": anticaptcha_key,
                              "task":
                                  {
-                                     "type": "ImageToTextTask",
+                                       "type": "SquareNetTask",
                                  },
-                             "languagePool": language,
                              "softId": app_key
                              }
-        
+
         # задаём callbackUrl если передан
         if callbackUrl:
             self.task_payload.update({'callbackUrl': callbackUrl})
@@ -219,11 +226,6 @@ class aioImageToTextTask:
         # отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
         # если всё ок - идём дальше
         self.result_payload = {"clientKey": anticaptcha_key}
-        
-        # Если переданы ещё параметры - вносим их в payload
-        if kwargs:
-            for key in kwargs:
-                self.task_payload['task'].update({key: kwargs[key]})
     
     async def image_temp_saver(self, captcha_link: str):
         '''
@@ -305,24 +307,38 @@ class aioImageToTextTask:
         return captcha_id
 
     # Работа с капчёй
-    async def captcha_handler(self, captcha_link: str = None, captcha_file: str = None, captcha_base64: str=None):
+    async def captcha_handler(self, objectName: str, rowsCount: int, columnsCount:int, image_link: str = None, image_file: str = None, image_base64: str = None):
         '''
-		Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
-		RuCaptcha, дожидается решения капчи и вовзращает вам результат
-		:param captcha_link: Ссылка на изображение
-		:return: Возвращает весь ответ сервера JSON-строкой.
-		'''
+        Этот тип задачи берет вашу картинку, добавляет на нее сетку нужного размера и отдает работнику с требованием выбрать объекты нужного типа.
+        :param objectName: Имя объекта.
+        :param rowsCount: Кол-во строк. Min 2, max 5
+        :param columnsCount: Кол-во колонок. Min 2, max 5
+
+        :param image_link: Ссылка на изображение
+        :param image_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
+        :param image_base64: Загрузка изображения в кодировке base64
+        :return: Возвращает весь ответ сервера JSON-строкой.
+        '''
+        # проверка параметров сетки
+        if (2<rowsCount<5) and (2<columnsCount<5):
+            raise ValueError('Параметр `rowsCount` и `columnsCount` должен быть больше 2 и меньше 5.' 
+                            f'Вы передали - `rowsCount`:{rowsCount}, `columnsCount`:{columnsCount}')
+
+        # обновляем task_payload новыми данными для сетки разметки и названия предмета
+        self.task_payload['task'].update({"objectName": objectName})
+        self.task_payload['task'].update({"rowsCount": rowsCount})
+        self.task_payload['task'].update({"columnsCount": columnsCount})
         # если был передан линк на локальный скачаный файл
-        if captcha_file:
-            captcha_id = await self.read_captcha_image_file(captcha_file, content_type="file")
-        elif captcha_base64:
-            captcha_id = await self.read_captcha_image_file(captcha_base64, content_type="base64")
-        elif captcha_link:
+        if image_file:
+            captcha_id = await self.read_captcha_image_file(image_file, content_type="file")
+        elif image_base64:
+            captcha_id = await self.read_captcha_image_file(image_base64, content_type="base64")
+        elif image_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
-                captcha_id = await self.image_const_saver(captcha_link)
+                captcha_id = await self.image_const_saver(image_link)
             elif self.save_format == 'temp':
-                captcha_id = await self.image_temp_saver(captcha_link)
+                captcha_id = await self.image_temp_saver(image_link)
         else:
             raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
                                         Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")

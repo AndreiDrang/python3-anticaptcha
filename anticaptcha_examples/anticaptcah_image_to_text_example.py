@@ -2,7 +2,7 @@ import asyncio
 import base64
 import requests
 
-from python3_anticaptcha import ImageToTextTask
+from python3_anticaptcha import ImageToTextTask, CallbackClient
 from python3_anticaptcha import errors
 
 ANTICAPTCHA_KEY = ""
@@ -37,7 +37,6 @@ print(result)
 """
 ========================================================================================================================
 Base64 files
-
 Пример работы с декодированием в base64 файла-капчи "налету"
 An example of working with decoding in base64 captcha-file after download. On-the-fly-encoding
 """
@@ -84,7 +83,6 @@ except errors.ReadError as err:
 """
 ========================================================================================================================
 Asynchronous examples
-
 Пример асинхронного запуска решения капчи
 # AsyncIO example. Work with constant-saved file.
 """
@@ -113,3 +111,33 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.run_until_complete(run())
     loop.close()
+
+"""
+Callback example
+"""
+QUEUE_KEY = 'wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue'
+
+"""
+Перед тем как начать пользоваться сервисом нужно создать для своей задачи отдельную очередь
+Очередь можно создать один раз и пользоваться постоянно
+
+Для создания очереди нужно передать два параметра:
+1. key - название очереди, чем оно сложнее тем лучше
+2. vhost - название виртуального хоста(в данном случаи - `anticaptcha_vhost`)
+"""
+
+answer = requests.post('http://85.255.8.26:8001/register_key', json={'key':QUEUE_KEY, 
+                                                                     'vhost':'anticaptcha_vhost'})
+# если очередь успешно создана:                                                                     
+if answer == 'OK':
+
+    # создаём задание с callbackURL параметром
+    result = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY, 
+                                             callbackUrl=f'http://85.255.8.26:8001/anticaptcha/image_to_text/{QUEUE_KEY}'
+                                            ).captcha_handler(captcha_link='http://85.255.8.26/static/image/common_image_example/800070.png')
+    print(result)
+
+    # получение результата из кеша
+    print(CallbackClient.CallbackClient(task_id=result['taskId']).captcha_handler())
+    # получение результата из RabbitMQ очереди
+    print(CallbackClient.CallbackClient(task_id=result['taskId'], queue_name=QUEUE_KEY, call_type='queue').captcha_handler())

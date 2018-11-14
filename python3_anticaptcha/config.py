@@ -10,11 +10,17 @@ incorrect_captcha_url = "https://api.anti-captcha.com/reportIncorrectImageCaptch
 get_queue_status_url = "https://api.anti-captcha.com/getQueueStats"
 # ключ приложения
 app_key = "867"
-# random user agent data
-# получаем рандомный userAgent
-# TODO протестировать `fake_useragent` на исправление старых беспричинных падений и обновить получение данных
-from fake_useragent import UserAgent
-try:
-	user_agent_data = UserAgent().random
-except:
-	user_agent_data = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; Touch)'
+
+"""
+Параметры для callback
+"""
+# IP для работы callback`a
+HOST = '85.255.8.26'
+# PORT для работы callback`a
+PORT = 8001
+#данные для подключения к RabbitMQ на callback сервере
+RTMQ_USERNAME = 'hardworker_1'
+RTMQ_PASSWORD = 'password'
+RTMQ_HOST = '85.255.8.26'
+RTMQ_PORT = 5672
+RTMQ_VHOST = 'anticaptcha_vhost'

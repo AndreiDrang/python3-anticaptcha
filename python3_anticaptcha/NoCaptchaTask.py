@@ -3,26 +3,24 @@ import requests
 import asyncio
 import aiohttp
 
-from .config import create_task_url, app_key, user_agent_data
+from .config import create_task_url, app_key
+from .errors import ParamError, ReadError, IdGetError
 from .get_answer import get_sync_result, get_async_result
 
 
 class NoCaptchaTask:
 
-    def __init__(self, anticaptcha_key, proxyAddress, proxyPort, sleep_time=5, proxyType = 'http', **kwargs):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 10, callbackUrl: str = None, **kwargs):
         """
         Модуль отвечает за решение NoCaptcha.
-        userAgent рандомно берётся из актульного списка браузеров-параметров
         :param anticaptcha_key: ключ от АнтиКапчи
-        :param proxyAdress: Адрес прокси-сервера
-        :param proxyPort: Порт сервера
-        :param proxyType: Тип прокси http/socks5/socks4
-        :param sleeptime: Время ожидания решения
-        :param kwargs: Необязательные параметры, можно переопределить userAgent
+		:param sleep_time: Время ожидания решения
+        :param callbackUrl: URL для решения капчи с ответом через callback
+        :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_nocaptcha_example.py
         """
 
-        if sleep_time < 5:
-            raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
+        if sleep_time < 10:
+            raise ValueError(f'Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}')
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -30,13 +28,13 @@ class NoCaptchaTask:
                              "task":
                                  {
                                      "type": "NoCaptchaTask",
-                                     "userAgent": user_agent_data,
-                                     "proxyType": proxyType,
-                                     "proxyAddress": proxyAddress,
-                                     "proxyPort": proxyPort,
                                  },
                              "softId": app_key
                              }
+
+        # задаём callbackUrl если передан
+        if callbackUrl:
+            self.task_payload.update({'callbackUrl': callbackUrl})
 
         # пайлоад для получения ответа сервиса
         self.result_payload = {"clientKey": anticaptcha_key}
@@ -46,7 +44,7 @@ class NoCaptchaTask:
                 self.task_payload['task'].update({key: kwargs[key]})
 
     # Работа с капчей
-    def captcha_handler(self, websiteURL, websiteKey, **kwargs):
+    def captcha_handler(self, websiteURL: str, websiteKey: str):
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй
@@ -56,7 +54,7 @@ class NoCaptchaTask:
         self.task_payload['task'].update({"websiteURL": websiteURL,
                                           "websiteKey": websiteKey})
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
-        captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id['errorId'] == 0:
@@ -64,25 +62,29 @@ class NoCaptchaTask:
             self.result_payload.update({"taskId": captcha_id})
         else:
             return captcha_id
-
-        # Ждем решения капчи
-        time.sleep(self.sleep_time)
-        return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
+        # если передан параметр `callbackUrl` - не ждём решения капчи а возвращаем незаполненный ответ
+        if self.task_payload.get('callbackUrl'):
+            return self.result_payload
+            
+        else:
+            # Ждем решения капчи
+            time.sleep(self.sleep_time)
+            return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
 class aioNoCaptchaTask:
 
-    def __init__(self, anticaptcha_key, proxyAddress, proxyPort, sleep_time=5, proxyType = 'http', **kwargs):
+    def __init__(self, anticaptcha_key: str, sleep_time: str = 10, callbackUrl: str = None, **kwargs):
         """
         Модуль отвечает за решение NoCaptcha.
-        userAgent рандомно берётся из актульного списка браузеров-параметров
         :param anticaptcha_key: ключ от АнтиКапчи
-        :param proxyAdress: Адрес прокси-сервера
-        :param proxyPort: Порт сервера
-        :param proxyType: Тип прокси http/socks5/socks4
-        :param sleeptime: Время ожидания решения
-        :param kwargs: Необязательные параметры, можно переопределить userAgent
+		:param sleep_time: Время ожидания решения
+        :param callbackUrl: URL для решения капчи с ответом через callback
+        :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_nocaptcha_example.py
         """
+
+        if sleep_time < 10:
+            raise ValueError(f'Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}')
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -90,13 +92,13 @@ class aioNoCaptchaTask:
                              "task":
                                  {
                                      "type": "NoCaptchaTask",
-                                     "userAgent": user_agent_data,
-                                     "proxyType": proxyType,
-                                     "proxyAddress": proxyAddress,
-                                     "proxyPort": proxyPort,
                                  },
                              "softId": app_key
                              }
+
+        # задаём callbackUrl если передан
+        if callbackUrl:
+            self.task_payload.update({'callbackUrl': callbackUrl})
 
         # пайлоад для получения ответа сервиса
         self.result_payload = {"clientKey": anticaptcha_key}
@@ -106,7 +108,7 @@ class aioNoCaptchaTask:
                 self.task_payload['task'].update({key: kwargs[key]})
 
     # Работа с капчей
-    async def captcha_handler(self, websiteURL, websiteKey):
+    async def captcha_handler(self, websiteURL: str, websiteKey: str):
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй
@@ -127,6 +129,11 @@ class aioNoCaptchaTask:
         else:
             return captcha_id
 
-        # Ждем решения капчи
-        await asyncio.sleep(self.sleep_time)
-        return await get_async_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
+        # если передан параметр `callbackUrl` - не ждём решения капчи а возвращаем незаполненный ответ
+        if self.task_payload.get('callbackUrl'):
+            return self.result_payload
+            
+        else:
+            # Ждем решения капчи
+            await asyncio.sleep(self.sleep_time)
+            return await get_async_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
