@@ -7,7 +7,7 @@ setup(
 
     packages = ['python3_anticaptcha'],
     install_requires = [
-                        'requests==2.20.0',
+                        'requests==2.20.1',
                         'aiohttp==3.4.4',
                         'pika==0.12.0'
     ],
