@@ -50,7 +50,7 @@ class FunCaptchaTask:
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
 		self.task_payload['task'].update({"websiteURL": websiteURL,
-										  "websiteKey": websitePublicKey})
+										  "websitePublicKey": websitePublicKey})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
 		captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
@@ -115,7 +115,7 @@ class aioFunCaptchaTask:
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
 		self.task_payload['task'].update({"websiteURL": websiteURL,
-										  "websiteKey": websitePublicKey})
+										  "websitePublicKey": websitePublicKey})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
 		async with aiohttp.ClientSession() as session:
