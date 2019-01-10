@@ -1,7 +1,7 @@
 import requests
 import aiohttp
 
-from .config import get_balance_url, incorrect_captcha_url
+from python3_anticaptcha import get_balance_url, incorrect_captcha_url
 
 
 class AntiCaptchaControl:

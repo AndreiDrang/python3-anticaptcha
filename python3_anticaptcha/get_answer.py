@@ -1,11 +1,11 @@
-import requests
-import aiohttp
 import asyncio
 import time
 
+import aiohttp
+import requests
 from requests.adapters import HTTPAdapter
 
-from .config import get_result_url
+from python3_anticaptcha import get_result_url
 
 
 def get_sync_result(result_payload: dict, sleep_time: int):

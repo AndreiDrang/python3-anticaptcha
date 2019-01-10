@@ -7,37 +7,27 @@ import requests
 from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 
 
-class GeeTestTask:
-	def __init__(self, anticaptcha_key: str, websiteURL: str, gt: str, sleep_time: int = 10, callbackUrl: str = None, **kwargs):
+class FunCaptchaTaskProxyless:
+	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None):
 		"""
-		Модуль отвечает за решение GeeTestTask
+		Модуль отвечает за решение FunCaptcha Proxyless
 		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param websiteURL: Адрес страницы на которой решается капча
-        :param gt: Ключ-индентификатор капчи на целевой странице
 		:param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
-        :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_gee_test_task.py
 		"""
-		if sleep_time < 10:
-			raise ValueError(f'Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}')
+		if sleep_time < 5:
+			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
 		self.task_payload = {"clientKey": anticaptcha_key,
 							 "task":
 								 {
-									 "type": "GeeTestTask",
-                                     "websiteURL": websiteURL,
-                                     "gt": gt,
+									 "type": "FunCaptchaTaskProxyless",
 								 },
 							 "softId": app_key
-                             }
-
-        # заполнить пайлоад аргументами для подключения к прокси
-        if kwargs:
-            for key in kwargs:
-                self.task_payload['task'].update({key: kwargs[key]})
-
+							 }
+		
         # задаём callbackUrl если передан
 		if callbackUrl:
 			self.task_payload.update({'callbackUrl': callbackUrl})
@@ -45,18 +35,19 @@ class GeeTestTask:
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
 		
-		
 	# Работа с капчёй
-	def captcha_handler(self, challenge: str):
+	def captcha_handler(self, websiteURL: str, websitePublicKey: str, **kwargs):
 		"""
-		Метод получает ссылку изображение для задания
-		:param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
+		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
+		:param websiteURL: Ссылка на страницу с капчёй
+		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
-		self.task_payload['task'].update({"challenge": challenge})
+		self.task_payload['task'].update({"websiteURL": websiteURL,
+										  "websitePublicKey": websitePublicKey})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
-		captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+		captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
 
 		# Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
 		if captcha_id['errorId'] == 0:
@@ -75,53 +66,44 @@ class GeeTestTask:
 			return get_sync_result(result_payload = self.result_payload, sleep_time = self.sleep_time)
 
 
-
-class aioGeeTestTask:
-	def __init__(self, anticaptcha_key: str, websiteURL: str, gt: str, sleep_time: int = 10, callbackUrl: str = None, **kwargs):
+class aioFunCaptchaTaskProxyless:
+	def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None):
 		"""
-		Модуль отвечает за решение GeeTestTask
+		Модуль отвечает за решение FunCaptcha Proxyless
 		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param websiteURL: Адрес страницы на которой решается капча
-        :param gt: Ключ-индентификатор капчи на целевой странице
 		:param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
-		:param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_gee_test_task.py
 		"""
-		if sleep_time < 10:
-			raise ValueError(f'Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}')
+		if sleep_time < 5:
+			raise ValueError(f'Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}')
 		self.sleep_time = sleep_time
 		
 		# Пайлоад для создания задачи
 		self.task_payload = {"clientKey": anticaptcha_key,
 							 "task":
 								 {
-									 "type": "GeeTestTask",
-                                     "websiteURL": websiteURL,
-                                     "gt": gt,
+									 "type": "FunCaptchaTaskProxyless",
 								 },
 							 "softId": app_key
-                             }
-        
-        # заполнить пайлоад аргументами для подключения к прокси
-        if kwargs:
-            for key in kwargs:
-                self.task_payload['task'].update({key: kwargs[key]})
-
+							 }
+		
         # задаём callbackUrl если передан
 		if callbackUrl:
 			self.task_payload.update({'callbackUrl': callbackUrl})
 
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
-
+			
 	# Работа с капчёй
-	async def captcha_handler(self, challenge: str):
+	async def captcha_handler(self, websiteURL: str, websitePublicKey: str):
 		"""
-		Метод получает ссылку изображение для задания
-		:param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
+		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
+		:param websiteURL: Ссылка на страницу с капчёй
+		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
-		self.task_payload['task'].update({"challenge": challenge})
+		self.task_payload['task'].update({"websiteURL": websiteURL,
+										  "websitePublicKey": websitePublicKey})
 		# Отправляем на антикапча параметры фанкапич,
 		# в результате получаем JSON ответ содержащий номер решаемой капчи
 		async with aiohttp.ClientSession() as session:
