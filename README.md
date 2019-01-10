@@ -40,7 +40,7 @@ Full examples you can find [here](https://github.com/AndreiDrang/python3-anticap
 ### At the moment the following methods are implemented:
 ### На данный момент реализованы следующие методы:
 
-1.[Image to text captcha. Решение капчи-изображения.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcah_image_to_text_example.py)
+1.[Image to text captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcah_image_to_text_example.py)
 
 Краткий пример:
 ```python
@@ -55,10 +55,10 @@ user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY)
 print(user_answer)
 ```
 
-2.[ReCaptcha v2 _with_ proxy. Решение новой ReCaptcha v2 с прокси.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+2.[ReCaptcha v2.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
 
-3.[ReCaptcha v2 _without_ proxy. Решение новой ReCaptcha v2 без прокси.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+3.[ReCaptcha v2 Proxyless. ](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
 Краткий пример:
 ```python
@@ -77,7 +77,9 @@ user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = AN
 print(user_answer)
 ```
 
-4.[FunCaptcha. Решение FunCaptchaTask.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_fun_example.py)
+4.[Fun Captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_fun_example.py)
+
+5.[Fun Captcha Proxyless.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_fun_example.py)
 
 Краткий пример:
 ```python
@@ -99,7 +101,7 @@ user_answer = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
 print(user_answer)
 ```
 
-5.[Account management module. Модуль для получения инофрмации о балансе аккаунта и отправке жалоб.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+6.[Account management module. Модуль для получения инофрмации о балансе аккаунта и отправке жалоб.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
 
 Краткий пример:
 ```python
@@ -111,6 +113,21 @@ user_answer = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCH
 
 print(user_answer)
 ```
+
+7.[Custom Captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+
+Краткий пример:
+```python
+
+```
+
+8.[Gee Test.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+
+Краткий пример:
+```python
+
+```
+
 ***
 Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](http://85.255.8.26/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
 
