@@ -9,7 +9,7 @@ ANTICAPTCHA_KEY = ""
 
 # подробней - https://anticaptcha.atlassian.net/wiki/spaces/API/pages/241827850/CustomCaptchaTask
 # ссылка на изображение
-imageUrl = "https://files.anti-captcha.com/26/41f/c23/7c50ff19.jpg",
+imageUrl = "https://files.anti-captcha.com/26/41f/c23/7c50ff19.jpg"
 # кастомная форма для ответов пользователей
 custom_form = '''[
                 {
