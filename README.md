@@ -3,8 +3,9 @@
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
 [![Build Status](https://semaphoreci.com/api/v1/andreidrang/python3-anticaptcha/branches/master/shields_badge.svg)](https://semaphoreci.com/andreidrang/python3-anticaptcha)
 [![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
+![Callback_Server_Status Run](https://img.shields.io/badge/Callback_Server_Status-Run-blue.svg)
 
-Python 3 library for AntiCaptcha.
+Python 3.6 library for Anti-Captcha service.
 
 [Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
 
