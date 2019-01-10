@@ -50,7 +50,8 @@ ANTICAPTCHA_KEY = ""
 # Ссылка на изображения для расшифровки. Link to captcha image.
 image_link = "http://85.255.8.26/static/image/common_image_example/800070.png"
 # Возвращается строка-расшифровка капчи. Get string for solve captcha, and some other info.
-user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).captcha_handler(captcha_link=image_link)
+user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).\
+                captcha_handler(captcha_link=image_link)
 
 print(user_answer)
 ```
@@ -71,8 +72,8 @@ SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
 PAGE_URL = 'https://www.google.com/recaptcha/intro/android.html'
 # Возвращается строка-расшифровка капчи. Get string for solve captcha, and other info.
 user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
-                                                            .captcha_handler(websiteURL=PAGE_URL,
-                                                                             websiteKey=SITE_KEY)
+                .captcha_handler(websiteURL=PAGE_URL,
+                                 websiteKey=SITE_KEY)
 
 print(user_answer)
 ```
@@ -95,13 +96,13 @@ user_answer = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
                                             proxyType="http",
                                             proxyAddress="8.8.8.8",
                                             proxyPort=8080)\
-                                            .captcha_handler(websiteURL=PAGE_URL,
-                                                             websitePublicKey=SITE_KEY)
+                .captcha_handler(websiteURL=PAGE_URL,
+                                 websitePublicKey=SITE_KEY)
 
 print(user_answer)
 ```
 
-6.[Account management module. Модуль для получения инофрмации о балансе аккаунта и отправке жалоб.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+6.[Account management module.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
 
 Краткий пример:
 ```python
@@ -118,16 +119,38 @@ print(user_answer)
 
 Краткий пример:
 ```python
-
+from python3_anticaptcha import CustomCaptchaTask
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+ANTICAPTCHA_KEY = ""
+# ссылка на изображение
+imageUrl = "https://files.anti-captcha.com/26/41f/c23/7c50ff19.jpg"
+# минимальный пример использования модуля
+my_custom_task = CustomCaptchaTask.CustomCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY).\
+                    captcha_handler(imageUrl=imageUrl)
+print(my_custom_task)
 ```
 
 8.[Gee Test.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
 
+9.[Gee Test Proxyless.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+
 Краткий пример:
 ```python
+from python3_anticaptcha import GeeTestTaskProxyless
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+ANTICAPTCHA_KEY = ""
+# обязательные параметры
+websiteURL = "http:\/\/mywebsite.com\/geetest\/test.php"
+gt = "874703612e5cac182812a00e273aad0d"
+challenge = "a559b82bca2c500101a1c8a4f4204742"
+# пример работы с GeeTestTask без прокси
+result = GeeTestTaskProxyless.GeeTestTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY,
+                                                   websiteURL=websiteURL,
+                                                   gt=gt).\
+            captcha_handler(challenge=challenge)
 
+print(result)
 ```
-
 ***
 Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](http://85.255.8.26/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
 
