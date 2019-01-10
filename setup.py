@@ -11,7 +11,9 @@ setup(
                         'aiohttp==3.5.3',
                         'pika==0.12.0'
     ],
-    description = 'Python 3 AntiCaptcha library with AIO module.',
+    description = 'Python 3 Anti-Captcha service library with AIO module.',
+    package_dir={'python3-anticaptcha': 'python3_anticaptcha'},
+    include_package_data=True,
     url = 'https://github.com/AndreiDrang/python3-anticaptcha',
     author_email = 'drang.andray@gmail.com',
     license = 'MIT',
@@ -26,4 +28,5 @@ setup(
 				  python-anticaptcha
 				  anticaptcha-client''',
     python_requires = '>=3.6',
+    zip_safe=False
 )
