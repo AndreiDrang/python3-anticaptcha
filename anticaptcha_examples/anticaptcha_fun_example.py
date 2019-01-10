@@ -1,7 +1,7 @@
 import asyncio
 import requests
 
-from python3_anticaptcha import FunCaptchaTask, CallbackClient
+from python3_anticaptcha import FunCaptchaTask, FunCaptchaTaskProxyless, CallbackClient
 
 
 ANTICAPTCHA_KEY = ""
@@ -14,24 +14,36 @@ result = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
                                        proxyPort=8080,
                                        proxyLogin="proxyLoginHere",
                                        proxyPassword="proxyPasswordHere")\
-		.captcha_handler(websiteURL=WEB_URL,
-                         websitePublicKey=SITE_KEY)
+            .captcha_handler(websiteURL=WEB_URL,
+                            websitePublicKey=SITE_KEY)
+
+print(result)
+
+# Пример работы антикапчи с фанкапчёй и с БЕЗ использования прокси при этом
+result = FunCaptchaTaskProxyless.FunCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY)\
+            .captcha_handler(websiteURL=WEB_URL,
+                            websitePublicKey=SITE_KEY)
 
 print(result)
 
 # Асинхронный пример работы
 async def run():
     try:
-        # io.IOBase
         # Пример работы антикапчи с фанкапчёй и с использованием прокси при этом
-        result = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
+        result = FunCaptchaTask.aioFunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
                                                proxyType='http',
                                                proxyAddress="8.8.8.8",
                                                proxyPort=8080,
                                                proxyLogin="proxyLoginHere",
                                                proxyPassword="proxyPasswordHere") \
-            .captcha_handler(websiteURL=WEB_URL,
-                             websitePublicKey=SITE_KEY)
+                    .captcha_handler(websiteURL=WEB_URL,
+                                    websitePublicKey=SITE_KEY)
+        
+        print(result)
+        # Пример работы антикапчи с фанкапчёй и БЕЗ использования прокси при этом
+        result = FunCaptchaTaskProxyless.aioFunCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY) \
+                    .captcha_handler(websiteURL=WEB_URL,
+                                     websitePublicKey=SITE_KEY)
         
         print(result)
     except Exception as err:
@@ -72,6 +84,18 @@ if answer == 'OK':
                                            callbackUrl=f'http://85.255.8.26:8001/anticaptcha/fun_captcha/{QUEUE_KEY}') \
             .captcha_handler(websiteURL=WEB_URL,
                              websitePublicKey=SITE_KEY)    
+    print(result)
+
+    # получение результата из кеша
+    print(CallbackClient.CallbackClient(task_id=result['taskId']).captcha_handler())
+    # получение результата из RabbitMQ очереди
+    print(CallbackClient.CallbackClient(task_id=result['taskId'], queue_name=QUEUE_KEY, call_type='queue').captcha_handler())
+    
+    # создаём задание с callbackURL параметром
+    result = FunCaptchaTaskProxyless.FunCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY,
+                                                             callbackUrl=f'http://85.255.8.26:8001/anticaptcha/fun_captcha/{QUEUE_KEY}') \
+                .captcha_handler(websiteURL=WEB_URL,
+                                 websitePublicKey=SITE_KEY)    
     print(result)
 
     # получение результата из кеша
