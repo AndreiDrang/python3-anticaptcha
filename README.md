@@ -118,7 +118,15 @@ print(user_answer)
 
 Краткий пример:
 ```python
-
+from python3_anticaptcha import CustomCaptchaTask
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+ANTICAPTCHA_KEY = ""
+# ссылка на изображение
+imageUrl = "https://files.anti-captcha.com/26/41f/c23/7c50ff19.jpg"
+# минимальный пример использования модуля
+my_custom_task = CustomCaptchaTask.CustomCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY).\
+                    captcha_handler(imageUrl=imageUrl)
+print(my_custom_task)
 ```
 
 8.[Gee Test.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
