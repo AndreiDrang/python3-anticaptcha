@@ -1,7 +1,8 @@
-import requests
 import time
-import aiohttp
 import asyncio
+
+import aiohttp
+import requests
 
 from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 

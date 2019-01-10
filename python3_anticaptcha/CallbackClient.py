@@ -1,11 +1,10 @@
-
 import json
 import time 
 
 import requests
 import pika
 
-from .config import HOST, PORT, RTMQ_USERNAME, RTMQ_PASSWORD, RTMQ_HOST, RTMQ_PORT, RTMQ_VHOST
+from python3_anticaptcha import HOST, PORT, RTMQ_USERNAME, RTMQ_PASSWORD, RTMQ_HOST, RTMQ_PORT, RTMQ_VHOST
 
 
 class CallbackClient:
