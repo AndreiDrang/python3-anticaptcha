@@ -16,15 +16,17 @@ def get_sync_result(result_payload: dict, sleep_time: int):
     session.mount('https://', HTTPAdapter(max_retries = 5))
 
     while True:
-        captcha_response = session.post(get_result_url, json=result_payload)
+        captcha_response = session.post(get_result_url, json=result_payload).json()
 
-        if captcha_response.json()["errorId"] == 0:
-            if captcha_response.json()["status"] == "processing":
+        if captcha_response["errorId"] == 0:
+            if captcha_response["status"] == "processing":
                 time.sleep(sleep_time)
             else:
-                return captcha_response.json()
+                captcha_response.update({"taskId": result_payload['taskId']})
+                return captcha_response
         else:
-            return captcha_response.json()
+            captcha_response.update({"taskId": result_payload['taskId']})
+            return captcha_response
 
 
 async def get_async_result(result_payload: dict, sleep_time: int):
@@ -40,6 +42,8 @@ async def get_async_result(result_payload: dict, sleep_time: int):
                         await asyncio.sleep(sleep_time)
                     # Иначе возвращаем ответ
                     else:
+                        json_result.update({"taskId": result_payload['taskId']})
                         return json_result
                 else:
+                    json_result.update({"taskId": result_payload['taskId']})
                     return json_result
