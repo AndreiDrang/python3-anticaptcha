@@ -5,7 +5,7 @@ import requests
 import aiohttp
 
 from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result, \
-                                ParamError, ReadError, IdGetError
+                                ParamError, ReadError
 
 
 class NoCaptchaTask:

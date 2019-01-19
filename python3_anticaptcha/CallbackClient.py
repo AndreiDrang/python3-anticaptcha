@@ -65,7 +65,7 @@ class CallbackClient:
 
         while attempts>0:
             # получение сообщения из очереди
-            method_frame, header_frame, body = channel.basic_get(self.queue_name)
+            method_frame, _, body = channel.basic_get(self.queue_name)
             if body:
                 # декодируем сообщение из bytes в JSON
                 json_body = json.loads(body.decode())

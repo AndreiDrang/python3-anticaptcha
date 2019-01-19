@@ -1,10 +1,6 @@
 import asyncio
 
-import aiohttp
 import requests
-import pika
-import time
-import json
 
 from python3_anticaptcha import NoCaptchaTaskProxyless, CallbackClient
 
