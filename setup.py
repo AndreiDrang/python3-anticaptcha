@@ -9,7 +9,7 @@ setup(
     install_requires = [
                         'requests==2.21.0',
                         'aiohttp==3.5.4',
-                        'pika==0.12.0'
+                        'pika==0.13.0'
     ],
     description = 'Python 3 Anti-Captcha service library with AIO module.',
     package_dir={'python3-anticaptcha': 'python3_anticaptcha'},
