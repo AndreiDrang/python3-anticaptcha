@@ -30,11 +30,11 @@ class CustomCaptchaTask:
 							 "softId": app_key
                              }
         # заполняем поле с заданием пользователю        
-        if assignment:
-            self.task_payload['task'].update({'assignment': assignment})
+		if assignment:
+			self.task_payload['task'].update({'assignment': assignment})
         # заполняем поле с произвольной формой в формате JSON
-        if forms:
-            self.task_payload['task'].update({'forms': forms})
+		if forms:
+			self.task_payload['task'].update({'forms': forms})
 		
         # задаём callbackUrl если передан
 		if callbackUrl:
@@ -97,11 +97,11 @@ class aioCustomCaptchaTask:
 							 "softId": app_key
                              }
         # заполняем поле с заданием пользователю        
-        if assignment:
-            self.task_payload['task'].update({'assignment': assignment})
+		if assignment:
+			self.task_payload['task'].update({'assignment': assignment})
         # заполняем поле с произвольной формой в формате JSON
-        if forms:
-            self.task_payload['task'].update({'forms': forms})
+		if forms:
+			self.task_payload['task'].update({'forms': forms})
 		
         # задаём callbackUrl если передан
 		if callbackUrl:

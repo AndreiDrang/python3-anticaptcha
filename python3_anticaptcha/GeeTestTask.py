@@ -34,9 +34,9 @@ class GeeTestTask:
                              }
 
         # заполнить пайлоад аргументами для подключения к прокси
-        if kwargs:
-            for key in kwargs:
-                self.task_payload['task'].update({key: kwargs[key]})
+		if kwargs:
+			for key in kwargs:
+				self.task_payload['task'].update({key: kwargs[key]})
 
         # задаём callbackUrl если передан
 		if callbackUrl:
@@ -103,9 +103,9 @@ class aioGeeTestTask:
                              }
         
         # заполнить пайлоад аргументами для подключения к прокси
-        if kwargs:
-            for key in kwargs:
-                self.task_payload['task'].update({key: kwargs[key]})
+		if kwargs:
+			for key in kwargs:
+				self.task_payload['task'].update({key: kwargs[key]})
 
         # задаём callbackUrl если передан
 		if callbackUrl:
