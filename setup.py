@@ -12,7 +12,7 @@ URL = 'https://github.com/AndreiDrang/python3-anticaptcha'
 EMAIL = 'drang.andray@gmail.com'
 AUTHOR = 'AndreiDrang, redV0ID'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.2.2'
+VERSION = '1.2.3'
 REQUIRED = [
         'requests==2.21.0',
         'aiohttp==3.5.4',
