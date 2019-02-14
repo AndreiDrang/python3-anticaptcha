@@ -11,6 +11,14 @@ class AntiCaptchaControl:
         :param anticaptcha_key: Ключ антикапчи
         """
         self.ANTICAPTCHA_KEY = anticaptcha_key
+    
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True
 
     def get_balance(self):
         '''
@@ -43,6 +51,14 @@ class aioAntiCaptchaControl:
         :param anticaptcha_key: Ключ антикапчи
         """
         self.ANTICAPTCHA_KEY = anticaptcha_key
+    
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True
 
     async def get_balance(self):
         '''
