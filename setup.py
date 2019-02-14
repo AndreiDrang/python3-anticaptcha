@@ -59,7 +59,7 @@ class UploadCommand(Command):
         self.status('Uploading the package to PyPI via Twine…')
         os.system('twine upload dist/*')
        
-sys.exit()
+        sys.exit()
 
 setup(
     name = NAME,
@@ -79,7 +79,6 @@ setup(
                 anticaptcha 
 				python3
                 recaptcha
-                captcha
                 security
                 api
                 python-library
