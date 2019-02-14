@@ -41,6 +41,14 @@ class NoCaptchaTaskProxyless:
 			for key in kwargs:
 				self.task_payload['task'].update({key: kwargs[key]})
 	
+	def __enter__(self):
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		if exc_type:
+			return False
+		return True
+
 	# Работа с капчёй
 	def captcha_handler(self, websiteURL, websiteKey, **kwargs):
 		"""
@@ -108,6 +116,14 @@ class aioNoCaptchaTaskProxyless:
 			for key in kwargs:
 				self.task_payload['task'].update({key: kwargs[key]})
 	
+	def __enter__(self):
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		if exc_type:
+			return False
+		return True
+
 	# Работа с капчёй
 	async def captcha_handler(self, websiteURL, websiteKey):
 		"""
