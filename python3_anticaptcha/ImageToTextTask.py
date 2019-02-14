@@ -160,8 +160,8 @@ class ImageToTextTask:
             elif self.save_format == 'temp':
                 captcha_id = self.__image_temp_saver(content)
         else:
-            raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
-                                        Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")
+            raise ParamError(additional_info="""You must set one of param - `captcha_file/captcha_base64/captcha_link`.\n
+                                                Вы должны задать один из параметров - `captcha_file/captcha_base64/captcha_link`.""")
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id['errorId'] == 0:
@@ -340,8 +340,8 @@ class aioImageToTextTask:
             elif self.save_format == 'temp':
                 captcha_id = await self.__image_temp_saver(captcha_link)
         else:
-            raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
-                                        Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")
+            raise ParamError(additional_info="""You must set one of param - `captcha_file/captcha_base64/captcha_link`.\n
+                                                Вы должны задать один из параметров - `captcha_file/captcha_base64/captcha_link`.""")
         
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id['errorId'] == 0:
