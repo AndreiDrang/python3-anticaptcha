@@ -54,9 +54,16 @@ class SquareNetTextTask:
         # отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
         # если всё ок - идём дальше
         self.result_payload = {"clientKey": anticaptcha_key}
-        
 
-    def image_temp_saver(self, content: bytes):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True
+
+    def __image_temp_saver(self, content: bytes):
         '''
         Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
         :return: Возвращает ID капчи
@@ -68,7 +75,7 @@ class SquareNetTextTask:
         captcha_id = requests.post(create_task_url, json = self.task_payload).json()
         return captcha_id
 
-    def image_const_saver(self, content: bytes):
+    def __image_const_saver(self, content: bytes):
         '''
         Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
         :return: Возвращает ID капчи
@@ -96,7 +103,7 @@ class SquareNetTextTask:
 
         return captcha_id
     
-    def read_captcha_image_file(self, content: bytes, content_type: str = "file"):
+    def __read_captcha_image_file(self, content: bytes, content_type: str = "file"):
         """
         Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
@@ -134,6 +141,7 @@ class SquareNetTextTask:
         :param image_link: Ссылка на изображение
         :param image_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
         :param image_base64: Загрузка изображения в кодировке base64
+
         :return: Возвращает весь ответ сервера JSON-строкой.
         '''
         # проверка параметров сетки
@@ -148,20 +156,20 @@ class SquareNetTextTask:
 
         # проводим действия над файлом(декодируем и передаём на сервер)
         if image_file:
-            captcha_id = self.read_captcha_image_file(image_file, content_type="file")
+            captcha_id = self.__read_captcha_image_file(image_file, content_type="file")
 
         # проводим действия над файлом уже закодированном в base64(передаём на сервер)
         elif image_base64:
-            captcha_id = self.read_captcha_image_file(image_base64, content_type="base64")
+            captcha_id = self.__read_captcha_image_file(image_base64, content_type="base64")
 
         # проводим действия над ссылкой на файл(скачиваем, сохраняем и передаём на сервер)
         elif image_link:
             content = requests.get(image_link).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
-                captcha_id = self.image_const_saver(content)
+                captcha_id = self.__image_const_saver(content)
             elif self.save_format == 'temp':
-                captcha_id = self.image_temp_saver(content)
+                captcha_id = self.__image_temp_saver(content)
         else:
             raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
                                         Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")
@@ -226,8 +234,16 @@ class aioSquareNetTextTask:
         # отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
         # если всё ок - идём дальше
         self.result_payload = {"clientKey": anticaptcha_key}
-    
-    async def image_temp_saver(self, captcha_link: str):
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True
+
+    async def __image_temp_saver(self, captcha_link: str):
         '''
 		Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
 		:return: Возвращает ID капчи
@@ -244,7 +260,7 @@ class aioSquareNetTextTask:
             async with session.post(create_task_url, json=self.task_payload) as resp:
                 return await resp.json()
     
-    async def image_const_saver(self, captcha_link: str):
+    async def __image_const_saver(self, captcha_link: str):
         '''
 		Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
 		:return: Возвращает ID капчи
@@ -279,7 +295,7 @@ class aioSquareNetTextTask:
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
         return captcha_id
 
-    async def read_captcha_image_file(self, content: bytes, content_type: str = 'file'):
+    async def __read_captcha_image_file(self, content: bytes, content_type: str = 'file'):
         """
         Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
@@ -330,15 +346,15 @@ class aioSquareNetTextTask:
         self.task_payload['task'].update({"columnsCount": columnsCount})
         # если был передан линк на локальный скачаный файл
         if image_file:
-            captcha_id = await self.read_captcha_image_file(image_file, content_type="file")
+            captcha_id = await self.__read_captcha_image_file(image_file, content_type="file")
         elif image_base64:
-            captcha_id = await self.read_captcha_image_file(image_base64, content_type="base64")
+            captcha_id = await self.__read_captcha_image_file(image_base64, content_type="base64")
         elif image_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
-                captcha_id = await self.image_const_saver(image_link)
+                captcha_id = await self.__image_const_saver(image_link)
             elif self.save_format == 'temp':
-                captcha_id = await self.image_temp_saver(image_link)
+                captcha_id = await self.__image_temp_saver(image_link)
         else:
             raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
                                         Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")

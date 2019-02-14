@@ -38,6 +38,13 @@ class GeeTestTaskProxyless:
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
 		
+	def __enter__(self):
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		if exc_type:
+			return False
+		return True
 		
 	# Работа с капчёй
 	def captcha_handler(self, challenge: str):
@@ -99,6 +106,14 @@ class aioGeeTestTaskProxyless:
 
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
+		
+	def __enter__(self):
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		if exc_type:
+			return False
+		return True
 
 	# Работа с капчёй
 	async def captcha_handler(self, challenge: str):

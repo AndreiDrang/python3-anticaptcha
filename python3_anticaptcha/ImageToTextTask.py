@@ -62,8 +62,16 @@ class ImageToTextTask:
         if kwargs:
             for key in kwargs:
                 self.task_payload['task'].update({key: kwargs[key]})
+                
+    def __enter__(self):
+        return self
 
-    def image_temp_saver(self, content: bytes):
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True
+
+    def __image_temp_saver(self, content: bytes):
         '''
         Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
         :return: Возвращает ID капчи
@@ -75,7 +83,7 @@ class ImageToTextTask:
         captcha_id = requests.post(create_task_url, json = self.task_payload).json()
         return captcha_id
 
-    def image_const_saver(self, content: bytes):
+    def __image_const_saver(self, content: bytes):
         '''
         Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
         :return: Возвращает ID капчи
@@ -103,7 +111,7 @@ class ImageToTextTask:
 
         return captcha_id
     
-    def read_captcha_image_file(self, content: bytes, content_type: str = "file"):
+    def __read_captcha_image_file(self, content: bytes, content_type: str = "file"):
         """
         Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
@@ -141,16 +149,16 @@ class ImageToTextTask:
         :return: Возвращает весь ответ сервера JSON-строкой.
         '''
         if captcha_file:
-            captcha_id = self.read_captcha_image_file(captcha_file, content_type="file")
+            captcha_id = self.__read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
-            captcha_id = self.read_captcha_image_file(captcha_base64, content_type="base64")
+            captcha_id = self.__read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             content = requests.get(captcha_link, **kwargs).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
-                captcha_id = self.image_const_saver(content)
+                captcha_id = self.__image_const_saver(content)
             elif self.save_format == 'temp':
-                captcha_id = self.image_temp_saver(content)
+                captcha_id = self.__image_temp_saver(content)
         else:
             raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
                                         Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")
@@ -224,8 +232,16 @@ class aioImageToTextTask:
         if kwargs:
             for key in kwargs:
                 self.task_payload['task'].update({key: kwargs[key]})
-    
-    async def image_temp_saver(self, captcha_link: str):
+	
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True
+
+    async def __image_temp_saver(self, captcha_link: str):
         '''
 		Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
 		:return: Возвращает ID капчи
@@ -242,7 +258,7 @@ class aioImageToTextTask:
             async with session.post(create_task_url, json=self.task_payload) as resp:
                 return await resp.json()
     
-    async def image_const_saver(self, captcha_link: str):
+    async def __image_const_saver(self, captcha_link: str):
         '''
 		Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
 		:return: Возвращает ID капчи
@@ -277,7 +293,7 @@ class aioImageToTextTask:
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
         return captcha_id
 
-    async def read_captcha_image_file(self, content: bytes, content_type: str = 'file'):
+    async def __read_captcha_image_file(self, content: bytes, content_type: str = 'file'):
         """
         Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
@@ -314,15 +330,15 @@ class aioImageToTextTask:
 		'''
         # если был передан линк на локальный скачаный файл
         if captcha_file:
-            captcha_id = await self.read_captcha_image_file(captcha_file, content_type="file")
+            captcha_id = await self.__read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
-            captcha_id = await self.read_captcha_image_file(captcha_base64, content_type="base64")
+            captcha_id = await self.__read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == 'const':
-                captcha_id = await self.image_const_saver(captcha_link)
+                captcha_id = await self.__image_const_saver(captcha_link)
             elif self.save_format == 'temp':
-                captcha_id = await self.image_temp_saver(captcha_link)
+                captcha_id = await self.__image_temp_saver(captcha_link)
         else:
             raise ParamError(additional_info="""Wrong 'save_format' parameter. Valid formats: 'const' or 'temp'.\n
                                         Неправильный 'save_format' параметр. Возможные форматы: 'const' или 'temp'.""")

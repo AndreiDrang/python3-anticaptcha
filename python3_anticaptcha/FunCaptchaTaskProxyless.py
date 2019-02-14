@@ -35,6 +35,14 @@ class FunCaptchaTaskProxyless:
 		# пайлоад для получения ответа сервиса
 		self.result_payload = {"clientKey": anticaptcha_key}
 		
+	def __enter__(self):
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		if exc_type:
+			return False
+		return True
+		
 	# Работа с капчёй
 	def captcha_handler(self, websiteURL: str, websitePublicKey: str, **kwargs):
 		"""
