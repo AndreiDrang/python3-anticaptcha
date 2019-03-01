@@ -12,6 +12,15 @@ result = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = ANTICAP
 														 websiteKey='6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-')
 print(result)
 
+# contextmanager
+with NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY) as nocaptcha:
+    response = nocaptcha.captcha_handler(
+                        websiteURL='https://www.google.com/recaptcha/api2/demo',
+                        websiteKey='6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-'
+                    )
+print(response)
+
+
 # Пример работы антикапчи с гугловской невидимой рекапчёй и обычной рекапчёй с использованием ПРОКСИ
 result = NoCaptchaTask.NoCaptchaTask(anticaptcha_key = ANTICAPTCHA_KEY,
                                      proxyType='http',
