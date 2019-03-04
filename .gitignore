@@ -8,3 +8,9 @@ python3_anticaptcha/__pycache__/
 build/
 
 \.vscode/
+
+__pycache__/
+
+\.coverage
+
+*.xml
