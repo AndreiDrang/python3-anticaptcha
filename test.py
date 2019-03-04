@@ -11,6 +11,7 @@ class TestAntiCaptcha(object):
         self.anticaptcha_key = "ae23fffcfaa29b170e3843e3a486ef19"
         self.server_ip = '85.255.8.26'
 
+    # CallBack
     def test_callback_server(self):
         # test server alive
         response = requests.get(f'http://{self.server_ip}:8001/ping')
@@ -30,7 +31,7 @@ class TestAntiCaptcha(object):
         response = nocaptcha.captcha_handler(
                         websiteURL='https://www.google.com/recaptcha/api2/demo',
                         websiteKey='6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-'
-                   )
+                    )
         # check response type
         assert type(response) is dict
         # check all dict keys
