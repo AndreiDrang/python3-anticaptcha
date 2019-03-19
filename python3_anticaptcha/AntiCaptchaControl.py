@@ -1,7 +1,11 @@
 import requests
 import aiohttp
 
-from python3_anticaptcha import get_balance_url, incorrect_captcha_url, get_queue_status_url
+from python3_anticaptcha import (
+    get_balance_url,
+    incorrect_captcha_url,
+    get_queue_status_url,
+)
 
 
 class AntiCaptchaControl:
@@ -11,7 +15,7 @@ class AntiCaptchaControl:
         :param anticaptcha_key: Ключ антикапчи
         """
         self.ANTICAPTCHA_KEY = anticaptcha_key
-    
+
     def __enter__(self):
         return self
 
@@ -25,7 +29,9 @@ class AntiCaptchaControl:
         Получение баланса аккаунта
         :return: Возвращает актуальный баланс
         """
-        answer = requests.post(get_balance_url, json={'clientKey': self.ANTICAPTCHA_KEY})
+        answer = requests.post(
+            get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}
+        )
 
         return answer.json()
 
@@ -35,9 +41,7 @@ class AntiCaptchaControl:
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
         :return: Возвращает True/False, в зависимости от результата
         """
-        payload = {'clientKey': self.ANTICAPTCHA_KEY,
-                   'taskId': reported_id,
-                   }
+        payload = {"clientKey": self.ANTICAPTCHA_KEY, "taskId": reported_id}
 
         answer = requests.post(incorrect_captcha_url, json=payload)
 
@@ -69,9 +73,7 @@ class AntiCaptchaControl:
         :param queue_id: Номер очереди
         :return: JSON-объект
         """
-        payload = {
-            "queueId": queue_id
-        }
+        payload = {"queueId": queue_id}
 
         answer = requests.post(get_queue_status_url, json=payload)
 
@@ -85,7 +87,7 @@ class aioAntiCaptchaControl:
         :param anticaptcha_key: Ключ антикапчи
         """
         self.ANTICAPTCHA_KEY = anticaptcha_key
-    
+
     def __enter__(self):
         return self
 
@@ -100,7 +102,9 @@ class aioAntiCaptchaControl:
         :return: Возвращает актуальный баланс
         """
         async with aiohttp.ClientSession() as session:
-            async with session.post(get_balance_url, json={'clientKey': self.ANTICAPTCHA_KEY}) as resp:
+            async with session.post(
+                get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}
+            ) as resp:
                 return await resp.json()
 
     async def complaint_on_result(self, reported_id: int):
@@ -109,9 +113,7 @@ class aioAntiCaptchaControl:
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
         :return: Возвращает True/False, в зависимости от результата
         """
-        payload = {'clientKey': self.ANTICAPTCHA_KEY,
-                   'taskId': reported_id,
-                   }
+        payload = {"clientKey": self.ANTICAPTCHA_KEY, "taskId": reported_id}
         async with aiohttp.ClientSession() as session:
             async with session.post(incorrect_captcha_url, json=payload) as resp:
                 return await resp.json()
@@ -142,11 +144,8 @@ class aioAntiCaptchaControl:
         :param queue_id: Номер очереди
         :return: JSON-объект
         """
-        payload = {
-            "queueId": queue_id
-        }
+        payload = {"queueId": queue_id}
 
         async with aiohttp.ClientSession() as session:
             async with session.post(get_queue_status_url, json=payload) as resp:
                 return await resp.json()
-

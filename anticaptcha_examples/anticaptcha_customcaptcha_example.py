@@ -5,13 +5,13 @@ from python3_anticaptcha import CustomCaptchaTask
 
 ANTICAPTCHA_KEY = ""
 
-# Пример с созданием CustomCaptcha 
+# Пример с созданием CustomCaptcha
 
 # подробней - https://anticaptcha.atlassian.net/wiki/spaces/API/pages/241827850/CustomCaptchaTask
 # ссылка на изображение
 imageUrl = "https://files.anti-captcha.com/26/41f/c23/7c50ff19.jpg"
 # кастомная форма для ответов пользователей
-custom_form = '''[
+custom_form = """[
                 {
                     "label": "Number",
                     "labelHint": false,
@@ -50,12 +50,13 @@ custom_form = '''[
                         }
                     ]
                 }
-            ]'''
+            ]"""
 
-my_custom_task = CustomCaptchaTask.CustomCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
-                                                     assignment='Enter license plate number',
-                                                     forms=custom_form).\
-                    captcha_handler(imageUrl=imageUrl)
+my_custom_task = CustomCaptchaTask.CustomCaptchaTask(
+    anticaptcha_key=ANTICAPTCHA_KEY,
+    assignment="Enter license plate number",
+    forms=custom_form,
+).captcha_handler(imageUrl=imageUrl)
 
 
 print(my_custom_task)
@@ -65,18 +66,19 @@ print(my_custom_task)
 async def run():
     try:
         # Пример работы антикапчи с кастомной капчёй, асинхронно
-        result = CustomCaptchaTask.aioCustomCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
-                                                        assignment='Enter license plate number',
-                                                        forms=custom_form).\
-                    captcha_handler(imageUrl=imageUrl)
-        
+        result = CustomCaptchaTask.aioCustomCaptchaTask(
+            anticaptcha_key=ANTICAPTCHA_KEY,
+            assignment="Enter license plate number",
+            forms=custom_form,
+        ).captcha_handler(imageUrl=imageUrl)
+
         print(result)
 
     except Exception as err:
         print(err)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(run())
     loop.close()

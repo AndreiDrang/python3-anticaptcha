@@ -23,15 +23,21 @@ save_format = 'const' .
 # папку.
 # Example for working with captcha-image link, and save it like a usual file in system.
 
-result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY, save_format='const') \
-    .captcha_handler(captcha_link='http://85.255.8.26/static/image/common_image_example/800070.png')
+result = ImageToTextTask.ImageToTextTask(
+    anticaptcha_key=ANTICAPTCHA_KEY, save_format="const"
+).captcha_handler(
+    captcha_link="http://85.255.8.26/static/image/common_image_example/800070.png"
+)
 print(result)
 
 # Пример который показывает работу антикапчи при решении капчи-изображением и сохранением её в качестве ВРЕМЕННОГО файла
 # Протестировано на Линуксах. Не используйте данный вариант на Windows! Возможно починим, но потом.
 # Example for working with captcha-image like a temporary file. Tested on UNIX-based systems. Don`t use it on Windows!
-result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY) \
-    .captcha_handler(captcha_link='http://85.255.8.26/static/image/common_image_example/800070.png')
+result = ImageToTextTask.ImageToTextTask(
+    anticaptcha_key=ANTICAPTCHA_KEY
+).captcha_handler(
+    captcha_link="http://85.255.8.26/static/image/common_image_example/800070.png"
+)
 print(result)
 
 """
@@ -40,9 +46,15 @@ Base64 files
 Пример работы с декодированием в base64 файла-капчи "налету"
 An example of working with decoding in base64 captcha-file after download. On-the-fly-encoding
 """
-base_64_link = base64.b64encode(requests.get("http://85.255.8.26/static/image/common_image_example/862963.png").content).decode('utf-8')
+base_64_link = base64.b64encode(
+    requests.get(
+        "http://85.255.8.26/static/image/common_image_example/862963.png"
+    ).content
+).decode("utf-8")
 
-user_answer_base64 = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(captcha_base64=base_64_link)
+user_answer_base64 = ImageToTextTask.ImageToTextTask(
+    anticaptcha_key=ANTICAPTCHA_KEY
+).captcha_handler(captcha_base64=base_64_link)
 
 """
 Пример работы со скачанными файлами изображений капчи.
@@ -51,13 +63,15 @@ Example for working with downloaded file.
 # Синхронный
 # папка в которой находится изображение, один из вариантов написания
 # The path to the file must be transferred in this format to the method
-captcha_file = '088636.png'
+captcha_file = "088636.png"
 # так же есть возможность передать так:
 # or in this format:
 # captcha_file = 'D:\/Python\/933588.png'
 # captcha_file = r'D:\Python\933588.png'
 
-result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(captcha_file=captcha_file)
+result = ImageToTextTask.ImageToTextTask(
+    anticaptcha_key=ANTICAPTCHA_KEY
+).captcha_handler(captcha_file=captcha_file)
 print(result)
 """
 Пример для работы с локальными файлами
@@ -68,13 +82,15 @@ print(result)
 # captcha_file = r'D:\Python\933588.png'
 # captcha_file = 'D:\/Python\/933588.png'
 try:
-    user_answer_local = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(captcha_file=captcha_file)
-    if user_answer_local['errorId'] == 0:
+    user_answer_local = ImageToTextTask.ImageToTextTask(
+        anticaptcha_key=ANTICAPTCHA_KEY
+    ).captcha_handler(captcha_file=captcha_file)
+    if user_answer_local["errorId"] == 0:
         # решение капчи
-        print(user_answer_local['solution']['text'])
-    elif user_answer_local['errorId'] == 1:
+        print(user_answer_local["solution"]["text"])
+    elif user_answer_local["errorId"] == 1:
         # Тело ошибки, если есть
-        print(user_answer_local['errorBody'])
+        print(user_answer_local["errorBody"])
 
 # отлов ошибки при проблемах чтения файла-изображения
 except errors.ReadError as err:
@@ -86,20 +102,27 @@ Asynchronous examples
 Пример асинхронного запуска решения капчи
 # AsyncIO example. Work with constant-saved file.
 """
+
+
 async def run():
     try:
-        resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY, save_format='const') \
-            .captcha_handler(captcha_link='http://85.255.8.26/static/image/common_image_example/800070.png')
+        resolve = await ImageToTextTask.aioImageToTextTask(
+            anticaptcha_key=ANTICAPTCHA_KEY, save_format="const"
+        ).captcha_handler(
+            captcha_link="http://85.255.8.26/static/image/common_image_example/800070.png"
+        )
 
         print(resolve)
 
-        resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY)\
-	        .captcha_handler(captcha_file=captcha_file)
+        resolve = await ImageToTextTask.aioImageToTextTask(
+            anticaptcha_key=ANTICAPTCHA_KEY
+        ).captcha_handler(captcha_file=captcha_file)
 
         print(resolve)
 
-        resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY) \
-            .captcha_handler(captcha_base64=base_64_link)
+        resolve = await ImageToTextTask.aioImageToTextTask(
+            anticaptcha_key=ANTICAPTCHA_KEY
+        ).captcha_handler(captcha_base64=base_64_link)
 
         print(resolve)
 
@@ -107,7 +130,7 @@ async def run():
         print(err)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(run())
     loop.close()
@@ -115,7 +138,7 @@ if __name__ == '__main__':
 """
 Callback example
 """
-QUEUE_KEY = 'wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue'
+QUEUE_KEY = "wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue"
 
 """
 Перед тем как начать пользоваться сервисом нужно создать для своей задачи отдельную очередь
@@ -126,18 +149,27 @@ QUEUE_KEY = 'wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue'
 2. vhost - название виртуального хоста(в данном случаи - `anticaptcha_vhost`)
 """
 
-answer = requests.post('http://85.255.8.26:8001/register_key', json={'key':QUEUE_KEY, 
-                                                                     'vhost':'anticaptcha_vhost'})
-# если очередь успешно создана:                                                                     
-if answer == 'OK':
+answer = requests.post(
+    "http://85.255.8.26:8001/register_key",
+    json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"},
+)
+# если очередь успешно создана:
+if answer == "OK":
 
     # создаём задание с callbackURL параметром
-    result = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY, 
-                                             callbackUrl=f'http://85.255.8.26:8001/anticaptcha/image_to_text/{QUEUE_KEY}'
-                                            ).captcha_handler(captcha_link='http://85.255.8.26/static/image/common_image_example/800070.png')
+    result = ImageToTextTask.ImageToTextTask(
+        anticaptcha_key=ANTICAPTCHA_KEY,
+        callbackUrl=f"http://85.255.8.26:8001/anticaptcha/image_to_text/{QUEUE_KEY}",
+    ).captcha_handler(
+        captcha_link="http://85.255.8.26/static/image/common_image_example/800070.png"
+    )
     print(result)
 
     # получение результата из кеша
-    print(CallbackClient.CallbackClient(task_id=result['taskId']).captcha_handler())
+    print(CallbackClient.CallbackClient(task_id=result["taskId"]).captcha_handler())
     # получение результата из RabbitMQ очереди
-    print(CallbackClient.CallbackClient(task_id=result['taskId'], queue_name=QUEUE_KEY, call_type='queue').captcha_handler())
+    print(
+        CallbackClient.CallbackClient(
+            task_id=result["taskId"], queue_name=QUEUE_KEY, call_type="queue"
+        ).captcha_handler()
+    )

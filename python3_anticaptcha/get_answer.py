@@ -12,8 +12,8 @@ def get_sync_result(result_payload: dict, sleep_time: int):
     # создаём сессию
     session = requests.Session()
     # выставляем кол-во попыток подключения к серверу при ошибке
-    session.mount('http://', HTTPAdapter(max_retries = 5))
-    session.mount('https://', HTTPAdapter(max_retries = 5))
+    session.mount("http://", HTTPAdapter(max_retries=5))
+    session.mount("https://", HTTPAdapter(max_retries=5))
 
     while True:
         captcha_response = session.post(get_result_url, json=result_payload).json()
@@ -22,10 +22,10 @@ def get_sync_result(result_payload: dict, sleep_time: int):
             if captcha_response["status"] == "processing":
                 time.sleep(sleep_time)
             else:
-                captcha_response.update({"taskId": result_payload['taskId']})
+                captcha_response.update({"taskId": result_payload["taskId"]})
                 return captcha_response
         else:
-            captcha_response.update({"taskId": result_payload['taskId']})
+            captcha_response.update({"taskId": result_payload["taskId"]})
             return captcha_response
 
 
@@ -42,8 +42,8 @@ async def get_async_result(result_payload: dict, sleep_time: int):
                         await asyncio.sleep(sleep_time)
                     # Иначе возвращаем ответ
                     else:
-                        json_result.update({"taskId": result_payload['taskId']})
+                        json_result.update({"taskId": result_payload["taskId"]})
                         return json_result
                 else:
-                    json_result.update({"taskId": result_payload['taskId']})
+                    json_result.update({"taskId": result_payload["taskId"]})
                     return json_result
