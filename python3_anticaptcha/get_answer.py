@@ -23,9 +23,11 @@ def get_sync_result(result_payload: dict, sleep_time: int):
                 time.sleep(sleep_time)
             else:
                 captcha_response.update({"taskId": result_payload["taskId"]})
+                session.close()
                 return captcha_response
         else:
             captcha_response.update({"taskId": result_payload["taskId"]})
+            session.close()
             return captcha_response
 
 
