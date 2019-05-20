@@ -1,3 +1,4 @@
+import inspect
 import asyncio
 
 import requests
@@ -27,9 +28,43 @@ class TestAntiCaptcha(object):
         )
         assert response.status_code == 200
 
+    def test_customcatpcha_params(self):
+        default_init_params = [
+            "self",
+            "anticaptcha_key",
+            "sleep_time",
+            "assignment",
+            "forms",
+            "callbackUrl",
+        ]
+        default_handler_params = ["self", "imageUrl"]
+        # get customcaptcha init and captcha_handler params
+        aioinit_params = inspect.getfullargspec(
+            CustomCaptchaTask.aioCustomCaptchaTask.__init__
+        )
+        aiohandler_params = inspect.getfullargspec(
+            CustomCaptchaTask.aioCustomCaptchaTask.captcha_handler
+        )
+
+        # get customcaptcha init and captcha_handler params
+        init_params = inspect.getfullargspec(
+            CustomCaptchaTask.CustomCaptchaTask.__init__
+        )
+        handler_params = inspect.getfullargspec(
+            CustomCaptchaTask.CustomCaptchaTask.captcha_handler
+        )
+        # check aio module params
+        assert default_init_params == aioinit_params[0]
+        assert default_handler_params == aiohandler_params[0]
+        # check sync module params
+        assert default_init_params == init_params[0]
+        assert default_handler_params == handler_params[0]
+
     def test_customcaptcha(self):
         customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
-            anticaptcha_key=self.anticaptcha_key, sleep_time=10, assignment='Smth interesting'
+            anticaptcha_key=self.anticaptcha_key,
+            sleep_time=10,
+            assignment="Smth interesting",
         )
         # check response type
         assert (
@@ -38,7 +73,7 @@ class TestAntiCaptcha(object):
         )
 
         response = customcaptcha.captcha_handler(
-            imageUrl=self.server_ip+'/static/image/common_image_example/088636.png',
+            imageUrl=self.server_ip + "/static/image/common_image_example/088636.png"
         )
         # check response type
         assert type(response) is dict
@@ -48,7 +83,9 @@ class TestAntiCaptcha(object):
     @asyncio.coroutine
     def test_aiocustomcaptcha(self):
         customcaptcha = CustomCaptchaTask.aioCustomCaptchaTask(
-            anticaptcha_key=self.anticaptcha_key, sleep_time=10, assignment='Smth interesting'
+            anticaptcha_key=self.anticaptcha_key,
+            sleep_time=10,
+            assignment="Smth interesting",
         )
         # check response type
         assert (
@@ -57,12 +94,37 @@ class TestAntiCaptcha(object):
         )
 
         response = yield customcaptcha.captcha_handler(
-            imageUrl=self.server_ip+'/static/image/common_image_example/088636.png',
+            imageUrl=self.server_ip + "/static/image/common_image_example/088636.png"
         )
         # check response type
         assert type(response) is dict
         # check all dict keys
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+
+    def test_nocaptcha_params(self):
+        default_init_params = ["self", "anticaptcha_key", "sleep_time", "callbackUrl"]
+        default_handler_params = ["self", "websiteURL", "websiteKey"]
+        # get customcaptcha init and captcha_handler params
+        aioinit_params = inspect.getfullargspec(
+            NoCaptchaTaskProxyless.aioNoCaptchaTaskProxyless.__init__
+        )
+        aiohandler_params = inspect.getfullargspec(
+            NoCaptchaTaskProxyless.aioNoCaptchaTaskProxyless.captcha_handler
+        )
+
+        # get customcaptcha init and captcha_handler params
+        init_params = inspect.getfullargspec(
+            NoCaptchaTaskProxyless.NoCaptchaTaskProxyless.__init__
+        )
+        handler_params = inspect.getfullargspec(
+            NoCaptchaTaskProxyless.NoCaptchaTaskProxyless.captcha_handler
+        )
+        # check aio module params
+        assert default_init_params == aioinit_params[0]
+        assert default_handler_params == aiohandler_params[0]
+        # check sync module params
+        assert default_init_params == init_params[0]
+        assert default_handler_params == handler_params[0]
 
     def test_nocaptcha_proxyless(self):
         nocaptcha = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(
@@ -142,6 +204,49 @@ class TestAntiCaptcha(object):
         assert type(response) is dict
         # check all dict keys
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+
+    def test_control_params(self):
+        default_init_params = ["self", "anticaptcha_key"]
+        default_balance_params = ["self"]
+        default_complaint_params = ["self", "reported_id"]
+        default_queue_status_params = ["self", "queue_id"]
+        # get customcaptcha init and other params
+        aioinit_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.__init__
+        )
+        aiobalance_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.get_balance
+        )
+        aiocomplaint_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.complaint_on_result
+        )
+        aioqueue_status_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.get_queue_status
+        )
+
+        # get customcaptcha init and other params
+        init_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.__init__
+        )
+        balance_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.get_balance
+        )
+        complaint_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.complaint_on_result
+        )
+        queue_status_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.get_queue_status
+        )
+        # check aio module params
+        assert default_init_params == aioinit_params[0]
+        assert default_balance_params == aiobalance_params[0]
+        assert default_complaint_params == aiocomplaint_params[0]
+        assert default_queue_status_params == aioqueue_status_params[0]
+        # check sync module params
+        assert default_init_params == init_params[0]
+        assert default_balance_params == balance_params[0]
+        assert default_complaint_params == complaint_params[0]
+        assert default_queue_status_params == queue_status_params[0]
 
     # AntiCaptcha Control
     def test_control(self):
