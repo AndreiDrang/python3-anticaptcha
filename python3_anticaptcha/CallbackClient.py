@@ -23,7 +23,7 @@ class CallbackClient:
     def __init__(self, task_id: int, queue_name: str = None, call_type: str = "cache"):
         """
         :param task_id: ID полученное при создании задания в сервисе AntiCaptcha
-        :param queue_name: Название очереди выбранное и переданное последним параметров в URL для `pingback`. 
+        :param queue_name: Название очереди выбранное и переданное последним параметров в URL для `pingback`.
                            Если передан параметр `call_type=queue` то поле это обязательное.
         :param call_type: Ресурс к которому будут отправлятся запросы: `cache` или `queue`
         """
