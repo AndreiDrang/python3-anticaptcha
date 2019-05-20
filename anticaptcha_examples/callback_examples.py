@@ -8,7 +8,7 @@ ANTICAPTCHA_KEY = "ae23fffcfaa29b170e3843e3a486ef19"
 QUEUE_KEY = "wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue"
 
 """
-Пример показывает работу с модулем CallbackClient на основе работы с NoCaptchaTaskProxyless 
+Пример показывает работу с модулем CallbackClient на основе работы с NoCaptchaTaskProxyless
 (точно так же это работает со всеми остальными доступными методами решения капчи)
 предназначенным для получения ответа не капчу высланного на callback сервер.
 -------------------------------------------------------------
