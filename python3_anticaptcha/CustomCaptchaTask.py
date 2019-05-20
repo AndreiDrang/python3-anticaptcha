@@ -98,7 +98,6 @@ class aioCustomCaptchaTask:
     def __init__(
         self,
         anticaptcha_key: str,
-        imageUrl: str,
         sleep_time: int = 5,
         assignment: str = None,
         forms: dict = None,
