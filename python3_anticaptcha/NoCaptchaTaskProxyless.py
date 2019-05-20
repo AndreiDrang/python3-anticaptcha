@@ -9,8 +9,6 @@ from python3_anticaptcha import (
     app_key,
     get_sync_result,
     get_async_result,
-    ParamError,
-    ReadError,
 )
 
 
