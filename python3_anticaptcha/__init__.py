@@ -12,6 +12,7 @@ from .config import (
     RTMQ_VHOST,
     get_result_url,
     get_queue_status_url,
+    get_app_stats_url,
 )
 from .get_answer import get_sync_result, get_async_result
 from .errors import ParamError, ReadError, IdGetError

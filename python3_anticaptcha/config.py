@@ -6,8 +6,10 @@ get_result_url = "https://api.anti-captcha.com/getTaskResult"
 get_balance_url = "https://api.anti-captcha.com/getBalance"
 # Адрес для отправки жалобы на неверное решение капчи
 incorrect_captcha_url = "https://api.anti-captcha.com/reportIncorrectImageCaptcha"
-# Адрес для получения информации об очереди
+# Адрес для получения информации о очереди
 get_queue_status_url = "https://api.anti-captcha.com/getQueueStats"
+# Адрес для получения информации о приложении
+get_app_stats_url = "https://api.anti-captcha.com/getAppStats"
 # ключ приложения
 app_key = "867"
 
