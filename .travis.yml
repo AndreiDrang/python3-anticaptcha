@@ -9,7 +9,7 @@ python: 3.6
 
 # Install the codecov pip dependency
 install:
-  - pip install --upgrade pytest
+  - pip install --upgrade pytest pytest-cov
 
 # Run the unit test
 script:
