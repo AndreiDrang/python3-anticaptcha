@@ -13,6 +13,7 @@ from python3_anticaptcha import (
 
 MIN_SCORES = (0.3, 0.5, 0.7)
 
+
 class ReCaptchaV3TaskProxyless:
     def __init__(
         self,
@@ -61,7 +62,14 @@ class ReCaptchaV3TaskProxyless:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str, **kwargs):
+    def captcha_handler(
+        self,
+        websiteURL: str,
+        websiteKey: str,
+        minScore: float,
+        pageAction: str,
+        **kwargs,
+    ):
         """
 		Метод решения ReCaptcha V3
 		:param websiteURL: Ссылка на страницу с капчёй
@@ -73,7 +81,9 @@ class ReCaptchaV3TaskProxyless:
 		:return: Возвращает ответ сервера в виде JSON-строки
 		"""
         if minScore not in MIN_SCORES:
-            raise ValueError(f'Wrong `minScore` param - {minScore}, available params - {MIN_SCORES};')
+            raise ValueError(
+                f"Wrong `minScore` param - {minScore}, available params - {MIN_SCORES};"
+            )
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
         self.task_payload["task"].update(
             {"websiteURL": websiteURL, "websiteKey": websiteKey}
@@ -152,7 +162,9 @@ class aioReCaptchaV3TaskProxyless:
         return True
 
     # Работа с капчёй
-    async def captcha_handler(self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str):
+    async def captcha_handler(
+        self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str
+    ):
         """
 		Метод решения ReCaptcha V3
 		:param websiteURL: Ссылка на страницу с капчёй
@@ -164,7 +176,9 @@ class aioReCaptchaV3TaskProxyless:
 		:return: Возвращает ответ сервера в виде JSON-строки
 		"""
         if minScore not in MIN_SCORES:
-            raise ValueError(f'Wrong `minScore` param - {minScore}, available params - {MIN_SCORES};')
+            raise ValueError(
+                f"Wrong `minScore` param - {minScore}, available params - {MIN_SCORES};"
+            )
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
         self.task_payload["task"].update(
             {"websiteURL": websiteURL, "websiteKey": websiteKey}
