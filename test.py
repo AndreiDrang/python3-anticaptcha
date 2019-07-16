@@ -2,13 +2,14 @@ import os
 import inspect
 import asyncio
 
+import pytest
 import requests
 
-import python3_anticaptcha
 from python3_anticaptcha import (
     NoCaptchaTaskProxyless,
     AntiCaptchaControl,
     CustomCaptchaTask,
+    ReCaptchaV3TaskProxyless
 )
 # 1. `export anticaptcha_key=KEY`
 
@@ -71,7 +72,7 @@ class TestAntiCaptcha(object):
         # check response type
         assert (
             type(customcaptcha)
-            is python3_anticaptcha.CustomCaptchaTask.CustomCaptchaTask
+            is CustomCaptchaTask.CustomCaptchaTask
         )
 
         response = customcaptcha.captcha_handler(
@@ -92,7 +93,7 @@ class TestAntiCaptcha(object):
         # check response type
         assert (
             type(customcaptcha)
-            is python3_anticaptcha.CustomCaptchaTask.aioCustomCaptchaTask
+            is CustomCaptchaTask.aioCustomCaptchaTask
         )
 
         response = yield customcaptcha.captcha_handler(
@@ -135,7 +136,7 @@ class TestAntiCaptcha(object):
         # check response type
         assert (
             type(nocaptcha)
-            is python3_anticaptcha.NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
+            is NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
         )
 
         response = nocaptcha.captcha_handler(
@@ -157,7 +158,7 @@ class TestAntiCaptcha(object):
             # check response type
             assert (
                 type(nocaptcha)
-                is python3_anticaptcha.NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
+                is NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
             )
 
             response = nocaptcha.captcha_handler(
@@ -179,7 +180,7 @@ class TestAntiCaptcha(object):
         # check response type
         assert (
             type(nocaptcha)
-            is python3_anticaptcha.NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
+            is NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
         )
 
         response = yield nocaptcha.captcha_handler(
@@ -201,7 +202,7 @@ class TestAntiCaptcha(object):
             # check response type
             assert (
                 type(nocaptcha)
-                is python3_anticaptcha.NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
+                is NoCaptchaTaskProxyless.NoCaptchaTaskProxyless
             )
 
             response = yield nocaptcha.captcha_handler(
@@ -214,6 +215,164 @@ class TestAntiCaptcha(object):
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
         # check error code
         assert response['errorId'] == 1
+
+    def test_recaptcha_v3_params(self):
+        default_init_params = ["self", "anticaptcha_key", "sleep_time", "callbackUrl"]
+        default_handler_params = ["self", "websiteURL", "websiteKey", "minScore", "pageAction"]
+        # get customcaptcha init and captcha_handler params
+        aioinit_params = inspect.getfullargspec(
+            ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless.__init__
+        )
+        aiohandler_params = inspect.getfullargspec(
+            ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless.captcha_handler
+        )
+
+        # get customcaptcha init and captcha_handler params
+        init_params = inspect.getfullargspec(
+            ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless.__init__
+        )
+        handler_params = inspect.getfullargspec(
+            ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless.captcha_handler
+        )
+        # check aio module params
+        assert default_init_params == aioinit_params[0]
+        assert default_handler_params == aiohandler_params[0]
+        # check sync module params
+        assert default_init_params == init_params[0]
+        assert default_handler_params == handler_params[0]
+
+    def test_fail_recaptcha_v3_proxyless(self):
+        recaptcha = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+        # check response type
+        assert (
+            type(recaptcha)
+            is ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless
+        )
+
+        response = recaptcha.captcha_handler(
+            websiteURL="https://www.google.com/recaptcha/api2/demo",
+            websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+            minScore=0.3,
+            pageAction="login_test"
+        )
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response['errorId'] == 1
+
+        with pytest.raises(ValueError):
+            assert recaptcha.captcha_handler(
+                websiteURL="https://www.google.com/recaptcha/api2/demo",
+                websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+                minScore=0.1,
+                pageAction="login_test"
+            )
+
+    def test_fail_recaptcha_v3_proxyless_context(self):
+        with ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as recaptcha:
+
+            # check response type
+            assert (
+                type(recaptcha)
+                is ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless
+            )
+
+            response = recaptcha.captcha_handler(
+                websiteURL="https://www.google.com/recaptcha/api2/demo",
+                websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+                minScore=0.3,
+                pageAction="login_test"
+            )
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response['errorId'] == 1
+
+        with ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as recaptcha:
+            with pytest.raises(ValueError):
+                assert recaptcha.captcha_handler(
+                    websiteURL="https://www.google.com/recaptcha/api2/demo",
+                    websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+                    minScore=0.1,
+                    pageAction="login_test"
+                )
+
+    @asyncio.coroutine
+    def test_fail_aiorecaptcha_v3_proxyless(self):
+        recaptcha = ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+        # check response type
+        assert (
+            type(recaptcha)
+            is ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless
+        )
+
+        response = yield recaptcha.captcha_handler(
+            websiteURL="https://www.google.com/recaptcha/api2/demo",
+            websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+            minScore=0.3,
+            pageAction="login_test"
+        )
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response['errorId'] == 1
+
+        with pytest.raises(ValueError):
+            assert recaptcha.captcha_handler(
+                websiteURL="https://www.google.com/recaptcha/api2/demo",
+                websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+                minScore=0.1,
+                pageAction="login_test"
+            )
+
+    @asyncio.coroutine
+    def test_fail_aiorecaptcha_v3_proxyless_context(self):
+        with ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as recaptcha:
+            # check response type
+            assert (
+                type(recaptcha)
+                is ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless
+            )
+
+            response = yield recaptcha.captcha_handler(
+                websiteURL="https://www.google.com/recaptcha/api2/demo",
+                websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+                minScore=0.3,
+                pageAction="login_test"
+            )
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response['errorId'] == 1
+
+        with ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as recaptcha:
+            with pytest.raises(ValueError):
+                assert recaptcha.captcha_handler(
+                    websiteURL="https://www.google.com/recaptcha/api2/demo",
+                    websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+                    minScore=0.1,
+                    pageAction="login_test"
+                )
 
     def test_control_params(self):
         default_init_params = ["self", "anticaptcha_key"]
@@ -265,7 +424,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert type(result) is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
 
         # get balance
         response = result.get_balance()
@@ -292,7 +451,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_true
         )
         # check response type
-        assert type(result) is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
 
         # get balance
         response = result.get_balance()
@@ -320,7 +479,7 @@ class TestAntiCaptcha(object):
             # check response type
             assert (
                 type(result)
-                is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+                is AntiCaptchaControl.AntiCaptchaControl
             )
 
             # get balance
@@ -347,7 +506,7 @@ class TestAntiCaptcha(object):
             # check response type
             assert (
                 type(result)
-                is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+                is AntiCaptchaControl.AntiCaptchaControl
             )
 
             # get balance
@@ -375,7 +534,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert type(result) is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
 
         # get balance
         response = yield result.get_balance()
@@ -400,7 +559,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_true
         )
         # check response type
-        assert type(result) is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
 
         # get balance
         response = yield result.get_balance()
@@ -429,7 +588,7 @@ class TestAntiCaptcha(object):
             # check response type
             assert (
                 type(result)
-                is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+                is AntiCaptchaControl.AntiCaptchaControl
             )
 
             # get balance
@@ -457,7 +616,7 @@ class TestAntiCaptcha(object):
             # check response type
             assert (
                 type(result)
-                is python3_anticaptcha.AntiCaptchaControl.AntiCaptchaControl
+                is AntiCaptchaControl.AntiCaptchaControl
             )
 
             # get balance
