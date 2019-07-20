@@ -10,7 +10,6 @@ from python3_anticaptcha import (
     get_sync_result,
     get_async_result,
     ParamError,
-    ReadError,
 )
 
 

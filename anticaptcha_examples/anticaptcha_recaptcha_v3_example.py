@@ -1,5 +1,4 @@
 import asyncio
-import requests
 
 from python3_anticaptcha import ReCaptchaV3TaskProxyless
 
