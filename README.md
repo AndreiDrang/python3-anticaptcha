@@ -2,7 +2,6 @@
 
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
 [![Build Status](https://semaphoreci.com/api/v1/andreidrang/python3-anticaptcha/branches/master/shields_badge.svg)](https://semaphoreci.com/andreidrang/python3-anticaptcha)
-[![codecov](https://codecov.io/gh/AndreiDrang/python3-anticaptcha/branch/master/graph/badge.svg)](https://codecov.io/gh/AndreiDrang/python3-anticaptcha)
 [![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2daabf7ff7974f01b9348fe64483c7af)](https://app.codacy.com/app/drang.andray/python3-anticaptcha?utm_source=github.com&utm_medium=referral&utm_content=AndreiDrang/python3-anticaptcha&utm_campaign=Badge_Grade_Settings)
 ![Callback_Server_Status Run](https://img.shields.io/badge/Callback_Server_Status-Run-blue.svg)
@@ -77,6 +76,33 @@ PAGE_URL = 'https://www.google.com/recaptcha/intro/android.html'
 user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
                 .captcha_handler(websiteURL=PAGE_URL,
                                  websiteKey=SITE_KEY)
+
+print(user_answer)
+```
+
+3.[ReCaptcha v3 Proxyless. ](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+
+Краткий пример:
+```python
+from python3_anticaptcha import ReCaptchaV3TaskProxyless
+# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+ANTICAPTCHA_KEY = ""
+# G-ReCaptcha ключ сайта. Website google key.
+SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
+# Ссылка на страницу с капчёй. Page url.
+PAGE_URL = 'https://some_link'
+# Фильтр, по которому отбирается работник с нужным минимальным score.
+# возможные варианты - 0.3, 0.5, 0.7
+MIN_SCORE=0.3
+# Значение параметра action, которое передается виджетом рекапчи в гугл.
+PAGE_ACTION='login'
+# Возвращается строка-расшифровка капчи. Get string for solve captcha, and other info.
+user_answer = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
+                .captcha_handler(websiteURL=PAGE_URL,
+                                 websiteKey=SITE_KEY
+                                 minScore=MIN_SCORE,
+                                 pageAction=PAGE_ACTION
+                                )
 
 print(user_answer)
 ```
