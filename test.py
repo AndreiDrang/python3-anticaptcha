@@ -12,7 +12,7 @@ from python3_anticaptcha import (
     ReCaptchaV3TaskProxyless,
 )
 
-# 1. `export anticaptcha_key=KEY`
+# 1. `export anticaptcha_key=274832f8168a36019895a1e1174777c0`
 
 
 class TestAntiCaptcha(object):
@@ -354,6 +354,18 @@ class TestAntiCaptcha(object):
                     pageAction="login_test",
                 )
 
+    """
+    Control
+    """
+
+    def test_control_type(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+        # check response type
+        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
+
     def test_control_params(self):
         default_init_params = ["self", "anticaptcha_key"]
         default_balance_params = ["self"]
@@ -398,14 +410,11 @@ class TestAntiCaptcha(object):
         assert default_queue_status_params == queue_status_params[0]
 
     # AntiCaptcha Control
-    def test_fail_control(self):
+    def test_fail_balance(self):
         # prepare client
         result = AntiCaptchaControl.AntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_fail
         )
-        # check response type
-        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
         # get balance
         response = result.get_balance()
         # check response type
@@ -415,6 +424,31 @@ class TestAntiCaptcha(object):
         # check error code
         assert response["errorId"] == 1
 
+    # AntiCaptcha Control
+    def test_fail_app_stats(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+        # get balance
+        response = result.get_app_stats(softId=867)
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 1
+
+        with pytest.raises(ValueError):
+            assert result.get_app_stats(softId=867, mode='filure')
+        
+
+    # AntiCaptcha Control
+    def test_fail_complaint_on_result(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
         # complaint on result
         response = result.complaint_on_result(reported_id=432423342)
         # check response type
@@ -425,14 +459,11 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 1
 
     # AntiCaptcha Control
-    def test_true_control(self):
+    def test_true_balance(self):
         # prepare client
         result = AntiCaptchaControl.AntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_true
         )
-        # check response type
-        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
         # get balance
         response = result.get_balance()
         # check response type
@@ -442,6 +473,12 @@ class TestAntiCaptcha(object):
         # check error code
         assert response["errorId"] == 0
 
+    # AntiCaptcha Control
+    def test_true_complaint_on_result(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
         # complaint on result
         response = result.complaint_on_result(reported_id=1)
         # check response type
@@ -456,9 +493,6 @@ class TestAntiCaptcha(object):
         with AntiCaptchaControl.AntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_fail
         ) as result:
-            # check response type
-            assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
             # get balance
             response = result.get_balance()
             # check response type
@@ -475,14 +509,71 @@ class TestAntiCaptcha(object):
             # check error code
             assert response["errorId"] == 1
 
+    # AntiCaptcha Control
+    def test_true_app_stats(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        # get balance
+        response = result.get_app_stats(softId=867)
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = result.get_app_stats(softId=867, mode='errors')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = result.get_app_stats(softId=867, mode='views')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = result.get_app_stats(softId=867, mode='downloads')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = result.get_app_stats(softId=867, mode='users')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = result.get_app_stats(softId=867, mode='money')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
     def test_true_control_context(self):
         # prepare client
         with AntiCaptchaControl.AntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_true
         ) as result:
-            # check response type
-            assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
             # get balance
             response = result.get_balance()
             # check response type
@@ -502,14 +593,11 @@ class TestAntiCaptcha(object):
             assert response["errorId"] == 16
 
     @asyncio.coroutine
-    def test_fail_aiocontrol(self):
+    def test_fail_aiobalance(self):
         # prepare client
         result = AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_fail
         )
-        # check response type
-        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
         # get balance
         response = yield result.get_balance()
         # check response type
@@ -517,6 +605,12 @@ class TestAntiCaptcha(object):
         # check all dict keys
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 
+    @asyncio.coroutine
+    def test_fail_aiocomplaint_on_result(self):
+        # prepare client
+        result = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
         # complaint on result
         response = yield result.complaint_on_result(reported_id=432423342)
         # check response type
@@ -527,14 +621,89 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 1
 
     @asyncio.coroutine
+    def test_fail_aioapp_stats(self):
+        # prepare client
+        result = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+        # complaint on result
+        response = yield result.get_app_stats(softId=867)
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 1
+
+        with pytest.raises(ValueError):
+            assert result.get_app_stats(softId=867, mode='filure')
+
+    @asyncio.coroutine
+    def test_true_aioapp_stats(self):
+        # prepare client
+        result = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        # complaint on result
+        response = yield result.get_app_stats(softId=867)
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = yield result.get_app_stats(softId=867, mode='errors')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = yield result.get_app_stats(softId=867, mode='views')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = yield result.get_app_stats(softId=867, mode='downloads')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = yield result.get_app_stats(softId=867, mode='users')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+        # get balance
+        response = yield result.get_app_stats(softId=867, mode='money')
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
+    @asyncio.coroutine
     def test_true_aiocontrol(self):
         # prepare client
         result = AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_true
         )
-        # check response type
-        assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
         # get balance
         response = yield result.get_balance()
         # check response type
@@ -559,9 +728,6 @@ class TestAntiCaptcha(object):
         with AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_fail
         ) as result:
-            # check response type
-            assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
             # get balance
             response = yield result.get_balance()
             # check response type
@@ -584,9 +750,6 @@ class TestAntiCaptcha(object):
         with AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_true
         ) as result:
-            # check response type
-            assert type(result) is AntiCaptchaControl.AntiCaptchaControl
-
             # get balance
             response = yield result.get_balance()
             # check response type
