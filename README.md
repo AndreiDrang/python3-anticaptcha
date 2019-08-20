@@ -44,7 +44,7 @@ Full examples you can find [here](https://github.com/AndreiDrang/python3-anticap
 
 1.[Image to text captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcah_image_to_text_example.py)
 
-Краткий пример:
+ 
 ```python
 from python3_anticaptcha import ImageToTextTask
 # Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
@@ -61,9 +61,8 @@ print(user_answer)
 2.[ReCaptcha v2.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
 
-3.[ReCaptcha v2 Proxyless. ](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+3.[ReCaptcha v2 Proxyless. ](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py) + [Selenium example](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/selenium_recaptcha_v2.py)
 
-Краткий пример:
 ```python
 from python3_anticaptcha import NoCaptchaTaskProxyless
 # Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
@@ -82,7 +81,6 @@ print(user_answer)
 
 3.[ReCaptcha v3 Proxyless. ](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
-Краткий пример:
 ```python
 from python3_anticaptcha import ReCaptchaV3TaskProxyless
 # Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
@@ -111,7 +109,6 @@ print(user_answer)
 
 5.[Fun Captcha Proxyless.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_fun_example.py)
 
-Краткий пример:
 ```python
 from python3_anticaptcha import FunCaptchaTask
 # Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
@@ -133,7 +130,6 @@ print(user_answer)
 
 6.[Account management module.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
 
-Краткий пример:
 ```python
 from python3_anticaptcha import AntiCaptchaControl
 # Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
@@ -146,7 +142,6 @@ print(user_answer)
 
 7.[Custom Captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
 
-Краткий пример:
 ```python
 from python3_anticaptcha import CustomCaptchaTask
 # Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
@@ -163,7 +158,6 @@ print(my_custom_task)
 
 9.[Gee Test Proxyless.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
 
-Краткий пример:
 ```python
 from python3_anticaptcha import GeeTestTaskProxyless
 # Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
@@ -181,6 +175,6 @@ result = GeeTestTaskProxyless.GeeTestTaskProxyless(anticaptcha_key=ANTICAPTCHA_K
 print(result)
 ```
 ***
-Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](http://85.255.8.26/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
+Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](https://pythoncaptcha.cloud/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
 
-Some examples you can test with our [web-site](http://85.255.8.26/).
+Some examples you can test with our [web-site](https://pythoncaptcha.cloud/).
