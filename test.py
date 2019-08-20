@@ -440,8 +440,7 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 1
 
         with pytest.raises(ValueError):
-            assert result.get_app_stats(softId=867, mode='filure')
-        
+            assert result.get_app_stats(softId=867, mode="filure")
 
     # AntiCaptcha Control
     def test_fail_complaint_on_result(self):
@@ -520,52 +519,52 @@ class TestAntiCaptcha(object):
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = result.get_app_stats(softId=867, mode='errors')
+        response = result.get_app_stats(softId=867, mode="errors")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = result.get_app_stats(softId=867, mode='views')
+        response = result.get_app_stats(softId=867, mode="views")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = result.get_app_stats(softId=867, mode='downloads')
+        response = result.get_app_stats(softId=867, mode="downloads")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = result.get_app_stats(softId=867, mode='users')
+        response = result.get_app_stats(softId=867, mode="users")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = result.get_app_stats(softId=867, mode='money')
+        response = result.get_app_stats(softId=867, mode="money")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
@@ -636,7 +635,7 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 1
 
         with pytest.raises(ValueError):
-            assert result.get_app_stats(softId=867, mode='filure')
+            assert result.get_app_stats(softId=867, mode="filure")
 
     @asyncio.coroutine
     def test_true_aioapp_stats(self):
@@ -649,52 +648,52 @@ class TestAntiCaptcha(object):
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = yield result.get_app_stats(softId=867, mode='errors')
+        response = yield result.get_app_stats(softId=867, mode="errors")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = yield result.get_app_stats(softId=867, mode='views')
+        response = yield result.get_app_stats(softId=867, mode="views")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = yield result.get_app_stats(softId=867, mode='downloads')
+        response = yield result.get_app_stats(softId=867, mode="downloads")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = yield result.get_app_stats(softId=867, mode='users')
+        response = yield result.get_app_stats(softId=867, mode="users")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
         # get balance
-        response = yield result.get_app_stats(softId=867, mode='money')
+        response = yield result.get_app_stats(softId=867, mode="money")
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", 'chartData', 'fromDate', 'toDate'] == list(response.keys())
+        assert ["errorId", "chartData", "fromDate", "toDate"] == list(response.keys())
         # check error code
         assert response["errorId"] == 0
 
