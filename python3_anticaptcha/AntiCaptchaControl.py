@@ -3,9 +3,12 @@ import aiohttp
 
 from python3_anticaptcha import (
     get_balance_url,
+    get_app_stats_url,
     incorrect_captcha_url,
     get_queue_status_url,
 )
+
+mods = ("errors", "views", "downloads", "users", "money")
 
 
 class AntiCaptchaControl:
@@ -24,7 +27,7 @@ class AntiCaptchaControl:
             return False
         return True
 
-    def get_balance(self):
+    def get_balance(self) -> dict:
         """
         Получение баланса аккаунта
         :return: Возвращает актуальный баланс
@@ -35,7 +38,24 @@ class AntiCaptchaControl:
 
         return answer.json()
 
-    def complaint_on_result(self, reported_id: int):
+    def get_app_stats(self, softId: int, mode: str = "errors") -> dict:
+        """
+        Получение статистики приложения
+        :return: Возвращает актуальный баланс
+        """
+        if mode not in mods:
+            raise ValueError(
+                "\nПередан неверный `mode`."
+                f"\n\tВозможные варинты: {mods}. Вы передали - `{mode}`"
+                f"\nWrong `mode` parameter. Valid params: {mods}."
+                f"\n\tYour param - `{mode}`"
+            )
+        payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
+        answer = requests.post(get_app_stats_url, json=payload)
+
+        return answer.json()
+
+    def complaint_on_result(self, reported_id: int) -> dict:
         """
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
@@ -47,7 +67,7 @@ class AntiCaptchaControl:
 
         return answer.json()
 
-    def get_queue_status(self, queue_id: int):
+    def get_queue_status(self, queue_id: int) -> dict:
         """
         Получение информации о загрузке очереди, в зависимости от ID очереди.
 
@@ -96,7 +116,7 @@ class aioAntiCaptchaControl:
             return False
         return True
 
-    async def get_balance(self):
+    async def get_balance(self) -> dict:
         """
         Получение баланса аккаунта
         :return: Возвращает актуальный баланс
@@ -107,7 +127,24 @@ class aioAntiCaptchaControl:
             ) as resp:
                 return await resp.json()
 
-    async def complaint_on_result(self, reported_id: int):
+    async def get_app_stats(self, softId: int, mode: str = "errors") -> dict:
+        """
+        Получение баланса аккаунта
+        :return: Возвращает актуальный баланс
+        """
+        if mode not in mods:
+            raise ValueError(
+                "\nПередан неверный `mode`."
+                f"\n\tВозможные варинты: {mods}. Вы передали - `{mode}`"
+                f"\nWrong `mode` parameter. Valid params: {mods}."
+                f"\n\tYour param - `{mode}`"
+            )
+        payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(get_app_stats_url, json=payload) as resp:
+                return await resp.json()
+
+    async def complaint_on_result(self, reported_id: int) -> dict:
         """
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
@@ -118,7 +155,7 @@ class aioAntiCaptchaControl:
             async with session.post(incorrect_captcha_url, json=payload) as resp:
                 return await resp.json()
 
-    async def get_queue_status(self, queue_id: int):
+    async def get_queue_status(self, queue_id: int) -> dict:
         """
         Получение информации о загрузке очереди, в зависимости от ID очереди.
 
