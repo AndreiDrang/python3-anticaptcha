@@ -369,7 +369,7 @@ class TestAntiCaptcha(object):
     def test_control_params(self):
         default_init_params = ["self", "anticaptcha_key"]
         default_balance_params = ["self"]
-        default_complaint_params = ["self", "reported_id"]
+        default_complaint_params = ["self", "reported_id", "captcha_type"]
         default_queue_status_params = ["self", "queue_id"]
         # get customcaptcha init and other params
         aioinit_params = inspect.getfullargspec(
@@ -457,6 +457,9 @@ class TestAntiCaptcha(object):
         # check error code
         assert response["errorId"] == 1
 
+        with pytest.raises(ValueError):
+            assert result.complaint_on_result(reported_id=86007, captcha_type="not_image")
+
     # AntiCaptcha Control
     def test_true_balance(self):
         # prepare client
@@ -479,7 +482,16 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_true
         )
         # complaint on result
-        response = result.complaint_on_result(reported_id=1)
+        response = result.complaint_on_result(reported_id=1, captcha_type="image")
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 16
+
+        # complaint on result
+        response = result.complaint_on_result(reported_id=1, captcha_type="recaptcha")
         # check response type
         assert type(response) is dict
         # check all dict keys
@@ -619,6 +631,9 @@ class TestAntiCaptcha(object):
         # check error code
         assert response["errorId"] == 1
 
+        with pytest.raises(ValueError):
+            assert result.complaint_on_result(reported_id=432423342, captcha_type="not_image")
+
     @asyncio.coroutine
     def test_fail_aioapp_stats(self):
         # prepare client
@@ -698,7 +713,7 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 0
 
     @asyncio.coroutine
-    def test_true_aiocontrol(self):
+    def test_true_aiobalance(self):
         # prepare client
         result = AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_true
@@ -712,8 +727,22 @@ class TestAntiCaptcha(object):
         # check error code
         assert response["errorId"] == 0
 
+    @asyncio.coroutine
+    def test_true_aiocontrol(self):
+        # prepare client
+        result = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
         # complaint on result
-        response = yield result.complaint_on_result(reported_id=432423342)
+        response = yield result.complaint_on_result(reported_id=432423342, captcha_type="image")
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 16
+        # complaint on result
+        response = yield result.complaint_on_result(reported_id=432423342, captcha_type="recaptcha")
         # check response type
         assert type(response) is dict
         # check all dict keys
