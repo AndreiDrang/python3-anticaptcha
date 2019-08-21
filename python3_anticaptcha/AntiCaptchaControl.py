@@ -4,11 +4,15 @@ import aiohttp
 from python3_anticaptcha import (
     get_balance_url,
     get_app_stats_url,
-    incorrect_captcha_url,
+    incorrect_imagecaptcha_url,
+    incorrect_recaptcha_url,
     get_queue_status_url,
 )
 
+# available app stats mods
 mods = ("errors", "views", "downloads", "users", "money")
+# available complaint captcha types
+complaint_types = ("image", "recaptcha")
 
 
 class AntiCaptchaControl:
@@ -55,16 +59,30 @@ class AntiCaptchaControl:
 
         return answer.json()
 
-    def complaint_on_result(self, reported_id: int) -> dict:
-        """
+    def complaint_on_result(
+        self, reported_id: int, captcha_type: str = "image"
+    ) -> dict:
+        f"""
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
+        :param captcha_type: Тип капчи на который идёт жалоба. Возможные варианты:
+                            {complaint_types}
         :return: Возвращает True/False, в зависимости от результата
         """
+        if captcha_type not in complaint_types:
+            raise ValueError(
+                "\nПередан неверный `captcha_type`."
+                f"\n\tВозможные варинты: {complaint_types}. Вы передали - `{captcha_type}`"
+                f"\nWrong `captcha_type` parameter. Valid params: {complaint_types}."
+                f"\n\tYour param - `{captcha_type}`"
+            )
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "taskId": reported_id}
-
-        answer = requests.post(incorrect_captcha_url, json=payload)
-
+        # complaint on image captcha
+        if captcha_type == "image":
+            answer = requests.post(incorrect_imagecaptcha_url, json=payload)
+        # complaint on re-captcha
+        elif captcha_type == "recaptcha":
+            answer = requests.post(incorrect_recaptcha_url, json=payload)
         return answer.json()
 
     def get_queue_status(self, queue_id: int) -> dict:
@@ -144,16 +162,34 @@ class aioAntiCaptchaControl:
             async with session.post(get_app_stats_url, json=payload) as resp:
                 return await resp.json()
 
-    async def complaint_on_result(self, reported_id: int) -> dict:
-        """
+    async def complaint_on_result(
+        self, reported_id: int, captcha_type: str = "image"
+    ) -> dict:
+        f"""
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
+        :param captcha_type: Тип капчи на который идёт жалоба. Возможные варианты:
+                            {complaint_types}
         :return: Возвращает True/False, в зависимости от результата
         """
+        if captcha_type not in complaint_types:
+            raise ValueError(
+                "\nПередан неверный `captcha_type`."
+                f"\n\tВозможные варинты: {complaint_types}. Вы передали - `{captcha_type}`"
+                f"\nWrong `captcha_type` parameter. Valid params: {complaint_types}."
+                f"\n\tYour param - `{captcha_type}`"
+            )
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "taskId": reported_id}
-        async with aiohttp.ClientSession() as session:
-            async with session.post(incorrect_captcha_url, json=payload) as resp:
-                return await resp.json()
+        # complaint on image captcha
+        if captcha_type == "image":
+            async with aiohttp.ClientSession() as session:
+                async with session.post(incorrect_imagecaptcha_url, json=payload) as resp:
+                    return await resp.json()
+        # complaint on re-captcha
+        elif captcha_type == "recaptcha":
+            async with aiohttp.ClientSession() as session:
+                async with session.post(incorrect_recaptcha_url, json=payload) as resp:
+                    return await resp.json()
 
     async def get_queue_status(self, queue_id: int) -> dict:
         """

@@ -4,12 +4,19 @@ from python3_anticaptcha import AntiCaptchaControl
 
 
 ANTICAPTCHA_KEY = ""
-# Пример метода, отправляющего жалобу на неправильно решённую капчу.
-# В качестве параметра, принимает ключ антикапчи и ID неправильно решённой капчи
+# Пример метода, отправляющего жалобу на неправильно решённую капчу-изображение.
+# В качестве параметра, принимает ключ антикапчи и ID неправильно решённой капчи + тип капчи
 # Возвращает логические True(жалоба прошла)/False(ошибка при жалобе)
 result = AntiCaptchaControl.AntiCaptchaControl(
     anticaptcha_key=ANTICAPTCHA_KEY
-).complaint_on_result(reported_id=-5)
+).complaint_on_result(reported_id=-5, captcha_type="image")
+print(result)
+# Пример метода, отправляющего жалобу на неправильно решённую ReCaptcha.
+# В качестве параметра, принимает ключ антикапчи и ID неправильно решённой ReCaptcha + тип капчи
+# Возвращает логические True(жалоба прошла)/False(ошибка при жалобе)
+result = AntiCaptchaControl.AntiCaptchaControl(
+    anticaptcha_key=ANTICAPTCHA_KEY
+).complaint_on_result(reported_id=-5, captcha_type="recaptcha")
 print(result)
 # Пример метода, принимающего ключ аккаунта и возвращающего актуальный баланс
 result = AntiCaptchaControl.AntiCaptchaControl(
@@ -30,18 +37,23 @@ async def run():
         resolved = await AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=ANTICAPTCHA_KEY
         ).get_balance()
-
         print(resolved)
+
         resolved = await AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=ANTICAPTCHA_KEY
-        ).complaint_on_result(reported_id=-8)
-
+        ).complaint_on_result(reported_id=-8, captcha_type="image")
         print(resolved)
+
+        resolved = await AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=ANTICAPTCHA_KEY
+        ).complaint_on_result(reported_id=-8, captcha_type="recaptcha")
+        print(resolved)
+
         resolved = await AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=ANTICAPTCHA_KEY
         ).get_queue_status(queue_id=1)
-
         print(resolved)
+        
     except Exception as err:
         print(err)
 

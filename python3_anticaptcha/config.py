@@ -4,8 +4,10 @@ create_task_url = "https://api.anti-captcha.com/createTask"
 get_result_url = "https://api.anti-captcha.com/getTaskResult"
 # Адрес для получения баланса
 get_balance_url = "https://api.anti-captcha.com/getBalance"
-# Адрес для отправки жалобы на неверное решение капчи
-incorrect_captcha_url = "https://api.anti-captcha.com/reportIncorrectImageCaptcha"
+# Адрес для отправки жалобы на неверное решение капчи-изображения
+incorrect_imagecaptcha_url = "https://api.anti-captcha.com/reportIncorrectImageCaptcha"
+# Адрес для отправки жалобы на неверное решение ReCaptcha
+incorrect_recaptcha_url = "https://api.anti-captcha.com/reportIncorrectRecaptcha "
 # Адрес для получения информации о очереди
 get_queue_status_url = "https://api.anti-captcha.com/getQueueStats"
 # Адрес для получения информации о приложении
