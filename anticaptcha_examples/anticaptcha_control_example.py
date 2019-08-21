@@ -53,7 +53,7 @@ async def run():
             anticaptcha_key=ANTICAPTCHA_KEY
         ).get_queue_status(queue_id=1)
         print(resolved)
-        
+
     except Exception as err:
         print(err)
 

@@ -458,7 +458,9 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 1
 
         with pytest.raises(ValueError):
-            assert result.complaint_on_result(reported_id=86007, captcha_type="not_image")
+            assert result.complaint_on_result(
+                reported_id=86007, captcha_type="not_image"
+            )
 
     # AntiCaptcha Control
     def test_true_balance(self):
@@ -632,7 +634,9 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 1
 
         with pytest.raises(ValueError):
-            assert result.complaint_on_result(reported_id=432423342, captcha_type="not_image")
+            assert result.complaint_on_result(
+                reported_id=432423342, captcha_type="not_image"
+            )
 
     @asyncio.coroutine
     def test_fail_aioapp_stats(self):
@@ -734,7 +738,9 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_true
         )
         # complaint on result
-        response = yield result.complaint_on_result(reported_id=432423342, captcha_type="image")
+        response = yield result.complaint_on_result(
+            reported_id=432423342, captcha_type="image"
+        )
         # check response type
         assert type(response) is dict
         # check all dict keys
@@ -742,7 +748,9 @@ class TestAntiCaptcha(object):
         # check error code
         assert response["errorId"] == 16
         # complaint on result
-        response = yield result.complaint_on_result(reported_id=432423342, captcha_type="recaptcha")
+        response = yield result.complaint_on_result(
+            reported_id=432423342, captcha_type="recaptcha"
+        )
         # check response type
         assert type(response) is dict
         # check all dict keys

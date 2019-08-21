@@ -183,7 +183,9 @@ class aioAntiCaptchaControl:
         # complaint on image captcha
         if captcha_type == "image":
             async with aiohttp.ClientSession() as session:
-                async with session.post(incorrect_imagecaptcha_url, json=payload) as resp:
+                async with session.post(
+                    incorrect_imagecaptcha_url, json=payload
+                ) as resp:
                     return await resp.json()
         # complaint on re-captcha
         elif captcha_type == "recaptcha":
