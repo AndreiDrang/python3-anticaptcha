@@ -86,7 +86,12 @@ class ReCaptchaV3TaskProxyless:
             )
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
         self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websiteKey": websiteKey}
+            {
+                "websiteURL": websiteURL,
+                "websiteKey": websiteKey,
+                "minScore": minScore,
+                "pageAction": pageAction,
+            }
         )
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
@@ -181,7 +186,12 @@ class aioReCaptchaV3TaskProxyless:
             )
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
         self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websiteKey": websiteKey}
+            {
+                "websiteURL": websiteURL,
+                "websiteKey": websiteKey,
+                "minScore": minScore,
+                "pageAction": pageAction,
+            }
         )
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
