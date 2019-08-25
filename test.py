@@ -259,6 +259,26 @@ class TestAntiCaptcha(object):
                 pageAction="login_test",
             )
 
+    def test_true_recaptcha_v3_proxyless(self):
+        recaptcha = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        # check response type
+        assert type(recaptcha) is ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless
+
+        response = recaptcha.captcha_handler(
+            websiteURL="https://www.google.com/recaptcha/api2/demo",
+            websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+            minScore=0.3,
+            pageAction="login_test",
+        )
+        # check response type
+        assert type(response) is dict
+        # check all dict keys
+        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        # check error code
+        assert response["errorId"] == 0
+
     def test_fail_recaptcha_v3_proxyless_context(self):
         with ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
             anticaptcha_key=self.anticaptcha_key_fail
