@@ -13,6 +13,8 @@ from python3_anticaptcha import (
 mods = ("errors", "views", "downloads", "users", "money")
 # available complaint captcha types
 complaint_types = ("image", "recaptcha")
+# availalbe queue ID's
+queue_ids = (1, 2, 5, 6, 7, 10)
 
 
 class AntiCaptchaControl:
@@ -49,8 +51,6 @@ class AntiCaptchaControl:
         """
         if mode not in mods:
             raise ValueError(
-                "\nПередан неверный `mode`."
-                f"\n\tВозможные варинты: {mods}. Вы передали - `{mode}`"
                 f"\nWrong `mode` parameter. Valid params: {mods}."
                 f"\n\tYour param - `{mode}`"
             )
@@ -71,8 +71,6 @@ class AntiCaptchaControl:
         """
         if captcha_type not in complaint_types:
             raise ValueError(
-                "\nПередан неверный `captcha_type`."
-                f"\n\tВозможные варинты: {complaint_types}. Вы передали - `{captcha_type}`"
                 f"\nWrong `captcha_type` parameter. Valid params: {complaint_types}."
                 f"\n\tYour param - `{captcha_type}`"
             )
@@ -111,6 +109,12 @@ class AntiCaptchaControl:
         :param queue_id: Номер очереди
         :return: JSON-объект
         """
+
+        if queue_id not in queue_ids:
+            raise ValueError(
+                f"\nWrong `mode` parameter. Valid params: {queue_ids}."
+                f"\n\tYour param - `{queue_id}`"
+            )
         payload = {"queueId": queue_id}
 
         answer = requests.post(get_queue_status_url, json=payload)
@@ -152,8 +156,6 @@ class aioAntiCaptchaControl:
         """
         if mode not in mods:
             raise ValueError(
-                "\nПередан неверный `mode`."
-                f"\n\tВозможные варинты: {mods}. Вы передали - `{mode}`"
                 f"\nWrong `mode` parameter. Valid params: {mods}."
                 f"\n\tYour param - `{mode}`"
             )
@@ -174,8 +176,6 @@ class aioAntiCaptchaControl:
         """
         if captcha_type not in complaint_types:
             raise ValueError(
-                "\nПередан неверный `captcha_type`."
-                f"\n\tВозможные варинты: {complaint_types}. Вы передали - `{captcha_type}`"
                 f"\nWrong `captcha_type` parameter. Valid params: {complaint_types}."
                 f"\n\tYour param - `{captcha_type}`"
             )
@@ -219,6 +219,11 @@ class aioAntiCaptchaControl:
         :param queue_id: Номер очереди
         :return: JSON-объект
         """
+        if queue_id not in queue_ids:
+            raise ValueError(
+                f"\nWrong `mode` parameter. Valid params: {queue_ids}."
+                f"\n\tYour param - `{queue_id}`"
+            )
         payload = {"queueId": queue_id}
 
         async with aiohttp.ClientSession() as session:
