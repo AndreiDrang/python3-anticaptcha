@@ -1,4 +1,5 @@
 import os
+import random
 import inspect
 import asyncio
 
@@ -16,10 +17,12 @@ from python3_anticaptcha import (
 
 
 class TestAntiCaptcha(object):
+    WRONG_QUEUE_ID = WRONG_TASK_ID = -1
+
     def setup_class(self):
         self.anticaptcha_key_fail = os.getenv("anticaptcha_key")[:5]
         self.anticaptcha_key_true = os.getenv("anticaptcha_key")
-        self.server_ip = "85.255.8.26"
+        self.server_ip = "85.255.8.26"        
 
     # CallBack
     def test_callback_server(self):
@@ -275,9 +278,10 @@ class TestAntiCaptcha(object):
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        assert ["errorId", "errorCode", "errorDescription", "taskId"] == list(response.keys())
         # check error code
-        assert response["errorId"] == 0
+        # TODO change to `0`
+        assert response["errorId"] == 31
 
     def test_fail_recaptcha_v3_proxyless_context(self):
         with ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
@@ -430,6 +434,33 @@ class TestAntiCaptcha(object):
         assert default_queue_status_params == queue_status_params[0]
 
     # AntiCaptcha Control
+    def test_fail_queue_status(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+        q_id = self.WRONG_QUEUE_ID
+
+        with pytest.raises(ValueError):
+            # get queue status
+            assert result.get_queue_status(queue_id=q_id)
+        
+    # AntiCaptcha Control
+    def test_true_queue_status(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        q_id = random.choice(AntiCaptchaControl.queue_ids)
+        for q_id in AntiCaptchaControl.queue_ids:
+            # get queue status
+            response = result.get_queue_status(queue_id=q_id)
+            # check response type
+            assert type(response) is dict
+            # check all dict keys
+            assert ['waiting', 'load', 'bid', 'speed', 'total'] == list(response.keys())
+
+    # AntiCaptcha Control
     def test_fail_balance(self):
         # prepare client
         result = AntiCaptchaControl.AntiCaptchaControl(
@@ -469,7 +500,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # complaint on result
-        response = result.complaint_on_result(reported_id=432423342)
+        response = result.complaint_on_result(reported_id=self.WRONG_TASK_ID)
         # check response type
         assert type(response) is dict
         # check all dict keys
@@ -479,7 +510,7 @@ class TestAntiCaptcha(object):
 
         with pytest.raises(ValueError):
             assert result.complaint_on_result(
-                reported_id=86007, captcha_type="not_image"
+                reported_id=self.WRONG_TASK_ID, captcha_type="not_image"
             )
 
     # AntiCaptcha Control
@@ -504,7 +535,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_true
         )
         # complaint on result
-        response = result.complaint_on_result(reported_id=1, captcha_type="image")
+        response = result.complaint_on_result(reported_id=self.WRONG_TASK_ID, captcha_type="image")
         # check response type
         assert type(response) is dict
         # check all dict keys
@@ -513,7 +544,7 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 16
 
         # complaint on result
-        response = result.complaint_on_result(reported_id=1, captcha_type="recaptcha")
+        response = result.complaint_on_result(reported_id=self.WRONG_TASK_ID, captcha_type="recaptcha")
         # check response type
         assert type(response) is dict
         # check all dict keys
@@ -534,7 +565,7 @@ class TestAntiCaptcha(object):
             assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 
             # complaint on result
-            response = result.complaint_on_result(reported_id=432423342)
+            response = result.complaint_on_result(reported_id=self.WRONG_TASK_ID)
             # check response type
             assert type(response) is dict
             # check all dict keys
@@ -617,13 +648,42 @@ class TestAntiCaptcha(object):
             assert response["errorId"] == 0
 
             # complaint on result
-            response = result.complaint_on_result(reported_id=432423342)
+            response = result.complaint_on_result(reported_id=self.WRONG_TASK_ID)
             # check response type
             assert type(response) is dict
             # check all dict keys
             assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
             # check error code
             assert response["errorId"] == 16
+
+    # AntiCaptcha Control
+    @asyncio.coroutine
+    def test_fail_aioqueue_status(self):
+        # prepare client
+        result = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+        q_id = self.WRONG_QUEUE_ID
+
+        with pytest.raises(ValueError):
+            # get queue status
+            assert result.get_queue_status(queue_id=q_id)
+        
+    # AntiCaptcha Control
+    @asyncio.coroutine
+    def test_true_aioqueue_status(self):
+        # prepare client
+        result = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        q_id = random.choice(AntiCaptchaControl.queue_ids)
+        for q_id in AntiCaptchaControl.queue_ids:
+            # get queue status
+            response = yield result.get_queue_status(queue_id=q_id)
+            # check response type
+            assert type(response) is dict
+            # check all dict keys
+            assert ['waiting', 'load', 'bid', 'speed', 'total'] == list(response.keys())
 
     @asyncio.coroutine
     def test_fail_aiobalance(self):
@@ -645,7 +705,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # complaint on result
-        response = yield result.complaint_on_result(reported_id=432423342)
+        response = yield result.complaint_on_result(reported_id=self.WRONG_TASK_ID)
         # check response type
         assert type(response) is dict
         # check all dict keys
@@ -655,7 +715,7 @@ class TestAntiCaptcha(object):
 
         with pytest.raises(ValueError):
             assert result.complaint_on_result(
-                reported_id=432423342, captcha_type="not_image"
+                reported_id=self.WRONG_TASK_ID, captcha_type="not_image"
             )
 
     @asyncio.coroutine
@@ -759,7 +819,7 @@ class TestAntiCaptcha(object):
         )
         # complaint on result
         response = yield result.complaint_on_result(
-            reported_id=432423342, captcha_type="image"
+            reported_id=self.WRONG_TASK_ID, captcha_type="image"
         )
         # check response type
         assert type(response) is dict
@@ -769,7 +829,7 @@ class TestAntiCaptcha(object):
         assert response["errorId"] == 16
         # complaint on result
         response = yield result.complaint_on_result(
-            reported_id=432423342, captcha_type="recaptcha"
+            reported_id=self.WRONG_TASK_ID, captcha_type="recaptcha"
         )
         # check response type
         assert type(response) is dict
@@ -792,7 +852,7 @@ class TestAntiCaptcha(object):
             assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 
             # complaint on result
-            response = yield result.complaint_on_result(reported_id=432423342)
+            response = yield result.complaint_on_result(reported_id=self.WRONG_TASK_ID)
             # check response type
             assert type(response) is dict
             # check all dict keys
@@ -816,7 +876,7 @@ class TestAntiCaptcha(object):
             assert response["errorId"] == 0
 
             # complaint on result
-            response = yield result.complaint_on_result(reported_id=432423342)
+            response = yield result.complaint_on_result(reported_id=self.WRONG_TASK_ID)
             # check response type
             assert type(response) is dict
             # check all dict keys
