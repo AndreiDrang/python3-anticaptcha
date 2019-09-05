@@ -18,7 +18,6 @@ class CustomResultHandler:
         The module is responsible for obtaining a captcha solution by task ID
         :param anticaptcha_key: Key to AntiCaptcha
         :param sleep_time: Solution timeout
-        :param task_id: Captcha task ID
         """
         if sleep_time < 5:
             raise ValueError(
@@ -57,7 +56,6 @@ class aioCustomResultHandler:
         The async module is responsible for obtaining a captcha solution by task ID
         :param anticaptcha_key: Key to AntiCaptcha
         :param sleep_time: Solution timeout
-        :param task_id: Captcha task ID
         """
         if sleep_time < 5:
             raise ValueError(
