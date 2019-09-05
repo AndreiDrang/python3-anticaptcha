@@ -64,7 +64,7 @@ class CustomCaptchaTask:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, imageUrl: str):
+    def captcha_handler(self, imageUrl: str) -> dict:
         """
 		Метод получает ссылку изображение для задания
 		:param imageUrl: URL картинки
@@ -146,7 +146,7 @@ class aioCustomCaptchaTask:
         return True
 
     # Работа с капчёй
-    async def captcha_handler(self, imageUrl: str):
+    async def captcha_handler(self, imageUrl: str) -> dict:
         """
 		Метод получает ссылку изображение для задания
 		:param imageUrl: URL картинки

@@ -51,7 +51,7 @@ class FunCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, websiteURL: str, websitePublicKey: str, **kwargs):
+    def captcha_handler(self, websiteURL: str, websitePublicKey: str, **kwargs) -> dict:
         """
 		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
 		:param websiteURL: Ссылка на страницу с капчёй
@@ -117,7 +117,7 @@ class aioFunCaptchaTaskProxyless:
         self.result_payload = {"clientKey": anticaptcha_key}
 
     # Работа с капчёй
-    async def captcha_handler(self, websiteURL: str, websitePublicKey: str):
+    async def captcha_handler(self, websiteURL: str, websitePublicKey: str) -> dict:
         """
 		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
 		:param websiteURL: Ссылка на страницу с капчёй

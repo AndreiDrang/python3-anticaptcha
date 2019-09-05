@@ -169,7 +169,7 @@ class ImageToTextTask:
         captcha_file: str = None,
         captcha_base64: str = None,
         **kwargs,
-    ):
+    ) -> dict:
         """
         Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
         RuCaptcha, дожидается решения капчи и вовзращает вам результат
@@ -386,7 +386,7 @@ class aioImageToTextTask:
         captcha_link: str = None,
         captcha_file: str = None,
         captcha_base64: str = None,
-    ):
+    ) -> dict:
         """
 		Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
 		RuCaptcha, дожидается решения капчи и вовзращает вам результат

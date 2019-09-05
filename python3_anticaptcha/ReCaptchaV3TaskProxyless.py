@@ -69,7 +69,7 @@ class ReCaptchaV3TaskProxyless:
         minScore: float,
         pageAction: str,
         **kwargs,
-    ):
+    ) -> dict:
         """
 		Метод решения ReCaptcha V3
 		:param websiteURL: Ссылка на страницу с капчёй
@@ -169,7 +169,7 @@ class aioReCaptchaV3TaskProxyless:
     # Работа с капчёй
     async def captcha_handler(
         self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str
-    ):
+    ) -> dict:
         """
 		Метод решения ReCaptcha V3
 		:param websiteURL: Ссылка на страницу с капчёй

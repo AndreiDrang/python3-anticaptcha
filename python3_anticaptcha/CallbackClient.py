@@ -125,7 +125,9 @@ class CallbackClient:
 
         return False
 
-    def captcha_handler(self, requests_timeout: int = 1, auth_params: dict = None):
+    def captcha_handler(
+        self, requests_timeout: int = 1, auth_params: dict = None
+    ) -> dict:
         """
         Метод отвечает за получение результата решения капчи с callback сервера
         :param requests_timeout: Время между запросами к серверу.

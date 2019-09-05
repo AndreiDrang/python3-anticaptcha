@@ -165,7 +165,7 @@ class SquareNetTextTask:
         image_link: str = None,
         image_file: str = None,
         image_base64: str = None,
-    ):
+    ) -> dict:
         """
         Этот тип задачи берет вашу картинку, добавляет на нее сетку нужного размера и отдает работнику с требованием выбрать объекты нужного типа.
         :param objectName: Имя объекта.
@@ -393,7 +393,7 @@ class aioSquareNetTextTask:
         image_link: str = None,
         image_file: str = None,
         image_base64: str = None,
-    ):
+    ) -> dict:
         """
         Этот тип задачи берет вашу картинку, добавляет на нее сетку нужного размера и отдает работнику с требованием выбрать объекты нужного типа.
         :param objectName: Имя объекта.

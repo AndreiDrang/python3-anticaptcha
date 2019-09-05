@@ -62,7 +62,7 @@ class NoCaptchaTask:
         return True
 
     # Работа с капчей
-    def captcha_handler(self, websiteURL: str, websiteKey: str):
+    def captcha_handler(self, websiteURL: str, websiteKey: str) -> dict:
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй
@@ -142,7 +142,7 @@ class aioNoCaptchaTask:
         return True
 
     # Работа с капчей
-    async def captcha_handler(self, websiteURL: str, websiteKey: str):
+    async def captcha_handler(self, websiteURL: str, websiteKey: str) -> dict:
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй

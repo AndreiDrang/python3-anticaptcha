@@ -8,7 +8,7 @@ from requests.adapters import HTTPAdapter
 from python3_anticaptcha import get_result_url
 
 
-def get_sync_result(result_payload: dict, sleep_time: int):
+def get_sync_result(result_payload: dict, sleep_time: int) -> dict:
     # создаём сессию
     session = requests.Session()
     # выставляем кол-во попыток подключения к серверу при ошибке
@@ -31,7 +31,7 @@ def get_sync_result(result_payload: dict, sleep_time: int):
             return captcha_response
 
 
-async def get_async_result(result_payload: dict, sleep_time: int):
+async def get_async_result(result_payload: dict, sleep_time: int) -> dict:
     # Отправляем запрос на статус решения капчи.
     async with aiohttp.ClientSession() as session:
         while True:

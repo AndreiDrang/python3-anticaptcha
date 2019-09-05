@@ -65,7 +65,7 @@ class GeeTestTask:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, challenge: str):
+    def captcha_handler(self, challenge: str) -> dict:
         """
 		Метод получает ссылку изображение для задания
 		:param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
@@ -148,7 +148,7 @@ class aioGeeTestTask:
         return True
 
     # Работа с капчёй
-    async def captcha_handler(self, challenge: str):
+    async def captcha_handler(self, challenge: str) -> dict:
         """
 		Метод получает ссылку изображение для задания
 		:param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи

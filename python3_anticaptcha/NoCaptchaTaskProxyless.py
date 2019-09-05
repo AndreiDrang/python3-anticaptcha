@@ -60,7 +60,7 @@ class NoCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, websiteURL, websiteKey, **kwargs):
+    def captcha_handler(self, websiteURL, websiteKey, **kwargs) -> dict:
         """
 		Метод решения ReCaptcha
 		:param websiteURL: Ссылка на страницу с капчёй
@@ -146,7 +146,7 @@ class aioNoCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    async def captcha_handler(self, websiteURL, websiteKey):
+    async def captcha_handler(self, websiteURL, websiteKey) -> dict:
         """
 		Метод решения ReCaptcha
 		:param websiteURL: Ссылка на страницу с капчёй
