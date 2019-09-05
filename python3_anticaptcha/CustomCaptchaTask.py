@@ -31,7 +31,7 @@ class CustomCaptchaTask:
 		"""
         if sleep_time < 5:
             raise ValueError(
-                f"Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}"
+                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
             )
         self.sleep_time = sleep_time
 
@@ -113,7 +113,7 @@ class aioCustomCaptchaTask:
 		"""
         if sleep_time < 5:
             raise ValueError(
-                f"Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}"
+                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
             )
         self.sleep_time = sleep_time
 

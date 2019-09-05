@@ -41,7 +41,7 @@ class SquareNetTextTask:
         """
         if sleep_time < 5:
             raise ValueError(
-                f"Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}"
+                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
             )
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
@@ -257,7 +257,7 @@ class aioSquareNetTextTask:
         """
         if sleep_time < 5:
             raise ValueError(
-                f"Параметр `sleep_time` должен быть не менее 5. Вы передали - {sleep_time}"
+                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
             )
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
@@ -265,8 +265,6 @@ class aioSquareNetTextTask:
             self.save_format = save_format
         else:
             raise ValueError(
-                "\nПередан неверный формат сохранения файла изображения. "
-                f"\n\tВозможные варинты: `temp` и `const`. Вы передали - `{save_format}`"
                 "\nWrong `save_format` parameter. Valid params: `const` or `temp`."
                 f"\n\tYour param - `{save_format}`"
             )
@@ -375,8 +373,6 @@ class aioSquareNetTextTask:
                 self.task_payload["task"].update({"body": content})
             else:
                 raise ValueError(
-                    "\nПередан неверный формат файла."
-                    f"\n\tВозможные варинты: `file` и `base64`. Вы передали - `{content_type}`"
                     f"\nWrong `content_type` parameter. Valid params: `file` or `base64`."
                     f"\n\tYour param - `{content_type}`"
                 )

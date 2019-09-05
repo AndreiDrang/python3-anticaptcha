@@ -31,7 +31,7 @@ class GeeTestTaskProxyless:
 		"""
         if sleep_time < 10:
             raise ValueError(
-                f"Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}"
+                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
             )
         self.sleep_time = sleep_time
 
@@ -110,7 +110,7 @@ class aioGeeTestTaskProxyless:
 		"""
         if sleep_time < 10:
             raise ValueError(
-                f"Параметр `sleep_time` должен быть не менее 10. Вы передали - {sleep_time}"
+                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
             )
         self.sleep_time = sleep_time
 
