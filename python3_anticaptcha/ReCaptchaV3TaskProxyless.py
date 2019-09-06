@@ -11,7 +11,7 @@ from python3_anticaptcha import (
     get_async_result,
 )
 
-MIN_SCORES = (0.3, 0.5, 0.7)
+MIN_SCORES = (0.3, 0.7, 0.9)
 
 
 class ReCaptchaV3TaskProxyless:
