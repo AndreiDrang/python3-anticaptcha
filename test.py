@@ -9,7 +9,6 @@ import requests
 from python3_anticaptcha import (
     NoCaptchaTaskProxyless,
     AntiCaptchaControl,
-    CustomCaptchaTask,
     ReCaptchaV3TaskProxyless,
 )
 
@@ -23,85 +22,6 @@ class TestAntiCaptcha(object):
         self.anticaptcha_key_fail = os.getenv("anticaptcha_key")[:5]
         self.anticaptcha_key_true = os.getenv("anticaptcha_key")
         self.server_ip = "85.255.8.26"
-
-    # CallBack
-    def test_callback_server(self):
-        # test server alive
-        response = requests.get(f"http://{self.server_ip}:8001/ping")
-        assert response.status_code == 200
-        # try register new queue
-        response = requests.post(
-            f"http://{self.server_ip}:8001/register_key",
-            json={"key": "fwefefefopewofkewopfkop", "vhost": "anticaptcha_vhost"},
-        )
-        assert response.status_code == 200
-
-    def test_customcatpcha_params(self):
-        default_init_params = [
-            "self",
-            "anticaptcha_key",
-            "sleep_time",
-            "assignment",
-            "forms",
-            "callbackUrl",
-        ]
-        default_handler_params = ["self", "imageUrl"]
-        # get customcaptcha init and captcha_handler params
-        aioinit_params = inspect.getfullargspec(
-            CustomCaptchaTask.aioCustomCaptchaTask.__init__
-        )
-        aiohandler_params = inspect.getfullargspec(
-            CustomCaptchaTask.aioCustomCaptchaTask.captcha_handler
-        )
-
-        # get customcaptcha init and captcha_handler params
-        init_params = inspect.getfullargspec(
-            CustomCaptchaTask.CustomCaptchaTask.__init__
-        )
-        handler_params = inspect.getfullargspec(
-            CustomCaptchaTask.CustomCaptchaTask.captcha_handler
-        )
-        # check aio module params
-        assert default_init_params == aioinit_params[0]
-        assert default_handler_params == aiohandler_params[0]
-        # check sync module params
-        assert default_init_params == init_params[0]
-        assert default_handler_params == handler_params[0]
-
-    def test_fail_customcaptcha(self):
-        customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            sleep_time=10,
-            assignment="Smth interesting",
-        )
-        # check response type
-        assert type(customcaptcha) is CustomCaptchaTask.CustomCaptchaTask
-
-        response = customcaptcha.captcha_handler(
-            imageUrl=self.server_ip + "/static/image/common_image_example/088636.png"
-        )
-        # check response type
-        assert type(response) is dict
-        # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
-
-    @asyncio.coroutine
-    def test_fail_aiocustomcaptcha(self):
-        customcaptcha = CustomCaptchaTask.aioCustomCaptchaTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            sleep_time=10,
-            assignment="Smth interesting",
-        )
-        # check response type
-        assert type(customcaptcha) is CustomCaptchaTask.aioCustomCaptchaTask
-
-        response = yield customcaptcha.captcha_handler(
-            imageUrl=self.server_ip + "/static/image/common_image_example/088636.png"
-        )
-        # check response type
-        assert type(response) is dict
-        # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 
     def test_nocaptcha_params(self):
         default_init_params = ["self", "anticaptcha_key", "sleep_time", "callbackUrl"]
