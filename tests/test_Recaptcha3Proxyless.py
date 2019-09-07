@@ -72,7 +72,9 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert isinstance(recaptcha, ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless)
+        assert isinstance(
+            recaptcha, ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless
+        )
 
         response = await recaptcha.captcha_handler(
             websiteURL="https://www.google.com/recaptcha/api2/demo",

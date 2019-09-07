@@ -1,10 +1,7 @@
 import time
 import asyncio
 
-from python3_anticaptcha import (
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import get_sync_result, get_async_result
 
 
 class CustomResultHandler:
