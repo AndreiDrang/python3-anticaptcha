@@ -1,5 +1,4 @@
 import inspect
-import asyncio
 
 import pytest
 
@@ -55,11 +54,11 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK
         )
         # check response type
-        assert type(customcaptcha) is CustomCaptchaTask.CustomCaptchaTask
+        assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
 
         response = customcaptcha.captcha_handler(imageUrl=self.image_url)
         # check response type
-        assert type(response) is dict
+        assert isinstance(response, dict)
         # check all dict keys
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 
@@ -69,11 +68,11 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK
         )
         # check response type
-        assert type(customcaptcha) is CustomCaptchaTask.CustomCaptchaTask
+        assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
 
         response = await customcaptcha.captcha_handler(imageUrl=self.image_url)
         # check response type
-        assert type(response) is dict
+        assert isinstance(response, dict)
         # check all dict keys
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 

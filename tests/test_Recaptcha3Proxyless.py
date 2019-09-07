@@ -1,5 +1,4 @@
 import inspect
-import asyncio
 
 import pytest
 
@@ -54,7 +53,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert type(recaptcha) is ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless
+        assert isinstance(recaptcha, ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless)
 
         response = recaptcha.captcha_handler(
             websiteURL="https://www.google.com/recaptcha/api2/demo",
@@ -63,7 +62,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             pageAction="login_test",
         )
         # check response type
-        assert type(response) is dict
+        assert isinstance(response, dict)
         # check all dict keys
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 
@@ -73,7 +72,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert type(recaptcha) is ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless
+        assert isinstance(recaptcha, ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless)
 
         response = await recaptcha.captcha_handler(
             websiteURL="https://www.google.com/recaptcha/api2/demo",
@@ -82,7 +81,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             pageAction="login_test",
         )
         # check response type
-        assert type(response) is dict
+        assert isinstance(response, dict)
         # check all dict keys
         assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 

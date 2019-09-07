@@ -1,7 +1,6 @@
 import time
 
 from selenium import webdriver
-from selenium import common
 
 from python3_anticaptcha.NoCaptchaTaskProxyless import NoCaptchaTaskProxyless
 
