@@ -83,7 +83,8 @@ class AntiCaptchaControl:
             answer = requests.post(incorrect_recaptcha_url, json=payload)
         return answer.json()
 
-    def get_queue_status(self, queue_id: int) -> dict:
+    @staticmethod
+    def get_queue_status(queue_id: int) -> dict:
         """
         Получение информации о загрузке очереди, в зависимости от ID очереди.
 
@@ -193,7 +194,8 @@ class aioAntiCaptchaControl:
                 async with session.post(incorrect_recaptcha_url, json=payload) as resp:
                     return await resp.json()
 
-    async def get_queue_status(self, queue_id: int) -> dict:
+    @staticmethod
+    async def get_queue_status(queue_id: int) -> dict:
         """
         Получение информации о загрузке очереди, в зависимости от ID очереди.
 
