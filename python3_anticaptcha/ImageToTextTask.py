@@ -16,6 +16,8 @@ from python3_anticaptcha import (
     ReadError,
 )
 
+SAVE_FORMATS = ("const", "temp")
+
 
 class ImageToTextTask:
     """
@@ -49,11 +51,11 @@ class ImageToTextTask:
             )
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
-        if save_format in ["const", "temp"]:
+        if save_format in SAVE_FORMATS:
             self.save_format = save_format
         else:
             raise ValueError(
-                "\nWrong `save_format` parameter. Valid params: `const` or `temp`."
+                f"\nWrong `save_format` parameter. Valid params: {SAVE_FORMATS}."
                 f"\n\tYour param - `{save_format}`"
             )
         # Пайлоад для создания задачи
@@ -189,9 +191,9 @@ class ImageToTextTask:
         elif captcha_link:
             content = requests.get(captcha_link, **kwargs).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
-            if self.save_format == "const":
+            if self.save_format == SAVE_FORMATS[0]:
                 captcha_id = self.__image_const_saver(content)
-            elif self.save_format == "temp":
+            elif self.save_format == SAVE_FORMATS[1]:
                 captcha_id = self.__image_temp_saver(content)
         else:
             raise ParamError(
@@ -250,11 +252,11 @@ class aioImageToTextTask:
             )
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
-        if save_format in ["const", "temp"]:
+        if save_format in SAVE_FORMATS:
             self.save_format = save_format
         else:
             raise ValueError(
-                "\nWrong `save_format` parameter. Valid params: `const` or `temp`."
+                f"\nWrong `save_format` parameter. Valid params: {SAVE_FORMATS}."
                 f"\n\tYour param - `{save_format}`"
             )
 
@@ -404,9 +406,9 @@ class aioImageToTextTask:
             )
         elif captcha_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
-            if self.save_format == "const":
+            if self.save_format == SAVE_FORMATS[0]:
                 captcha_id = await self.__image_const_saver(captcha_link)
-            elif self.save_format == "temp":
+            elif self.save_format == SAVE_FORMATS[1]:
                 captcha_id = await self.__image_temp_saver(captcha_link)
         else:
             raise ParamError(
