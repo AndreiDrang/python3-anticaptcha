@@ -295,7 +295,7 @@ class aioImageToTextTask:
         # Скачиваем капчу
         async with aiohttp.ClientSession() as session:
             async with session.get(captcha_link) as resp:
-                content = await resp.content.readany()
+                content = await resp.content.read()
                 # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
                 self.task_payload["task"].update(
                     {"body": base64.b64encode(content).decode("utf-8")}
@@ -319,7 +319,7 @@ class aioImageToTextTask:
         # Скачиваем капчу
         async with aiohttp.ClientSession() as session:
             async with session.get(captcha_link) as resp:
-                content = await resp.content.readany()
+                content = await resp.content.read()
 
         # Высчитываем хэш изображения, для того что бы сохранить его под уникальным именем
         image_hash = hashlib.sha224(content).hexdigest()
