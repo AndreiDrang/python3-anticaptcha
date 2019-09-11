@@ -42,12 +42,29 @@ Full examples you can find [here](https://github.com/AndreiDrang/python3-anticap
 ### At the moment the following methods are implemented:
 ### На данный момент реализованы следующие методы:
 
+0.[Manual result handler.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/custom_result_handler_example.py)
+
+ 
+```python
+from python3_anticaptcha import CustomResultHandler
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
+ANTICAPTCHA_KEY = ""
+# Task ID to get result
+TASK_ID = 123456
+# This module is used to obtain the result of solving the task in "manual" mode
+custom_result = CustomResultHandler.CustomResultHandler(
+    anticaptcha_key=ANTICAPTCHA_KEY
+)
+
+user_answer = custom_result.task_handler(task_id=TASK_ID)
+print(user_answer)
+```
 1.[Image to text captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcah_image_to_text_example.py)
 
  
 ```python
 from python3_anticaptcha import ImageToTextTask
-# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # Ссылка на изображения для расшифровки. Link to captcha image.
 image_link = "http://85.255.8.26/static/image/common_image_example/800070.png"
@@ -65,7 +82,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import NoCaptchaTaskProxyless
-# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # G-ReCaptcha ключ сайта. Website google key.
 SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
@@ -83,7 +100,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import ReCaptchaV3TaskProxyless
-# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # G-ReCaptcha ключ сайта. Website google key.
 SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
@@ -111,7 +128,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import FunCaptchaTask
-# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # G-ReCaptcha ключ сайта
 SITE_KEY = ''
@@ -132,7 +149,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import AntiCaptchaControl
-# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # Возвращается строка c балансом. Balance info.
 user_answer = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_balance()
@@ -144,7 +161,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import CustomCaptchaTask
-# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # ссылка на изображение
 imageUrl = "https://files.anti-captcha.com/26/41f/c23/7c50ff19.jpg"
@@ -160,7 +177,7 @@ print(my_custom_task)
 
 ```python
 from python3_anticaptcha import GeeTestTaskProxyless
-# Введите ключ от сервиса AntiCaptcha, из своего аккаунта. Anticaptcha service key.
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # обязательные параметры
 websiteURL = "http:\/\/mywebsite.com\/geetest\/test.php"
