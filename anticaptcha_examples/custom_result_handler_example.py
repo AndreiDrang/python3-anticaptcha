@@ -10,9 +10,7 @@ This module is used to obtain the result of solving the task in "manual" mode
 TASK_ID = 123456
 
 # prepare client
-custom_result = CustomResultHandler.CustomResultHandler(
-    anticaptcha_key=ANTICAPTCHA_KEY
-)
+custom_result = CustomResultHandler.CustomResultHandler(anticaptcha_key=ANTICAPTCHA_KEY)
 
 response = custom_result.task_handler(task_id=TASK_ID)
 print(response)

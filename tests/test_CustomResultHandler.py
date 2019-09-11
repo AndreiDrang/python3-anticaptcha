@@ -48,7 +48,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         )
         # check response type
         assert isinstance(custom_result, CustomResultHandler.CustomResultHandler)
-        # get balance
+
         response = custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check response type
         assert isinstance(response, dict)
@@ -65,7 +65,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         )
         # check response type
         assert isinstance(custom_result, CustomResultHandler.aioCustomResultHandler)
-        # get balance
+
         response = await custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check response type
         assert isinstance(response, dict)
@@ -83,7 +83,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         custom_result = CustomResultHandler.CustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_fail
         )
-        # get balance
+
         response = custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code
         assert 1 == response["errorId"]
@@ -93,7 +93,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         with CustomResultHandler.CustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_fail
         ) as custom_result:
-            # get balance
+
             response = custom_result.task_handler(task_id=self.WRONG_TASK_ID)
             # check error code
             assert 1 == response["errorId"]
@@ -104,7 +104,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         custom_result = CustomResultHandler.aioCustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_fail
         )
-        # get balance
+
         response = await custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code
         assert 1 == response["errorId"]
@@ -115,7 +115,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         with CustomResultHandler.aioCustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_fail
         ) as custom_result:
-            # get balance
+
             response = await custom_result.task_handler(task_id=self.WRONG_TASK_ID)
             # check error code
             assert 1 == response["errorId"]
@@ -129,7 +129,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         custom_result = CustomResultHandler.CustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_true
         )
-        # get balance
+
         response = custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code
         assert 16 == response["errorId"]
@@ -139,7 +139,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         with CustomResultHandler.CustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_true
         ) as custom_result:
-            # get balance
+
             response = custom_result.task_handler(task_id=self.WRONG_TASK_ID)
             # check error code
             assert 16 == response["errorId"]
@@ -150,7 +150,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         custom_result = CustomResultHandler.aioCustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_true
         )
-        # get balance
+
         response = await custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code
         assert 16 == response["errorId"]
@@ -161,7 +161,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         with CustomResultHandler.aioCustomResultHandler(
             anticaptcha_key=self.anticaptcha_key_true
         ) as custom_result:
-            # get balance
+
             response = await custom_result.task_handler(task_id=self.WRONG_TASK_ID)
             # check error code
             assert 16 == response["errorId"]
