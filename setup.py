@@ -66,10 +66,12 @@ setup(
     packages=["python3_anticaptcha"],
     install_requires=REQUIRED,
     description=DESCRIPTION,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     package_dir={"python3-anticaptcha": "python3_anticaptcha"},
     include_package_data=True,
     url=URL,
-    author_email="drang.andray@gmail.com",
+    author_email=EMAIL,
     license="MIT",
     keywords="""
                 captcha 
