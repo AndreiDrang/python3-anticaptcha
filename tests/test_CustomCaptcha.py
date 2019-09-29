@@ -4,7 +4,7 @@ import pytest
 
 from python3_anticaptcha import CustomCaptchaTask
 
-from main import MainAntiCaptcha
+from tests.main import MainAntiCaptcha
 
 
 class TestAntiCaptcha(MainAntiCaptcha):

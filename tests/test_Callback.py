@@ -1,6 +1,6 @@
 import requests
 
-from main import MainAntiCaptcha
+from tests.main import MainAntiCaptcha
 
 
 class TestAntiCaptcha(MainAntiCaptcha):
