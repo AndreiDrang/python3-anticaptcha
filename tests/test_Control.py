@@ -2,39 +2,24 @@ import inspect
 
 import pytest
 
-from python3_anticaptcha import AntiCaptchaControl
+from python3_anticaptcha import AntiCaptchaControl, config
 
 from tests.main import MainAntiCaptcha
 
 
 class TestAntiCaptcha(MainAntiCaptcha):
-    WRONG_SAVE_FORMAT = "qwerty"
+    WRONG_MODE = "qwerty"
+    WRONG_SOFT_ID = config.app_key + "0"
     """
     Params check
     """
 
     def test_customcatpcha_params(self):
-        default_init_params = [
-            "self",
-            "anticaptcha_key",
-        ]
-        default_get_balance_params = [
-            "self",
-        ]
-        default_app_stats_params = [
-            "self",
-            "softId",
-            "mode",
-        ]
-        default_complaint_params = [
-            "self",
-            "reported_id",
-            "captcha_type"
-        ]
-        default_queue_status_params = [
-            "self",
-            "queue_id"
-        ]
+        default_init_params = ["self", "anticaptcha_key"]
+        default_get_balance_params = ["self"]
+        default_app_stats_params = ["self", "softId", "mode"]
+        default_complaint_params = ["self", "reported_id", "captcha_type"]
+        default_queue_status_params = ["queue_id", ]
         # get aiocaptchacontrol init and other params
         aio_init_params = inspect.getfullargspec(
             AntiCaptchaControl.aioAntiCaptchaControl.__init__
@@ -92,110 +77,96 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check response type
         assert isinstance(control_captcha, AntiCaptchaControl.AntiCaptchaControl)
 
-
     @pytest.mark.asyncio
-    async def test_response_aioimagecaptcha(self):
-        imagecaptcha = AntiCaptchaControl.aioAntiCaptchaControl(
+    async def test_response_aiocontrol(self):
+        control_captcha = AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert isinstance(imagecaptcha, AntiCaptchaControl.aioAntiCaptchaControl)
+        assert isinstance(control_captcha, AntiCaptchaControl.aioAntiCaptchaControl)
 
     """
     Fail tests
     """
 
-    def test_fail_imagecaptcha_value(self):
+    def test_fail_balance(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+
+        response = captcha_control.get_balance()
+
+        assert isinstance(response, dict)
+
+        assert 1 == response["errorId"]
+
+    def test_fail_balance_context(self):
+        with AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as captcha_control:
+
+            response = captcha_control.get_balance()
+
+            assert isinstance(response, dict)
+
+            assert 1 == response["errorId"]
+
+    def test_fail_key_app_stats(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+
+        response = captcha_control.get_app_stats(softId=self.WRONG_SOFT_ID)
+
+        assert isinstance(response, dict)
+
+        assert 1 == response["errorId"]
+
+    def test_fail_id_app_stats(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+
+        response = captcha_control.get_app_stats(softId=self.WRONG_SOFT_ID)
+
+        assert isinstance(response, dict)
+
+        assert 1 == response["errorId"]
+
+    def test_fail_mode_app_stats(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
         with pytest.raises(ValueError):
-            assert ImageToTextTask.ImageToTextTask(
-                anticaptcha_key=self.anticaptcha_key_fail,
-                save_format=self.WRONG_SAVE_FORMAT,
+            captcha_control.get_app_stats(
+                softId=config.app_key, mode=self.WRONG_MODE
             )
 
-    def test_fail_imagecaptcha_const(self):
-        imagecaptcha = ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
+    @pytest.mark.asyncio
+    async def test_fail_aiobalance(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
         )
 
-        response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
+        response = await captcha_control.get_balance()
+
+        assert isinstance(response, dict)
 
         assert 1 == response["errorId"]
 
-    def test_fail_imagecaptcha_const_context(self):
-        with ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
-        ) as imagecaptcha:
-
-            response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
-
-            assert 1 == response["errorId"]
-
-    def test_fail_imagecaptcha_temp(self):
-        imagecaptcha = ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
-        )
-
-        response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
-
-        assert 1 == response["errorId"]
-
-    def test_fail_imagecaptcha_temp_context(self):
-        with ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
-        ) as imagecaptcha:
-
-            response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
-
-            assert 1 == response["errorId"]
-
-    @pytest.mark.asyncio
-    async def test_fail_aioimagecaptcha_value(self):
-        with pytest.raises(ValueError):
-            assert ImageToTextTask.ImageToTextTask(
-                anticaptcha_key=self.anticaptcha_key_fail,
-                save_format=self.WRONG_SAVE_FORMAT,
-            )
-
-    @pytest.mark.asyncio
-    async def test_fail_aioimagecaptcha_temp(self):
-        imagecaptcha = ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
-        )
-        response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
-        assert 1 == response["errorId"]
-
-    @pytest.mark.asyncio
-    async def test_fail_aioimagecaptcha_temp_context(self):
-        with ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
-        ) as imagecaptcha:
-            response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
-            assert 1 == response["errorId"]
-
-    @pytest.mark.asyncio
-    async def test_fail_aioimagecaptcha_const(self):
-        imagecaptcha = ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
-        )
-        response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
-        assert 1 == response["errorId"]
-
-    @pytest.mark.asyncio
-    async def test_fail_aioimagecaptcha_const_context(self):
-        with ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
-        ) as imagecaptcha:
-            response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
-            assert 1 == response["errorId"]
 
     """
     True tests
     """
+
+    def test_true_mode_app_stats(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+
+        for mode in AntiCaptchaControl.mods:
+            response = captcha_control.get_app_stats(
+                softId=config.app_key, mode=mode
+            )
+
+            assert isinstance(response, dict)
