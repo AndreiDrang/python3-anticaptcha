@@ -35,57 +35,71 @@ class TestAntiCaptcha(MainAntiCaptcha):
             "self",
             "queue_id"
         ]
-        # get customcaptcha init params
-        aioinit_params = inspect.getfullargspec(
+        # get aiocaptchacontrol init and other params
+        aio_init_params = inspect.getfullargspec(
             AntiCaptchaControl.aioAntiCaptchaControl.__init__
         )
-        aiohandler_params = inspect.getfullargspec(
-            AntiCaptchaControl.aioAntiCaptchaControl.captcha_handler
+        aio_balance_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.get_balance
+        )
+        aio_app_stats_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.get_app_stats
+        )
+        aio_complaint_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.complaint_on_result
+        )
+        aio_queue_status_params = inspect.getfullargspec(
+            AntiCaptchaControl.aioAntiCaptchaControl.get_queue_status
         )
 
-        # get customcaptcha init and captcha_handler params
-        init_params = inspect.getfullargspec(AntiCaptchaControl.AntiCaptchaControl.__init__)
-        handler_params = inspect.getfullargspec(
-            AntiCaptchaControl.AntiCaptchaControl.captcha_handler
+        # get captchacontrol init and other params
+        init_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.__init__
+        )
+        balance_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.get_balance
+        )
+        app_stats_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.get_app_stats
+        )
+        complaint_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.complaint_on_result
+        )
+        queue_status_params = inspect.getfullargspec(
+            AntiCaptchaControl.AntiCaptchaControl.get_queue_status
         )
         # check aio module params
-        assert default_init_params == aioinit_params[0]
-        assert default_handler_params == aiohandler_params[0]
+        assert default_init_params == aio_init_params[0]
+        assert default_get_balance_params == aio_balance_params[0]
+        assert default_app_stats_params == aio_app_stats_params[0]
+        assert default_complaint_params == aio_complaint_params[0]
+        assert default_queue_status_params == aio_queue_status_params[0]
         # check sync module params
         assert default_init_params == init_params[0]
-        assert default_handler_params == handler_params[0]
+        assert default_get_balance_params == balance_params[0]
+        assert default_app_stats_params == app_stats_params[0]
+        assert default_complaint_params == complaint_params[0]
+        assert default_queue_status_params == queue_status_params[0]
 
     """
     Response checking
     """
 
-    def test_response_imagecaptcha(self):
+    def test_response_control(self):
         control_captcha = AntiCaptchaControl.AntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
         assert isinstance(control_captcha, AntiCaptchaControl.AntiCaptchaControl)
 
-        response = control_captcha.captcha_handler(captcha_link=self.image_url)
-        # check response type
-        assert isinstance(response, dict)
-        # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
 
     @pytest.mark.asyncio
     async def test_response_aioimagecaptcha(self):
-        imagecaptcha = ImageToTextTask.aioImageToTextTask(
+        imagecaptcha = AntiCaptchaControl.aioAntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert isinstance(imagecaptcha, ImageToTextTask.ImageToTextTask)
-
-        response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
-
-        # check response type
-        assert isinstance(response, dict)
-        # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription"] == list(response.keys())
+        assert isinstance(imagecaptcha, AntiCaptchaControl.aioAntiCaptchaControl)
 
     """
     Fail tests
