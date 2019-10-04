@@ -195,3 +195,12 @@ print(result)
 Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](https://pythoncaptcha.cloud/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
 
 Some examples you can test with our [web-site](https://pythoncaptcha.cloud/).
+
+***
+For tests:
+1. Clon repo;
+2. ```bash
+    export anticaptcha_key=SERVICE_KEY
+    pip install pytest pytest-asyncio
+    pytest tests
+    ```
