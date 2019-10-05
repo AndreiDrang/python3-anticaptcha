@@ -57,7 +57,10 @@ class AntiCaptchaControl:
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         answer = requests.post(get_app_stats_url, json=payload)
 
-        return answer.json()
+        if answer.text:
+            return answer.json()
+        else:
+            return {"errorId": 1}
 
     def complaint_on_result(
         self, reported_id: int, captcha_type: str = "image"
