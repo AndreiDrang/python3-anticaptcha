@@ -166,7 +166,10 @@ class aioAntiCaptchaControl:
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         async with aiohttp.ClientSession() as session:
             async with session.post(get_app_stats_url, json=payload) as resp:
-                return await resp.json()
+                if await resp.text():
+                    return await resp.json()
+                else:
+                    return {"errorId": 1}
 
     async def complaint_on_result(
         self, reported_id: int, captcha_type: str = "image"
