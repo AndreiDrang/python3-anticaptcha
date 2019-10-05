@@ -19,7 +19,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         default_get_balance_params = ["self"]
         default_app_stats_params = ["self", "softId", "mode"]
         default_complaint_params = ["self", "reported_id", "captcha_type"]
-        default_queue_status_params = ["queue_id", ]
+        default_queue_status_params = ["queue_id"]
         # get aiocaptchacontrol init and other params
         aio_init_params = inspect.getfullargspec(
             AntiCaptchaControl.aioAntiCaptchaControl.__init__
@@ -122,6 +122,17 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
         assert 1 == response["errorId"]
 
+    def test_fail_app_stats_context(self):
+        with AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as captcha_control:
+
+            response = captcha_control.get_app_stats(softId=config.app_key)
+
+            assert isinstance(response, dict)
+
+            assert 1 == response["errorId"]
+
     def test_fail_id_app_stats(self):
         captcha_control = AntiCaptchaControl.AntiCaptchaControl(
             anticaptcha_key=self.anticaptcha_key_true
@@ -138,9 +149,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_true
         )
         with pytest.raises(ValueError):
-            captcha_control.get_app_stats(
-                softId=config.app_key, mode=self.WRONG_MODE
-            )
+            captcha_control.get_app_stats(softId=config.app_key, mode=self.WRONG_MODE)
 
     @pytest.mark.asyncio
     async def test_fail_aiobalance(self):
@@ -154,6 +163,65 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
         assert 1 == response["errorId"]
 
+    @pytest.mark.asyncio
+    async def test_fail_aiobalance_context(self):
+        with AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as captcha_control:
+
+            response = await captcha_control.get_balance()
+
+            assert isinstance(response, dict)
+
+            assert 1 == response["errorId"]
+
+    @pytest.mark.asyncio
+    async def test_fail_aioapp_stats_context(self):
+        with AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as captcha_control:
+
+            response = await captcha_control.get_app_stats(softId=config.app_key)
+
+            assert isinstance(response, dict)
+
+            assert 1 == response["errorId"]
+
+    @pytest.mark.asyncio
+    async def test_fail_aiokey_app_stats(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+
+        response = await captcha_control.get_app_stats(softId=self.WRONG_SOFT_ID)
+
+        assert isinstance(response, dict)
+
+        assert 1 == response["errorId"]
+
+    @pytest.mark.asyncio
+    async def test_fail_aioid_app_stats(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+
+        response = await captcha_control.get_app_stats(softId=self.WRONG_SOFT_ID)
+
+        assert isinstance(response, dict)
+
+        assert 1 == response["errorId"]
+
+    @pytest.mark.asyncio
+    async def test_fail_aiomode_app_stats(self):
+        with AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        ) as captcha_control:
+
+            response = await captcha_control.get_balance()
+
+            assert isinstance(response, dict)
+
+            assert 1 == response["errorId"]
 
     """
     True tests
@@ -165,8 +233,6 @@ class TestAntiCaptcha(MainAntiCaptcha):
         )
 
         for mode in AntiCaptchaControl.mods:
-            response = captcha_control.get_app_stats(
-                softId=config.app_key, mode=mode
-            )
+            response = captcha_control.get_app_stats(softId=config.app_key, mode=mode)
 
             assert isinstance(response, dict)
