@@ -8,8 +8,10 @@ from tests.main import MainAntiCaptcha
 
 
 class TestAntiCaptcha(MainAntiCaptcha):
-    WRONG_MODE = "qwerty"
-    WRONG_SOFT_ID = config.app_key + "0"
+    WRONG_MODE = WRONG_CAPTCHA_TYPE = "qwerty"
+    WRONG_SOFT_ID = "-1" + config.app_key
+    REPORT_ID = WRONG_QUEUE_ID = -1
+    QUEUE_STATUS_KEYS = ("waiting", "load", "bid", "speed", "total")
     """
     Params check
     """
@@ -149,7 +151,53 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_true
         )
         with pytest.raises(ValueError):
-            captcha_control.get_app_stats(softId=config.app_key, mode=self.WRONG_MODE)
+            assert captcha_control.get_app_stats(
+                softId=config.app_key, mode=self.WRONG_MODE
+            )
+
+    def test_fail_key_complaint(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+
+        response = captcha_control.complaint_on_result(
+            reported_id=self.REPORT_ID,
+            captcha_type=AntiCaptchaControl.complaint_types[0],
+        )
+
+        assert isinstance(response, dict)
+
+        assert 1 == response["errorId"]
+
+    def test_fail_id_complaint(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+
+        response = captcha_control.complaint_on_result(
+            reported_id=self.REPORT_ID,
+            captcha_type=AntiCaptchaControl.complaint_types[0],
+        )
+
+        assert isinstance(response, dict)
+
+        assert 16 == response["errorId"]
+
+    def test_fail_type_complaint(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+
+        with pytest.raises(ValueError):
+            assert captcha_control.complaint_on_result(
+                reported_id=self.REPORT_ID, captcha_type=self.WRONG_CAPTCHA_TYPE
+            )
+
+    def test_fail_id_queue_status(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl
+
+        with pytest.raises(ValueError):
+            assert captcha_control.get_queue_status(queue_id=self.WRONG_QUEUE_ID)
 
     @pytest.mark.asyncio
     async def test_fail_aiobalance(self):
@@ -223,6 +271,54 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
             assert 1 == response["errorId"]
 
+    @pytest.mark.asyncio
+    async def test_fail_aiokey_complaint(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+
+        response = await captcha_control.complaint_on_result(
+            reported_id=self.REPORT_ID,
+            captcha_type=AntiCaptchaControl.complaint_types[0],
+        )
+
+        assert isinstance(response, dict)
+
+        assert 1 == response["errorId"]
+
+    @pytest.mark.asyncio
+    async def test_fail_aioid_complaint(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+
+        response = await captcha_control.complaint_on_result(
+            reported_id=self.REPORT_ID,
+            captcha_type=AntiCaptchaControl.complaint_types[0],
+        )
+
+        assert isinstance(response, dict)
+
+        assert 16 == response["errorId"]
+
+    @pytest.mark.asyncio
+    async def test_fail_aiotype_complaint(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_fail
+        )
+
+        with pytest.raises(ValueError):
+            assert await captcha_control.complaint_on_result(
+                reported_id=self.REPORT_ID, captcha_type=self.WRONG_CAPTCHA_TYPE
+            )
+
+    @pytest.mark.asyncio
+    async def test_fail_aioid_queue_status(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl
+
+        with pytest.raises(ValueError):
+            assert await captcha_control.get_queue_status(queue_id=self.WRONG_QUEUE_ID)
+
     """
     True tests
     """
@@ -236,3 +332,50 @@ class TestAntiCaptcha(MainAntiCaptcha):
             response = captcha_control.get_app_stats(softId=config.app_key, mode=mode)
 
             assert isinstance(response, dict)
+
+            assert 0 == response["errorId"]
+
+    def test_true_mode_app_stats_context(self):
+        with AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        ) as captcha_control:
+
+            for mode in AntiCaptchaControl.mods:
+                response = captcha_control.get_app_stats(
+                    softId=config.app_key, mode=mode
+                )
+
+                assert isinstance(response, dict)
+
+                assert 0 == response["errorId"]
+
+    def test_true_balance(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+
+        response = captcha_control.get_balance()
+
+        assert isinstance(response, dict)
+
+        assert 0 == response["errorId"]
+
+    def test_true_balance_context(self):
+        with AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        ) as captcha_control:
+
+            response = captcha_control.get_balance()
+
+            assert isinstance(response, dict)
+
+            assert 0 == response["errorId"]
+
+    def test_true_queue_status(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl
+        for queue_id in AntiCaptchaControl.queue_ids:
+            response = captcha_control.get_queue_status(queue_id=queue_id)
+
+            assert isinstance(response, dict)
+
+            assert self.QUEUE_STATUS_KEYS == tuple(response.keys())

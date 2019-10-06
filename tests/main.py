@@ -1,6 +1,9 @@
 import os
 
 
+# 1. `export anticaptcha_key=274832f8168a36019895a1e1174777c0`
+
+
 class MainAntiCaptcha(object):
     WRONG_QUEUE_ID = WRONG_TASK_ID = -1
 
