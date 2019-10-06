@@ -8,12 +8,12 @@ language: python
 python: 
   - "3.6"
   - "3.7"
-  - "3.8"
+  - "3.8-dev"
 
 # Install the codecov pip dependency
 install:
-  - pip install --upgrade pytest pytest-cov pytest-asyncio python3_anticaptcha
+  - pip install --upgrade pytest pytest-cov pytest-asyncio
 
 # Run the unit test
 script:
-  - pytest test.py --cov=./
+  - pytest test.py --cov=./ -v
