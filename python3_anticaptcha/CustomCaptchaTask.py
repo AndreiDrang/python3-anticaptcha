@@ -152,7 +152,7 @@ class aioCustomCaptchaTask:
 		:param imageUrl: URL картинки
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
-        self.task_payload["task"].update({{"imageUrl": imageUrl}})
+        self.task_payload["task"].update({"imageUrl": imageUrl})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
         async with aiohttp.ClientSession() as session:
