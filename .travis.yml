@@ -4,8 +4,6 @@ sudo: false
 # multiple operating systems
 os:
   - linux
-  - osx
-  - windows
 # clone depth
 git:
   depth: 3
