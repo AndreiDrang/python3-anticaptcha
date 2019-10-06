@@ -12,7 +12,8 @@ python:
 
 # Install the codecov pip dependency
 install:
-  - pip install --upgrade pytest pytest-cov pytest-asyncio requests
+  - pip install --upgrade pytest pytest-cov pytest-asyncio
+  - python setup.py install
 
 # Run the unit test
 script:
