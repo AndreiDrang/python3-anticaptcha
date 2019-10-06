@@ -121,7 +121,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         with pytest.raises(ValueError):
-            assert recaptcha.captcha_handler(
+            assert await recaptcha.captcha_handler(
                 websiteURL="https://www.google.com/recaptcha/api2/demo",
                 websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
                 minScore=0.1,
@@ -134,7 +134,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail
         ) as recaptcha:
             with pytest.raises(ValueError):
-                assert recaptcha.captcha_handler(
+                assert await recaptcha.captcha_handler(
                     websiteURL="https://www.google.com/recaptcha/api2/demo",
                     websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
                     minScore=0.1,

@@ -134,7 +134,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     @pytest.mark.asyncio
     async def test_fail_aioimagecaptcha_value(self):
         with pytest.raises(ValueError):
-            assert ImageToTextTask.ImageToTextTask(
+            assert await ImageToTextTask.ImageToTextTask(
                 anticaptcha_key=self.anticaptcha_key_fail,
                 save_format=self.WRONG_SAVE_FORMAT,
             )
