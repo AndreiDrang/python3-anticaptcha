@@ -68,7 +68,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK
         )
         # check response type
-        assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
+        assert isinstance(customcaptcha, CustomCaptchaTask.aioCustomCaptchaTask)
 
         response = await customcaptcha.captcha_handler(imageUrl=self.image_url)
         # check response type

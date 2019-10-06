@@ -71,7 +71,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert isinstance(imagecaptcha, ImageToTextTask.ImageToTextTask)
+        assert isinstance(imagecaptcha, ImageToTextTask.aioImageToTextTask)
 
         response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
 
