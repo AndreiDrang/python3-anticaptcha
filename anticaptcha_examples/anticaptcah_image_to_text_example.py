@@ -25,17 +25,13 @@ save_format = 'const' .
 
 result = ImageToTextTask.ImageToTextTask(
     anticaptcha_key=ANTICAPTCHA_KEY, save_format="const"
-).captcha_handler(
-    captcha_link="http://85.255.8.26/static/image/common_image_example/800070.png"
-)
+).captcha_handler(captcha_link="http://85.255.8.26/static/image/common_image_example/800070.png")
 print(result)
 
 # Пример который показывает работу антикапчи при решении капчи-изображением и сохранением её в качестве ВРЕМЕННОГО файла
 # Протестировано на Линуксах. Не используйте данный вариант на Windows! Возможно починим, но потом.
 # Example for working with captcha-image like a temporary file. Tested on UNIX-based systems. Don`t use it on Windows!
-result = ImageToTextTask.ImageToTextTask(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).captcha_handler(
+result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
     captcha_link="http://85.255.8.26/static/image/common_image_example/800070.png"
 )
 print(result)
@@ -47,9 +43,7 @@ Base64 files
 An example of working with decoding in base64 captcha-file after download. On-the-fly-encoding
 """
 base_64_link = base64.b64encode(
-    requests.get(
-        "http://85.255.8.26/static/image/common_image_example/862963.png"
-    ).content
+    requests.get("http://85.255.8.26/static/image/common_image_example/862963.png").content
 ).decode("utf-8")
 
 user_answer_base64 = ImageToTextTask.ImageToTextTask(
@@ -69,9 +63,9 @@ captcha_file = "088636.png"
 # captcha_file = 'D:\/Python\/933588.png'
 # captcha_file = r'D:\Python\933588.png'
 
-result = ImageToTextTask.ImageToTextTask(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).captcha_handler(captcha_file=captcha_file)
+result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
+    captcha_file=captcha_file
+)
 print(result)
 """
 Пример для работы с локальными файлами
@@ -150,8 +144,7 @@ QUEUE_KEY = "wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue"
 """
 
 answer = requests.post(
-    "http://85.255.8.26:8001/register_key",
-    json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"},
+    "http://85.255.8.26:8001/register_key", json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"}
 )
 # если очередь успешно создана:
 if answer == "OK":

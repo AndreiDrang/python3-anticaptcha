@@ -4,12 +4,7 @@ import asyncio
 import requests
 import aiohttp
 
-from python3_anticaptcha import (
-    create_task_url,
-    app_key,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 
 
 class GeeTestTaskProxyless:
@@ -30,19 +25,13 @@ class GeeTestTaskProxyless:
         :param callbackUrl: URL для решения капчи с ответом через callback
 		"""
         if sleep_time < 10:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
         self.task_payload = {
             "clientKey": anticaptcha_key,
-            "task": {
-                "type": "GeeTestTaskProxyless",
-                "websiteURL": websiteURL,
-                "gt": gt,
-            },
+            "task": {"type": "GeeTestTaskProxyless", "websiteURL": websiteURL, "gt": gt},
             "softId": app_key,
         }
         # задаём callbackUrl если передан
@@ -86,9 +75,7 @@ class GeeTestTaskProxyless:
         else:
             # Ждем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioGeeTestTaskProxyless:
@@ -109,19 +96,13 @@ class aioGeeTestTaskProxyless:
         :param callbackUrl: URL для решения капчи с ответом через callback
 		"""
         if sleep_time < 10:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
         self.task_payload = {
             "clientKey": anticaptcha_key,
-            "task": {
-                "type": "GeeTestTaskProxyless",
-                "websiteURL": websiteURL,
-                "gt": gt,
-            },
+            "task": {"type": "GeeTestTaskProxyless", "websiteURL": websiteURL, "gt": gt},
             "softId": app_key,
         }
         # задаём callbackUrl если передан

@@ -70,8 +70,7 @@ QUEUE_KEY = "wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue"
 """
 
 answer = requests.post(
-    "http://85.255.8.26:8001/register_key",
-    json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"},
+    "http://85.255.8.26:8001/register_key", json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"}
 )
 # если очередь успешно создана:
 if answer == "OK":

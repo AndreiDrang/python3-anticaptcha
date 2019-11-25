@@ -20,9 +20,7 @@ print(response)
 async def run():
     try:
         # io.IOBase
-        custom_result = CustomResultHandler.aioCustomResultHandler(
-            anticaptcha_key=ANTICAPTCHA_KEY
-        )
+        custom_result = CustomResultHandler.aioCustomResultHandler(anticaptcha_key=ANTICAPTCHA_KEY)
         response = await custom_result.task_handler(task_id=TASK_ID)
         print(response)
     except Exception as err:

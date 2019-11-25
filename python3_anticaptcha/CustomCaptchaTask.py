@@ -4,12 +4,7 @@ import asyncio
 import requests
 import aiohttp
 
-from python3_anticaptcha import (
-    create_task_url,
-    app_key,
-    get_async_result,
-    get_sync_result,
-)
+from python3_anticaptcha import create_task_url, app_key, get_async_result, get_sync_result
 
 
 class CustomCaptchaTask:
@@ -30,9 +25,7 @@ class CustomCaptchaTask:
         :param callbackUrl: URL для решения капчи с ответом через callback
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -89,9 +82,7 @@ class CustomCaptchaTask:
         else:
             # Ждем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioCustomCaptchaTask:
@@ -112,9 +103,7 @@ class aioCustomCaptchaTask:
         :param callbackUrl: URL для решения капчи с ответом через callback
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи

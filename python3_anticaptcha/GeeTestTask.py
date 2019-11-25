@@ -4,12 +4,7 @@ import asyncio
 import aiohttp
 import requests
 
-from python3_anticaptcha import (
-    create_task_url,
-    app_key,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 
 
 class GeeTestTask:
@@ -32,9 +27,7 @@ class GeeTestTask:
         :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_gee_test_task.py
 		"""
         if sleep_time < 10:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -90,9 +83,7 @@ class GeeTestTask:
         else:
             # Ждем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioGeeTestTask:
@@ -115,9 +106,7 @@ class aioGeeTestTask:
 		:param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_gee_test_task.py
 		"""
         if sleep_time < 10:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи

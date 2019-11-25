@@ -38,9 +38,7 @@ class AntiCaptchaControl:
         Получение баланса аккаунта
         :return: Возвращает актуальный баланс
         """
-        answer = requests.post(
-            get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}
-        )
+        answer = requests.post(get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY})
 
         return answer.json()
 
@@ -51,8 +49,7 @@ class AntiCaptchaControl:
         """
         if mode not in mods:
             raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {mods}."
-                f"\n\tYour param - `{mode}`"
+                f"\nWrong `mode` parameter. Valid params: {mods}." f"\n\tYour param - `{mode}`"
             )
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         answer = requests.post(get_app_stats_url, json=payload)
@@ -62,9 +59,7 @@ class AntiCaptchaControl:
         else:
             return {"errorId": 1}
 
-    def complaint_on_result(
-        self, reported_id: int, captcha_type: str = "image"
-    ) -> dict:
+    def complaint_on_result(self, reported_id: int, captcha_type: str = "image") -> dict:
         f"""
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
@@ -160,8 +155,7 @@ class aioAntiCaptchaControl:
         """
         if mode not in mods:
             raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {mods}."
-                f"\n\tYour param - `{mode}`"
+                f"\nWrong `mode` parameter. Valid params: {mods}." f"\n\tYour param - `{mode}`"
             )
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         async with aiohttp.ClientSession() as session:
@@ -171,9 +165,7 @@ class aioAntiCaptchaControl:
                 else:
                     return {"errorId": 1}
 
-    async def complaint_on_result(
-        self, reported_id: int, captcha_type: str = "image"
-    ) -> dict:
+    async def complaint_on_result(self, reported_id: int, captcha_type: str = "image") -> dict:
         f"""
         Позволяет отправить жалобу на неправильно решённую капчу.
         :param reported_id: Отправляете ID капчи на которую нужно пожаловаться
@@ -190,9 +182,7 @@ class aioAntiCaptchaControl:
         # complaint on image captcha
         if captcha_type == "image":
             async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    incorrect_imagecaptcha_url, json=payload
-                ) as resp:
+                async with session.post(incorrect_imagecaptcha_url, json=payload) as resp:
                     return await resp.json()
         # complaint on re-captcha
         elif captcha_type == "recaptcha":

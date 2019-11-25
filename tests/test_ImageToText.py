@@ -24,25 +24,16 @@ class TestAntiCaptcha(MainAntiCaptcha):
             "language",
             "callbackUrl",
         ]
-        default_handler_params = [
-            "self",
-            "captcha_link",
-            "captcha_file",
-            "captcha_base64",
-        ]
+        default_handler_params = ["self", "captcha_link", "captcha_file", "captcha_base64"]
         # get customcaptcha init and captcha_handler params
-        aioinit_params = inspect.getfullargspec(
-            ImageToTextTask.aioImageToTextTask.__init__
-        )
+        aioinit_params = inspect.getfullargspec(ImageToTextTask.aioImageToTextTask.__init__)
         aiohandler_params = inspect.getfullargspec(
             ImageToTextTask.aioImageToTextTask.captcha_handler
         )
 
         # get customcaptcha init and captcha_handler params
         init_params = inspect.getfullargspec(ImageToTextTask.ImageToTextTask.__init__)
-        handler_params = inspect.getfullargspec(
-            ImageToTextTask.ImageToTextTask.captcha_handler
-        )
+        handler_params = inspect.getfullargspec(ImageToTextTask.ImageToTextTask.captcha_handler)
         # check aio module params
         assert default_init_params == aioinit_params[0]
         assert default_handler_params == aiohandler_params[0]
@@ -51,17 +42,13 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert default_handler_params == handler_params[0]
 
     def test_create_task_payload(self):
-        customcaptcha = ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail
-        )
+        customcaptcha = ImageToTextTask.ImageToTextTask(anticaptcha_key=self.anticaptcha_key_fail)
         # check response type
         assert isinstance(customcaptcha, ImageToTextTask.ImageToTextTask)
 
         with requests_mock.Mocker() as req_mock:
             req_mock.register_uri("GET", self.image_url, json=self.VALID_RESPONSE_JSON)
-            req_mock.register_uri(
-                "POST", config.create_task_url, json=self.ERROR_RESPONSE_JSON
-            )
+            req_mock.register_uri("POST", config.create_task_url, json=self.ERROR_RESPONSE_JSON)
             customcaptcha.captcha_handler(captcha_link=self.image_url)
 
         history = req_mock.request_history
@@ -71,25 +58,19 @@ class TestAntiCaptcha(MainAntiCaptcha):
         request_payload = history[1].json()
 
         # check all dict keys
-        assert ["clientKey", "task", "languagePool", "softId"] == list(
-            request_payload.keys()
-        )
+        assert ["clientKey", "task", "languagePool", "softId"] == list(request_payload.keys())
         assert request_payload["softId"] == config.app_key
         assert ["type", "body"] == list(request_payload["task"].keys())
         assert request_payload["task"]["type"] == "ImageToTextTask"
 
     def test_get_result_payload(self):
-        customcaptcha = ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail
-        )
+        customcaptcha = ImageToTextTask.ImageToTextTask(anticaptcha_key=self.anticaptcha_key_fail)
         # check response type
         assert isinstance(customcaptcha, ImageToTextTask.ImageToTextTask)
 
         with requests_mock.Mocker() as req_mock:
             req_mock.register_uri("GET", self.image_url, json=self.VALID_RESPONSE_JSON)
-            req_mock.register_uri(
-                "POST", config.create_task_url, json=self.VALID_RESPONSE_JSON
-            )
+            req_mock.register_uri("POST", config.create_task_url, json=self.VALID_RESPONSE_JSON)
             req_mock.register_uri(
                 "POST", config.get_result_url, json=self.VALID_RESPONSE_RESULT_JSON
             )
@@ -110,9 +91,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     """
 
     def test_response_imagecaptcha(self):
-        imagecaptcha = ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail
-        )
+        imagecaptcha = ImageToTextTask.ImageToTextTask(anticaptcha_key=self.anticaptcha_key_fail)
         # check response type
         assert isinstance(imagecaptcha, ImageToTextTask.ImageToTextTask)
 
@@ -144,14 +123,12 @@ class TestAntiCaptcha(MainAntiCaptcha):
     def test_fail_imagecaptcha_value(self):
         with pytest.raises(ValueError):
             assert ImageToTextTask.ImageToTextTask(
-                anticaptcha_key=self.anticaptcha_key_fail,
-                save_format=self.WRONG_SAVE_FORMAT,
+                anticaptcha_key=self.anticaptcha_key_fail, save_format=self.WRONG_SAVE_FORMAT
             )
 
     def test_fail_imagecaptcha_const(self):
         imagecaptcha = ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[0]
         )
 
         response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
@@ -160,8 +137,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
     def test_fail_imagecaptcha_const_context(self):
         with ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[0]
         ) as imagecaptcha:
 
             response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
@@ -170,8 +146,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
     def test_fail_imagecaptcha_temp(self):
         imagecaptcha = ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[1]
         )
 
         response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
@@ -180,8 +155,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
     def test_fail_imagecaptcha_temp_context(self):
         with ImageToTextTask.ImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[1]
         ) as imagecaptcha:
 
             response = imagecaptcha.captcha_handler(captcha_link=self.image_url)
@@ -192,15 +166,13 @@ class TestAntiCaptcha(MainAntiCaptcha):
     async def test_fail_aioimagecaptcha_value(self):
         with pytest.raises(ValueError):
             assert await ImageToTextTask.ImageToTextTask(
-                anticaptcha_key=self.anticaptcha_key_fail,
-                save_format=self.WRONG_SAVE_FORMAT,
+                anticaptcha_key=self.anticaptcha_key_fail, save_format=self.WRONG_SAVE_FORMAT
             )
 
     @pytest.mark.asyncio
     async def test_fail_aioimagecaptcha_temp(self):
         imagecaptcha = ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[1]
         )
         response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
         assert 1 == response["errorId"]
@@ -208,8 +180,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     @pytest.mark.asyncio
     async def test_fail_aioimagecaptcha_temp_context(self):
         with ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[1],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[1]
         ) as imagecaptcha:
             response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
             assert 1 == response["errorId"]
@@ -217,8 +188,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     @pytest.mark.asyncio
     async def test_fail_aioimagecaptcha_const(self):
         imagecaptcha = ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[0]
         )
         response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
         assert 1 == response["errorId"]
@@ -226,8 +196,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     @pytest.mark.asyncio
     async def test_fail_aioimagecaptcha_const_context(self):
         with ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=self.anticaptcha_key_fail,
-            save_format=ImageToTextTask.SAVE_FORMATS[0],
+            anticaptcha_key=self.anticaptcha_key_fail, save_format=ImageToTextTask.SAVE_FORMATS[0]
         ) as imagecaptcha:
             response = await imagecaptcha.captcha_handler(captcha_link=self.image_url)
             assert 1 == response["errorId"]

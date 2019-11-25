@@ -4,18 +4,11 @@ import asyncio
 import aiohttp
 import requests
 
-from python3_anticaptcha import (
-    create_task_url,
-    app_key,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 
 
 class FunCaptchaTaskProxyless:
-    def __init__(
-        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None
-    ):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None):
         """
 		Модуль отвечает за решение FunCaptcha Proxyless
 		:param anticaptcha_key: Ключ от АнтиКапчи
@@ -23,9 +16,7 @@ class FunCaptchaTaskProxyless:
         :param callbackUrl: URL для решения капчи с ответом через callback
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -63,9 +54,7 @@ class FunCaptchaTaskProxyless:
         )
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(
-            create_task_url, json=self.task_payload, **kwargs
-        ).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -81,15 +70,11 @@ class FunCaptchaTaskProxyless:
         else:
             # Ждем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioFunCaptchaTaskProxyless:
-    def __init__(
-        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None
-    ):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None):
         """
 		Модуль отвечает за решение FunCaptcha Proxyless
 		:param anticaptcha_key: Ключ от АнтиКапчи
@@ -97,9 +82,7 @@ class aioFunCaptchaTaskProxyless:
         :param callbackUrl: URL для решения капчи с ответом через callback
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи

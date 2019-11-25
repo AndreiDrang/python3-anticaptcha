@@ -4,23 +4,14 @@ import asyncio
 import requests
 import aiohttp
 
-from python3_anticaptcha import (
-    create_task_url,
-    app_key,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 
 MIN_SCORES = (0.3, 0.7, 0.9)
 
 
 class ReCaptchaV3TaskProxyless:
     def __init__(
-        self,
-        anticaptcha_key: str,
-        sleep_time: int = 5,
-        callbackUrl: str = None,
-        **kwargs,
+        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs
     ):
         """
 		Модуль отвечает за решение ReCaptcha v3 без прокси
@@ -30,9 +21,7 @@ class ReCaptchaV3TaskProxyless:
 		:param kwargs: Другие необязательные параметры из документации
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be less than 5. U send - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be less than 5. U send - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -63,12 +52,7 @@ class ReCaptchaV3TaskProxyless:
 
     # Работа с капчёй
     def captcha_handler(
-        self,
-        websiteURL: str,
-        websiteKey: str,
-        minScore: float,
-        pageAction: str,
-        **kwargs,
+        self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str, **kwargs
     ) -> dict:
         """
 		Метод решения ReCaptcha V3
@@ -95,9 +79,7 @@ class ReCaptchaV3TaskProxyless:
         )
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(
-            create_task_url, json=self.task_payload, **kwargs
-        ).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -113,18 +95,12 @@ class ReCaptchaV3TaskProxyless:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioReCaptchaV3TaskProxyless:
     def __init__(
-        self,
-        anticaptcha_key: str,
-        sleep_time: int = 5,
-        callbackUrl: str = None,
-        **kwargs,
+        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs
     ):
         """
 		Модуль отвечает за решение ReCaptcha V3 без прокси
@@ -134,9 +110,7 @@ class aioReCaptchaV3TaskProxyless:
 		:param kwargs: Другие необязательные параметры из документации
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be less than 5. U send - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be less than 5. U send - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи

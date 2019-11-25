@@ -40,9 +40,7 @@ class SquareNetTextTask:
         :param callbackUrl: URL для решения капчи с ответом через callback
         """
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
         if save_format in ["const", "temp"]:
@@ -83,9 +81,7 @@ class SquareNetTextTask:
         :return: Возвращает ID капчи
         """
         # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-        self.task_payload["task"].update(
-            {"body": base64.b64encode(content).decode("utf-8")}
-        )
+        self.task_payload["task"].update({"body": base64.b64encode(content).decode("utf-8")})
         # Отправляем на рукапча изображение капчи и другие парметры,
         # в результате получаем JSON ответ с номером решаемой капчи и получая ответ - извлекаем номер
         captcha_id = requests.post(create_task_url, json=self.task_payload).json()
@@ -104,14 +100,10 @@ class SquareNetTextTask:
         # Высчитываем хэш изображения, для того что бы сохранить его под уникальным именем
         image_hash = hashlib.sha224(content).hexdigest()
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb"
-        ) as out_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb") as out_image:
             out_image.write(content)
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb"
-        ) as captcha_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
             self.task_payload["task"].update(
                 {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
@@ -196,9 +188,7 @@ class SquareNetTextTask:
 
         # проводим действия над файлом уже закодированном в base64(передаём на сервер)
         elif image_base64:
-            captcha_id = self.__read_captcha_image_file(
-                image_base64, content_type="base64"
-            )
+            captcha_id = self.__read_captcha_image_file(image_base64, content_type="base64")
 
         # проводим действия над ссылкой на файл(скачиваем, сохраняем и передаём на сервер)
         elif image_link:
@@ -228,9 +218,7 @@ class SquareNetTextTask:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioSquareNetTextTask:
@@ -256,9 +244,7 @@ class aioSquareNetTextTask:
         :param callbackUrl: URL для решения капчи с ответом через callback
         """
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
         if save_format in ["const", "temp"]:
@@ -328,14 +314,10 @@ class aioSquareNetTextTask:
         # Высчитываем хэш изображения, для того что бы сохранить его под уникальным именем
         image_hash = hashlib.sha224(content).hexdigest()
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb"
-        ) as out_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb") as out_image:
             out_image.write(content)
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb"
-        ) as captcha_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
             self.task_payload["task"].update(
                 {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
@@ -344,18 +326,14 @@ class aioSquareNetTextTask:
             # в результате получаем JSON ответ содержащий номер решаемой капчи
 
             async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    create_task_url, json=self.task_payload
-                ) as resp:
+                async with session.post(create_task_url, json=self.task_payload) as resp:
                     captcha_id = await resp.json()
 
         # удаляем файл капчи
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
         return captcha_id
 
-    async def __read_captcha_image_file(
-        self, content: bytes, content_type: str = "file"
-    ):
+    async def __read_captcha_image_file(self, content: bytes, content_type: str = "file"):
         """
         Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
@@ -418,13 +396,9 @@ class aioSquareNetTextTask:
         self.task_payload["task"].update({"columnsCount": columnsCount})
         # если был передан линк на локальный скачаный файл
         if image_file:
-            captcha_id = await self.__read_captcha_image_file(
-                image_file, content_type="file"
-            )
+            captcha_id = await self.__read_captcha_image_file(image_file, content_type="file")
         elif image_base64:
-            captcha_id = await self.__read_captcha_image_file(
-                image_base64, content_type="base64"
-            )
+            captcha_id = await self.__read_captcha_image_file(image_base64, content_type="base64")
         elif image_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == "const":

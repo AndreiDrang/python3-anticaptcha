@@ -4,21 +4,12 @@ import asyncio
 import requests
 import aiohttp
 
-from python3_anticaptcha import (
-    create_task_url,
-    app_key,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 
 
 class NoCaptchaTask:
     def __init__(
-        self,
-        anticaptcha_key: str,
-        sleep_time: int = 10,
-        callbackUrl: str = None,
-        **kwargs,
+        self, anticaptcha_key: str, sleep_time: int = 10, callbackUrl: str = None, **kwargs
     ):
         """
         Модуль отвечает за решение NoCaptcha.
@@ -29,9 +20,7 @@ class NoCaptchaTask:
         """
 
         if sleep_time < 10:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -68,9 +57,7 @@ class NoCaptchaTask:
         :param: websiteKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
         return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
         """
-        self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websiteKey": websiteKey}
-        )
+        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
         captcha_id = requests.post(create_task_url, json=self.task_payload).json()
 
@@ -87,18 +74,12 @@ class NoCaptchaTask:
         else:
             # Ждем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioNoCaptchaTask:
     def __init__(
-        self,
-        anticaptcha_key: str,
-        sleep_time: str = 10,
-        callbackUrl: str = None,
-        **kwargs,
+        self, anticaptcha_key: str, sleep_time: str = 10, callbackUrl: str = None, **kwargs
     ):
         """
         Модуль отвечает за решение NoCaptcha.
@@ -109,9 +90,7 @@ class aioNoCaptchaTask:
         """
 
         if sleep_time < 10:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 10. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -148,9 +127,7 @@ class aioNoCaptchaTask:
         :param: websiteKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
         return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
         """
-        self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websiteKey": websiteKey}
-        )
+        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
         async with aiohttp.ClientSession() as session:
             async with session.post(create_task_url, json=self.task_payload) as resp:

@@ -46,9 +46,7 @@ class ImageToTextTask:
         :param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
         """
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
         if save_format in SAVE_FORMATS:
@@ -93,9 +91,7 @@ class ImageToTextTask:
         :return: Возвращает ID капчи
         """
         # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-        self.task_payload["task"].update(
-            {"body": base64.b64encode(content).decode("utf-8")}
-        )
+        self.task_payload["task"].update({"body": base64.b64encode(content).decode("utf-8")})
         # Отправляем на рукапча изображение капчи и другие парметры,
         # в результате получаем JSON ответ с номером решаемой капчи и получая ответ - извлекаем номер
         captcha_id = requests.post(create_task_url, json=self.task_payload).json()
@@ -114,14 +110,10 @@ class ImageToTextTask:
         # Высчитываем хэш изображения, для того что бы сохранить его под уникальным именем
         image_hash = hashlib.sha224(content).hexdigest()
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb"
-        ) as out_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb") as out_image:
             out_image.write(content)
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb"
-        ) as captcha_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
             self.task_payload["task"].update(
                 {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
@@ -181,13 +173,9 @@ class ImageToTextTask:
         :return: Возвращает весь ответ сервера JSON-строкой.
         """
         if captcha_file:
-            captcha_id = self.__read_captcha_image_file(
-                captcha_file, content_type="file"
-            )
+            captcha_id = self.__read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
-            captcha_id = self.__read_captcha_image_file(
-                captcha_base64, content_type="base64"
-            )
+            captcha_id = self.__read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             content = requests.get(captcha_link, **kwargs).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
@@ -215,9 +203,7 @@ class ImageToTextTask:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioImageToTextTask:
@@ -247,9 +233,7 @@ class aioImageToTextTask:
 		:param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
         # проверяем переданный параметр способа сохранения капчи
         if save_format in SAVE_FORMATS:
@@ -326,14 +310,10 @@ class aioImageToTextTask:
         # Высчитываем хэш изображения, для того что бы сохранить его под уникальным именем
         image_hash = hashlib.sha224(content).hexdigest()
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb"
-        ) as out_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "wb") as out_image:
             out_image.write(content)
 
-        with open(
-            os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb"
-        ) as captcha_image:
+        with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
             self.task_payload["task"].update(
                 {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
@@ -342,18 +322,14 @@ class aioImageToTextTask:
             # в результате получаем JSON ответ содержащий номер решаемой капчи
 
             async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    create_task_url, json=self.task_payload
-                ) as resp:
+                async with session.post(create_task_url, json=self.task_payload) as resp:
                     captcha_id = await resp.json()
 
         # удаляем файл капчи
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
         return captcha_id
 
-    async def __read_captcha_image_file(
-        self, content: bytes, content_type: str = "file"
-    ):
+    async def __read_captcha_image_file(self, content: bytes, content_type: str = "file"):
         """
         Функция отвечает за чтение уже сохранённого файла или файла в уодировке base64
         :param content: Параметр строка-путь указывающий на изображение капчи для отправки её на сервер
@@ -384,10 +360,7 @@ class aioImageToTextTask:
 
     # Работа с капчёй
     async def captcha_handler(
-        self,
-        captcha_link: str = None,
-        captcha_file: str = None,
-        captcha_base64: str = None,
+        self, captcha_link: str = None, captcha_file: str = None, captcha_base64: str = None
     ) -> dict:
         """
 		Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
@@ -397,9 +370,7 @@ class aioImageToTextTask:
 		"""
         # если был передан линк на локальный скачаный файл
         if captcha_file:
-            captcha_id = await self.__read_captcha_image_file(
-                captcha_file, content_type="file"
-            )
+            captcha_id = await self.__read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
             captcha_id = await self.__read_captcha_image_file(
                 captcha_base64, content_type="base64"

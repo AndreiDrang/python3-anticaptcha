@@ -125,9 +125,7 @@ class CallbackClient:
 
         return False
 
-    def captcha_handler(
-        self, requests_timeout: int = 1, auth_params: dict = None
-    ) -> dict:
+    def captcha_handler(self, requests_timeout: int = 1, auth_params: dict = None) -> dict:
         """
         Метод отвечает за получение результата решения капчи с callback сервера
         :param requests_timeout: Время между запросами к серверу.
@@ -162,19 +160,13 @@ class CallbackClient:
                     else self.rtmq_password
                 )
                 self.rtmq_host = (
-                    auth_params["rtmq_host"]
-                    if auth_params.get("rtmq_host")
-                    else self.rtmq_host
+                    auth_params["rtmq_host"] if auth_params.get("rtmq_host") else self.rtmq_host
                 )
                 self.rtmq_port = (
-                    auth_params["rtmq_port"]
-                    if auth_params.get("rtmq_port")
-                    else self.rtmq_port
+                    auth_params["rtmq_port"] if auth_params.get("rtmq_port") else self.rtmq_port
                 )
                 self.rtmq_vhost = (
-                    auth_params["rtmq_vhost"]
-                    if auth_params.get("rtmq_vhost")
-                    else self.rtmq_vhost
+                    auth_params["rtmq_vhost"] if auth_params.get("rtmq_vhost") else self.rtmq_vhost
                 )
 
         # получение данных из кеша

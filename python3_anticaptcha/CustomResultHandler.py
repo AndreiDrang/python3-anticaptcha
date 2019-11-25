@@ -12,9 +12,7 @@ class CustomResultHandler:
         :param sleep_time: Solution timeout
         """
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
         # payload for receiving service response
         self.result_payload = {"clientKey": anticaptcha_key}
@@ -37,9 +35,7 @@ class CustomResultHandler:
 
         # wait captcha solution result
         time.sleep(self.sleep_time)
-        return get_sync_result(
-            result_payload=self.result_payload, sleep_time=self.sleep_time
-        )
+        return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioCustomResultHandler:
@@ -50,9 +46,7 @@ class aioCustomResultHandler:
         :param sleep_time: Solution timeout
         """
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
         # payload for receiving service response
         self.result_payload = {"clientKey": anticaptcha_key}

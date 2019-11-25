@@ -26,17 +26,13 @@ class TestAntiCaptcha(MainAntiCaptcha):
         ]
         default_handler_params = ["self", "imageUrl"]
         # get customcaptcha init and captcha_handler params
-        aioinit_params = inspect.getfullargspec(
-            CustomCaptchaTask.aioCustomCaptchaTask.__init__
-        )
+        aioinit_params = inspect.getfullargspec(CustomCaptchaTask.aioCustomCaptchaTask.__init__)
         aiohandler_params = inspect.getfullargspec(
             CustomCaptchaTask.aioCustomCaptchaTask.captcha_handler
         )
 
         # get customcaptcha init and captcha_handler params
-        init_params = inspect.getfullargspec(
-            CustomCaptchaTask.CustomCaptchaTask.__init__
-        )
+        init_params = inspect.getfullargspec(CustomCaptchaTask.CustomCaptchaTask.__init__)
         handler_params = inspect.getfullargspec(
             CustomCaptchaTask.CustomCaptchaTask.captcha_handler
         )
@@ -67,9 +63,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check all dict keys
         assert ["clientKey", "task", "softId"] == list(request_payload.keys())
         assert request_payload["softId"] == config.app_key
-        assert ["type", "assignment", "imageUrl"] == list(
-            request_payload["task"].keys()
-        )
+        assert ["type", "assignment", "imageUrl"] == list(request_payload["task"].keys())
         assert request_payload["task"]["type"] == "CustomCaptchaTask"
 
     def test_get_result_payload(self):
@@ -80,9 +74,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.register_uri(
-                "POST", config.create_task_url, json=self.VALID_RESPONSE_JSON
-            )
+            req_mock.register_uri("POST", config.create_task_url, json=self.VALID_RESPONSE_JSON)
             req_mock.register_uri(
                 "POST", config.get_result_url, json=self.VALID_RESPONSE_RESULT_JSON
             )

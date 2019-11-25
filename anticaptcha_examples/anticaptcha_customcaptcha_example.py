@@ -53,9 +53,7 @@ custom_form = """[
             ]"""
 
 my_custom_task = CustomCaptchaTask.CustomCaptchaTask(
-    anticaptcha_key=ANTICAPTCHA_KEY,
-    assignment="Enter license plate number",
-    forms=custom_form,
+    anticaptcha_key=ANTICAPTCHA_KEY, assignment="Enter license plate number", forms=custom_form
 ).captcha_handler(imageUrl=imageUrl)
 
 

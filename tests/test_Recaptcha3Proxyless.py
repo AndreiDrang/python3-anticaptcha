@@ -15,13 +15,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
     def test_recaptcha3_params(self):
         default_init_params = ["self", "anticaptcha_key", "sleep_time", "callbackUrl"]
-        default_handler_params = [
-            "self",
-            "websiteURL",
-            "websiteKey",
-            "minScore",
-            "pageAction",
-        ]
+        default_handler_params = ["self", "websiteURL", "websiteKey", "minScore", "pageAction"]
         # get customcaptcha init and captcha_handler params
         aioinit_params = inspect.getfullargspec(
             ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless.__init__
@@ -72,9 +66,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
             anticaptcha_key=self.anticaptcha_key_fail
         )
         # check response type
-        assert isinstance(
-            recaptcha, ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless
-        )
+        assert isinstance(recaptcha, ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless)
 
         response = await recaptcha.captcha_handler(
             websiteURL="https://www.google.com/recaptcha/api2/demo",

@@ -19,15 +19,13 @@ result = AntiCaptchaControl.AntiCaptchaControl(
 ).complaint_on_result(reported_id=-5, captcha_type="recaptcha")
 print(result)
 # Пример метода, принимающего ключ аккаунта и возвращающего актуальный баланс
-result = AntiCaptchaControl.AntiCaptchaControl(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).get_balance()
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).get_balance()
 print(result)
 # Пример метода, выдающий информацию о загрузке очереди, в зависимости от ID очереди
 # В данном случае queue_id = 1, то есть получаем информацию по загрузке очереди ImageToText (язык английский)
-result = AntiCaptchaControl.AntiCaptchaControl(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).get_queue_status(queue_id=1)
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).get_queue_status(
+    queue_id=1
+)
 print(result)
 
 # Асинхронный метод работы

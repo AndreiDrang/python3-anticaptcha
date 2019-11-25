@@ -57,10 +57,6 @@ class aioAntiCaptchaAppStats:
         async with aiohttp.ClientSession() as session:
             async with session.post(
                 get_app_stats_url,
-                json={
-                    "clientKey": self.ANTICAPTCHA_KEY,
-                    "softId": softId,
-                    "mode": mode,
-                },
+                json={"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode},
             ) as resp:
                 return await resp.json()

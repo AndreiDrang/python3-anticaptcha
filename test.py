@@ -120,13 +120,7 @@ class TestAntiCaptcha(object):
 
     def test_recaptcha_v3_params(self):
         default_init_params = ["self", "anticaptcha_key", "sleep_time", "callbackUrl"]
-        default_handler_params = [
-            "self",
-            "websiteURL",
-            "websiteKey",
-            "minScore",
-            "pageAction",
-        ]
+        default_handler_params = ["self", "websiteURL", "websiteKey", "minScore", "pageAction"]
         # get customcaptcha init and captcha_handler params
         aioinit_params = inspect.getfullargspec(
             ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless.__init__
@@ -165,9 +159,7 @@ class TestAntiCaptcha(object):
         # check response type
         assert type(response) is dict
         # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription", "taskId"] == list(
-            response.keys()
-        )
+        assert ["errorId", "errorCode", "errorDescription", "taskId"] == list(response.keys())
         # check error code
         # TODO change to `0`
         assert response["errorId"] == 31
@@ -239,9 +231,7 @@ class TestAntiCaptcha(object):
             anticaptcha_key=self.anticaptcha_key_fail
         ) as recaptcha:
             # check response type
-            assert (
-                type(recaptcha) is ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless
-            )
+            assert type(recaptcha) is ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless
 
             response = yield recaptcha.captcha_handler(
                 websiteURL="https://www.google.com/recaptcha/api2/demo",

@@ -4,21 +4,12 @@ import asyncio
 import requests
 import aiohttp
 
-from python3_anticaptcha import (
-    create_task_url,
-    app_key,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import create_task_url, app_key, get_sync_result, get_async_result
 
 
 class NoCaptchaTaskProxyless:
     def __init__(
-        self,
-        anticaptcha_key: str,
-        sleep_time: int = 5,
-        callbackUrl: str = None,
-        **kwargs,
+        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs
     ):
         """
 		Модуль отвечает за решение ReCaptcha без прокси
@@ -28,9 +19,7 @@ class NoCaptchaTaskProxyless:
 		:param kwargs: Другие необязательные параметры из документации
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -69,14 +58,10 @@ class NoCaptchaTaskProxyless:
 		"""
 
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
-        self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websiteKey": websiteKey}
-        )
+        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(
-            create_task_url, json=self.task_payload, **kwargs
-        ).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -92,18 +77,12 @@ class NoCaptchaTaskProxyless:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
 
 
 class aioNoCaptchaTaskProxyless:
     def __init__(
-        self,
-        anticaptcha_key: str,
-        sleep_time: int = 5,
-        callbackUrl: str = None,
-        **kwargs,
+        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs
     ):
         """
 		Модуль отвечает за решение ReCaptcha без прокси
@@ -113,9 +92,7 @@ class aioNoCaptchaTaskProxyless:
 		:param kwargs: Другие необязательные параметры из документации
 		"""
         if sleep_time < 5:
-            raise ValueError(
-                f"Param `sleep_time` must be greater than 5. U set - {sleep_time}"
-            )
+            raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
 
         # Пайлоад для создания задачи
@@ -155,9 +132,7 @@ class aioNoCaptchaTaskProxyless:
 		"""
 
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
-        self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websiteKey": websiteKey}
-        )
+        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
         async with aiohttp.ClientSession() as session:

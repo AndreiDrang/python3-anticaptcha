@@ -24,9 +24,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         )
 
         # get customcaptcha init and task_handler params
-        init_params = inspect.getfullargspec(
-            CustomResultHandler.CustomResultHandler.__init__
-        )
+        init_params = inspect.getfullargspec(CustomResultHandler.CustomResultHandler.__init__)
         handler_params = inspect.getfullargspec(
             CustomResultHandler.CustomResultHandler.task_handler
         )
@@ -53,9 +51,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check response type
         assert isinstance(response, dict)
         # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription", "taskId"] == list(
-            response.keys()
-        )
+        assert ["errorId", "errorCode", "errorDescription", "taskId"] == list(response.keys())
 
     @pytest.mark.asyncio
     async def test_response_aioresult_handler(self):
@@ -70,9 +66,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check response type
         assert isinstance(response, dict)
         # check all dict keys
-        assert ["errorId", "errorCode", "errorDescription", "taskId"] == list(
-            response.keys()
-        )
+        assert ["errorId", "errorCode", "errorDescription", "taskId"] == list(response.keys())
 
     """
     Fail tests

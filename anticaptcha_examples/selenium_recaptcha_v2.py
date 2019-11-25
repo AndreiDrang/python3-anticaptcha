@@ -19,17 +19,13 @@ browser_options.add_argument("--no-sandbox")
 browser_options.add_argument("disable-infobars")
 browser_options.add_argument("--disable-extensions")
 # run browser
-browser = webdriver.Chrome(
-    executable_path="./chromefile/chromedriver", options=browser_options
-)
+browser = webdriver.Chrome(executable_path="./chromefile/chromedriver", options=browser_options)
 # open page
 browser.get(WEB_URL)
 # prepare captcha solver
 captcha_obj = NoCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY)
 # solve recaptcha
-browser.execute_script(
-    "document.getElementById('g-recaptcha-response').style.display = 'block';"
-)
+browser.execute_script("document.getElementById('g-recaptcha-response').style.display = 'block';")
 # wait script finish
 time.sleep(1)
 recaptcha_element = browser.find_element_by_xpath(recaptcha_xpath)
