@@ -25,4 +25,4 @@ jobs:
         anticaptcha_key: ${{ secrets.anticaptcha_key }}
       run: |
         pip install pytest pytest-asyncio requests-mock
-        pytest tests
+        pytest tests -v
