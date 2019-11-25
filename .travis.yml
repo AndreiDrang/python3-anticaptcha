@@ -15,11 +15,11 @@ language: python
 python: 
   - "3.6"
   - "3.7"
-  - "3.8-dev"
+  - "3.8"
 
 # Install the codecov pip dependency
 install:
-  - pip install --upgrade pytest pytest-cov pytest-asyncio
+  - pip install --upgrade pytest pytest-cov pytest-asyncio requests-mock
   - python setup.py install
 
 # Run the unit test
