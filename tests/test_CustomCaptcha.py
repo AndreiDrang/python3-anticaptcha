@@ -1,14 +1,16 @@
 import inspect
 
 import pytest
+import requests_mock
 
-from python3_anticaptcha import CustomCaptchaTask
+from python3_anticaptcha import CustomCaptchaTask, config
 
 from tests.main import MainAntiCaptcha
 
 
 class TestAntiCaptcha(MainAntiCaptcha):
     CUSTOM_TASK = "2+2=?"
+
     """
     Params check
     """
@@ -45,10 +47,56 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert default_init_params == init_params[0]
         assert default_handler_params == handler_params[0]
 
+
+    def test_create_task_payload(self):
+        customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
+            anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK
+        )
+        # check response type
+        assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
+
+        with requests_mock.Mocker() as req_mock:
+            req_mock.post(config.create_task_url, json=self.ERROR_RESPONSE_JSON)
+            customcaptcha.captcha_handler(imageUrl=self.image_url)
+
+        history = req_mock.request_history
+
+        assert len(history) == 1
+
+        request_payload = history[0].json()
+
+        # check all dict keys
+        assert ["clientKey", "task", "softId"] == list(request_payload.keys())
+        assert request_payload["softId"] == config.app_key
+        assert ["type", "assignment", "imageUrl"] == list(request_payload["task"].keys())
+        assert request_payload["task"]["type"] == "CustomCaptchaTask"
+
+
+    def test_get_result_payload(self):
+        customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
+            anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK
+        )
+        # check response type
+        assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
+
+        with requests_mock.Mocker() as req_mock:
+            req_mock.register_uri('POST', config.create_task_url, json=self.VALID_RESPONSE_JSON)
+            req_mock.register_uri('POST', config.get_result_url, json=self.VALID_RESPONSE_RESULT_JSON)
+            customcaptcha.captcha_handler(imageUrl=self.image_url)
+
+        history = req_mock.request_history
+
+        assert len(history) == 2
+
+        request_payload = history[1].json()
+
+        # check all dict keys
+        assert ["clientKey", "taskId"] == list(request_payload.keys())
+        assert request_payload["taskId"] == self.VALID_RESPONSE_JSON['taskId']
+
     """
     Response checking
     """
-
     def test_response_customcaptcha(self):
         customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
             anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK
@@ -56,7 +104,10 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check response type
         assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
 
-        response = customcaptcha.captcha_handler(imageUrl=self.image_url)
+        with requests_mock.Mocker() as req_mock:
+            req_mock.post(config.create_task_url, json=self.ERROR_RESPONSE_JSON)
+            response = customcaptcha.captcha_handler(imageUrl=self.image_url)
+
         # check response type
         assert isinstance(response, dict)
         # check all dict keys
@@ -70,7 +121,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check response type
         assert isinstance(customcaptcha, CustomCaptchaTask.aioCustomCaptchaTask)
 
-        response = await customcaptcha.captcha_handler(imageUrl=self.image_url)
+        response = customcaptcha.captcha_handler(imageUrl=self.image_url)
         # check response type
         assert isinstance(response, dict)
         # check all dict keys

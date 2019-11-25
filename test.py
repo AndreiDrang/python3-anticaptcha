@@ -4,7 +4,6 @@ import inspect
 import asyncio
 
 import pytest
-import requests
 
 from python3_anticaptcha import (
     NoCaptchaTaskProxyless,
