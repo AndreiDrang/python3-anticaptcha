@@ -47,7 +47,6 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert default_init_params == init_params[0]
         assert default_handler_params == handler_params[0]
 
-
     def test_create_task_payload(self):
         customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
             anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK
@@ -68,9 +67,10 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check all dict keys
         assert ["clientKey", "task", "softId"] == list(request_payload.keys())
         assert request_payload["softId"] == config.app_key
-        assert ["type", "assignment", "imageUrl"] == list(request_payload["task"].keys())
+        assert ["type", "assignment", "imageUrl"] == list(
+            request_payload["task"].keys()
+        )
         assert request_payload["task"]["type"] == "CustomCaptchaTask"
-
 
     def test_get_result_payload(self):
         customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
@@ -80,8 +80,12 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert isinstance(customcaptcha, CustomCaptchaTask.CustomCaptchaTask)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.register_uri('POST', config.create_task_url, json=self.VALID_RESPONSE_JSON)
-            req_mock.register_uri('POST', config.get_result_url, json=self.VALID_RESPONSE_RESULT_JSON)
+            req_mock.register_uri(
+                "POST", config.create_task_url, json=self.VALID_RESPONSE_JSON
+            )
+            req_mock.register_uri(
+                "POST", config.get_result_url, json=self.VALID_RESPONSE_RESULT_JSON
+            )
             customcaptcha.captcha_handler(imageUrl=self.image_url)
 
         history = req_mock.request_history
@@ -92,11 +96,12 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
         # check all dict keys
         assert ["clientKey", "taskId"] == list(request_payload.keys())
-        assert request_payload["taskId"] == self.VALID_RESPONSE_JSON['taskId']
+        assert request_payload["taskId"] == self.VALID_RESPONSE_JSON["taskId"]
 
     """
     Response checking
     """
+
     def test_response_customcaptcha(self):
         customcaptcha = CustomCaptchaTask.CustomCaptchaTask(
             anticaptcha_key=self.anticaptcha_key_fail, assignment=self.CUSTOM_TASK

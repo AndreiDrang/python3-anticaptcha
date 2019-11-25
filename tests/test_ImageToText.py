@@ -50,7 +50,6 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert default_init_params == init_params[0]
         assert default_handler_params == handler_params[0]
 
-
     def test_create_task_payload(self):
         customcaptcha = ImageToTextTask.ImageToTextTask(
             anticaptcha_key=self.anticaptcha_key_fail
@@ -59,8 +58,10 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert isinstance(customcaptcha, ImageToTextTask.ImageToTextTask)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.register_uri('GET', self.image_url, json=self.VALID_RESPONSE_JSON)
-            req_mock.register_uri('POST', config.create_task_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.register_uri("GET", self.image_url, json=self.VALID_RESPONSE_JSON)
+            req_mock.register_uri(
+                "POST", config.create_task_url, json=self.ERROR_RESPONSE_JSON
+            )
             customcaptcha.captcha_handler(captcha_link=self.image_url)
 
         history = req_mock.request_history
@@ -70,11 +71,12 @@ class TestAntiCaptcha(MainAntiCaptcha):
         request_payload = history[1].json()
 
         # check all dict keys
-        assert ["clientKey", "task", "languagePool", "softId"] == list(request_payload.keys())
+        assert ["clientKey", "task", "languagePool", "softId"] == list(
+            request_payload.keys()
+        )
         assert request_payload["softId"] == config.app_key
         assert ["type", "body"] == list(request_payload["task"].keys())
         assert request_payload["task"]["type"] == "ImageToTextTask"
-
 
     def test_get_result_payload(self):
         customcaptcha = ImageToTextTask.ImageToTextTask(
@@ -84,9 +86,13 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert isinstance(customcaptcha, ImageToTextTask.ImageToTextTask)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.register_uri('GET', self.image_url, json=self.VALID_RESPONSE_JSON)
-            req_mock.register_uri('POST', config.create_task_url, json=self.VALID_RESPONSE_JSON)
-            req_mock.register_uri('POST', config.get_result_url, json=self.VALID_RESPONSE_RESULT_JSON)
+            req_mock.register_uri("GET", self.image_url, json=self.VALID_RESPONSE_JSON)
+            req_mock.register_uri(
+                "POST", config.create_task_url, json=self.VALID_RESPONSE_JSON
+            )
+            req_mock.register_uri(
+                "POST", config.get_result_url, json=self.VALID_RESPONSE_RESULT_JSON
+            )
             customcaptcha.captcha_handler(captcha_link=self.image_url)
 
         history = req_mock.request_history
@@ -97,8 +103,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
         # check all dict keys
         assert ["clientKey", "taskId"] == list(request_payload.keys())
-        assert request_payload["taskId"] == self.VALID_RESPONSE_JSON['taskId']
-
+        assert request_payload["taskId"] == self.VALID_RESPONSE_JSON["taskId"]
 
     """
     Response checking

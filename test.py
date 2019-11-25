@@ -5,10 +5,7 @@ import asyncio
 
 import pytest
 
-from python3_anticaptcha import (
-    NoCaptchaTaskProxyless,
-    ReCaptchaV3TaskProxyless,
-)
+from python3_anticaptcha import NoCaptchaTaskProxyless, ReCaptchaV3TaskProxyless
 
 # 1. `export anticaptcha_key=274832f8168a36019895a1e1174777c0`
 
@@ -269,5 +266,3 @@ class TestAntiCaptcha(object):
                     minScore=0.1,
                     pageAction="login_test",
                 )
-
-    

@@ -17,15 +17,12 @@ class MainAntiCaptcha(object):
         self.ERROR_RESPONSE_JSON = {
             "errorId": 1,
             "errorCode": 123,
-            "errorDescription": "String with data"
+            "errorDescription": "String with data",
         }
         self.VALID_RESPONSE_JSON = {
             "errorId": 0,
             "errorCode": 0,
             "taskId": 456,
-            "errorDescription": "String with data"
+            "errorDescription": "String with data",
         }
-        self.VALID_RESPONSE_RESULT_JSON = {
-            "errorId": 0,
-            "status": "ready",
-        }
+        self.VALID_RESPONSE_RESULT_JSON = {"errorId": 0, "status": "ready"}
