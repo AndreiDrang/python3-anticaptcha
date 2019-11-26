@@ -118,7 +118,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
         # check response type
         assert isinstance(customcaptcha, CustomCaptchaTask.aioCustomCaptchaTask)
 
-        response = customcaptcha.captcha_handler(imageUrl=self.image_url)
+        response = await customcaptcha.captcha_handler(imageUrl=self.image_url)
         # check response type
         assert isinstance(response, dict)
         # check all dict keys
