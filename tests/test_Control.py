@@ -113,7 +113,9 @@ class TestControl(MainAntiCaptcha):
 
         with requests_mock.Mocker() as req_mock:
             req_mock.post(config.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON)
-            control.complaint_on_result(reported_id = task_id, captcha_type = AntiCaptchaControl.complaint_types[0])
+            control.complaint_on_result(
+                reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[0]
+            )
 
         history = req_mock.request_history
 
@@ -135,7 +137,9 @@ class TestControl(MainAntiCaptcha):
         print(AntiCaptchaControl.complaint_types[1])
         with requests_mock.Mocker() as req_mock:
             req_mock.post(config.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON)
-            control.complaint_on_result(reported_id = task_id, captcha_type = AntiCaptchaControl.complaint_types[1])
+            control.complaint_on_result(
+                reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[1]
+            )
 
         history = req_mock.request_history
 
