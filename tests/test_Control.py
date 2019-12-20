@@ -64,6 +64,10 @@ class TestControl(MainAntiCaptcha):
         assert default_complaint_params == complaint_params[0]
         assert default_queue_status_params == queue_status_params[0]
 
+    """
+    Request payload test MOCK
+    """
+
     def test_balance_payload(self):
         control = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=self.anticaptcha_key_true)
         # check response type
@@ -133,8 +137,7 @@ class TestControl(MainAntiCaptcha):
         # check response type
         assert isinstance(control, AntiCaptchaControl.AntiCaptchaControl)
         task_id = 123456
-        print(config.incorrect_recaptcha_url)
-        print(AntiCaptchaControl.complaint_types[1])
+
         with requests_mock.Mocker() as req_mock:
             req_mock.post(config.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON)
             control.complaint_on_result(
@@ -151,6 +154,22 @@ class TestControl(MainAntiCaptcha):
         assert ["clientKey", "taskId"] == list(request_payload.keys())
         assert request_payload["clientKey"] == self.anticaptcha_key_true
         assert request_payload["taskId"] == task_id
+
+    def test_queue_payload(self):
+        queue_id = random.choice(AntiCaptchaControl.queue_ids)
+        with requests_mock.Mocker() as req_mock:
+            req_mock.post(config.get_queue_status_url, json=self.ERROR_RESPONSE_JSON)
+            AntiCaptchaControl.AntiCaptchaControl.get_queue_status(queue_id)
+
+        history = req_mock.request_history
+
+        assert len(history) == 1
+
+        request_payload = history[0].json()
+
+        # check all dict keys
+        assert ["queueId",] == list(request_payload.keys())
+        assert request_payload["queueId"] == queue_id
 
     """
     Response checking
