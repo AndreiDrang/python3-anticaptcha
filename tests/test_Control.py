@@ -1,13 +1,15 @@
 import inspect
+import random
 
 import pytest
+import requests_mock
 
 from python3_anticaptcha import AntiCaptchaControl, config
 
 from tests.main import MainAntiCaptcha
 
 
-class TestAntiCaptcha(MainAntiCaptcha):
+class TestControl(MainAntiCaptcha):
     WRONG_MODE = WRONG_CAPTCHA_TYPE = "qwerty"
     WRONG_SOFT_ID = "-1" + config.app_key
     REPORT_ID = WRONG_QUEUE_ID = -1
@@ -16,7 +18,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     Params check
     """
 
-    def test_customcatpcha_params(self):
+    def test_params(self):
         default_init_params = ["self", "anticaptcha_key"]
         default_get_balance_params = ["self"]
         default_app_stats_params = ["self", "softId", "mode"]
@@ -61,6 +63,94 @@ class TestAntiCaptcha(MainAntiCaptcha):
         assert default_app_stats_params == app_stats_params[0]
         assert default_complaint_params == complaint_params[0]
         assert default_queue_status_params == queue_status_params[0]
+
+    def test_balance_payload(self):
+        control = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=self.anticaptcha_key_true)
+        # check response type
+        assert isinstance(control, AntiCaptchaControl.AntiCaptchaControl)
+
+        with requests_mock.Mocker() as req_mock:
+            req_mock.post(config.get_balance_url, json=self.ERROR_RESPONSE_JSON)
+            control.get_balance()
+
+        history = req_mock.request_history
+
+        assert len(history) == 1
+
+        request_payload = history[0].json()
+
+        # check all dict keys
+        assert ["clientKey",] == list(request_payload.keys())
+        assert request_payload["clientKey"] == self.anticaptcha_key_true
+
+    def test_stats_payload(self):
+        control = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=self.anticaptcha_key_true)
+        # check response type
+        assert isinstance(control, AntiCaptchaControl.AntiCaptchaControl)
+        mode = random.choice(AntiCaptchaControl.mods)
+
+        with requests_mock.Mocker() as req_mock:
+            req_mock.post(config.get_app_stats_url, json=self.ERROR_RESPONSE_JSON)
+            control.get_app_stats(softId=config.app_key, mode=mode)
+
+        history = req_mock.request_history
+
+        assert len(history) == 1
+
+        request_payload = history[0].json()
+
+        # check all dict keys
+        assert ["clientKey", "softId", "mode"] == list(request_payload.keys())
+        assert request_payload["clientKey"] == self.anticaptcha_key_true
+        assert request_payload["softId"] == config.app_key
+        assert request_payload["mode"] == mode
+
+    def test_complaint_image_payload(self):
+        control = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=self.anticaptcha_key_true)
+        # check response type
+        assert isinstance(control, AntiCaptchaControl.AntiCaptchaControl)
+        task_id = 123456
+
+        with requests_mock.Mocker() as req_mock:
+            req_mock.post(config.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            control.complaint_on_result(
+                reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[0]
+            )
+
+        history = req_mock.request_history
+
+        assert len(history) == 1
+
+        request_payload = history[0].json()
+
+        # check all dict keys
+        assert ["clientKey", "taskId"] == list(request_payload.keys())
+        assert request_payload["clientKey"] == self.anticaptcha_key_true
+        assert request_payload["taskId"] == task_id
+
+    def test_complaint_re_payload(self):
+        control = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=self.anticaptcha_key_true)
+        # check response type
+        assert isinstance(control, AntiCaptchaControl.AntiCaptchaControl)
+        task_id = 123456
+        print(config.incorrect_recaptcha_url)
+        print(AntiCaptchaControl.complaint_types[1])
+        with requests_mock.Mocker() as req_mock:
+            req_mock.post(config.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            control.complaint_on_result(
+                reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[1]
+            )
+
+        history = req_mock.request_history
+
+        assert len(history) == 1
+
+        request_payload = history[0].json()
+
+        # check all dict keys
+        assert ["clientKey", "taskId"] == list(request_payload.keys())
+        assert request_payload["clientKey"] == self.anticaptcha_key_true
+        assert request_payload["taskId"] == task_id
 
     """
     Response checking

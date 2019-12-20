@@ -8,7 +8,7 @@ from python3_anticaptcha import CustomCaptchaTask, config
 from tests.main import MainAntiCaptcha
 
 
-class TestAntiCaptcha(MainAntiCaptcha):
+class TestCustom(MainAntiCaptcha):
     CUSTOM_TASK = "2+2=?"
 
     """
