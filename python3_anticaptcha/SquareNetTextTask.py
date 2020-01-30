@@ -6,6 +6,7 @@ import base64
 
 import requests
 import aiohttp
+from requests.adapters import HTTPAdapter
 
 from python3_anticaptcha import (
     create_task_url,
@@ -63,6 +64,13 @@ class SquareNetTextTask:
         if callbackUrl:
             self.task_payload.update({"callbackUrl": callbackUrl})
 
+        # создаём сессию
+        self.session = requests.Session()
+        # выставляем кол-во попыток подключения к серверу при ошибке
+        self.session.mount("http://", HTTPAdapter(max_retries=5))
+        self.session.mount("https://", HTTPAdapter(max_retries=5))
+        self.session.verify = False
+
         # отправляем запрос на результат решения капчи, если ещё капча не решена - ожидаем 5 сек
         # если всё ок - идём дальше
         self.result_payload = {"clientKey": anticaptcha_key}
@@ -84,7 +92,7 @@ class SquareNetTextTask:
         self.task_payload["task"].update({"body": base64.b64encode(content).decode("utf-8")})
         # Отправляем на рукапча изображение капчи и другие парметры,
         # в результате получаем JSON ответ с номером решаемой капчи и получая ответ - извлекаем номер
-        captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+        captcha_id = self.session.post(create_task_url, json=self.task_payload).json()
         return captcha_id
 
     def __image_const_saver(self, content: bytes):
@@ -110,7 +118,7 @@ class SquareNetTextTask:
             )
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
-            captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+            captcha_id = self.session.post(create_task_url, json=self.task_payload).json()
 
         # удаляем файл капчи
         os.remove(os.path.join(img_path, "im-{0}.png".format(image_hash)))
@@ -142,7 +150,7 @@ class SquareNetTextTask:
                 )
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
-            captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+            captcha_id = self.session.post(create_task_url, json=self.task_payload).json()
         except (IOError, FileNotFoundError) as err:
             raise ReadError(err)
 
@@ -192,7 +200,7 @@ class SquareNetTextTask:
 
         # проводим действия над ссылкой на файл(скачиваем, сохраняем и передаём на сервер)
         elif image_link:
-            content = requests.get(image_link).content
+            content = self.session.get(image_link).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == "const":
                 captcha_id = self.__image_const_saver(content)
@@ -324,7 +332,6 @@ class aioSquareNetTextTask:
             )
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
-
             async with aiohttp.ClientSession() as session:
                 async with session.post(create_task_url, json=self.task_payload) as resp:
                     captcha_id = await resp.json()
@@ -356,7 +363,9 @@ class aioSquareNetTextTask:
                 )
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
-            captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+            async with aiohttp.ClientSession() as session:
+                async with session.post(create_task_url, json=self.task_payload) as resp:
+                    captcha_id = await resp.json()
         except (IOError, FileNotFoundError) as err:
             raise ReadError(err)
 

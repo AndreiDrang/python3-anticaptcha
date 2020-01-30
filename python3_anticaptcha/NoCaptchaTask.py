@@ -59,7 +59,7 @@ class NoCaptchaTask:
         """
         self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
-        captcha_id = requests.post(create_task_url, json=self.task_payload).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, verify = False).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:

@@ -28,6 +28,7 @@ class AntiCaptchaAppStats:
         answer = requests.post(
             get_app_stats_url,
             json={"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode},
+            verify = False
         )
 
         return answer.json()

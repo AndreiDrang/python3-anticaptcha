@@ -79,7 +79,7 @@ class ReCaptchaV3TaskProxyless:
         )
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(create_task_url, json=self.task_payload, **kwargs).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, verify = False, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -151,7 +151,6 @@ class aioReCaptchaV3TaskProxyless:
 		:param minScore: Определяет фильтр, по которому отбирается работник с нужным минимальным score.
 		:param pageAction: Значение параметра action, которое передается виджетом рекапчи в гугл,
                             и которое потом видит владелец сайта при проверке токена.
-		:param kwargs: Дополнительные параметры для `requests.post`, который отправляет даныйе на решение.
 		:return: Возвращает ответ сервера в виде JSON-строки
 		"""
         if minScore not in MIN_SCORES:

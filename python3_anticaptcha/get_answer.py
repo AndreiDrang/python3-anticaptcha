@@ -14,6 +14,7 @@ def get_sync_result(result_payload: dict, sleep_time: int) -> dict:
     # выставляем кол-во попыток подключения к серверу при ошибке
     session.mount("http://", HTTPAdapter(max_retries=5))
     session.mount("https://", HTTPAdapter(max_retries=5))
+    session.verify = False
 
     while True:
         captcha_response = session.post(get_result_url, json=result_payload).json()

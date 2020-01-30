@@ -107,6 +107,7 @@ class CallbackClient:
 
         # создание сессии
         session = requests.Session()
+        session.verify = False
 
         while attempts > 0:
             with session.get(

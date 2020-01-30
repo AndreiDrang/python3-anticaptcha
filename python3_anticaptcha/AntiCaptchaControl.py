@@ -38,7 +38,7 @@ class AntiCaptchaControl:
         Получение баланса аккаунта
         :return: Возвращает актуальный баланс
         """
-        answer = requests.post(get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY})
+        answer = requests.post(get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}, verify = False)
 
         return answer.json()
 
@@ -52,7 +52,7 @@ class AntiCaptchaControl:
                 f"\nWrong `mode` parameter. Valid params: {mods}." f"\n\tYour param - `{mode}`"
             )
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
-        answer = requests.post(get_app_stats_url, json=payload)
+        answer = requests.post(get_app_stats_url, json=payload, verify = False)
 
         if answer.text:
             return answer.json()
@@ -75,10 +75,10 @@ class AntiCaptchaControl:
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "taskId": reported_id}
         # complaint on image captcha
         if captcha_type == "image":
-            answer = requests.post(incorrect_imagecaptcha_url, json=payload)
+            answer = requests.post(incorrect_imagecaptcha_url, json=payload, verify = False)
         # complaint on re-captcha
         elif captcha_type == "recaptcha":
-            answer = requests.post(incorrect_recaptcha_url, json=payload)
+            answer = requests.post(incorrect_recaptcha_url, json=payload, verify = False)
         return answer.json()
 
     @staticmethod
@@ -116,7 +116,7 @@ class AntiCaptchaControl:
             )
         payload = {"queueId": queue_id}
 
-        answer = requests.post(get_queue_status_url, json=payload)
+        answer = requests.post(get_queue_status_url, json=payload, verify = False)
 
         return answer.json()
 
