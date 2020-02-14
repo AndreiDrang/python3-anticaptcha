@@ -1,12 +1,12 @@
-import requests
 import aiohttp
+import requests
 
 from python3_anticaptcha import (
     get_balance_url,
     get_app_stats_url,
-    incorrect_imagecaptcha_url,
-    incorrect_recaptcha_url,
     get_queue_status_url,
+    incorrect_recaptcha_url,
+    incorrect_imagecaptcha_url,
 )
 
 # available app stats mods

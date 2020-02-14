@@ -1,20 +1,20 @@
+import os
 import time
+import base64
 import asyncio
 import hashlib
-import os
-import base64
 
-import requests
 import aiohttp
+import requests
 from requests.adapters import HTTPAdapter
 
 from python3_anticaptcha import (
-    create_task_url,
+    ReadError,
+    ParamError,
     app_key,
+    create_task_url,
     get_sync_result,
     get_async_result,
-    ParamError,
-    ReadError,
 )
 
 

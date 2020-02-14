@@ -1,10 +1,10 @@
 import time
 import asyncio
 
-import requests
 import aiohttp
+import requests
 
-from python3_anticaptcha import create_task_url, app_key, get_async_result, get_sync_result
+from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
 
 
 class CustomCaptchaTask:

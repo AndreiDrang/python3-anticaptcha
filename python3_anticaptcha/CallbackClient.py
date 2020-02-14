@@ -2,16 +2,16 @@ import json
 import time
 
 import requests
-import pika
 
+import pika
 from python3_anticaptcha import (
     HOST,
     PORT,
-    RTMQ_USERNAME,
-    RTMQ_PASSWORD,
     RTMQ_HOST,
     RTMQ_PORT,
     RTMQ_VHOST,
+    RTMQ_PASSWORD,
+    RTMQ_USERNAME,
 )
 
 
