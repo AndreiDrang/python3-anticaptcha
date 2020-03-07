@@ -32,9 +32,9 @@ cd python3-anticaptcha
 python setup.py install
 ```
 ***
-По всем вопросам можете писать в [Telegram](https://t.me/joinchat/CD2EtQ5Pm0dmoSQQMTkVlw) чат.
+По всем вопросам можете писать в [Telegram](https://t.me/pythoncaptcha) чат.
 
-With any questions, please contact us in [Telegram](https://t.me/joinchat/CD2EtQ5Pm0dmoSQQMTkVlw).
+With any questions, please contact us in [Telegram](https://t.me/pythoncaptcha).
 ***
 Присутствуют [примеры работы с библиотекой](https://github.com/AndreiDrang/python3-anticaptcha/tree/master/anticaptcha_examples).
 
