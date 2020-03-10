@@ -14,6 +14,8 @@ from .config import (
     get_queue_status_url,
     incorrect_recaptcha_url,
     incorrect_imagecaptcha_url,
+    send_funds_url,
+    get_spend_stats_url,
 )
 from .errors import ReadError, IdGetError, ParamError
 from .get_answer import get_sync_result, get_async_result

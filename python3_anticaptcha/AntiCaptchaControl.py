@@ -92,7 +92,7 @@ class AntiCaptchaControl:
         :param ip: IP с которого шли запросы к API
         :return: Возвращает словарь с данными трат
         """
-        if queue and queue not in complaint_types:
+        if queue and queue not in queues_names:
             raise ValueError(
                 f"\nWrong `queue` parameter. Valid params: {queues_names}."
                 f"\n\tYour param - `{queue}`"
@@ -240,7 +240,7 @@ class aioAntiCaptchaControl:
         }
         # get response
         async with aiohttp.ClientSession() as session:
-            async with session.post(send_funds_url, json=payload, verify=False) as resp:
+            async with session.post(send_funds_url, json=payload) as resp:
                 return await resp.json()
 
     async def get_spend_stats(
@@ -255,7 +255,7 @@ class aioAntiCaptchaControl:
         :param ip: IP с которого шли запросы к API
         :return: Возвращает словарь с данными трат
         """
-        if queue and queue not in complaint_types:
+        if queue and queue not in queues_names:
             raise ValueError(
                 f"\nWrong `queue` parameter. Valid params: {queues_names}."
                 f"\n\tYour param - `{queue}`"
@@ -269,7 +269,7 @@ class aioAntiCaptchaControl:
         }
         # get response
         async with aiohttp.ClientSession() as session:
-            async with session.post(get_spend_stats_url, json=payload, verify=False) as resp:
+            async with session.post(get_spend_stats_url, json=payload) as resp:
                 return await resp.json()
 
     async def get_app_stats(self, softId: int, mode: str = "errors") -> dict:

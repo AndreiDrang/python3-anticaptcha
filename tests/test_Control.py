@@ -10,7 +10,7 @@ from tests.main import MainAntiCaptcha
 
 
 class TestControl(MainAntiCaptcha):
-    WRONG_MODE = WRONG_CAPTCHA_TYPE = "qwerty"
+    WRONG_MODE = WRONG_CAPTCHA_TYPE = WRONG_QUEUE = "qwerty"
     WRONG_SOFT_ID = "-1" + config.app_key
     REPORT_ID = WRONG_QUEUE_ID = -1
     QUEUE_STATUS_KEYS = ("waiting", "load", "bid", "speed", "total")
@@ -416,6 +416,21 @@ class TestControl(MainAntiCaptcha):
         with pytest.raises(ValueError):
             assert await captcha_control.get_queue_status(queue_id=self.WRONG_QUEUE_ID)
 
+    def test_fail_spend_stats_queue(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        with pytest.raises(ValueError):
+            captcha_control.get_spend_stats(queue=self.WRONG_QUEUE)
+
+    @pytest.mark.asyncio
+    async def test_fail_aiospend_stats_queue(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        with pytest.raises(ValueError):
+            await captcha_control.get_spend_stats(queue=self.WRONG_QUEUE)
+
     """
     True tests
     """
@@ -474,3 +489,72 @@ class TestControl(MainAntiCaptcha):
             assert isinstance(response, dict)
 
             assert self.QUEUE_STATUS_KEYS == tuple(response.keys())
+
+    def test_true_spend_stats(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        response = captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    def test_true_spend_stats_queues(self):
+        queues = AntiCaptchaControl.queues_names
+
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        for queue in queues:
+            response = captcha_control.get_spend_stats(queue=queue)
+
+            assert isinstance(response, dict)
+
+            assert ("errorId", "data") == tuple(response.keys())
+
+    def test_true_spend_stats_context(self):
+        with AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        ) as captcha_control:
+            response = captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    @pytest.mark.asyncio
+    async def test_true_aiospend_stats(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        response = await captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    @pytest.mark.asyncio
+    async def test_true_aiospend_stats_context(self):
+        with AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        ) as captcha_control:
+            response = await captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    @pytest.mark.asyncio
+    async def test_true_aiospend_stats_queues(self):
+        queues = AntiCaptchaControl.queues_names
+
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        for queue in queues:
+            response = await captcha_control.get_spend_stats(queue=queue)
+
+            assert isinstance(response, dict)
+
+            assert ("errorId", "data") == tuple(response.keys())
