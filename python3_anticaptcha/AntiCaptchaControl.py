@@ -7,6 +7,8 @@ from python3_anticaptcha import (
     get_queue_status_url,
     incorrect_recaptcha_url,
     incorrect_imagecaptcha_url,
+    get_spend_stats_url,
+    send_funds_url,
 )
 
 # available app stats mods
@@ -14,7 +16,19 @@ mods = ("errors", "views", "downloads", "users", "money")
 # available complaint captcha types
 complaint_types = ("image", "recaptcha")
 # availalbe queue ID's
-queue_ids = (1, 2, 5, 6, 7, 10)
+queue_ids = (1, 2, 5, 6, 7, 10, 11, 12, 13, 18, 19, 20)
+
+queues_names = (
+    "English ImageToText",
+    "Russian ImageToText",
+    "Recaptcha Proxy-on",
+    "Recaptcha Proxyless",
+    "FunCaptcha",
+    "Funcaptcha Proxyless",
+    "Square Net Task",
+    "GeeTest Proxy-on",
+    "GeeTest Proxyless",
+)
 
 
 class AntiCaptchaControl:
@@ -42,6 +56,56 @@ class AntiCaptchaControl:
             get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}, verify=False
         )
 
+        return answer.json()
+
+    def send_funds(
+        self, accountLogin: str = None, accountEmail: str = None, amount: float = None
+    ) -> dict:
+        """
+        Отправить средства другому пользователю
+        В вашем аккаунте должна быть включена опция отправки средств через API.
+        Включается через службу поддержки, нужно указать причину зачем вам это требуется.
+
+        :param accountLogin: Логин целевого аккаунта
+        :param accountEmail: Адрес почты целевого аккаунта
+        :param amount: Сумма
+        """
+        payload = {
+            "clientKey": self.ANTICAPTCHA_KEY,
+            "accountLogin": accountLogin,
+            "accountEmail": accountEmail,
+            "amount": amount,
+        }
+        # get response
+        answer = requests.post(send_funds_url, json=payload, verify=False)
+        return answer.json()
+
+    def get_spend_stats(
+        self, date: int = None, queue: str = None, softId: int = None, ip: str = None
+    ) -> dict:
+        f"""
+        С помощью этого метода можно получить статистику трат за последние 24 часа.
+        :param date: Unix timestamp начала периода 24-х часового отчета
+        :param queue: Имя очереди, может быть найдено в статистике Антикапчи.
+                        Если не указано, то возвращается суммированная статистика по всем очередям.
+        :param softId: ID приложения из Developers Center
+        :param ip: IP с которого шли запросы к API
+        :return: Возвращает словарь с данными трат
+        """
+        if queue and queue not in complaint_types:
+            raise ValueError(
+                f"\nWrong `queue` parameter. Valid params: {queues_names}."
+                f"\n\tYour param - `{queue}`"
+            )
+        payload = {
+            "clientKey": self.ANTICAPTCHA_KEY,
+            "date": date,
+            "queue": queue,
+            "softId": softId,
+            "ip": ip,
+        }
+        # get response
+        answer = requests.post(get_spend_stats_url, json=payload, verify=False)
         return answer.json()
 
     def get_app_stats(self, softId: int, mode: str = "errors") -> dict:
@@ -98,6 +162,12 @@ class AntiCaptchaControl:
             6   - Recaptcha Proxyless
             7   - Funcaptcha
             10  - Funcaptcha Proxyless
+            11  - Square Net Task
+            12  - GeeTest Proxy-On
+            13  - GeeTest Proxyless
+            18  - Recaptcha V3 s0.3
+            19  - Recaptcha V3 s0.7
+            20  - Recaptcha V3 s0.9
 
         Пример выдачи ответа:
             {
@@ -150,6 +220,58 @@ class aioAntiCaptchaControl:
             ) as resp:
                 return await resp.json()
 
+    async def send_funds(
+        self, accountLogin: str = None, accountEmail: str = None, amount: float = None
+    ) -> dict:
+        """
+        Отправить средства другому пользователю
+        В вашем аккаунте должна быть включена опция отправки средств через API.
+        Включается через службу поддержки, нужно указать причину зачем вам это требуется.
+
+        :param accountLogin: Логин целевого аккаунта
+        :param accountEmail: Адрес почты целевого аккаунта
+        :param amount: Сумма
+        """
+        payload = {
+            "clientKey": self.ANTICAPTCHA_KEY,
+            "accountLogin": accountLogin,
+            "accountEmail": accountEmail,
+            "amount": amount,
+        }
+        # get response
+        async with aiohttp.ClientSession() as session:
+            async with session.post(send_funds_url, json=payload, verify=False) as resp:
+                return await resp.json()
+
+    async def get_spend_stats(
+        self, date: int = None, queue: str = None, softId: int = None, ip: str = None
+    ) -> dict:
+        f"""
+        С помощью этого метода можно получить статистику трат за последние 24 часа.
+        :param date: Unix timestamp начала периода 24-х часового отчета
+        :param queue: Имя очереди, может быть найдено в статистике Антикапчи.
+                        Если не указано, то возвращается суммированная статистика по всем очередям.
+        :param softId: ID приложения из Developers Center
+        :param ip: IP с которого шли запросы к API
+        :return: Возвращает словарь с данными трат
+        """
+        if queue and queue not in complaint_types:
+            raise ValueError(
+                f"\nWrong `queue` parameter. Valid params: {queues_names}."
+                f"\n\tYour param - `{queue}`"
+            )
+        payload = {
+            "clientKey": self.ANTICAPTCHA_KEY,
+            "date": date,
+            "queue": queue,
+            "softId": softId,
+            "ip": ip,
+        }
+        # get response
+        async with aiohttp.ClientSession() as session:
+            async with session.post(get_spend_stats_url, json=payload, verify=False) as resp:
+                return await resp.json()
+
     async def get_app_stats(self, softId: int, mode: str = "errors") -> dict:
         """
         Получение баланса аккаунта
@@ -162,10 +284,7 @@ class aioAntiCaptchaControl:
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         async with aiohttp.ClientSession() as session:
             async with session.post(get_app_stats_url, json=payload) as resp:
-                if await resp.text():
-                    return await resp.json()
-                else:
-                    return {"errorId": 1}
+                return await resp.json()
 
     async def complaint_on_result(self, reported_id: int, captcha_type: str = "image") -> dict:
         f"""

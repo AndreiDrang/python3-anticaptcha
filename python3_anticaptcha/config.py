@@ -14,8 +14,12 @@ incorrect_imagecaptcha_url = "https://api.anti-captcha.com/reportIncorrectImageC
 incorrect_recaptcha_url = "https://api.anti-captcha.com/reportIncorrectRecaptcha"
 # Адрес для получения информации о очереди
 get_queue_status_url = "https://api.anti-captcha.com/getQueueStats"
+# С помощью этого метода можно получить статистику трат за последние 24 часа.
+get_spend_stats_url = "https://api.anti-captcha.com/getSpendingStats"
 # Адрес для получения информации о приложении
 get_app_stats_url = "https://api.anti-captcha.com/getAppStats"
+# С помощью этого метода можно получить статистику трат за последние 24 часа.
+send_funds_url = "https://api.anti-captcha.com/sendFunds"
 # ключ приложения
 app_key = "867"
 
