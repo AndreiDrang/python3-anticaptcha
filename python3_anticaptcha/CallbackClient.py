@@ -1,9 +1,9 @@
 import json
 import time
 
+import pika
 import requests
 
-import pika
 from python3_anticaptcha import (
     HOST,
     PORT,

@@ -1,15 +1,20 @@
 import aiohttp
 import requests
 
-from python3_anticaptcha import (
-    get_balance_url,
-    get_app_stats_url,
-    get_queue_status_url,
-    incorrect_recaptcha_url,
-    incorrect_imagecaptcha_url,
-    get_spend_stats_url,
-    send_funds_url,
-)
+# Адрес для получения баланса
+get_balance_url = "https://api.anti-captcha.com/getBalance"
+# Адрес для отправки жалобы на неверное решение капчи-изображения
+incorrect_imagecaptcha_url = "https://api.anti-captcha.com/reportIncorrectImageCaptcha"
+# Адрес для отправки жалобы на неверное решение ReCaptcha
+incorrect_recaptcha_url = "https://api.anti-captcha.com/reportIncorrectRecaptcha"
+# Адрес для получения информации о очереди
+get_queue_status_url = "https://api.anti-captcha.com/getQueueStats"
+# С помощью этого метода можно получить статистику трат за последние 24 часа.
+get_spend_stats_url = "https://api.anti-captcha.com/getSpendingStats"
+# Адрес для получения информации о приложении
+get_app_stats_url = "https://api.anti-captcha.com/getAppStats"
+# С помощью этого метода можно получить статистику трат за последние 24 часа.
+send_funds_url = "https://api.anti-captcha.com/sendFunds"
 
 # available app stats mods
 mods = ("errors", "views", "downloads", "users", "money")
@@ -218,7 +223,10 @@ class aioAntiCaptchaControl:
             async with session.post(
                 get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}
             ) as resp:
-                return await resp.json()
+                if await resp.text():
+                    return await resp.json()
+                else:
+                    return {"errorId": 1}
 
     async def send_funds(
         self, accountLogin: str = None, accountEmail: str = None, amount: float = None
@@ -241,7 +249,10 @@ class aioAntiCaptchaControl:
         # get response
         async with aiohttp.ClientSession() as session:
             async with session.post(send_funds_url, json=payload) as resp:
-                return await resp.json()
+                if await resp.text():
+                    return await resp.json()
+                else:
+                    return {"errorId": 1}
 
     async def get_spend_stats(
         self, date: int = None, queue: str = None, softId: int = None, ip: str = None
@@ -270,7 +281,10 @@ class aioAntiCaptchaControl:
         # get response
         async with aiohttp.ClientSession() as session:
             async with session.post(get_spend_stats_url, json=payload) as resp:
-                return await resp.json()
+                if await resp.text():
+                    return await resp.json()
+                else:
+                    return {"errorId": 1}
 
     async def get_app_stats(self, softId: int, mode: str = "errors") -> dict:
         """
@@ -284,7 +298,10 @@ class aioAntiCaptchaControl:
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         async with aiohttp.ClientSession() as session:
             async with session.post(get_app_stats_url, json=payload) as resp:
-                return await resp.json()
+                if await resp.text():
+                    return await resp.json()
+                else:
+                    return {"errorId": 1}
 
     async def complaint_on_result(self, reported_id: int, captcha_type: str = "image") -> dict:
         f"""
@@ -304,12 +321,18 @@ class aioAntiCaptchaControl:
         if captcha_type == "image":
             async with aiohttp.ClientSession() as session:
                 async with session.post(incorrect_imagecaptcha_url, json=payload) as resp:
-                    return await resp.json()
+                    if await resp.text():
+                        return await resp.json()
+                    else:
+                        return {"errorId": 1}
         # complaint on re-captcha
         elif captcha_type == "recaptcha":
             async with aiohttp.ClientSession() as session:
                 async with session.post(incorrect_recaptcha_url, json=payload) as resp:
-                    return await resp.json()
+                    if await resp.text():
+                        return await resp.json()
+                    else:
+                        return {"errorId": 1}
 
     @staticmethod
     async def get_queue_status(queue_id: int) -> dict:
@@ -347,4 +370,7 @@ class aioAntiCaptchaControl:
 
         async with aiohttp.ClientSession() as session:
             async with session.post(get_queue_status_url, json=payload) as resp:
-                return await resp.json()
+                if await resp.text():
+                    return await resp.json()
+                else:
+                    return {"errorId": 1}

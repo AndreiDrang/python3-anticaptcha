@@ -74,7 +74,7 @@ class TestControl(MainAntiCaptcha):
         assert isinstance(control, AntiCaptchaControl.AntiCaptchaControl)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.get_balance_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.get_balance_url, json=self.ERROR_RESPONSE_JSON)
             control.get_balance()
 
         history = req_mock.request_history
@@ -94,7 +94,7 @@ class TestControl(MainAntiCaptcha):
         mode = random.choice(AntiCaptchaControl.mods)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.get_app_stats_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.get_app_stats_url, json=self.ERROR_RESPONSE_JSON)
             control.get_app_stats(softId=config.app_key, mode=mode)
 
         history = req_mock.request_history
@@ -116,7 +116,7 @@ class TestControl(MainAntiCaptcha):
         task_id = 123456
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON)
             control.complaint_on_result(
                 reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[0]
             )
@@ -139,7 +139,7 @@ class TestControl(MainAntiCaptcha):
         task_id = 123456
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON)
             control.complaint_on_result(
                 reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[1]
             )
@@ -158,7 +158,7 @@ class TestControl(MainAntiCaptcha):
     def test_queue_payload(self):
         queue_id = random.choice(AntiCaptchaControl.queue_ids)
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.get_queue_status_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.get_queue_status_url, json=self.ERROR_RESPONSE_JSON)
             AntiCaptchaControl.AntiCaptchaControl.get_queue_status(queue_id)
 
         history = req_mock.request_history
