@@ -6,16 +6,6 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 create_task_url = "https://api.anti-captcha.com/createTask"
 # Адрес для получения ответа
 get_result_url = "https://api.anti-captcha.com/getTaskResult"
-# Адрес для получения баланса
-get_balance_url = "https://api.anti-captcha.com/getBalance"
-# Адрес для отправки жалобы на неверное решение капчи-изображения
-incorrect_imagecaptcha_url = "https://api.anti-captcha.com/reportIncorrectImageCaptcha"
-# Адрес для отправки жалобы на неверное решение ReCaptcha
-incorrect_recaptcha_url = "https://api.anti-captcha.com/reportIncorrectRecaptcha"
-# Адрес для получения информации о очереди
-get_queue_status_url = "https://api.anti-captcha.com/getQueueStats"
-# Адрес для получения информации о приложении
-get_app_stats_url = "https://api.anti-captcha.com/getAppStats"
 # ключ приложения
 app_key = "867"
 

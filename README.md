@@ -203,6 +203,6 @@ For tests:
 1. Clon repo;
 2. ```bash
     export anticaptcha_key=SERVICE_KEY
-    pip install pytest pytest-asyncio
+    pip install pytest pytest-asyncio requests_mock
     pytest tests
     ```

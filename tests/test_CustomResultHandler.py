@@ -2,9 +2,8 @@ import inspect
 
 import pytest
 
-from python3_anticaptcha import CustomResultHandler
-
 from tests.main import MainAntiCaptcha
+from python3_anticaptcha import CustomResultHandler
 
 
 class TestAntiCaptcha(MainAntiCaptcha):

@@ -42,15 +42,16 @@ class FunCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, websiteURL: str, websitePublicKey: str, **kwargs) -> dict:
+    def captcha_handler(self, websiteURL: str, data: str, websitePublicKey: str, **kwargs) -> dict:
         """
 		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
 		:param websiteURL: Ссылка на страницу с капчёй
+		:param data: Дополнительный параметр, который может требоваться для некоторых решений фанкапчи.
 		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
         self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websitePublicKey": websitePublicKey}
+            {"websiteURL": websiteURL, "data": data, "websitePublicKey": websitePublicKey}
         )
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
@@ -102,15 +103,16 @@ class aioFunCaptchaTaskProxyless:
         self.result_payload = {"clientKey": anticaptcha_key}
 
     # Работа с капчёй
-    async def captcha_handler(self, websiteURL: str, websitePublicKey: str) -> dict:
+    async def captcha_handler(self, websiteURL: str, data: str, websitePublicKey: str) -> dict:
         """
 		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
 		:param websiteURL: Ссылка на страницу с капчёй
+		:param data: Дополнительный параметр, который может требоваться для некоторых решений фанкапчи.
 		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
         self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "websitePublicKey": websitePublicKey}
+            {"websiteURL": websiteURL, "data": data, "websitePublicKey": websitePublicKey}
         )
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи

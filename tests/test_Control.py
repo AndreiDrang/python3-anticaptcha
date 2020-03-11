@@ -1,16 +1,15 @@
-import inspect
 import random
+import inspect
 
 import pytest
 import requests_mock
 
-from python3_anticaptcha import AntiCaptchaControl, config
-
 from tests.main import MainAntiCaptcha
+from python3_anticaptcha import AntiCaptchaControl, config
 
 
 class TestControl(MainAntiCaptcha):
-    WRONG_MODE = WRONG_CAPTCHA_TYPE = "qwerty"
+    WRONG_MODE = WRONG_CAPTCHA_TYPE = WRONG_QUEUE = "qwerty"
     WRONG_SOFT_ID = "-1" + config.app_key
     REPORT_ID = WRONG_QUEUE_ID = -1
     QUEUE_STATUS_KEYS = ("waiting", "load", "bid", "speed", "total")
@@ -74,7 +73,7 @@ class TestControl(MainAntiCaptcha):
         assert isinstance(control, AntiCaptchaControl.AntiCaptchaControl)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.get_balance_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.get_balance_url, json=self.ERROR_RESPONSE_JSON)
             control.get_balance()
 
         history = req_mock.request_history
@@ -94,7 +93,7 @@ class TestControl(MainAntiCaptcha):
         mode = random.choice(AntiCaptchaControl.mods)
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.get_app_stats_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.get_app_stats_url, json=self.ERROR_RESPONSE_JSON)
             control.get_app_stats(softId=config.app_key, mode=mode)
 
         history = req_mock.request_history
@@ -116,7 +115,9 @@ class TestControl(MainAntiCaptcha):
         task_id = 123456
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(
+                AntiCaptchaControl.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON
+            )
             control.complaint_on_result(
                 reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[0]
             )
@@ -139,7 +140,9 @@ class TestControl(MainAntiCaptcha):
         task_id = 123456
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(
+                AntiCaptchaControl.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON
+            )
             control.complaint_on_result(
                 reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[1]
             )
@@ -158,7 +161,7 @@ class TestControl(MainAntiCaptcha):
     def test_queue_payload(self):
         queue_id = random.choice(AntiCaptchaControl.queue_ids)
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(config.get_queue_status_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(AntiCaptchaControl.get_queue_status_url, json=self.ERROR_RESPONSE_JSON)
             AntiCaptchaControl.AntiCaptchaControl.get_queue_status(queue_id)
 
         history = req_mock.request_history
@@ -416,6 +419,21 @@ class TestControl(MainAntiCaptcha):
         with pytest.raises(ValueError):
             assert await captcha_control.get_queue_status(queue_id=self.WRONG_QUEUE_ID)
 
+    def test_fail_spend_stats_queue(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        with pytest.raises(ValueError):
+            captcha_control.get_spend_stats(queue=self.WRONG_QUEUE)
+
+    @pytest.mark.asyncio
+    async def test_fail_aiospend_stats_queue(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        with pytest.raises(ValueError):
+            await captcha_control.get_spend_stats(queue=self.WRONG_QUEUE)
+
     """
     True tests
     """
@@ -474,3 +492,72 @@ class TestControl(MainAntiCaptcha):
             assert isinstance(response, dict)
 
             assert self.QUEUE_STATUS_KEYS == tuple(response.keys())
+
+    def test_true_spend_stats(self):
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        response = captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    def test_true_spend_stats_queues(self):
+        queues = AntiCaptchaControl.queues_names
+
+        captcha_control = AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        for queue in queues:
+            response = captcha_control.get_spend_stats(queue=queue)
+
+            assert isinstance(response, dict)
+
+            assert ("errorId", "data") == tuple(response.keys())
+
+    def test_true_spend_stats_context(self):
+        with AntiCaptchaControl.AntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        ) as captcha_control:
+            response = captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    @pytest.mark.asyncio
+    async def test_true_aiospend_stats(self):
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        response = await captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    @pytest.mark.asyncio
+    async def test_true_aiospend_stats_context(self):
+        with AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        ) as captcha_control:
+            response = await captcha_control.get_spend_stats()
+
+        assert isinstance(response, dict)
+
+        assert ("errorId", "data") == tuple(response.keys())
+
+    @pytest.mark.asyncio
+    async def test_true_aiospend_stats_queues(self):
+        queues = AntiCaptchaControl.queues_names
+
+        captcha_control = AntiCaptchaControl.aioAntiCaptchaControl(
+            anticaptcha_key=self.anticaptcha_key_true
+        )
+        for queue in queues:
+            response = await captcha_control.get_spend_stats(queue=queue)
+
+            assert isinstance(response, dict)
+
+            assert ("errorId", "data") == tuple(response.keys())

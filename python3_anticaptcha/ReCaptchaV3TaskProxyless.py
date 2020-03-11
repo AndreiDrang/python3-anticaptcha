@@ -52,7 +52,7 @@ class ReCaptchaV3TaskProxyless:
 
     # Работа с капчёй
     def captcha_handler(
-        self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str, **kwargs
+        self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str = None, **kwargs
     ) -> dict:
         """
 		Метод решения ReCaptcha V3
@@ -144,7 +144,7 @@ class aioReCaptchaV3TaskProxyless:
 
     # Работа с капчёй
     async def captcha_handler(
-        self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str
+        self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str = None
     ) -> dict:
         """
 		Метод решения ReCaptcha V3
