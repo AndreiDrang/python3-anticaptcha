@@ -1,12 +1,11 @@
-import inspect
 import random
+import inspect
 
 import pytest
 import requests_mock
 
-from python3_anticaptcha import AntiCaptchaControl, config
-
 from tests.main import MainAntiCaptcha
+from python3_anticaptcha import AntiCaptchaControl, config
 
 
 class TestControl(MainAntiCaptcha):
@@ -116,7 +115,9 @@ class TestControl(MainAntiCaptcha):
         task_id = 123456
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(AntiCaptchaControl.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(
+                AntiCaptchaControl.incorrect_imagecaptcha_url, json=self.ERROR_RESPONSE_JSON
+            )
             control.complaint_on_result(
                 reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[0]
             )
@@ -139,7 +140,9 @@ class TestControl(MainAntiCaptcha):
         task_id = 123456
 
         with requests_mock.Mocker() as req_mock:
-            req_mock.post(AntiCaptchaControl.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON)
+            req_mock.post(
+                AntiCaptchaControl.incorrect_recaptcha_url, json=self.ERROR_RESPONSE_JSON
+            )
             control.complaint_on_result(
                 reported_id=task_id, captcha_type=AntiCaptchaControl.complaint_types[1]
             )

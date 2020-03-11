@@ -3,9 +3,8 @@ import inspect
 import pytest
 import requests_mock
 
-from python3_anticaptcha import CustomCaptchaTask, config
-
 from tests.main import MainAntiCaptcha
+from python3_anticaptcha import CustomCaptchaTask, config
 
 
 class TestCustom(MainAntiCaptcha):

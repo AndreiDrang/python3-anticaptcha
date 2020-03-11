@@ -2,9 +2,8 @@ import inspect
 
 import pytest
 
-from python3_anticaptcha import ReCaptchaV3TaskProxyless
-
 from tests.main import MainAntiCaptcha
+from python3_anticaptcha import ReCaptchaV3TaskProxyless
 
 
 class TestAntiCaptcha(MainAntiCaptcha):

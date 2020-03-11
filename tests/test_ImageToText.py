@@ -3,12 +3,11 @@ import inspect
 import pytest
 import requests_mock
 
+from tests.main import MainAntiCaptcha
 from python3_anticaptcha import ImageToTextTask, config
 
-from tests.main import MainAntiCaptcha
 
-
-class TestAntiCaptcha(MainAntiCaptcha):
+class TestImageToTextCaptcha(MainAntiCaptcha):
     WRONG_SAVE_FORMAT = "qwerty"
 
     """
