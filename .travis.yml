@@ -24,4 +24,4 @@ install:
 
 # Run the unit test
 script:
-  - pytest tests --cov=./ -v
+  - pytest tests --cov=python3_anticaptcha/ -v
