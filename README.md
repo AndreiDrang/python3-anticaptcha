@@ -36,21 +36,21 @@ python setup.py install
 
 With any questions, please contact us in [Telegram](https://t.me/pythoncaptcha).
 ***
-Присутствуют [примеры работы с библиотекой](https://github.com/AndreiDrang/python3-anticaptcha/tree/master/anticaptcha_examples).
+Присутствуют [примеры работы с библиотекой](./anticaptcha_examples).
 
-Full examples you can find [here](https://github.com/AndreiDrang/python3-anticaptcha/tree/master/anticaptcha_examples).
+Full examples you can find [here](./anticaptcha_examples).
 
 ***
 ### At the moment the following methods are implemented:
 ### На данный момент реализованы следующие методы:
 
-0.[Manual result handler.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/custom_result_handler_example.py)
+0.[Manual result handler.](./anticaptcha_examples/custom_result_handler_example.py)
 
  
 ```python
 from python3_anticaptcha import CustomResultHandler
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
-ANTICAPTCHA_KEY = ""
+ANTICAPTCHA_KEY = "your_key"
 # Task ID to get result
 TASK_ID = 123456
 # This module is used to obtain the result of solving the task in "manual" mode
@@ -61,7 +61,7 @@ custom_result = CustomResultHandler.CustomResultHandler(
 user_answer = custom_result.task_handler(task_id=TASK_ID)
 print(user_answer)
 ```
-1.[Image to text captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcah_image_to_text_example.py)
+1.[Image to text captcha.](./anticaptcha_examples/anticaptcah_image_to_text_example.py)
 
  
 ```python
@@ -69,7 +69,7 @@ from python3_anticaptcha import ImageToTextTask
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # Ссылка на изображения для расшифровки. Link to captcha image.
-image_link = "http://85.255.8.26/static/image/common_image_example/800070.png"
+image_link = "https://pythoncaptcha.cloud/static/image/common_image_example/800070.png"
 # Возвращается строка-расшифровка капчи. Get string for solve captcha, and some other info.
 user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).\
                 captcha_handler(captcha_link=image_link)
@@ -77,10 +77,10 @@ user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY)
 print(user_answer)
 ```
 
-2.[ReCaptcha v2.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+2.[ReCaptcha v2.](./anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
 
-3.[ReCaptcha v2 Proxyless. ](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py) + [Selenium example](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/selenium_recaptcha_v2.py)
+3.[ReCaptcha v2 Proxyless. ](./anticaptcha_examples/anticaptcha_nocaptcha_example.py) + [Selenium example](./anticaptcha_examples/selenium_recaptcha_v2.py)
 
 ```python
 from python3_anticaptcha import NoCaptchaTaskProxyless
@@ -98,7 +98,7 @@ user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = AN
 print(user_answer)
 ```
 
-3.[ReCaptcha v3 Proxyless. ](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+3.[ReCaptcha v3 Proxyless. ](./anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
 ```python
 from python3_anticaptcha import ReCaptchaV3TaskProxyless
@@ -116,7 +116,7 @@ PAGE_ACTION='login'
 # Возвращается строка-расшифровка капчи. Get string for solve captcha, and other info.
 user_answer = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
                 .captcha_handler(websiteURL=PAGE_URL,
-                                 websiteKey=SITE_KEY
+                                 websiteKey=SITE_KEY,
                                  minScore=MIN_SCORE,
                                  pageAction=PAGE_ACTION
                                 )
@@ -124,9 +124,9 @@ user_answer = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key 
 print(user_answer)
 ```
 
-4.[Fun Captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_fun_example.py)
+4.[Fun Captcha.](./anticaptcha_examples/anticaptcha_fun_example.py)
 
-5.[Fun Captcha Proxyless.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_fun_example.py)
+5.[Fun Captcha Proxyless.](./anticaptcha_examples/anticaptcha_fun_example.py)
 
 ```python
 from python3_anticaptcha import FunCaptchaTask
@@ -147,7 +147,7 @@ user_answer = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
 print(user_answer)
 ```
 
-6.[Account management module.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+6.[Account management module.](./anticaptcha_examples/anticaptcha_control_example.py)
 
 ```python
 from python3_anticaptcha import AntiCaptchaControl
@@ -159,7 +159,7 @@ user_answer = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCH
 print(user_answer)
 ```
 
-7.[Custom Captcha.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+7.[Custom Captcha.](./anticaptcha_examples/anticaptcha_customcaptcha_example.py)
 
 ```python
 from python3_anticaptcha import CustomCaptchaTask
@@ -173,9 +173,9 @@ my_custom_task = CustomCaptchaTask.CustomCaptchaTask(anticaptcha_key=ANTICAPTCHA
 print(my_custom_task)
 ```
 
-8.[Gee Test.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+8.[Gee Test.](./anticaptcha_examples/gee_example.py)
 
-9.[Gee Test Proxyless.](https://github.com/AndreiDrang/python3-anticaptcha/blob/master/anticaptcha_examples/anticaptcha_control_example.py)
+9.[Gee Test Proxyless.](./anticaptcha_examples/gee_example.py)
 
 ```python
 from python3_anticaptcha import GeeTestTaskProxyless
@@ -190,6 +190,23 @@ result = GeeTestTaskProxyless.GeeTestTaskProxyless(anticaptcha_key=ANTICAPTCHA_K
                                                    websiteURL=websiteURL,
                                                    gt=gt).\
             captcha_handler(challenge=challenge)
+
+print(result)
+```
+
+10.[HCaptcha.](./anticaptcha_examples/anticaptcha_hcaptcha_example.py)
+
+11.[HCaptcha Proxyless.](./anticaptcha_examples/anticaptcha_hcaptcha_example.py)
+
+```python
+from python3_anticaptcha import HCaptchaTaskProxyless
+# Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
+ANTICAPTCHA_KEY = ""
+WEB_URL = "https://dashboard.hcaptcha.com/signup"
+SITE_KEY = "00000000-0000-0000-0000-000000000000"
+
+result = HCaptchaTaskProxyless.HCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY).\
+            captcha_handler(websiteURL=WEB_URL, websiteKey=SITE_KEY)
 
 print(result)
 ```
