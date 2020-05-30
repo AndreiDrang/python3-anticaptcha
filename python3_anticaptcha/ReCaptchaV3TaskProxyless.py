@@ -3,6 +3,7 @@ import asyncio
 
 import aiohttp
 import requests
+
 from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
 
 MIN_SCORES = (0.3, 0.7, 0.9)

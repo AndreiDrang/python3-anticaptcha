@@ -3,6 +3,7 @@ import asyncio
 
 import aiohttp
 import requests
+
 from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
 
 
@@ -59,6 +60,7 @@ class NoCaptchaTaskProxyless:
                                     дополнительный параметр "data-s" в div'е рекапчи,
                                     который является одноразовым токеном и
                                     должен собираться каждый раз при решении рекапчи.
+        :param kwargs: Дополнительные параметры для `requests.post(....)`.
 		:return: Возвращает ответ сервера в виде JSON-строки
 		"""
 
