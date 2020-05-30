@@ -5,8 +5,11 @@ from python3_anticaptcha import NoCaptchaTaskProxyless, NoCaptchaTask, CallbackC
 
 ANTICAPTCHA_KEY = "ae23fffcfaa29b170e3843e3a486ef19"
 
-# Пример показывает работу антикапчи с "невидимой" рекапчёй от гугла, точно так же работает обычная рекапча от гугла.
-# Это метод для работы без прокси
+
+"""
+Синхронный пример без прокси
+Sync example without proxy
+"""
 result = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(
     anticaptcha_key=ANTICAPTCHA_KEY
 ).captcha_handler(
@@ -15,7 +18,10 @@ result = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(
 )
 print(result)
 
-# contextmanager
+"""
+Синхронный пример с контекстным менеджером и без прокси
+Sync example with contextmanager and without proxy
+"""
 with NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY) as nocaptcha:
     response = nocaptcha.captcha_handler(
         websiteURL="https://www.google.com/recaptcha/api2/demo",
@@ -23,8 +29,10 @@ with NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_K
     )
 print(response)
 
-
-# Пример работы антикапчи с гугловской невидимой рекапчёй и обычной рекапчёй с использованием ПРОКСИ
+"""
+Синхронный пример с прокси
+Sync example with proxy
+"""
 result = NoCaptchaTask.NoCaptchaTask(
     anticaptcha_key=ANTICAPTCHA_KEY,
     proxyType="http",
@@ -39,7 +47,10 @@ result = NoCaptchaTask.NoCaptchaTask(
 
 print(result)
 
-# Асинхронный пример
+"""
+Асинхронный пример без прокси
+Async example without proxy
+"""
 async def run():
     try:
         result = await NoCaptchaTaskProxyless.aioNoCaptchaTaskProxyless(
