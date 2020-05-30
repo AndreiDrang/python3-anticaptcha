@@ -3,7 +3,6 @@ import asyncio
 
 import aiohttp
 import requests
-
 from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
 
 

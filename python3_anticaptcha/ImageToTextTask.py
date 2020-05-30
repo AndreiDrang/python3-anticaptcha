@@ -7,7 +7,6 @@ import hashlib
 import aiohttp
 import requests
 from requests.adapters import HTTPAdapter
-
 from python3_anticaptcha import (
     ReadError,
     ParamError,
@@ -61,7 +60,6 @@ class ImageToTextTask:
         self.task_payload = {
             "clientKey": anticaptcha_key,
             "task": {"type": "ImageToTextTask"},
-            "languagePool": language,
             "softId": app_key,
         }
 
@@ -256,7 +254,6 @@ class aioImageToTextTask:
         self.task_payload = {
             "clientKey": anticaptcha_key,
             "task": {"type": "ImageToTextTask"},
-            "languagePool": language,
             "softId": app_key,
         }
 

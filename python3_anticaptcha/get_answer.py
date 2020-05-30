@@ -4,7 +4,6 @@ import asyncio
 import aiohttp
 import requests
 from requests.adapters import HTTPAdapter
-
 from python3_anticaptcha import get_result_url
 
 
