@@ -3,6 +3,7 @@ import asyncio
 
 import aiohttp
 import requests
+
 from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
 
 
@@ -49,16 +50,31 @@ class NoCaptchaTask:
         return True
 
     # Работа с капчей
-    def captcha_handler(self, websiteURL: str, websiteKey: str) -> dict:
+    def captcha_handler(
+        self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "", **kwargs
+    ) -> dict:
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй
         :param: websiteKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
+		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
+                                    дополнительный параметр "data-s" в div'е рекапчи,
+                                    который является одноразовым токеном и
+                                    должен собираться каждый раз при решении рекапчи.
+        :param kwargs: Дополнительные параметры для `requests.post(....)`.
         return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
         """
-        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
+        self.task_payload["task"].update(
+            {
+                "websiteURL": websiteURL,
+                "websiteKey": websiteKey,
+                "recaptchaDataSValue": recaptchaDataSValue,
+            }
+        )
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
-        captcha_id = requests.post(create_task_url, json=self.task_payload, verify=False).json()
+        captcha_id = requests.post(
+            create_task_url, json=self.task_payload, verify=False, **kwargs
+        ).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -119,14 +135,26 @@ class aioNoCaptchaTask:
         return True
 
     # Работа с капчей
-    async def captcha_handler(self, websiteURL: str, websiteKey: str) -> dict:
+    async def captcha_handler(
+        self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = ""
+    ) -> dict:
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй
         :param: websiteKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
+		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
+                                    дополнительный параметр "data-s" в div'е рекапчи,
+                                    который является одноразовым токеном и
+                                    должен собираться каждый раз при решении рекапчи.
         return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
         """
-        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
+        self.task_payload["task"].update(
+            {
+                "websiteURL": websiteURL,
+                "websiteKey": websiteKey,
+                "recaptchaDataSValue": recaptchaDataSValue,
+            }
+        )
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
         async with aiohttp.ClientSession() as session:
             async with session.post(create_task_url, json=self.task_payload) as resp:
