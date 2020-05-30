@@ -3,7 +3,6 @@ import asyncio
 
 import aiohttp
 import requests
-
 from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
 
 
@@ -49,16 +48,28 @@ class NoCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, websiteURL, websiteKey, **kwargs) -> dict:
+    def captcha_handler(
+        self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "", **kwargs
+    ) -> dict:
         """
 		Метод решения ReCaptcha
 		:param websiteURL: Ссылка на страницу с капчёй
 		:param websiteKey: Ключ капчи сайта(как получить - написано в документации)
+		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
+                                    дополнительный параметр "data-s" в div'е рекапчи,
+                                    который является одноразовым токеном и
+                                    должен собираться каждый раз при решении рекапчи.
 		:return: Возвращает ответ сервера в виде JSON-строки
 		"""
 
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
-        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
+        self.task_payload["task"].update(
+            {
+                "websiteURL": websiteURL,
+                "websiteKey": websiteKey,
+                "recaptchaDataSValue": recaptchaDataSValue,
+            }
+        )
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
         captcha_id = requests.post(
@@ -125,16 +136,28 @@ class aioNoCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    async def captcha_handler(self, websiteURL, websiteKey) -> dict:
+    async def captcha_handler(
+        self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = ""
+    ) -> dict:
         """
 		Метод решения ReCaptcha
 		:param websiteURL: Ссылка на страницу с капчёй
 		:param websiteKey: Ключ капчи сайта(как получить - написано в документации)
+		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
+                                    дополнительный параметр "data-s" в div'е рекапчи,
+                                    который является одноразовым токеном и
+                                    должен собираться каждый раз при решении рекапчи.
 		:return: Возвращает ответ сервера в виде JSON-строки
 		"""
 
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
-        self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
+        self.task_payload["task"].update(
+            {
+                "websiteURL": websiteURL,
+                "websiteKey": websiteKey,
+                "recaptchaDataSValue": recaptchaDataSValue,
+            }
+        )
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
         async with aiohttp.ClientSession() as session:
