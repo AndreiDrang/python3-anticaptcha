@@ -57,7 +57,7 @@ class TestImageToTextCaptcha(MainAntiCaptcha):
         request_payload = history[1].json()
 
         # check all dict keys
-        assert ["clientKey", "task", "languagePool", "softId"] == list(request_payload.keys())
+        assert ["clientKey", "task", "softId"] == list(request_payload.keys())
         assert request_payload["softId"] == config.app_key
         assert ["type", "body"] == list(request_payload["task"].keys())
         assert request_payload["task"]["type"] == "ImageToTextTask"
