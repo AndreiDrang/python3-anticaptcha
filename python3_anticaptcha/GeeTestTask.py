@@ -58,16 +58,19 @@ class GeeTestTask:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, challenge: str) -> dict:
+    def captcha_handler(self, challenge: str, **kwargs) -> dict:
         """
 		Метод получает ссылку изображение для задания
 		:param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
+        :param kwargs: Дополнительные параметры для `requests.post(....)`.
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
         self.task_payload["task"].update({"challenge": challenge})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(create_task_url, json=self.task_payload, verify=False).json()
+        captcha_id = requests.post(
+            create_task_url, json=self.task_payload, verify=False, **kwargs
+        ).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:

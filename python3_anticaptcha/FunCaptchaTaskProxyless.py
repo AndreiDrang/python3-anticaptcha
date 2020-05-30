@@ -48,6 +48,7 @@ class FunCaptchaTaskProxyless:
 		:param websiteURL: Ссылка на страницу с капчёй
 		:param data: Дополнительный параметр, который может требоваться для некоторых решений фанкапчи.
 		:param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
+        :param kwargs: Дополнительные параметры для `requests.post(....)`.
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
         self.task_payload["task"].update(

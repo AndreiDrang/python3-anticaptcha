@@ -165,6 +165,7 @@ class SquareNetTextTask:
         image_link: str = None,
         image_file: str = None,
         image_base64: str = None,
+        **kwargs,
     ) -> dict:
         """
         Этот тип задачи берет вашу картинку, добавляет на нее сетку нужного размера и отдает работнику с требованием выбрать объекты нужного типа.
@@ -175,6 +176,8 @@ class SquareNetTextTask:
         :param image_link: Ссылка на изображение
         :param image_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
         :param image_base64: Загрузка изображения в кодировке base64
+
+        :param kwargs: Дополнительные параметры для `requests.get(....)` скачивающего изображение, если передана ссылка.
 
         :return: Возвращает весь ответ сервера JSON-строкой.
         """
@@ -200,7 +203,7 @@ class SquareNetTextTask:
 
         # проводим действия над ссылкой на файл(скачиваем, сохраняем и передаём на сервер)
         elif image_link:
-            content = self.session.get(image_link).content
+            content = self.session.get(image_link, **kwargs).content
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == "const":
                 captcha_id = self.__image_const_saver(content)

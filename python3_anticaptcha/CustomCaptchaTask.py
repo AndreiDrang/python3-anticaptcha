@@ -57,10 +57,11 @@ class CustomCaptchaTask:
         return True
 
     # Работа с капчёй
-    def captcha_handler(self, imageUrl: str) -> dict:
+    def captcha_handler(self, imageUrl: str, **kwargs) -> dict:
         """
 		Метод получает ссылку изображение для задания
 		:param imageUrl: URL картинки
+        :param kwargs: Дополнительные параметры для `requests.post(....)`.
 		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
 		"""
         self.task_payload["task"].update({"imageUrl": imageUrl})

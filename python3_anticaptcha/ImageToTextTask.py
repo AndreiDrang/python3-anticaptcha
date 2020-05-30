@@ -177,6 +177,7 @@ class ImageToTextTask:
         :param captcha_link: Ссылка на изображение
         :param captcha_file: Необязательный параметр, служит для открытия уже скачанных файлов изображений.
         :param captcha_base64: Загрузка изображения в кодировке base64
+        :param kwargs: Дополнительные параметры для `requests.get(....)` скачивающего изображение, если передана ссылка.
         :return: Возвращает весь ответ сервера JSON-строкой.
         """
         if captcha_file:
