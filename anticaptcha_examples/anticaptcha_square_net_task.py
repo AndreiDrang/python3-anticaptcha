@@ -57,7 +57,7 @@ QUEUE_KEY = "wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue"
 """
 
 answer = requests.post(
-    "https://pythoncaptcha.cloud:8001/register_key",
+    "https://pythoncaptcha.tech:8001/register_key",
     json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"},
 )
 # если очередь успешно создана:
@@ -65,7 +65,7 @@ if answer == "OK":
     # создаём задание с callbackURL параметром
     result = SquareNetTextTask.SquareNetTextTask(
         anticaptcha_key=ANTICAPTCHA_KEY,
-        callbackUrl=f"https://pythoncaptcha.cloud:8001/anticaptcha/fun_captcha/{QUEUE_KEY}",
+        callbackUrl=f"https://pythoncaptcha.tech:8001/anticaptcha/fun_captcha/{QUEUE_KEY}",
     ).captcha_handler(
         objectName="captcha numbers",
         rowsCount=2,

@@ -69,7 +69,7 @@ from python3_anticaptcha import ImageToTextTask
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # Ссылка на изображения для расшифровки. Link to captcha image.
-image_link = "https://pythoncaptcha.cloud/static/image/common_image_example/800070.png"
+image_link = "https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
 # Возвращается строка-расшифровка капчи. Get string for solve captcha, and some other info.
 user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).\
                 captcha_handler(captcha_link=image_link)
@@ -211,9 +211,9 @@ result = HCaptchaTaskProxyless.HCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA
 print(result)
 ```
 ***
-Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](https://pythoncaptcha.cloud/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
+Кроме того, для тестирования различных типов капчи предоставляется [специальный сайт](https://pythoncaptcha.tech/), на котором собраны все имеющиеся типы капчи, с удобной системой тестирования ваших скриптов.
 
-Some examples you can test with our [web-site](https://pythoncaptcha.cloud/).
+Some examples you can test with our [web-site](https://pythoncaptcha.tech/).
 
 ***
 #### For tests:

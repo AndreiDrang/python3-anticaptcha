@@ -27,7 +27,7 @@ QUEUE_KEY = "wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue"
 """
 
 answer = requests.post(
-    "https://pythoncaptcha.cloud:8001/register_key",
+    "https://pythoncaptcha.tech:8001/register_key",
     json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"},
 )
 # если очередь успешно создана:
@@ -37,7 +37,7 @@ if answer == "OK":
     # Это метод для работы без прокси
     result = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(
         anticaptcha_key=ANTICAPTCHA_KEY,
-        callbackUrl=f"https://pythoncaptcha.cloud:8001/anticaptcha/nocaptcha/{QUEUE_KEY}",
+        callbackUrl=f"https://pythoncaptcha.tech:8001/anticaptcha/nocaptcha/{QUEUE_KEY}",
     ).captcha_handler(
         websiteURL="https://www.google.com/recaptcha/api2/demo",
         websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
@@ -53,11 +53,11 @@ if answer == "OK":
         ).captcha_handler(
             requests_timeout=0.5,
             auth_params={
-                "host": "https://pythoncaptcha.cloud/",
+                "host": "https://pythoncaptcha.tech/",
                 "port": "8001",
                 "rtmq_username": "hardworker_1",
                 "rtmq_password": "password",
-                "rtmq_host": "https://pythoncaptcha.cloud/",
+                "rtmq_host": "https://pythoncaptcha.tech/",
                 "rtmq_port": "5672",
                 "rtmq_vhost": "anticaptcha_vhost",
             },
@@ -69,7 +69,7 @@ if answer == "OK":
         try:
             result = await NoCaptchaTaskProxyless.aioNoCaptchaTaskProxyless(
                 anticaptcha_key=ANTICAPTCHA_KEY,
-                callbackUrl=f"https://pythoncaptcha.cloud:8001/anticaptcha/nocaptcha/{QUEUE_KEY}",
+                callbackUrl=f"https://pythoncaptcha.tech:8001/anticaptcha/nocaptcha/{QUEUE_KEY}",
             ).captcha_handler(
                 websiteURL="https://www.google.com/recaptcha/api2/demo",
                 websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",

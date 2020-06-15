@@ -26,7 +26,7 @@ save_format = 'const' .
 result = ImageToTextTask.ImageToTextTask(
     anticaptcha_key=ANTICAPTCHA_KEY, save_format="const"
 ).captcha_handler(
-    captcha_link="https://pythoncaptcha.cloud/static/image/common_image_example/800070.png"
+    captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
 )
 print(result)
 
@@ -34,7 +34,7 @@ print(result)
 # Протестировано на Линуксах. Не используйте данный вариант на Windows! Возможно починим, но потом.
 # Example for working with captcha-image like a temporary file. Tested on UNIX-based systems. Don`t use it on Windows!
 result = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
-    captcha_link="https://pythoncaptcha.cloud/static/image/common_image_example/800070.png"
+    captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
 )
 print(result)
 
@@ -46,7 +46,7 @@ An example of working with decoding in base64 captcha-file after download. On-th
 """
 base_64_link = base64.b64encode(
     requests.get(
-        "https://pythoncaptcha.cloud/static/image/common_image_example/862963.png"
+        "https://pythoncaptcha.tech/static/image/common_image_example/862963.png"
     ).content
 ).decode("utf-8")
 
@@ -107,7 +107,7 @@ async def run():
         resolve = await ImageToTextTask.aioImageToTextTask(
             anticaptcha_key=ANTICAPTCHA_KEY, save_format="const"
         ).captcha_handler(
-            captcha_link="https://pythoncaptcha.cloud/static/image/common_image_example/800070.png"
+            captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
         )
 
         print(resolve)
@@ -148,7 +148,7 @@ QUEUE_KEY = "wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ_anticaptcha_queue"
 """
 
 answer = requests.post(
-    "https://pythoncaptcha.cloud:8001/register_key",
+    "https://pythoncaptcha.tech:8001/register_key",
     json={"key": QUEUE_KEY, "vhost": "anticaptcha_vhost"},
 )
 # если очередь успешно создана:
@@ -157,9 +157,9 @@ if answer == "OK":
     # создаём задание с callbackURL параметром
     result = ImageToTextTask.ImageToTextTask(
         anticaptcha_key=ANTICAPTCHA_KEY,
-        callbackUrl=f"https://pythoncaptcha.cloud:8001/anticaptcha/image_to_text/{QUEUE_KEY}",
+        callbackUrl=f"https://pythoncaptcha.tech:8001/anticaptcha/image_to_text/{QUEUE_KEY}",
     ).captcha_handler(
-        captcha_link="https://pythoncaptcha.cloud/static/image/common_image_example/800070.png"
+        captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
     )
     print(result)
 
