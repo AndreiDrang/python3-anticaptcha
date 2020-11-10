@@ -23,6 +23,4 @@ jobs:
     - name: Test with pytest
       env:
         anticaptcha_key: ${{ secrets.anticaptcha_key }}
-      run: |
-        pip install pytest pytest-asyncio requests-mock
-        pytest tests -v
+      run: make test
