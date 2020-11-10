@@ -20,7 +20,6 @@ class TestImageToTextCaptcha(MainAntiCaptcha):
             "anticaptcha_key",
             "sleep_time",
             "save_format",
-            "language",
             "callbackUrl",
         ]
         default_handler_params = ["self", "captcha_link", "captcha_file", "captcha_base64"]
