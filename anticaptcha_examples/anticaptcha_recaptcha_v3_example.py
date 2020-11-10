@@ -12,9 +12,7 @@ WARNING:
 
 # Пример показывает работу антикапчи с ReCaptcha v3.
 # Это метод для работы без прокси
-result = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).captcha_handler(
+result = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
     websiteURL="https://some_page_link",
     websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
     minScore=0.3,
@@ -23,9 +21,7 @@ result = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
 print(result)
 
 # contextmanager
-with ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(
-    anticaptcha_key=ANTICAPTCHA_KEY
-) as recaptcha:
+with ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY) as recaptcha:
     response = recaptcha.captcha_handler(
         websiteURL="https://some_page_link",
         websiteKey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",

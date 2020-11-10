@@ -26,9 +26,7 @@ print(result)
 # Асинхронный метод работы / Asyncio exaple
 async def run():
 
-    result = await SquareNetTextTask.aioSquareNetTextTask(
-        anticaptcha_key=ANTICAPTCHA_KEY
-    ).captcha_handler(
+    result = await SquareNetTextTask.aioSquareNetTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
         objectName="captcha numbers",
         rowsCount=2,
         columnsCount=3,

@@ -21,7 +21,7 @@ mods = ("errors", "views", "downloads", "users", "money")
 # available complaint captcha types
 complaint_types = ("image", "recaptcha")
 # availalbe queue ID's
-queue_ids = (1, 2, 5, 6, 7, 10, 11, 12, 13, 18, 19, 20)
+queue_ids = (1, 2, 5, 6, 7, 10, 11, 12, 13, 18, 19, 20, 21, 22)
 
 queues_names = (
     "English ImageToText",
@@ -57,15 +57,11 @@ class AntiCaptchaControl:
         Получение баланса аккаунта
         :return: Возвращает актуальный баланс
         """
-        answer = requests.post(
-            get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}, verify=False
-        )
+        answer = requests.post(get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}, verify=False)
 
         return answer.json()
 
-    def send_funds(
-        self, accountLogin: str = None, accountEmail: str = None, amount: float = None
-    ) -> dict:
+    def send_funds(self, accountLogin: str = None, accountEmail: str = None, amount: float = None) -> dict:
         """
         Отправить средства другому пользователю
         В вашем аккаунте должна быть включена опция отправки средств через API.
@@ -99,8 +95,7 @@ class AntiCaptchaControl:
         """
         if queue and queue not in queues_names:
             raise ValueError(
-                f"\nWrong `queue` parameter. Valid params: {queues_names}."
-                f"\n\tYour param - `{queue}`"
+                f"\nWrong `queue` parameter. Valid params: {queues_names}." f"\n\tYour param - `{queue}`"
             )
         payload = {
             "clientKey": self.ANTICAPTCHA_KEY,
@@ -119,9 +114,7 @@ class AntiCaptchaControl:
         :return: Возвращает актуальный баланс
         """
         if mode not in mods:
-            raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {mods}." f"\n\tYour param - `{mode}`"
-            )
+            raise ValueError(f"\nWrong `mode` parameter. Valid params: {mods}." f"\n\tYour param - `{mode}`")
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         answer = requests.post(get_app_stats_url, json=payload, verify=False)
 
@@ -188,8 +181,7 @@ class AntiCaptchaControl:
 
         if queue_id not in queue_ids:
             raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {queue_ids}."
-                f"\n\tYour param - `{queue_id}`"
+                f"\nWrong `mode` parameter. Valid params: {queue_ids}." f"\n\tYour param - `{queue_id}`"
             )
         payload = {"queueId": queue_id}
 
@@ -220,9 +212,7 @@ class aioAntiCaptchaControl:
         :return: Возвращает актуальный баланс
         """
         async with aiohttp.ClientSession() as session:
-            async with session.post(
-                get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}
-            ) as resp:
+            async with session.post(get_balance_url, json={"clientKey": self.ANTICAPTCHA_KEY}) as resp:
                 if await resp.text():
                     return await resp.json()
                 else:
@@ -268,8 +258,7 @@ class aioAntiCaptchaControl:
         """
         if queue and queue not in queues_names:
             raise ValueError(
-                f"\nWrong `queue` parameter. Valid params: {queues_names}."
-                f"\n\tYour param - `{queue}`"
+                f"\nWrong `queue` parameter. Valid params: {queues_names}." f"\n\tYour param - `{queue}`"
             )
         payload = {
             "clientKey": self.ANTICAPTCHA_KEY,
@@ -292,9 +281,7 @@ class aioAntiCaptchaControl:
         :return: Возвращает актуальный баланс
         """
         if mode not in mods:
-            raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {mods}." f"\n\tYour param - `{mode}`"
-            )
+            raise ValueError(f"\nWrong `mode` parameter. Valid params: {mods}." f"\n\tYour param - `{mode}`")
         payload = {"clientKey": self.ANTICAPTCHA_KEY, "softId": softId, "mode": mode}
         async with aiohttp.ClientSession() as session:
             async with session.post(get_app_stats_url, json=payload) as resp:
@@ -363,8 +350,7 @@ class aioAntiCaptchaControl:
         """
         if queue_id not in queue_ids:
             raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {queue_ids}."
-                f"\n\tYour param - `{queue_id}`"
+                f"\nWrong `mode` parameter. Valid params: {queue_ids}." f"\n\tYour param - `{queue_id}`"
             )
         payload = {"queueId": queue_id}
 

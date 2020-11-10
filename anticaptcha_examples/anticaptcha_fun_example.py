@@ -20,9 +20,9 @@ result = FunCaptchaTask.FunCaptchaTask(
 print(result)
 
 # Пример работы антикапчи с фанкапчёй и с БЕЗ использования прокси при этом
-result = FunCaptchaTaskProxyless.FunCaptchaTaskProxyless(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).captcha_handler(websiteURL=WEB_URL, websitePublicKey=SITE_KEY)
+result = FunCaptchaTaskProxyless.FunCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
+    websiteURL=WEB_URL, websitePublicKey=SITE_KEY
+)
 
 print(result)
 

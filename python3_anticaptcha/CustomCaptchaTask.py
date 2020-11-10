@@ -17,13 +17,13 @@ class CustomCaptchaTask:
         callbackUrl: str = None,
     ):
         """
-		Модуль отвечает за решение CustomCaptchaTask
-		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param sleep_time: Время ожидания решения
+        Модуль отвечает за решение CustomCaptchaTask
+        :param anticaptcha_key: Ключ от АнтиКапчи
+        :param sleep_time: Время ожидания решения
         :param assignment: Опишите что работник должен сделать на английском языке
         :param forms: Произвольная форма в формате JSON
         :param callbackUrl: URL для решения капчи с ответом через callback
-		"""
+        """
         if sleep_time < 5:
             raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -59,11 +59,11 @@ class CustomCaptchaTask:
     # Работа с капчёй
     def captcha_handler(self, imageUrl: str, **kwargs) -> dict:
         """
-		Метод получает ссылку изображение для задания
-		:param imageUrl: URL картинки
+                Метод получает ссылку изображение для задания
+                :param imageUrl: URL картинки
         :param kwargs: Дополнительные параметры для `requests.post(....)`.
-		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
-		"""
+                :return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
+        """
         self.task_payload["task"].update({"imageUrl": imageUrl})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
@@ -96,13 +96,13 @@ class aioCustomCaptchaTask:
         callbackUrl: str = None,
     ):
         """
-		Модуль отвечает за решение CustomCaptchaTask
-		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param sleep_time: Время ожидания решения
+                Модуль отвечает за решение CustomCaptchaTask
+                :param anticaptcha_key: Ключ от АнтиКапчи
+                :param sleep_time: Время ожидания решения
         :param assignment: Опишите что работник должен сделать на английском языке
         :param forms: Произвольная форма в формате JSON
         :param callbackUrl: URL для решения капчи с ответом через callback
-		"""
+        """
         if sleep_time < 5:
             raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -138,10 +138,10 @@ class aioCustomCaptchaTask:
     # Работа с капчёй
     async def captcha_handler(self, imageUrl: str) -> dict:
         """
-		Метод получает ссылку изображение для задания
-		:param imageUrl: URL картинки
-		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
-		"""
+        Метод получает ссылку изображение для задания
+        :param imageUrl: URL картинки
+        :return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
+        """
         self.task_payload["task"].update({"imageUrl": imageUrl})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
@@ -164,6 +164,4 @@ class aioCustomCaptchaTask:
         else:
             # Ждем решения капчи
             await asyncio.sleep(self.sleep_time)
-            return await get_async_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

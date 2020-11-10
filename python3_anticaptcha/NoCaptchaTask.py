@@ -8,13 +8,11 @@ from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_a
 
 
 class NoCaptchaTask:
-    def __init__(
-        self, anticaptcha_key: str, sleep_time: int = 10, callbackUrl: str = None, **kwargs
-    ):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 10, callbackUrl: str = None, **kwargs):
         """
         Модуль отвечает за решение NoCaptcha.
         :param anticaptcha_key: ключ от АнтиКапчи
-		:param sleep_time: Время ожидания решения
+        :param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
         :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_nocaptcha_example.py
         """
@@ -57,7 +55,7 @@ class NoCaptchaTask:
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй
         :param: websiteKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
-		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
+                :param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать
                                     дополнительный параметр "data-s" в div'е рекапчи,
                                     который является одноразовым токеном и
                                     должен собираться каждый раз при решении рекапчи.
@@ -72,9 +70,7 @@ class NoCaptchaTask:
             }
         )
         # отправляем реквест, в ответ получаем JSON содержащий номер решаемой капчи
-        captcha_id = requests.post(
-            create_task_url, json=self.task_payload, verify=False, **kwargs
-        ).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, verify=False, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -93,13 +89,11 @@ class NoCaptchaTask:
 
 
 class aioNoCaptchaTask:
-    def __init__(
-        self, anticaptcha_key: str, sleep_time: str = 10, callbackUrl: str = None, **kwargs
-    ):
+    def __init__(self, anticaptcha_key: str, sleep_time: str = 10, callbackUrl: str = None, **kwargs):
         """
         Модуль отвечает за решение NoCaptcha.
         :param anticaptcha_key: ключ от АнтиКапчи
-		:param sleep_time: Время ожидания решения
+                :param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
         :param kwargs: Параметры для подключения к прокси. Подробнее в официальной документации или примерe  - anticaptcha_examples/anticaptcha_nocaptcha_example.py
         """
@@ -135,14 +129,12 @@ class aioNoCaptchaTask:
         return True
 
     # Работа с капчей
-    async def captcha_handler(
-        self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = ""
-    ) -> dict:
+    async def captcha_handler(self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "") -> dict:
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
         :param: websiteURL: Ссылка на страницу с капчёй.
         :param: websiteKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи).
-		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
+                :param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать
                                     дополнительный параметр "data-s" в div'е рекапчи,
                                     который является одноразовым токеном и
                                     должен собираться каждый раз при решении рекапчи.
@@ -174,6 +166,4 @@ class aioNoCaptchaTask:
         else:
             # Ждем решения капчи
             await asyncio.sleep(self.sleep_time)
-            return await get_async_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

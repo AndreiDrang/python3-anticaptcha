@@ -69,6 +69,4 @@ class aioCustomResultHandler:
 
         # wait captcha solution result
         await asyncio.sleep(self.sleep_time)
-        return await get_async_result(
-            result_payload=self.result_payload, sleep_time=self.sleep_time
-        )
+        return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

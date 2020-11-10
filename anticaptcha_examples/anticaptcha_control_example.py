@@ -7,25 +7,23 @@ ANTICAPTCHA_KEY = ""
 # Пример метода, отправляющего жалобу на неправильно решённую капчу-изображение.
 # В качестве параметра, принимает ключ антикапчи и ID неправильно решённой капчи + тип капчи
 # Возвращает логические True(жалоба прошла)/False(ошибка при жалобе)
-result = AntiCaptchaControl.AntiCaptchaControl(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).complaint_on_result(reported_id=-5, captcha_type="image")
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).complaint_on_result(
+    reported_id=-5, captcha_type="image"
+)
 print(result)
 # Пример метода, отправляющего жалобу на неправильно решённую ReCaptcha.
 # В качестве параметра, принимает ключ антикапчи и ID неправильно решённой ReCaptcha + тип капчи
 # Возвращает логические True(жалоба прошла)/False(ошибка при жалобе)
-result = AntiCaptchaControl.AntiCaptchaControl(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).complaint_on_result(reported_id=-5, captcha_type="recaptcha")
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).complaint_on_result(
+    reported_id=-5, captcha_type="recaptcha"
+)
 print(result)
 # Пример метода, принимающего ключ аккаунта и возвращающего актуальный баланс
 result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).get_balance()
 print(result)
 # Пример метода, выдающий информацию о загрузке очереди, в зависимости от ID очереди
 # В данном случае queue_id = 1, то есть получаем информацию по загрузке очереди ImageToText (язык английский)
-result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).get_queue_status(
-    queue_id=1
-)
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).get_queue_status(queue_id=1)
 print(result)
 
 # Асинхронный метод работы

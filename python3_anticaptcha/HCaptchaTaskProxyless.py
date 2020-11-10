@@ -10,11 +10,11 @@ from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_a
 class HCaptchaTaskProxyless:
     def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None):
         """
-		Модуль отвечает за решение HCaptcha Proxyless
-		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param sleep_time: Время ожидания решения
+                Модуль отвечает за решение HCaptcha Proxyless
+                :param anticaptcha_key: Ключ от АнтиКапчи
+                :param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
-		"""
+        """
         if sleep_time < 5:
             raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -42,18 +42,16 @@ class HCaptchaTaskProxyless:
 
     def captcha_handler(self, websiteURL: str, websiteKey: str, **kwargs) -> dict:
         """
-		Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
-		:param websiteURL: Адрес страницы на которой решается капча
-		:param websiteKey: Ключ-индентификатор капчи на целевой странице.
-		:param kwargs: Дополнительные параметры для `requests.post(....)`.
-		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
-		"""
+        Метод получает ссылку на страницу на которпой расположена капча и ключ капчи
+        :param websiteURL: Адрес страницы на которой решается капча
+        :param websiteKey: Ключ-индентификатор капчи на целевой странице.
+        :param kwargs: Дополнительные параметры для `requests.post(....)`.
+        :return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
+        """
         self.task_payload["task"].update({"websiteURL": websiteURL, "websiteKey": websiteKey})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(
-            create_task_url, json=self.task_payload, verify=False, **kwargs
-        ).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, verify=False, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи,
         # иначе возвращаем ответ сервера
@@ -76,11 +74,11 @@ class HCaptchaTaskProxyless:
 class aioHCaptchaTaskProxyless:
     def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None):
         """
-		Модуль отвечает за решение HCaptcha Proxyless
-		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param sleep_time: Время ожидания решения
+                Модуль отвечает за решение HCaptcha Proxyless
+                :param anticaptcha_key: Ключ от АнтиКапчи
+                :param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
-		"""
+        """
         if sleep_time < 5:
             raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -129,6 +127,4 @@ class aioHCaptchaTaskProxyless:
         else:
             # Ждем решения капчи
             await asyncio.sleep(self.sleep_time)
-            return await get_async_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

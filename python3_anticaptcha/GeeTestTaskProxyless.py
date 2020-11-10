@@ -17,13 +17,13 @@ class GeeTestTaskProxyless:
         callbackUrl: str = None,
     ):
         """
-		Модуль отвечает за решение GeeTestTaskProxyless
-		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param websiteURL: Адрес страницы на которой решается капча
+        Модуль отвечает за решение GeeTestTaskProxyless
+        :param anticaptcha_key: Ключ от АнтиКапчи
+        :param websiteURL: Адрес страницы на которой решается капча
         :param gt: Ключ-индентификатор капчи на целевой странице
-		:param sleep_time: Время ожидания решения
+        :param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
-		"""
+        """
         if sleep_time < 10:
             raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -52,17 +52,15 @@ class GeeTestTaskProxyless:
     # Работа с капчёй
     def captcha_handler(self, challenge: str, **kwargs) -> dict:
         """
-		Метод получает ссылку изображение для задания
-		:param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
+                Метод получает ссылку изображение для задания
+                :param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
         :param kwargs: Дополнительные параметры для `requests.post(....)`.
-		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
-		"""
+                :return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
+        """
         self.task_payload["task"].update({"challenge": challenge})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(
-            create_task_url, json=self.task_payload, verify=False, **kwargs
-        ).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, verify=False, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -91,13 +89,13 @@ class aioGeeTestTaskProxyless:
         callbackUrl: str = None,
     ):
         """
-		Модуль отвечает за решение GeeTestTaskProxyless
-		:param anticaptcha_key: Ключ от АнтиКапчи
-		:param websiteURL: Адрес страницы на которой решается капча
+                Модуль отвечает за решение GeeTestTaskProxyless
+                :param anticaptcha_key: Ключ от АнтиКапчи
+                :param websiteURL: Адрес страницы на которой решается капча
         :param gt: Ключ-индентификатор капчи на целевой странице
-		:param sleep_time: Время ожидания решения
+                :param sleep_time: Время ожидания решения
         :param callbackUrl: URL для решения капчи с ответом через callback
-		"""
+        """
         if sleep_time < 10:
             raise ValueError(f"Param `sleep_time` must be greater than 10. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -126,10 +124,10 @@ class aioGeeTestTaskProxyless:
     # Работа с капчёй
     async def captcha_handler(self, challenge: str) -> dict:
         """
-		Метод получает ссылку изображение для задания
-		:param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
-		:return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
-		"""
+        Метод получает ссылку изображение для задания
+        :param challenge: Переменный токен который необходимо обновлять каждый раз перед созданием задачи
+        :return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
+        """
         self.task_payload["task"].update({"challenge": challenge})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
@@ -152,6 +150,4 @@ class aioGeeTestTaskProxyless:
         else:
             # Ждем решения капчи
             await asyncio.sleep(self.sleep_time)
-            return await get_async_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

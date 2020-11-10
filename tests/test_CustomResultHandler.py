@@ -15,18 +15,12 @@ class TestAntiCaptcha(MainAntiCaptcha):
         default_init_params = ["self", "anticaptcha_key", "sleep_time"]
         default_handler_params = ["self", "task_id"]
         # get customcaptcha init and task_handler params
-        aioinit_params = inspect.getfullargspec(
-            CustomResultHandler.aioCustomResultHandler.__init__
-        )
-        aiohandler_params = inspect.getfullargspec(
-            CustomResultHandler.aioCustomResultHandler.task_handler
-        )
+        aioinit_params = inspect.getfullargspec(CustomResultHandler.aioCustomResultHandler.__init__)
+        aiohandler_params = inspect.getfullargspec(CustomResultHandler.aioCustomResultHandler.task_handler)
 
         # get customcaptcha init and task_handler params
         init_params = inspect.getfullargspec(CustomResultHandler.CustomResultHandler.__init__)
-        handler_params = inspect.getfullargspec(
-            CustomResultHandler.CustomResultHandler.task_handler
-        )
+        handler_params = inspect.getfullargspec(CustomResultHandler.CustomResultHandler.task_handler)
         # check aio module params
         assert default_init_params == aioinit_params[0]
         assert default_handler_params == aiohandler_params[0]
@@ -40,9 +34,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
     def test_response_result_handler(self):
         # prepare client
-        custom_result = CustomResultHandler.CustomResultHandler(
-            anticaptcha_key=self.anticaptcha_key_true
-        )
+        custom_result = CustomResultHandler.CustomResultHandler(anticaptcha_key=self.anticaptcha_key_true)
         # check response type
         assert isinstance(custom_result, CustomResultHandler.CustomResultHandler)
 
@@ -55,9 +47,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     @pytest.mark.asyncio
     async def test_response_aioresult_handler(self):
         # prepare client
-        custom_result = CustomResultHandler.aioCustomResultHandler(
-            anticaptcha_key=self.anticaptcha_key_true
-        )
+        custom_result = CustomResultHandler.aioCustomResultHandler(anticaptcha_key=self.anticaptcha_key_true)
         # check response type
         assert isinstance(custom_result, CustomResultHandler.aioCustomResultHandler)
 
@@ -73,9 +63,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
     def test_fail_result_handler(self):
         # prepare client
-        custom_result = CustomResultHandler.CustomResultHandler(
-            anticaptcha_key=self.anticaptcha_key_fail
-        )
+        custom_result = CustomResultHandler.CustomResultHandler(anticaptcha_key=self.anticaptcha_key_fail)
 
         response = custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code
@@ -94,9 +82,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     @pytest.mark.asyncio
     async def test_fail_aioresult_handler(self):
         # prepare client
-        custom_result = CustomResultHandler.aioCustomResultHandler(
-            anticaptcha_key=self.anticaptcha_key_fail
-        )
+        custom_result = CustomResultHandler.aioCustomResultHandler(anticaptcha_key=self.anticaptcha_key_fail)
 
         response = await custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code
@@ -119,9 +105,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
 
     def test_true_result_handler(self):
         # prepare client
-        custom_result = CustomResultHandler.CustomResultHandler(
-            anticaptcha_key=self.anticaptcha_key_true
-        )
+        custom_result = CustomResultHandler.CustomResultHandler(anticaptcha_key=self.anticaptcha_key_true)
 
         response = custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code
@@ -140,9 +124,7 @@ class TestAntiCaptcha(MainAntiCaptcha):
     @pytest.mark.asyncio
     async def test_true_aioresult_handler(self):
         # prepare client
-        custom_result = CustomResultHandler.aioCustomResultHandler(
-            anticaptcha_key=self.anticaptcha_key_true
-        )
+        custom_result = CustomResultHandler.aioCustomResultHandler(anticaptcha_key=self.anticaptcha_key_true)
 
         response = await custom_result.task_handler(task_id=self.WRONG_TASK_ID)
         # check error code

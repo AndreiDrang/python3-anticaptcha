@@ -21,9 +21,9 @@ result = HCaptchaTask.HCaptchaTask(
 print(result)
 
 # Пример работы антикапчи с фанкапчёй и с БЕЗ использования прокси при этом
-result = HCaptchaTaskProxyless.HCaptchaTaskProxyless(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).captcha_handler(websiteURL=WEB_URL, websiteKey=SITE_KEY)
+result = HCaptchaTaskProxyless.HCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
+    websiteURL=WEB_URL, websiteKey=SITE_KEY
+)
 
 print(result)
 

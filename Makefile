@@ -5,14 +5,15 @@ remove:
 	pip uninstall python3-anticaptcha -y
 
 test:
-	pip install pytest pytest-cov pytest-asyncio requests_mock
-	pytest tests --cov=python3_anticaptcha/ -v
+	pip install pytest coverage pytest-asyncio requests_mock
+	coverage run -m pytest tests -v --disable-warnings
+	coverage report -m python3_anticaptcha/*.py
 
 refactor:
 	pip install black isort
 	black python3_anticaptcha/
 	isort -rc python3_anticaptcha/
 
-upload:
-	pip install twine
+release:
+	pip install wheel twine
 	python setup.py upload

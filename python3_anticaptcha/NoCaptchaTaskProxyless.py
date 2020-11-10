@@ -8,16 +8,14 @@ from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_a
 
 
 class NoCaptchaTaskProxyless:
-    def __init__(
-        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs
-    ):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs):
         """
-		Модуль отвечает за решение ReCaptcha без прокси
-		:param anticaptcha_key: Ключ антикапчи
-		:param sleep_time: Время ожидания решения капчи
+        Модуль отвечает за решение ReCaptcha без прокси
+        :param anticaptcha_key: Ключ антикапчи
+        :param sleep_time: Время ожидания решения капчи
         :param callbackUrl: URL для решения капчи с ответом через callback
-		:param kwargs: Другие необязательные параметры из документации
-		"""
+        :param kwargs: Другие необязательные параметры из документации
+        """
         if sleep_time < 5:
             raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -53,16 +51,16 @@ class NoCaptchaTaskProxyless:
         self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "", **kwargs
     ) -> dict:
         """
-		Метод решения ReCaptcha
-		:param websiteURL: Ссылка на страницу с капчёй
-		:param websiteKey: Ключ капчи сайта(как получить - написано в документации)
-		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
+                Метод решения ReCaptcha
+                :param websiteURL: Ссылка на страницу с капчёй
+                :param websiteKey: Ключ капчи сайта(как получить - написано в документации)
+                :param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать
                                     дополнительный параметр "data-s" в div'е рекапчи,
                                     который является одноразовым токеном и
                                     должен собираться каждый раз при решении рекапчи.
         :param kwargs: Дополнительные параметры для `requests.post(....)`.
-		:return: Возвращает ответ сервера в виде JSON-строки
-		"""
+                :return: Возвращает ответ сервера в виде JSON-строки
+        """
 
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
         self.task_payload["task"].update(
@@ -74,9 +72,7 @@ class NoCaptchaTaskProxyless:
         )
         # Отправляем на антикапчу пайлоад
         # в результате получаем JSON ответ содержащий номер решаемой капчи
-        captcha_id = requests.post(
-            create_task_url, json=self.task_payload, verify=False, **kwargs
-        ).json()
+        captcha_id = requests.post(create_task_url, json=self.task_payload, verify=False, **kwargs).json()
 
         # Проверка статуса создания задачи, если создано без ошибок - извлекаем ID задачи, иначе возвращаем ответ сервера
         if captcha_id["errorId"] == 0:
@@ -96,16 +92,14 @@ class NoCaptchaTaskProxyless:
 
 
 class aioNoCaptchaTaskProxyless:
-    def __init__(
-        self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs
-    ):
+    def __init__(self, anticaptcha_key: str, sleep_time: int = 5, callbackUrl: str = None, **kwargs):
         """
-		Модуль отвечает за решение ReCaptcha без прокси
-		:param anticaptcha_key: Ключ антикапчи
-		:param sleep_time: Время ожидания решения капчи
-		:param callbackUrl: URL для решения капчи с ответом через callback
-		:param kwargs: Другие необязательные параметры из документации
-		"""
+        Модуль отвечает за решение ReCaptcha без прокси
+        :param anticaptcha_key: Ключ антикапчи
+        :param sleep_time: Время ожидания решения капчи
+        :param callbackUrl: URL для решения капчи с ответом через callback
+        :param kwargs: Другие необязательные параметры из документации
+        """
         if sleep_time < 5:
             raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -138,19 +132,17 @@ class aioNoCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    async def captcha_handler(
-        self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = ""
-    ) -> dict:
+    async def captcha_handler(self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "") -> dict:
         """
-		Метод решения ReCaptcha
-		:param websiteURL: Ссылка на страницу с капчёй
-		:param websiteKey: Ключ капчи сайта(как получить - написано в документации)
-		:param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать 
-                                    дополнительный параметр "data-s" в div'е рекапчи,
-                                    который является одноразовым токеном и
-                                    должен собираться каждый раз при решении рекапчи.
-		:return: Возвращает ответ сервера в виде JSON-строки
-		"""
+        Метод решения ReCaptcha
+        :param websiteURL: Ссылка на страницу с капчёй
+        :param websiteKey: Ключ капчи сайта(как получить - написано в документации)
+        :param recaptchaDataSValue: Некоторые реализации виджета рекапчи могут содержать
+                            дополнительный параметр "data-s" в div'е рекапчи,
+                            который является одноразовым токеном и
+                            должен собираться каждый раз при решении рекапчи.
+        :return: Возвращает ответ сервера в виде JSON-строки
+        """
 
         # вставляем в пайлоад адрес страницы и ключ-индентификатор рекапчи
         self.task_payload["task"].update(
@@ -180,6 +172,4 @@ class aioNoCaptchaTaskProxyless:
         else:
             # Ждем решения капчи
             await asyncio.sleep(self.sleep_time)
-            return await get_async_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

@@ -220,6 +220,5 @@ Some examples you can test with our [web-site](https://pythoncaptcha.tech/).
 1. Clon repo;
 2. ```bash
     export anticaptcha_key=SERVICE_KEY
-    pip install pytest pytest-asyncio requests_mock
-    pytest tests
+    make test
     ```

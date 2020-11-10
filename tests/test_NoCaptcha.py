@@ -17,7 +17,7 @@ class TestNoCaptcha(MainAntiCaptcha):
 
     def test_nocaptcha_params(self):
         default_init_params = ["self", "anticaptcha_key", "sleep_time", "callbackUrl"]
-        default_handler_params = ["self", "websiteURL", "websiteKey", 'recaptchaDataSValue']
+        default_handler_params = ["self", "websiteURL", "websiteKey", "recaptchaDataSValue"]
         # get customcaptcha init and captcha_handler params
         aioinit_params = inspect.getfullargspec(NoCaptchaTask.aioNoCaptchaTask.__init__)
         aiohandler_params = inspect.getfullargspec(NoCaptchaTask.aioNoCaptchaTask.captcha_handler)
@@ -54,5 +54,7 @@ class TestNoCaptcha(MainAntiCaptcha):
         # check all dict keys
         assert ["clientKey", "task", "softId"] == list(request_payload.keys())
         assert request_payload["softId"] == config.app_key
-        assert ["type", "websiteURL", "websiteKey", 'recaptchaDataSValue'] == list(request_payload["task"].keys())
+        assert ["type", "websiteURL", "websiteKey", "recaptchaDataSValue"] == list(
+            request_payload["task"].keys()
+        )
         assert request_payload["task"]["type"] == "NoCaptchaTask"

@@ -16,17 +16,13 @@ class TestAntiCaptcha(MainAntiCaptcha):
         default_init_params = ["self", "anticaptcha_key", "sleep_time", "callbackUrl"]
         default_handler_params = ["self", "websiteURL", "websiteKey", "minScore", "pageAction"]
         # get customcaptcha init and captcha_handler params
-        aioinit_params = inspect.getfullargspec(
-            ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless.__init__
-        )
+        aioinit_params = inspect.getfullargspec(ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless.__init__)
         aiohandler_params = inspect.getfullargspec(
             ReCaptchaV3TaskProxyless.aioReCaptchaV3TaskProxyless.captcha_handler
         )
 
         # get customcaptcha init and captcha_handler params
-        init_params = inspect.getfullargspec(
-            ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless.__init__
-        )
+        init_params = inspect.getfullargspec(ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless.__init__)
         handler_params = inspect.getfullargspec(
             ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless.captcha_handler
         )

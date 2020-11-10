@@ -113,9 +113,7 @@ class SquareNetTextTask:
 
         with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
-            self.task_payload["task"].update(
-                {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-            )
+            self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
             captcha_id = self.session.post(create_task_url, json=self.task_payload).json()
@@ -234,9 +232,9 @@ class SquareNetTextTask:
 
 class aioSquareNetTextTask:
     """
-	Данный метод подходит для всинхронного решения капчи-изображение.
-	Подробней информацию смотрите в методе 'captcha_handler' и '__init__'
-	"""
+    Данный метод подходит для всинхронного решения капчи-изображение.
+    Подробней информацию смотрите в методе 'captcha_handler' и '__init__'
+    """
 
     def __init__(
         self,
@@ -290,17 +288,15 @@ class aioSquareNetTextTask:
 
     async def __image_temp_saver(self, captcha_link: str):
         """
-		Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
-		:return: Возвращает ID капчи
-		"""
+        Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
+        :return: Возвращает ID капчи
+        """
         # Скачиваем капчу
         async with aiohttp.ClientSession() as session:
             async with session.get(captcha_link) as resp:
                 content = await resp.content.read()
                 # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-                self.task_payload["task"].update(
-                    {"body": base64.b64encode(content).decode("utf-8")}
-                )
+                self.task_payload["task"].update({"body": base64.b64encode(content).decode("utf-8")})
                 # Отправляем на рукапча изображение капчи и другие парметры,
                 # в результате получаем JSON ответ с номером решаемой капчи
         async with aiohttp.ClientSession() as session:
@@ -309,9 +305,9 @@ class aioSquareNetTextTask:
 
     async def __image_const_saver(self, captcha_link: str):
         """
-		Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
-		:return: Возвращает ID капчи
-		"""
+        Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
+        :return: Возвращает ID капчи
+        """
         img_path = "PythonAntiCaptchaImages"
 
         if not os.path.exists(img_path):
@@ -330,9 +326,7 @@ class aioSquareNetTextTask:
 
         with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
-            self.task_payload["task"].update(
-                {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-            )
+            self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
             async with aiohttp.ClientSession() as session:
@@ -437,6 +431,4 @@ class aioSquareNetTextTask:
         else:
             # Ждем решения капчи
             await asyncio.sleep(self.sleep_time)
-            return await get_async_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

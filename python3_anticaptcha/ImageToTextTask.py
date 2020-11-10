@@ -31,7 +31,6 @@ class ImageToTextTask:
         anticaptcha_key: str,
         sleep_time: int = 5,
         save_format: str = "temp",
-        language: str = "en",
         callbackUrl: str = None,
         **kwargs,
     ):
@@ -42,7 +41,6 @@ class ImageToTextTask:
         :param sleep_time: Вермя ожидания решения капчи
         :param save_format: Формат в котором будет сохраняться изображение, либо как временный файл - 'temp',
                             либо как обычное изображение в папку созданную библиотекой - 'const'.
-        :param language: Язык капчи
         :param callbackUrl: URL для решения капчи с ответом через callback
         :param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
         """
@@ -122,9 +120,7 @@ class ImageToTextTask:
 
         with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
-            self.task_payload["task"].update(
-                {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-            )
+            self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
             captcha_id = self.session.post(create_task_url, json=self.task_payload).json()
@@ -216,30 +212,28 @@ class ImageToTextTask:
 
 class aioImageToTextTask:
     """
-	Данный метод подходит для всинхронного решения капчи-изображение.
-	Подробней информацию смотрите в методе 'captcha_handler' и '__init__'
-	"""
+    Данный метод подходит для всинхронного решения капчи-изображение.
+    Подробней информацию смотрите в методе 'captcha_handler' и '__init__'
+    """
 
     def __init__(
         self,
         anticaptcha_key: str,
         sleep_time: int = 5,
         save_format: str = "temp",
-        language: str = "en",
         callbackUrl: str = None,
         **kwargs,
     ):
         """
-		Инициализация нужных переменных, создание папки для изображений и кэша
-		После завершения работы - удаляются временные фалйы и папки
-		:param anticaptcha_key:  АПИ ключ капчи из кабинета пользователя
-		:param sleep_time: Вермя ожидания решения капчи
-		:param save_format: Формат в котором будет сохраняться изображение, либо как временный файл - 'temp',
-							либо как обычное изображение в папку созданную библиотекой - 'const'.
-		:param language: Язык капчи
-		:param callbackUrl: URL для решения капчи с ответом через callback
-		:param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
-		"""
+        Инициализация нужных переменных, создание папки для изображений и кэша
+        После завершения работы - удаляются временные фалйы и папки
+        :param anticaptcha_key:  АПИ ключ капчи из кабинета пользователя
+        :param sleep_time: Вермя ожидания решения капчи
+        :param save_format: Формат в котором будет сохраняться изображение, либо как временный файл - 'temp',
+                                                либо как обычное изображение в папку созданную библиотекой - 'const'.
+        :param callbackUrl: URL для решения капчи с ответом через callback
+        :param **kwargs: За подробной информацией обратитесь к документации на сайте anticaptcha.
+        """
         if sleep_time < 5:
             raise ValueError(f"Param `sleep_time` must be greater than 5. U set - {sleep_time}")
         self.sleep_time = sleep_time
@@ -282,17 +276,15 @@ class aioImageToTextTask:
 
     async def __image_temp_saver(self, captcha_link: str):
         """
-		Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
-		:return: Возвращает ID капчи
-		"""
+        Метод сохраняет файл изображения как временный и отправляет его сразу на сервер для расшифровки.
+        :return: Возвращает ID капчи
+        """
         # Скачиваем капчу
         async with aiohttp.ClientSession() as session:
             async with session.get(captcha_link) as resp:
                 content = await resp.content.read()
                 # Создаём пайлоад, вводим ключ от сайта, выбираем метод ПОСТ и ждём ответа в JSON-формате
-                self.task_payload["task"].update(
-                    {"body": base64.b64encode(content).decode("utf-8")}
-                )
+                self.task_payload["task"].update({"body": base64.b64encode(content).decode("utf-8")})
                 # Отправляем на рукапча изображение капчи и другие парметры,
                 # в результате получаем JSON ответ с номером решаемой капчи
         async with aiohttp.ClientSession() as session:
@@ -301,9 +293,9 @@ class aioImageToTextTask:
 
     async def __image_const_saver(self, captcha_link: str):
         """
-		Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
-		:return: Возвращает ID капчи
-		"""
+        Метод создаёт папку и сохраняет в неё изображение, затем передаёт его на расшифровку и удалет файл.
+        :return: Возвращает ID капчи
+        """
         img_path = "PythonAntiCaptchaImages"
 
         if not os.path.exists(img_path):
@@ -322,9 +314,7 @@ class aioImageToTextTask:
 
         with open(os.path.join(img_path, "im-{0}.png".format(image_hash)), "rb") as captcha_image:
             # Добавляем в пайлоад картинку и отправляем
-            self.task_payload["task"].update(
-                {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-            )
+            self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             # Отправляем на антикапча изображение капчи и другие парметры,
             # в результате получаем JSON ответ содержащий номер решаемой капчи
 
@@ -372,18 +362,16 @@ class aioImageToTextTask:
         self, captcha_link: str = None, captcha_file: str = None, captcha_base64: str = None
     ) -> dict:
         """
-		Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
-		RuCaptcha, дожидается решения капчи и вовзращает вам результат
-		:param captcha_link: Ссылка на изображение
-		:return: Возвращает весь ответ сервера JSON-строкой.
-		"""
+        Метод получает от вас ссылку на изображение, скачивает его, отправляет изображение на сервер
+        RuCaptcha, дожидается решения капчи и вовзращает вам результат
+        :param captcha_link: Ссылка на изображение
+        :return: Возвращает весь ответ сервера JSON-строкой.
+        """
         # если был передан линк на локальный скачаный файл
         if captcha_file:
             captcha_id = await self.__read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
-            captcha_id = await self.__read_captcha_image_file(
-                captcha_base64, content_type="base64"
-            )
+            captcha_id = await self.__read_captcha_image_file(captcha_base64, content_type="base64")
         elif captcha_link:
             # согласно значения переданного параметра выбираем функцию для сохранения изображения
             if self.save_format == SAVE_FORMATS[0]:
@@ -410,6 +398,4 @@ class aioImageToTextTask:
         else:
             # Ждем решения капчи
             await asyncio.sleep(self.sleep_time)
-            return await get_async_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time
-            )
+            return await get_async_result(result_payload=self.result_payload, sleep_time=self.sleep_time)

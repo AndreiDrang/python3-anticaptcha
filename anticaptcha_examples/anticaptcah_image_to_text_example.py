@@ -25,9 +25,7 @@ save_format = 'const' .
 
 result = ImageToTextTask.ImageToTextTask(
     anticaptcha_key=ANTICAPTCHA_KEY, save_format="const"
-).captcha_handler(
-    captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
-)
+).captcha_handler(captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png")
 print(result)
 
 # Пример который показывает работу антикапчи при решении капчи-изображением и сохранением её в качестве ВРЕМЕННОГО файла
@@ -45,14 +43,12 @@ Base64 files
 An example of working with decoding in base64 captcha-file after download. On-the-fly-encoding
 """
 base_64_link = base64.b64encode(
-    requests.get(
-        "https://pythoncaptcha.tech/static/image/common_image_example/862963.png"
-    ).content
+    requests.get("https://pythoncaptcha.tech/static/image/common_image_example/862963.png").content
 ).decode("utf-8")
 
-user_answer_base64 = ImageToTextTask.ImageToTextTask(
-    anticaptcha_key=ANTICAPTCHA_KEY
-).captcha_handler(captcha_base64=base_64_link)
+user_answer_base64 = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
+    captcha_base64=base_64_link
+)
 
 """
 Пример работы со скачанными файлами изображений капчи.
@@ -80,9 +76,9 @@ print(result)
 # captcha_file = r'D:\Python\933588.png'
 # captcha_file = 'D:\/Python\/933588.png'
 try:
-    user_answer_local = ImageToTextTask.ImageToTextTask(
-        anticaptcha_key=ANTICAPTCHA_KEY
-    ).captcha_handler(captcha_file=captcha_file)
+    user_answer_local = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
+        captcha_file=captcha_file
+    )
     if user_answer_local["errorId"] == 0:
         # решение капчи
         print(user_answer_local["solution"]["text"])
@@ -112,15 +108,15 @@ async def run():
 
         print(resolve)
 
-        resolve = await ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=ANTICAPTCHA_KEY
-        ).captcha_handler(captcha_file=captcha_file)
+        resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
+            captcha_file=captcha_file
+        )
 
         print(resolve)
 
-        resolve = await ImageToTextTask.aioImageToTextTask(
-            anticaptcha_key=ANTICAPTCHA_KEY
-        ).captcha_handler(captcha_base64=base_64_link)
+        resolve = await ImageToTextTask.aioImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).captcha_handler(
+            captcha_base64=base_64_link
+        )
 
         print(resolve)
 
@@ -158,9 +154,7 @@ if answer == "OK":
     result = ImageToTextTask.ImageToTextTask(
         anticaptcha_key=ANTICAPTCHA_KEY,
         callbackUrl=f"https://pythoncaptcha.tech:8001/anticaptcha/image_to_text/{QUEUE_KEY}",
-    ).captcha_handler(
-        captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
-    )
+    ).captcha_handler(captcha_link="https://pythoncaptcha.tech/static/image/common_image_example/800070.png")
     print(result)
 
     # получение результата из кеша
