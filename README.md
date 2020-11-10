@@ -8,13 +8,12 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2daabf7ff7974f01b9348fe64483c7af)](https://app.codacy.com/app/drang.andray/python3-anticaptcha?utm_source=github.com&utm_medium=referral&utm_content=AndreiDrang/python3-anticaptcha&utm_campaign=Badge_Grade_Settings)
 
 
-Python 3.6 library for Anti-Captcha service.
+Python 3.6+ library for [Anti-Captcha](https://anti-captcha.com/mainpage) service.
 
 [Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
 
 Tested on UNIX based OS.
-
-Библиотека предназначена для разрабаотчиков ПО и служит для облегчения работы с API сервиса AntiCaptcha.
+The library is intended for software developers and is used to work with the AntiCaptcha service API.
 
 ## How to install? Как установить?
 
@@ -68,9 +67,9 @@ print(user_answer)
 from python3_anticaptcha import ImageToTextTask
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
-# Ссылка на изображения для расшифровки. Link to captcha image.
+# Link to captcha image.
 image_link = "https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
-# Возвращается строка-расшифровка капчи. Get string for solve captcha, and some other info.
+# Get string for solve captcha, and some other info.
 user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).\
                 captcha_handler(captcha_link=image_link)
 
@@ -88,9 +87,9 @@ from python3_anticaptcha import NoCaptchaTaskProxyless
 ANTICAPTCHA_KEY = ""
 # G-ReCaptcha ключ сайта. Website google key.
 SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
-# Ссылка на страницу с капчёй. Page url.
+# Page url.
 PAGE_URL = 'https://www.google.com/recaptcha/intro/android.html'
-# Возвращается строка-расшифровка капчи. Get string for solve captcha, and other info.
+# Get string for solve captcha, and other info.
 user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
                 .captcha_handler(websiteURL=PAGE_URL,
                                  websiteKey=SITE_KEY)
@@ -104,16 +103,16 @@ print(user_answer)
 from python3_anticaptcha import ReCaptchaV3TaskProxyless
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
-# G-ReCaptcha ключ сайта. Website google key.
+# G-ReCaptcha - website google key.
 SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
-# Ссылка на страницу с капчёй. Page url.
+# Page url.
 PAGE_URL = 'https://some_link'
-# Фильтр, по которому отбирается работник с нужным минимальным score.
-# возможные варианты - 0.3, 0.5, 0.7
+# The filter by which the employee with the required minimum score is selected.
+# possible options - 0.3, 0.5, 0.7
 MIN_SCORE=0.3
-# Значение параметра action, которое передается виджетом рекапчи в гугл.
+# The value of the `action` parameter, which is passed by the recaptcha widget to google.
 PAGE_ACTION='login'
-# Возвращается строка-расшифровка капчи. Get string for solve captcha, and other info.
+# Get string for solve captcha, and other info.
 user_answer = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
                 .captcha_handler(websiteURL=PAGE_URL,
                                  websiteKey=SITE_KEY,
@@ -132,11 +131,11 @@ print(user_answer)
 from python3_anticaptcha import FunCaptchaTask
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
-# G-ReCaptcha ключ сайта
+# G-ReCaptcha site key
 SITE_KEY = ''
-# Ссылка на страницу с капчёй
+# Link to the page with captcha
 PAGE_URL = ''
-# Возвращается строка с ключём для отправки на проверку. Get full data for solve captcha.
+# Get full data for solve captcha.
 user_answer = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
                                             proxyType="http",
                                             proxyAddress="8.8.8.8",
@@ -153,10 +152,18 @@ print(user_answer)
 from python3_anticaptcha import AntiCaptchaControl
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
-# Возвращается строка c балансом. Balance info.
-user_answer = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_balance()
-
-print(user_answer)
+# Balance info
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_balance()
+# Submitting a complaint about incorrectly resolved captcha images
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).complaint_on_result(
+    reported_id=543212, captcha_type="image"
+)
+# Submitting a complaint about incorrectly resolved ReCaptcha
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).complaint_on_result(
+    reported_id=5432134, captcha_type="recaptcha"
+)
+# Giving information about loading the queue, depending on the queue ID
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_queue_status(queue_id=1)
 ```
 
 ##### 8.[Custom Captcha.](./anticaptcha_examples/anticaptcha_customcaptcha_example.py)
