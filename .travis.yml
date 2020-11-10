@@ -1,6 +1,3 @@
-# Disable sudo to speed up the build
-sudo: false
-
 # multiple operating systems
 os:
   - linux
