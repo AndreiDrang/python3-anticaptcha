@@ -12,8 +12,8 @@ URL = "https://github.com/AndreiDrang/python3-anticaptcha"
 EMAIL = "drang.andray@gmail.com"
 AUTHOR = "AndreiDrang, redV0ID"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "1.7"
-REQUIRED = ["requests==2.23.0", "aiohttp==3.7.2", "pika==1.1.0"]
+VERSION = "1.7.1"
+REQUIRED = ["requests>=2.21.0", "aiohttp==3.*", "pika==1.*"]
 
 here = os.path.abspath(os.path.dirname(__file__))
 
