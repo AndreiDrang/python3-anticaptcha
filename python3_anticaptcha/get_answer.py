@@ -8,13 +8,15 @@ from requests.adapters import HTTPAdapter
 from python3_anticaptcha import get_result_url
 
 
-def get_sync_result(result_payload: dict, sleep_time: int) -> dict:
+def get_sync_result(result_payload: dict, sleep_time: int, internal_proxies: dict=None) -> dict:
     # создаём сессию
     session = requests.Session()
     # выставляем кол-во попыток подключения к серверу при ошибке
     session.mount("http://", HTTPAdapter(max_retries=5))
     session.mount("https://", HTTPAdapter(max_retries=5))
     session.verify = False
+    if internal_proxies:
+        session.proxies = internal_proxies
 
     while True:
         captcha_response = session.post(get_result_url, json=result_payload).json()

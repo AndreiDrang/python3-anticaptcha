@@ -32,6 +32,7 @@ class ImageToTextTask:
         sleep_time: int = 5,
         save_format: str = "temp",
         callbackUrl: str = None,
+        internal_proxies: dict = None,
         **kwargs,
     ):
         """
@@ -77,10 +78,14 @@ class ImageToTextTask:
         self.session.mount("https://", HTTPAdapter(max_retries=5))
         self.session.verify = False
 
+        if internal_proxies:
+            self.session.proxies = internal_proxies
+            
         # Если переданы ещё параметры - вносим их в payload
         if kwargs:
             for key in kwargs:
                 self.task_payload["task"].update({key: kwargs[key]})
+
 
     def __enter__(self):
         return self
@@ -207,7 +212,7 @@ class ImageToTextTask:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time, internal_proxies=self.session.proxies)
 
 
 class aioImageToTextTask:
