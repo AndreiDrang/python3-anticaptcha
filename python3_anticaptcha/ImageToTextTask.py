@@ -32,7 +32,6 @@ class ImageToTextTask:
         sleep_time: int = 5,
         save_format: str = "temp",
         callbackUrl: str = None,
-        internal_proxies: dict = None,
         **kwargs,
     ):
         """
@@ -78,14 +77,10 @@ class ImageToTextTask:
         self.session.mount("https://", HTTPAdapter(max_retries=5))
         self.session.verify = False
 
-        if internal_proxies:
-            self.session.proxies = internal_proxies
-            
         # Если переданы ещё параметры - вносим их в payload
         if kwargs:
             for key in kwargs:
                 self.task_payload["task"].update({key: kwargs[key]})
-
 
     def __enter__(self):
         return self
@@ -181,6 +176,16 @@ class ImageToTextTask:
         :param kwargs: Дополнительные параметры для `requests.get(....)` скачивающего изображение, если передана ссылка.
         :return: Возвращает весь ответ сервера JSON-строкой.
         """
+
+        # Список допустимых параметров Session.request()
+        session_attrs = ['headers', 'cookies', 'auth', 'proxies', 'hooks', 'params', 'verify', 'cert', 'stream']
+        session_params = kwargs.copy()
+        for key in kwargs:
+            if key in session_attrs:
+                setattr(self.session, key, kwargs[key])
+            else:
+                session_params.pop(key)
+
         if captcha_file:
             captcha_id = self.__read_captcha_image_file(captcha_file, content_type="file")
         elif captcha_base64:
@@ -212,7 +217,7 @@ class ImageToTextTask:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time, internal_proxies=self.session.proxies)
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time, **session_params)
 
 
 class aioImageToTextTask:
