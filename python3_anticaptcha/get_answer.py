@@ -8,7 +8,7 @@ from requests.adapters import HTTPAdapter
 from python3_anticaptcha import get_result_url
 
 
-def get_sync_result(result_payload: dict, sleep_time: int) -> dict:
+def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
     # создаём сессию
     session = requests.Session()
     # выставляем кол-во попыток подключения к серверу при ошибке
@@ -17,7 +17,7 @@ def get_sync_result(result_payload: dict, sleep_time: int) -> dict:
     session.verify = False
 
     while True:
-        captcha_response = session.post(get_result_url, json=result_payload).json()
+        captcha_response = session.post(get_result_url, json=result_payload, **kwargs).json()
 
         if captcha_response["errorId"] == 0:
             if captcha_response["status"] == "processing":
