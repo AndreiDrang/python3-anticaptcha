@@ -15,6 +15,16 @@ Python 3.6+ library for [Anti-Captcha](https://anti-captcha.com/mainpage) servic
 Tested on UNIX based OS.
 The library is intended for software developers and is used to work with the AntiCaptcha service API.
 
+***
+По всем вопросам можете писать в [Telegram](https://t.me/pythoncaptcha) чат.
+
+Либо на email - python-captcha@pm.me
+
+With any questions, please contact us in [Telegram](https://t.me/pythoncaptcha).
+
+Or by email - python-captcha@pm.me
+***
+
 ## How to install? Как установить?
 
 ### pip
@@ -30,11 +40,6 @@ git clone https://github.com/AndreiDrang/python3-anticaptcha.git
 cd python3-anticaptcha
 python setup.py install
 ```
-***
-По всем вопросам можете писать в [Telegram](https://t.me/pythoncaptcha) чат.
-
-With any questions, please contact us in [Telegram](https://t.me/pythoncaptcha).
-***
 Присутствуют [примеры работы с библиотекой](./anticaptcha_examples).
 
 Full examples you can find [here](./anticaptcha_examples).
