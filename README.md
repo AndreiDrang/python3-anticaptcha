@@ -65,7 +65,7 @@ custom_result = CustomResultHandler.CustomResultHandler(
 user_answer = custom_result.task_handler(task_id=TASK_ID)
 print(user_answer)
 ```
-##### 1.[Image to text captcha.](./anticaptcha_examples/anticaptcah_image_to_text_example.py)
+##### 1. [Image to text captcha.](./anticaptcha_examples/anticaptcah_image_to_text_example.py)
 
  
 ```python
@@ -81,10 +81,10 @@ user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY)
 print(user_answer)
 ```
 
-##### 2.[ReCaptcha v2.](./anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+##### 2. [ReCaptcha v2.](./anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
 
-##### 3.[ReCaptcha v2 Proxyless. ](./anticaptcha_examples/anticaptcha_nocaptcha_example.py) + [Selenium example](./anticaptcha_examples/selenium_recaptcha_v2.py)
+##### 3. [ReCaptcha v2 Proxyless. ](./anticaptcha_examples/anticaptcha_nocaptcha_example.py) + [Selenium example](./anticaptcha_examples/selenium_recaptcha_v2.py)
 
 ```python
 from python3_anticaptcha import NoCaptchaTaskProxyless
@@ -102,7 +102,7 @@ user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = AN
 print(user_answer)
 ```
 
-##### 4.[ReCaptcha v3 Proxyless. ](./anticaptcha_examples/anticaptcha_nocaptcha_example.py)
+##### 4. [ReCaptcha v3 Proxyless. ](./anticaptcha_examples/anticaptcha_nocaptcha_example.py)
 
 ```python
 from python3_anticaptcha import ReCaptchaV3TaskProxyless
@@ -128,9 +128,9 @@ user_answer = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key 
 print(user_answer)
 ```
 
-##### 5.[Fun Captcha.](./anticaptcha_examples/anticaptcha_fun_example.py)
+##### 5. [Fun Captcha.](./anticaptcha_examples/anticaptcha_fun_example.py)
 
-##### 6.[Fun Captcha Proxyless.](./anticaptcha_examples/anticaptcha_fun_example.py)
+##### 6. [Fun Captcha Proxyless.](./anticaptcha_examples/anticaptcha_fun_example.py)
 
 ```python
 from python3_anticaptcha import FunCaptchaTask
@@ -151,7 +151,7 @@ user_answer = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
 print(user_answer)
 ```
 
-##### 7.[Account management module.](./anticaptcha_examples/anticaptcha_control_example.py)
+##### 7. [Account management module.](./anticaptcha_examples/anticaptcha_control_example.py)
 
 ```python
 from python3_anticaptcha import AntiCaptchaControl
@@ -171,7 +171,7 @@ result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY
 result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_queue_status(queue_id=1)
 ```
 
-##### 8.[Custom Captcha.](./anticaptcha_examples/anticaptcha_customcaptcha_example.py)
+##### 8. [Custom Captcha.](./anticaptcha_examples/anticaptcha_customcaptcha_example.py)
 
 ```python
 from python3_anticaptcha import CustomCaptchaTask
@@ -185,9 +185,9 @@ my_custom_task = CustomCaptchaTask.CustomCaptchaTask(anticaptcha_key=ANTICAPTCHA
 print(my_custom_task)
 ```
 
-##### 9.[Gee Test.](./anticaptcha_examples/gee_example.py)
+##### 9. [Gee Test.](./anticaptcha_examples/gee_example.py)
 
-##### 10.[Gee Test Proxyless.](./anticaptcha_examples/gee_example.py)
+##### 10. [Gee Test Proxyless.](./anticaptcha_examples/gee_example.py)
 
 ```python
 from python3_anticaptcha import GeeTestTaskProxyless
@@ -206,9 +206,9 @@ result = GeeTestTaskProxyless.GeeTestTaskProxyless(anticaptcha_key=ANTICAPTCHA_K
 print(result)
 ```
 
-##### 11.[HCaptcha.](./anticaptcha_examples/anticaptcha_hcaptcha_example.py)
+##### 11. [HCaptcha.](./anticaptcha_examples/anticaptcha_hcaptcha_example.py)
 
-##### 12.[HCaptcha Proxyless.](./anticaptcha_examples/anticaptcha_hcaptcha_example.py)
+##### 12. [HCaptcha Proxyless.](./anticaptcha_examples/anticaptcha_hcaptcha_example.py)
 
 ```python
 from python3_anticaptcha import HCaptchaTaskProxyless
@@ -229,7 +229,7 @@ Some examples you can test with our [web-site](https://pythoncaptcha.tech/).
 
 ***
 #### For tests:
-1. Clon repo;
+1. Clone repository
 2. ```bash
     export anticaptcha_key=SERVICE_KEY
     make test
