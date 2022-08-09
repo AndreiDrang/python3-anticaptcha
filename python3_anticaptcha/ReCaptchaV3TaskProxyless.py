@@ -91,7 +91,7 @@ class ReCaptchaV3TaskProxyless:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time)
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time, **kwargs)
 
 
 class aioReCaptchaV3TaskProxyless:
