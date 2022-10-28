@@ -9,10 +9,10 @@ from setuptools import setup, Command
 NAME = "python3-anticaptcha"
 DESCRIPTION = "Python 3 Anti-Captcha service library with AIO module."
 URL = "https://github.com/AndreiDrang/python3-anticaptcha"
-EMAIL = "drang.andray@gmail.com"
+EMAIL = "python-captcha@pm.me"
 AUTHOR = "AndreiDrang, redV0ID"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "1.7.1"
+VERSION = "1.7.2a"
 REQUIRED = ["requests>=2.21.0", "aiohttp==3.*", "pika==1.*"]
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -87,7 +87,10 @@ setup(
     python_requires=REQUIRES_PYTHON,
     zip_safe=False,
     classifiers=[
-        "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+        # Trove classifiers
+        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
