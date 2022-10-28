@@ -1,3 +1,5 @@
-###Short description of trouble. Краткое описание проблемы.
+## A brief description of the problem.
 
-###Full description of trouble. Полное описание проблемы.
+1. Library version
+1. Operating system
+1. Full description of the problem
