@@ -9,9 +9,9 @@ from python3_anticaptcha.config import attempts_generator, get_result_url
 
 
 def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
-    # создаём сессию
+    # create a session
     session = requests.Session()
-    # выставляем кол-во попыток подключения к серверу при ошибке
+    # set the number of attempts to connect to the server in case of error
     session.mount("http://", HTTPAdapter(max_retries=5))
     session.mount("https://", HTTPAdapter(max_retries=5))
     session.verify = False
@@ -35,17 +35,17 @@ def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
 
 async def get_async_result(result_payload: dict, sleep_time: int) -> dict:
     attempts = attempts_generator()
-    # Отправляем запрос на статус решения капчи.
+    # Send request for status of captcha solution.
     async with aiohttp.ClientSession() as session:
         for attempt in attempts:
             async with session.post(get_result_url, json=result_payload) as resp:
                 json_result = await resp.json()
-                # Если нет ошибки - проверяем статус капчи
+                # if there is no error, check CAPTCHA status
                 if json_result["errorId"] == 0:
-                    # Если еще не решена, ожидаем
+                    # If not yet resolved, wait
                     if json_result["status"] == "processing":
                         await asyncio.sleep(sleep_time)
-                    # Иначе возвращаем ответ
+                    # otherwise return response
                     else:
                         json_result.update({"taskId": result_payload["taskId"]})
                         return json_result
