@@ -2,13 +2,13 @@
 
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
 [![Python versions](https://img.shields.io/pypi/pyversions/python3-anticaptcha.svg?logo=python&logoColor=FBE072)](https://badge.fury.io/py/python3-anticaptcha)
-[![Build Status](https://semaphoreci.com/api/v1/andreidrang/python3-anticaptcha/branches/master/shields_badge.svg)](https://semaphoreci.com/andreidrang/python3-anticaptcha)
-[![Build Status](https://travis-ci.org/AndreiDrang/python3-anticaptcha.svg?branch=master)](https://travis-ci.org/AndreiDrang/python3-anticaptcha)
+[![Downloads](https://pepy.tech/badge/python3-anticaptcha/month)](https://pepy.tech/project/python3-anticaptcha)
+
 [![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2daabf7ff7974f01b9348fe64483c7af)](https://app.codacy.com/app/drang.andray/python3-anticaptcha?utm_source=github.com&utm_medium=referral&utm_content=AndreiDrang/python3-anticaptcha&utm_campaign=Badge_Grade_Settings)
 
 
-Python 3.6+ library for [Anti-Captcha](https://anti-captcha.com/mainpage) service.
+Python3 library for [Anti-Captcha](https://anti-captcha.com/mainpage) service.
 
 [Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
 
@@ -16,13 +16,9 @@ Tested on UNIX based OS.
 The library is intended for software developers and is used to work with the AntiCaptcha service API.
 
 ***
-По всем вопросам можете писать в [Telegram](https://t.me/pythoncaptcha) чат.
+If you have any questions, please send a message to the [Telegram](https://t.me/pythoncaptcha) chat room.
 
-Либо на email - python-captcha@pm.me
-
-With any questions, please contact us in [Telegram](https://t.me/pythoncaptcha).
-
-Or by email - python-captcha@pm.me
+Or email python-captcha@pm.me
 ***
 
 ## How to install? Как установить?
