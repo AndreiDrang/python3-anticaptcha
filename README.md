@@ -1,5 +1,7 @@
 # python3-anticaptcha
 
+![AntiCaptcha](files/AntiCaptcha.png)
+
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
 [![Python versions](https://img.shields.io/pypi/pyversions/python3-anticaptcha.svg?logo=python&logoColor=FBE072)](https://badge.fury.io/py/python3-anticaptcha)
 [![Downloads](https://pepy.tech/badge/python3-anticaptcha/month)](https://pepy.tech/project/python3-anticaptcha)
@@ -10,12 +12,12 @@
 
 Python3 library for [Anti-Captcha](https://anti-captcha.com/mainpage) service.
 
-[Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
-
 Tested on UNIX based OS.
-The library is intended for software developers and is used to work with the AntiCaptcha service API.
+The library is intended for software developers and is used to work with the [Anti-Captcha](https://anti-captcha.com/mainpage) service API.
 
 ***
+[Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
+
 If you have any questions, please send a message to the [Telegram](https://t.me/pythoncaptcha) chat room.
 
 Or email python-captcha@pm.me
@@ -61,6 +63,7 @@ custom_result = CustomResultHandler.CustomResultHandler(
 user_answer = custom_result.task_handler(task_id=TASK_ID)
 print(user_answer)
 ```
+
 ##### 1. [Image to text captcha.](./anticaptcha_examples/anticaptcah_image_to_text_example.py)
 
  
