@@ -13,6 +13,7 @@
 Python3 library for [Anti-Captcha](https://anti-captcha.com/mainpage) service.
 
 Tested on UNIX based OS.
+
 The library is intended for software developers and is used to work with the [Anti-Captcha](https://anti-captcha.com/mainpage) service API.
 
 ***
