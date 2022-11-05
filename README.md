@@ -17,7 +17,7 @@ Tested on UNIX based OS.
 The library is intended for software developers and is used to work with the [Anti-Captcha](https://anti-captcha.com/mainpage) service API.
 
 ***
-[Application in AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
+Application in [AppCenter](https://anti-captcha.com/clients/tools/appcenter/app/867).
 
 If you have any questions, please send a message to the [Telegram](https://t.me/pythoncaptcha) chat room.
 
