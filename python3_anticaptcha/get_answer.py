@@ -5,7 +5,7 @@ import aiohttp
 import requests
 from requests.adapters import HTTPAdapter
 
-from python3_anticaptcha import get_result_url
+from python3_anticaptcha.config import attempts_generator, get_result_url
 
 
 def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
@@ -16,7 +16,8 @@ def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
     session.mount("https://", HTTPAdapter(max_retries=5))
     session.verify = False
 
-    while True:
+    attempts = attempts_generator()
+    for attempt in attempts:
         captcha_response = session.post(get_result_url, json=result_payload, **kwargs).json()
 
         if captcha_response["errorId"] == 0:
@@ -33,9 +34,10 @@ def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
 
 
 async def get_async_result(result_payload: dict, sleep_time: int) -> dict:
+    attempts = attempts_generator()
     # Отправляем запрос на статус решения капчи.
     async with aiohttp.ClientSession() as session:
-        while True:
+        for attempt in attempts:
             async with session.post(get_result_url, json=result_payload) as resp:
                 json_result = await resp.json()
                 # Если нет ошибки - проверяем статус капчи
