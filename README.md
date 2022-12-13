@@ -8,6 +8,7 @@
 
 [![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2daabf7ff7974f01b9348fe64483c7af)](https://app.codacy.com/app/drang.andray/python3-anticaptcha?utm_source=github.com&utm_medium=referral&utm_content=AndreiDrang/python3-anticaptcha&utm_campaign=Badge_Grade_Settings)
+[![codecov](https://codecov.io/gh/AndreiDrang/python3-anticaptcha/branch/master/graph/badge.svg?token=W92nfZY6Tz)](https://codecov.io/gh/AndreiDrang/python3-anticaptcha)
 
 
 Python 3.7+ library for [Anti-Captcha](https://anti-captcha.com/mainpage) service.
