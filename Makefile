@@ -5,9 +5,10 @@ remove:
 	pip uninstall python3-anticaptcha -y
 
 test:
-	pip install pytest coverage pytest-asyncio requests_mock
-	coverage run -m pytest tests -v --disable-warnings
-	coverage report -m python3_anticaptcha/*.py
+	coverage run --rcfile=.coveragerc -m pytest -s tests --disable-warnings && \
+	coverage report --precision=3 --sort=cover --skip-empty --show-missing && \
+	coverage html --precision=3 --skip-empty -d coverage/html/ && \
+	coverage xml -o coverage/coverage.xml
 
 refactor:
 	autoflake --in-place \

@@ -1,21 +1,21 @@
-name: Installation
+name: Test Build
 
 on:
   push:
     branches: [ "main", "release"]
     paths:
-      - '.github/workflows/install.yml'
+      - '.github/workflows/test_build.yml'
       - 'python3_anticaptcha/**'
       - 'Makefile'
   pull_request:
     branches: [ "main", "release"]
     paths:
-      - '.github/workflows/install.yml'
+      - '.github/workflows/test_build.yml'
       - 'python3_anticaptcha/**'
       - 'Makefile'
 
 jobs:
-  install:
+  test_build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -29,8 +29,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Local install checking
-      run: make install
-
-    - name: PYPI install checking
-      run: pip install python3-anticaptcha
+    - name: Local build checking
+      run: |
+        pip install twine wheel
+        python setup.py sdist bdist_wheel

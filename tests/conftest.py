@@ -8,12 +8,12 @@ import pytest
 
 @pytest.fixture(scope="function")
 def delay():
-    time.sleep(0)
+    time.sleep(1)
 
 
 @pytest.mark.usefixtures("delay")
 class BaseTest:
-    API_KEY = os.getenv("API_KEY", "ad9053f3182ca81755768608fa758570")
+    API_KEY = os.getenv("API_KEY", "ad9053f3182ca81755768608fa75")
     sleep_time = 5
 
     proxyAddress = "0.0.0.0"
