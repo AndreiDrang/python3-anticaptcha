@@ -1,0 +1,16 @@
+[run]
+omit =
+        *__init__*
+        */tests/*
+
+include =
+        /home/homea/Documents/Prog/Private/python3-anticaptcha/python3_anticaptcha/*
+
+
+[report]
+omit =
+        *__init__*
+        */tests/*
+
+include =
+        /home/homea/Documents/Prog/Private/python3-anticaptcha/python3_anticaptcha/*
