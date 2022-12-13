@@ -103,3 +103,22 @@ class Turnstile(BaseTurnstile):
 
         self.task_params.update({**additional_params})
         return self._processing_captcha()
+
+    async def aio_captcha_handler(self, **additional_params) -> dict:
+        """
+        Asynchronous method for captcha solving
+
+        Args:
+            additional_params: Some additional parameters that will be used in creating the task
+                                and will be passed to the payload under ``task`` key.
+                                Like ``proxyLogin``, ``proxyPassword`` and etc. - more info in service docs
+
+        Returns:
+            Full service response
+
+        Notes:
+            Check class docstirng for more info
+        """
+
+        self.task_params.update({**additional_params})
+        return await self._aio_processing_captcha()
