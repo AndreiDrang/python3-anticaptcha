@@ -49,7 +49,7 @@ class GetTaskResultRequestSer(BaseAPIRequestSer):
 
 
 class GetTaskResultResponseSer(BaseAPIResponseSer):
-    status: ResponseStatusEnm = Field(..., description="Captcha solving process status.")
+    status: ResponseStatusEnm = Field(None, description="Captcha solving process status.")
     solution: Dict = Field(None, description="Task result data. Different for each type of task.")
     cost: float = Field(None, description="Cost of the task in USD.")
     ip: str = Field(None, description="IP from which the task was created.")
