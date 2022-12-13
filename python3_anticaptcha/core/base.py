@@ -1,11 +1,10 @@
 import time
+import asyncio
 import logging
 from typing import Union
 from urllib import parse
-import asyncio
 
 import aiohttp
-import requests
 import requests
 from requests.adapters import HTTPAdapter
 
@@ -116,7 +115,7 @@ class BaseCaptcha:
 
         attempts = attempts_generator()
         for i in attempts:
-            logging.info(f'Attempt #{i}')
+            logging.info(f"Attempt #{i}")
             try:
                 task_result_response = self.__session.post(
                     parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX), json=self._get_result_params.dict()
@@ -163,7 +162,9 @@ class BaseCaptcha:
         """
         async with aiohttp.ClientSession() as session:
             try:
-                async with session.post(parse.urljoin(BASE_REQUEST_URL, CREATE_TASK_POSTFIX), json=self.__params.dict()) as resp:
+                async with session.post(
+                    parse.urljoin(BASE_REQUEST_URL, CREATE_TASK_POSTFIX), json=self.__params.dict()
+                ) as resp:
                     if resp.status == 200:
                         return CreateTaskResponseSer(**await resp.json())
                     else:
@@ -182,10 +183,11 @@ class BaseCaptcha:
         attempts = attempts_generator()
         async with aiohttp.ClientSession() as session:
             for i in attempts:
-                logging.info(f'Attempt #{i}')
+                logging.info(f"Attempt #{i}")
                 try:
                     async with session.post(
-                        parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX), json=self._get_result_params.dict()
+                        parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX),
+                        json=self._get_result_params.dict(),
                     ) as task_result_response:
                         if task_result_response.status == 200:
                             task_result_data = GetTaskResultResponseSer(**await task_result_response.json())
