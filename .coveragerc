@@ -4,7 +4,7 @@ omit =
         */tests/*
 
 include =
-        /home/homea/Documents/Prog/Private/python3-anticaptcha/python3_anticaptcha/*
+        */python3-anticaptcha/python3_anticaptcha/*
 
 
 [report]
@@ -13,4 +13,4 @@ omit =
         */tests/*
 
 include =
-        /home/homea/Documents/Prog/Private/python3-anticaptcha/python3_anticaptcha/*
+        */python3-anticaptcha/python3_anticaptcha/*
