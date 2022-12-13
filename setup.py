@@ -1,9 +1,13 @@
 import io
 import os
 import sys
-from shutil import rmtree
+import shutil
+import logging
 
-from setuptools import setup, Command
+from setuptools import Command, setup
+from pkg_resources import parse_requirements
+
+from python3_anticaptcha.__version__ import __version__
 
 # Package meta-data.
 NAME = "python3-anticaptcha"
@@ -11,9 +15,10 @@ DESCRIPTION = "Python 3 Anti-Captcha service library with AIO module."
 URL = "https://github.com/AndreiDrang/python3-anticaptcha"
 EMAIL = "python-captcha@pm.me"
 AUTHOR = "AndreiDrang, redV0ID"
-REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "1.7.2a"
-REQUIRED = ["requests>=2.21.0", "aiohttp==3.*", "pika==1.*"]
+REQUIRES_PYTHON = ">=3.7.0"
+VERSION = __version__
+with open("requirements.txt", "rt") as requirements_txt:
+    REQUIRED = [str(requirement) for requirement in parse_requirements(requirements_txt)]
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -44,17 +49,19 @@ class UploadCommand(Command):
         pass
 
     def run(self):
-        try:
-            self.status("Removing previous builds…")
-            rmtree(os.path.join(here, "dist"))
-        except OSError:
-            pass
+        logging.info("Clean builds . . .")
+        shutil.rmtree("dist/", ignore_errors=True)
 
-        self.status("Building Source and Wheel distribution…")
-        os.system("{0} setup.py sdist bdist_wheel".format(sys.executable))
+        logging.info("Building Source and Wheel distribution . . .")
+        os.system("python setup.py bdist_wheel")
 
-        self.status("Uploading the package to PyPI via Twine…")
-        os.system("twine upload dist/*")
+        logging.info("Uploading the package to PyPI via Twin . . .")
+        os.system("twine upload dist/* --verbose")
+
+        logging.info("🤖 Uploaded . . .")
+
+        logging.info("Clean builds . . .")
+        shutil.rmtree("dist/")
 
         sys.exit()
 
@@ -91,13 +98,14 @@ setup(
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         "License :: OSI Approved :: MIT License",
         "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+        "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-        "Development Status :: 5 - Production/Stable",
         "Framework :: AsyncIO",
         "Operating System :: Unix",
         "Operating System :: Microsoft :: Windows",
@@ -106,3 +114,4 @@ setup(
     # Build and upload package: python3 setup.py upload
     cmdclass={"upload": UploadCommand},
 )
+print("🤖 Success install ...")

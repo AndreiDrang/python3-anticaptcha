@@ -1,5 +1,6 @@
-import urllib3
 from typing import Generator
+
+import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 

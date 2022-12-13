@@ -5,7 +5,7 @@ import aiohttp
 import requests
 from requests.adapters import HTTPAdapter
 
-from python3_anticaptcha.config import attempts_generator, get_result_url
+from python3_anticaptcha.config import get_result_url, attempts_generator
 
 
 def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
@@ -17,7 +17,7 @@ def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
     session.verify = False
 
     attempts = attempts_generator()
-    for attempt in attempts:
+    for _ in attempts:
         captcha_response = session.post(get_result_url, json=result_payload, **kwargs).json()
 
         if captcha_response["errorId"] == 0:
@@ -37,7 +37,7 @@ async def get_async_result(result_payload: dict, sleep_time: int) -> dict:
     attempts = attempts_generator()
     # Send request for status of captcha solution.
     async with aiohttp.ClientSession() as session:
-        for attempt in attempts:
+        for _ in attempts:
             async with session.post(get_result_url, json=result_payload) as resp:
                 json_result = await resp.json()
                 # if there is no error, check CAPTCHA status

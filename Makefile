@@ -10,10 +10,21 @@ test:
 	coverage report -m python3_anticaptcha/*.py
 
 refactor:
-	pip install black isort
-	black python3_anticaptcha/
-	isort -rc python3_anticaptcha/
+	autoflake --in-place \
+				--recursive \
+				--remove-unused-variables \
+				--remove-duplicate-keys \
+				--remove-all-unused-imports \
+				--ignore-init-module-imports \
+				python3_anticaptcha/ setup.py && \
+	black python3_anticaptcha/ setup.py && \
+	isort python3_anticaptcha/ setup.py
+
+lint:
+	autoflake --in-place --recursive python3_anticaptcha/ --check && \
+	black python3_anticaptcha/ --check && \
+	isort python3_anticaptcha/ --check-only
 
 release:
-	pip install wheel twine
+	pip install twine
 	python setup.py upload

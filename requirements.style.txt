@@ -1,0 +1,4 @@
+# codestyle
+isort==5.*
+black==22.*
+autoflake==2.*
