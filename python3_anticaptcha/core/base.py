@@ -2,7 +2,10 @@ import time
 import logging
 from typing import Union
 from urllib import parse
+import asyncio
 
+import aiohttp
+import requests
 import requests
 from requests.adapters import HTTPAdapter
 
@@ -76,7 +79,7 @@ class BaseCaptcha:
     Sync part
     """
 
-    def _processing_captcha(self, **create_params) -> dict:
+    def _processing_captcha(self) -> dict:
 
         # added task params to payload
         self.__params.task = self.task_params
@@ -112,7 +115,8 @@ class BaseCaptcha:
         time.sleep(self.__sleep_time)
 
         attempts = attempts_generator()
-        for _ in attempts:
+        for i in attempts:
+            logging.info(f'Attempt #{i}')
             try:
                 task_result_response = self.__session.post(
                     parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX), json=self._get_result_params.dict()
@@ -135,3 +139,69 @@ class BaseCaptcha:
             except Exception as error:
                 logging.exception(error)
                 raise
+
+    """
+    Async part
+    """
+
+    async def _aio_processing_captcha(self) -> dict:
+
+        # added task params to payload
+        self.__params.task = self.task_params
+
+        created_task = await self._aio_create_task()
+
+        if created_task.errorId == 0:
+            self._get_result_params.taskId = created_task.taskId
+            result = await self._aio_get_result()
+            return result.dict()
+        return created_task.dict()
+
+    async def _aio_create_task(self) -> CreateTaskResponseSer:
+        """
+        Function send SYNC request to service and wait for result
+        """
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(parse.urljoin(BASE_REQUEST_URL, CREATE_TASK_POSTFIX), json=self.__params.dict()) as resp:
+                    if resp.status == 200:
+                        return CreateTaskResponseSer(**await resp.json())
+                    else:
+                        raise ValueError(resp.reason)
+            except Exception as error:
+                logging.exception(error)
+                raise
+
+    async def _aio_get_result(self) -> GetTaskResultResponseSer:
+        """
+        Method send SYNC `getTaskResult` request to service and wait for result
+        """
+        # initial waiting
+        await asyncio.sleep(self.__sleep_time)
+
+        attempts = attempts_generator()
+        async with aiohttp.ClientSession() as session:
+            for i in attempts:
+                logging.info(f'Attempt #{i}')
+                try:
+                    async with session.post(
+                        parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX), json=self._get_result_params.dict()
+                    ) as task_result_response:
+                        if task_result_response.status == 200:
+                            task_result_data = GetTaskResultResponseSer(**await task_result_response.json())
+
+                            if task_result_data.errorId == 0:
+
+                                if task_result_data.status == ResponseStatusEnm.processing:
+                                    time.sleep(self.__sleep_time)
+                                else:
+                                    task_result_data.taskId = self._get_result_params.taskId
+                                    return task_result_data
+                            else:
+                                task_result_data.taskId = self._get_result_params.taskId
+                                return task_result_data
+                        else:
+                            raise ValueError(task_result_response.raise_for_status())
+                except Exception as error:
+                    logging.exception(error)
+                    raise
