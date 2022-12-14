@@ -1,0 +1,32 @@
+name: Sphinx build
+
+on:
+  push:
+    branches: [ "release" ]
+    paths:
+      - '.github/workflows/sphinx.yml'
+      - 'src/**'
+      - 'docs/**'
+      - 'files/**'
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+
+      - name: Build library requirements
+        run: pip install -r src/requirements.txt
+
+      - name: Build docs
+        run: make doc
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_build/html/
+          force_orphan: true

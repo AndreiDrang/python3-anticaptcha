@@ -1,0 +1,42 @@
+name: Lint
+
+on:
+  push:
+    branches: [ "main", "release"]
+    paths:
+      - '.github/workflows/lint.yml'
+      - 'src/**'
+      - 'Makefile'
+      - 'requirements.style.txt'
+  pull_request:
+    branches: [ "main", "release"]
+    paths:
+      - '.github/workflows/lint.yml'
+      - 'src/**'
+      - 'Makefile'
+      - 'requirements.style.txt'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      API_KEY: ${{ secrets.API_KEY }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.style.txt
+        
+    - name: Lint
+      run: make lint
