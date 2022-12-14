@@ -1,6 +1,6 @@
 [tool.black]
-line-length = 110
-target-version = ['py36']
+line-length = 120
+target-version = ['py310']
 exclude = '''
 /(
     \.git
@@ -14,3 +14,16 @@ exclude = '''
   | dist
 )/
 '''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+length_sort = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+asyncio_mode = "auto"
+testpaths = [
+    "tests",
+]
+addopts = "-vv --tb=short --durations=5"

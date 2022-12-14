@@ -8,14 +8,7 @@ import aiohttp
 import requests
 from requests.adapters import HTTPAdapter
 
-from python3_anticaptcha import (
-    ReadError,
-    ParamError,
-    app_key,
-    create_task_url,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import ReadError, ParamError, app_key, create_task_url, get_sync_result, get_async_result
 
 SAVE_FORMATS = ("const", "temp")
 
@@ -52,8 +45,7 @@ class ImageToTextTask:
             self.save_format = save_format
         else:
             raise ValueError(
-                f"\nWrong `save_format` parameter. Valid params: {SAVE_FORMATS}."
-                f"\n\tYour param - `{save_format}`"
+                f"\nWrong `save_format` parameter. Valid params: {SAVE_FORMATS}." f"\n\tYour param - `{save_format}`"
             )
         # Пайлоад для создания задачи
         self.task_payload = {
@@ -141,9 +133,7 @@ class ImageToTextTask:
             if content_type == "file":
                 with open(content, "rb") as captcha_image:
                     # Добавляем в пайлоад картинку и отправляем
-                    self.task_payload["task"].update(
-                        {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-                    )
+                    self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             elif content_type == "base64":
                 self.task_payload["task"].update({"body": content})
             else:
@@ -227,9 +217,7 @@ class ImageToTextTask:
         else:
             # Ожидаем решения капчи
             time.sleep(self.sleep_time)
-            return get_sync_result(
-                result_payload=self.result_payload, sleep_time=self.sleep_time, **session_params
-            )
+            return get_sync_result(result_payload=self.result_payload, sleep_time=self.sleep_time, **session_params)
 
 
 class aioImageToTextTask:
@@ -264,8 +252,7 @@ class aioImageToTextTask:
             self.save_format = save_format
         else:
             raise ValueError(
-                f"\nWrong `save_format` parameter. Valid params: {SAVE_FORMATS}."
-                f"\n\tYour param - `{save_format}`"
+                f"\nWrong `save_format` parameter. Valid params: {SAVE_FORMATS}." f"\n\tYour param - `{save_format}`"
             )
 
         # Пайлоад для создания задачи
@@ -359,9 +346,7 @@ class aioImageToTextTask:
             if content_type == "file":
                 with open(content, "rb") as captcha_image:
                     # Добавляем в пайлоад картинку и отправляем
-                    self.task_payload["task"].update(
-                        {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-                    )
+                    self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             elif content_type == "base64":
                 self.task_payload["task"].update({"body": content})
             else:

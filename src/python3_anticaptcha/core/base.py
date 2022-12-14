@@ -40,9 +40,7 @@ class BaseCaptcha:
         if captcha_type in CaptchaTypeEnm.list_values():
             self.captcha_type = captcha_type
         else:
-            raise ValueError(
-                f"Invalid `captcha_type` parameter set, available - {CaptchaTypeEnm.list_values()}"
-            )
+            raise ValueError(f"Invalid `captcha_type` parameter set, available - {CaptchaTypeEnm.list_values()}")
         self.__sleep_time = sleep_time
 
         # assign args to validator
@@ -95,9 +93,7 @@ class BaseCaptcha:
         Function send SYNC request to service and wait for result
         """
         try:
-            resp = self.__session.post(
-                parse.urljoin(BASE_REQUEST_URL, CREATE_TASK_POSTFIX), json=self.__params.dict()
-            )
+            resp = self.__session.post(parse.urljoin(BASE_REQUEST_URL, CREATE_TASK_POSTFIX), json=self.__params.dict())
             if resp.status_code == 200:
                 return CreateTaskResponseSer(**resp.json())
             else:

@@ -22,9 +22,7 @@ class ParamError(AntiCaptchaApiException):
     def __init__(self, additional_info=None):
         AntiCaptchaApiException.__init__(
             self,
-            """\nПораждается, при передаче неверного параметра.""" + additional_info
-            if additional_info
-            else "\n",
+            """\nПораждается, при передаче неверного параметра.""" + additional_info if additional_info else "\n",
         )
 
 

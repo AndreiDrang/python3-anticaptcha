@@ -8,14 +8,7 @@ import aiohttp
 import requests
 from requests.adapters import HTTPAdapter
 
-from python3_anticaptcha import (
-    ReadError,
-    ParamError,
-    app_key,
-    create_task_url,
-    get_sync_result,
-    get_async_result,
-)
+from python3_anticaptcha import ReadError, ParamError, app_key, create_task_url, get_sync_result, get_async_result
 
 
 class SquareNetTextTask:
@@ -134,9 +127,7 @@ class SquareNetTextTask:
             if content_type == "file":
                 with open(content, "rb") as captcha_image:
                     # Добавляем в пайлоад картинку и отправляем
-                    self.task_payload["task"].update(
-                        {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-                    )
+                    self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             elif content_type == "base64":
                 self.task_payload["task"].update({"body": content})
             else:
@@ -260,8 +251,7 @@ class aioSquareNetTextTask:
             self.save_format = save_format
         else:
             raise ValueError(
-                "\nWrong `save_format` parameter. Valid params: `const` or `temp`."
-                f"\n\tYour param - `{save_format}`"
+                "\nWrong `save_format` parameter. Valid params: `const` or `temp`." f"\n\tYour param - `{save_format}`"
             )
         # Пайлоад для создания задачи
         self.task_payload = {
@@ -348,9 +338,7 @@ class aioSquareNetTextTask:
             if content_type == "file":
                 with open(content, "rb") as captcha_image:
                     # Добавляем в пайлоад картинку и отправляем
-                    self.task_payload["task"].update(
-                        {"body": base64.b64encode(captcha_image.read()).decode("utf-8")}
-                    )
+                    self.task_payload["task"].update({"body": base64.b64encode(captcha_image.read()).decode("utf-8")})
             elif content_type == "base64":
                 self.task_payload["task"].update({"body": content})
             else:

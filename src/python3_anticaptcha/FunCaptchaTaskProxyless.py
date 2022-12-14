@@ -51,9 +51,7 @@ class FunCaptchaTaskProxyless:
         :param kwargs: Дополнительные параметры для `requests.post(....)`.
                 :return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
         """
-        self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "data": data, "websitePublicKey": websitePublicKey}
-        )
+        self.task_payload["task"].update({"websiteURL": websiteURL, "data": data, "websitePublicKey": websitePublicKey})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
         captcha_id = requests.post(create_task_url, json=self.task_payload, verify=False, **kwargs).json()
@@ -110,9 +108,7 @@ class aioFunCaptchaTaskProxyless:
         :param websitePublicKey: Ключ капчи(как его получить - описано в документаии на сайте антикапчи)
         :return: Возвращает ответ сервера в виде JSON(ответ так же можно глянуть в документации антикапчи)
         """
-        self.task_payload["task"].update(
-            {"websiteURL": websiteURL, "data": data, "websitePublicKey": websitePublicKey}
-        )
+        self.task_payload["task"].update({"websiteURL": websiteURL, "data": data, "websitePublicKey": websitePublicKey})
         # Отправляем на антикапча параметры фанкапич,
         # в результате получаем JSON ответ содержащий номер решаемой капчи
         async with aiohttp.ClientSession() as session:

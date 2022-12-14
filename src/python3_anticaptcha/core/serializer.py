@@ -18,12 +18,8 @@ class BaseAPIResponseSer(BaseModel):
 
 class CreateTaskRequestSer(BaseAPIRequestSer):
     task: Dict = Field(None, description="Task object.")
-    languagePool: str = Field(
-        "en", description="Sets workers' pool language. Only applies to image captchas."
-    )
-    callbackUrl: str = Field(
-        None, description="Web address where we can send the results of captcha task processing."
-    )
+    languagePool: str = Field("en", description="Sets workers' pool language. Only applies to image captchas.")
+    callbackUrl: str = Field(None, description="Web address where we can send the results of captcha task processing.")
     softId: int = Field(APP_KEY, const=True)
 
 
@@ -65,9 +61,7 @@ Captcha tasks serializers
 
 
 class TurnstileProxylessOptionsSer(CreateTaskRequestTaskSer):
-    websiteURL: str = Field(
-        ..., description="Address of a target web page. Can be located anywhere on the web site."
-    )
+    websiteURL: str = Field(..., description="Address of a target web page. Can be located anywhere on the web site.")
     websiteKey: str = Field(..., description="Website key")
 
 

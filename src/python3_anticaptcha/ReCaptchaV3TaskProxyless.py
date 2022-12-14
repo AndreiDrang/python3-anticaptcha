@@ -135,9 +135,7 @@ class aioReCaptchaV3TaskProxyless:
         return True
 
     # Работа с капчёй
-    async def captcha_handler(
-        self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str = None
-    ) -> dict:
+    async def captcha_handler(self, websiteURL: str, websiteKey: str, minScore: float, pageAction: str = None) -> dict:
         """
         Метод решения ReCaptcha V3
         :param websiteURL: Ссылка на страницу с капчёй

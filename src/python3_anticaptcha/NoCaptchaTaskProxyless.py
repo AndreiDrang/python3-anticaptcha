@@ -47,9 +47,7 @@ class NoCaptchaTaskProxyless:
         return True
 
     # Работа с капчёй
-    def captcha_handler(
-        self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "", **kwargs
-    ) -> dict:
+    def captcha_handler(self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "", **kwargs) -> dict:
         """
                 Метод решения ReCaptcha
                 :param websiteURL: Ссылка на страницу с капчёй

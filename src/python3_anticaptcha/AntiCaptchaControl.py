@@ -81,9 +81,7 @@ class AntiCaptchaControl:
         answer = requests.post(send_funds_url, json=payload, verify=False)
         return answer.json()
 
-    def get_spend_stats(
-        self, date: int = None, queue: str = None, softId: int = None, ip: str = None
-    ) -> dict:
+    def get_spend_stats(self, date: int = None, queue: str = None, softId: int = None, ip: str = None) -> dict:
         f"""
         С помощью этого метода можно получить статистику трат за последние 24 часа.
         :param date: Unix timestamp начала периода 24-х часового отчета
@@ -94,9 +92,7 @@ class AntiCaptchaControl:
         :return: Возвращает словарь с данными трат
         """
         if queue and queue not in queues_names:
-            raise ValueError(
-                f"\nWrong `queue` parameter. Valid params: {queues_names}." f"\n\tYour param - `{queue}`"
-            )
+            raise ValueError(f"\nWrong `queue` parameter. Valid params: {queues_names}." f"\n\tYour param - `{queue}`")
         payload = {
             "clientKey": self.ANTICAPTCHA_KEY,
             "date": date,
@@ -180,9 +176,7 @@ class AntiCaptchaControl:
         """
 
         if queue_id not in queue_ids:
-            raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {queue_ids}." f"\n\tYour param - `{queue_id}`"
-            )
+            raise ValueError(f"\nWrong `mode` parameter. Valid params: {queue_ids}." f"\n\tYour param - `{queue_id}`")
         payload = {"queueId": queue_id}
 
         answer = requests.post(get_queue_status_url, json=payload, verify=False)
@@ -218,9 +212,7 @@ class aioAntiCaptchaControl:
                 else:
                     return {"errorId": 1}
 
-    async def send_funds(
-        self, accountLogin: str = None, accountEmail: str = None, amount: float = None
-    ) -> dict:
+    async def send_funds(self, accountLogin: str = None, accountEmail: str = None, amount: float = None) -> dict:
         """
         Отправить средства другому пользователю
         В вашем аккаунте должна быть включена опция отправки средств через API.
@@ -244,9 +236,7 @@ class aioAntiCaptchaControl:
                 else:
                     return {"errorId": 1}
 
-    async def get_spend_stats(
-        self, date: int = None, queue: str = None, softId: int = None, ip: str = None
-    ) -> dict:
+    async def get_spend_stats(self, date: int = None, queue: str = None, softId: int = None, ip: str = None) -> dict:
         f"""
         С помощью этого метода можно получить статистику трат за последние 24 часа.
         :param date: Unix timestamp начала периода 24-х часового отчета
@@ -257,9 +247,7 @@ class aioAntiCaptchaControl:
         :return: Возвращает словарь с данными трат
         """
         if queue and queue not in queues_names:
-            raise ValueError(
-                f"\nWrong `queue` parameter. Valid params: {queues_names}." f"\n\tYour param - `{queue}`"
-            )
+            raise ValueError(f"\nWrong `queue` parameter. Valid params: {queues_names}." f"\n\tYour param - `{queue}`")
         payload = {
             "clientKey": self.ANTICAPTCHA_KEY,
             "date": date,
@@ -349,9 +337,7 @@ class aioAntiCaptchaControl:
         :return: JSON-объект
         """
         if queue_id not in queue_ids:
-            raise ValueError(
-                f"\nWrong `mode` parameter. Valid params: {queue_ids}." f"\n\tYour param - `{queue_id}`"
-            )
+            raise ValueError(f"\nWrong `mode` parameter. Valid params: {queue_ids}." f"\n\tYour param - `{queue_id}`")
         payload = {"queueId": queue_id}
 
         async with aiohttp.ClientSession() as session:
