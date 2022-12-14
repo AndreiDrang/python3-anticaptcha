@@ -30,11 +30,33 @@ Or email python-captcha@pm.me
 
 ***
 
+## How to install?
+
+We recommend using the latest version of Python. `python3-anticaptcha` supports Python 3.7+.
+
+### pip
+
+```bash
+pip install python3-anticaptcha
+```
+
+### Source
+```bash
+git clone https://github.com/AndreiDrang/python3-anticaptcha.git
+cd python3-anticaptcha
+python setup.py install
+```
+
+## How to test?
+
+1. You need set ``API_KEY`` in your environment(get this value from you account).
+2. Run command ``make tests``, from root directory.
+
 ### Additional info
 1. [Library usage examples && Docs](https://andreidrang.github.io/python3-anticaptcha/)
 2. [AntiCaptcha errors list](https://anti-captcha.com/apidoc/errors)
 
 
-### Get API Key to work with the library
+### How to get API Key to work with the library
 1. On the page - https://anti-captcha.com/clients/settings/apisetup
 2. Find it: ![img.png](files/img.png)
