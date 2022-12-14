@@ -45,7 +45,9 @@ html_show_sourcelink = False
 html_context = {
     "project_links": [
         ProjectLink("PyPI Releases", "https://pypi.org/project/python3-anticaptcha/"),
-        ProjectLink("Source Code", "https://github.com/AndreiDrang/python3-anticaptcha"),
+        ProjectLink(
+            "Source Code", "https://github.com/AndreiDrang/python3-anticaptcha"
+        ),
         ProjectLink(
             "AntiCaptcha",
             "http://getcaptchasolution.com/vchfpctqyz",

@@ -12,7 +12,7 @@ from python3_anticaptcha.__version__ import __version__
 # Package meta-data.
 NAME = "python3-anticaptcha"
 DESCRIPTION = "Python 3 Anti-Captcha service library with AIO module."
-URL = "https://github.com/AndreiDrang/python3-anticaptcha"
+URL = "https://andreidrang.github.io/python3-anticaptcha"
 EMAIL = "python-captcha@pm.me"
 AUTHOR = "AndreiDrang, redV0ID"
 REQUIRES_PYTHON = ">=3.7.0"
@@ -78,6 +78,10 @@ setup(
     package_dir={"python3-anticaptcha": "python3_anticaptcha"},
     include_package_data=True,
     url=URL,
+    project_urls={
+        "Documentation": URL,
+        "Source": "https://github.com/AndreiDrang/python3-anticaptcha",
+    },
     author_email=EMAIL,
     license="MIT",
     keywords="""
@@ -85,11 +89,20 @@ setup(
                 anticaptcha 
 				python3
                 recaptcha
+                recaptchav2
+                recaptchav3
                 security
                 api
+				funcaptcha
+				keycaptcha
+				recaptcha
+				geetest
+				hcaptcha
                 python-library
                 python-anticaptcha
                 anticaptcha-client
+                imagecaptcha
+                turnstile
                """,
     python_requires=REQUIRES_PYTHON,
     zip_safe=False,
