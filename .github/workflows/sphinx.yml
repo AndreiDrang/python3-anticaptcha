@@ -21,7 +21,9 @@ jobs:
         run: pip install -r src/requirements.txt
 
       - name: Build docs
-        run: make doc
+        run: | 
+          cd docs/ && \
+          make html -e
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
