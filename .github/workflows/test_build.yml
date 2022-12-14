@@ -32,4 +32,4 @@ jobs:
     - name: Local build checking
       run: |
         pip install twine wheel
-        python setup.py sdist bdist_wheel
+        cd src/ && python setup.py sdist bdist_wheel
