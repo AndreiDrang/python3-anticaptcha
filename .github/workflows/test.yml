@@ -5,14 +5,14 @@ on:
     branches: [ "main", "release"]
     paths:
       - '.github/workflows/test.yml'
-      - 'python3_anticaptcha/**'
+      - 'src/**'
       - 'Makefile'
       - 'requirements.test.txt'
   pull_request:
     branches: [ "main", "release"]
     paths:
       - '.github/workflows/test.yml'
-      - 'python3_anticaptcha/**'
+      - 'src/**'
       - 'Makefile'
       - 'requirements.test.txt'
   schedule:
@@ -39,7 +39,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.test.txt
-          pip install -r requirements.txt
+          pip install -r src/requirements.txt
 
       - name: Test
         run: make tests
@@ -48,6 +48,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: /home/runner/work/python3-anticaptcha/python3-anticaptcha/coverage.xml
+          files: /home/runner/work/python3-anticaptcha/python3-anticaptcha/src/coverage/coverage.xml
           fail_ci_if_error: true
           verbose: true

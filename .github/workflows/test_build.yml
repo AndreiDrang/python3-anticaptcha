@@ -5,13 +5,13 @@ on:
     branches: [ "main", "release"]
     paths:
       - '.github/workflows/test_build.yml'
-      - 'python3_anticaptcha/**'
+      - 'src/**'
       - 'Makefile'
   pull_request:
     branches: [ "main", "release"]
     paths:
       - '.github/workflows/test_build.yml'
-      - 'python3_anticaptcha/**'
+      - 'src/**'
       - 'Makefile'
 
 jobs:

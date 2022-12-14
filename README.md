@@ -50,9 +50,9 @@ Full examples you can find [here](./anticaptcha_examples).
 
 ##### 0.[Manual result handler.](./anticaptcha_examples/custom_result_handler_example.py)
 
- 
 ```python
 from python3_anticaptcha import CustomResultHandler
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = "your_key"
 # Task ID to get result
@@ -68,16 +68,16 @@ print(user_answer)
 
 ##### 1. [Image to text captcha.](./anticaptcha_examples/anticaptcah_image_to_text_example.py)
 
- 
 ```python
 from python3_anticaptcha import ImageToTextTask
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # Link to captcha image.
 image_link = "https://pythoncaptcha.tech/static/image/common_image_example/800070.png"
 # Get string for solve captcha, and some other info.
-user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key = ANTICAPTCHA_KEY).\
-                captcha_handler(captcha_link=image_link)
+user_answer = ImageToTextTask.ImageToTextTask(anticaptcha_key=ANTICAPTCHA_KEY).
+    captcha_handler(captcha_link=image_link)
 
 print(user_answer)
 ```
@@ -89,6 +89,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import NoCaptchaTaskProxyless
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # G-ReCaptcha ключ сайта. Website google key.
@@ -96,9 +97,9 @@ SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
 # Page url.
 PAGE_URL = 'https://www.google.com/recaptcha/intro/android.html'
 # Get string for solve captcha, and other info.
-user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
-                .captcha_handler(websiteURL=PAGE_URL,
-                                 websiteKey=SITE_KEY)
+user_answer = NoCaptchaTaskProxyless.NoCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY)
+    .captcha_handler(websiteURL=PAGE_URL,
+                     websiteKey=SITE_KEY)
 
 print(user_answer)
 ```
@@ -107,6 +108,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import ReCaptchaV3TaskProxyless
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # G-ReCaptcha - website google key.
@@ -115,16 +117,16 @@ SITE_KEY = '6LeuMjIUAAAAAODtAglF13UiJys0y05EjZugej6b'
 PAGE_URL = 'https://some_link'
 # The filter by which the employee with the required minimum score is selected.
 # possible options - 0.3, 0.5, 0.7
-MIN_SCORE=0.3
+MIN_SCORE = 0.3
 # The value of the `action` parameter, which is passed by the recaptcha widget to google.
-PAGE_ACTION='login'
+PAGE_ACTION = 'login'
 # Get string for solve captcha, and other info.
-user_answer = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key = ANTICAPTCHA_KEY)\
-                .captcha_handler(websiteURL=PAGE_URL,
-                                 websiteKey=SITE_KEY,
-                                 minScore=MIN_SCORE,
-                                 pageAction=PAGE_ACTION
-                                )
+user_answer = ReCaptchaV3TaskProxyless.ReCaptchaV3TaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY)
+    .captcha_handler(websiteURL=PAGE_URL,
+                     websiteKey=SITE_KEY,
+                     minScore=MIN_SCORE,
+                     pageAction=PAGE_ACTION
+                     )
 
 print(user_answer)
 ```
@@ -135,6 +137,7 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import FunCaptchaTask
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # G-ReCaptcha site key
@@ -145,9 +148,9 @@ PAGE_URL = ''
 user_answer = FunCaptchaTask.FunCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY,
                                             proxyType="http",
                                             proxyAddress="8.8.8.8",
-                                            proxyPort=8080)\
-                .captcha_handler(websiteURL=PAGE_URL,
-                                 websitePublicKey=SITE_KEY)
+                                            proxyPort=8080)
+    .captcha_handler(websiteURL=PAGE_URL,
+                     websitePublicKey=SITE_KEY)
 
 print(user_answer)
 ```
@@ -156,33 +159,35 @@ print(user_answer)
 
 ```python
 from python3_anticaptcha import AntiCaptchaControl
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # Balance info
-result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_balance()
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).get_balance()
 # Submitting a complaint about incorrectly resolved captcha images
-result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).complaint_on_result(
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).complaint_on_result(
     reported_id=543212, captcha_type="image"
 )
 # Submitting a complaint about incorrectly resolved ReCaptcha
-result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).complaint_on_result(
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).complaint_on_result(
     reported_id=5432134, captcha_type="recaptcha"
 )
 # Giving information about loading the queue, depending on the queue ID
-result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key = ANTICAPTCHA_KEY).get_queue_status(queue_id=1)
+result = AntiCaptchaControl.AntiCaptchaControl(anticaptcha_key=ANTICAPTCHA_KEY).get_queue_status(queue_id=1)
 ```
 
 ##### 8. [Custom Captcha.](./anticaptcha_examples/anticaptcha_customcaptcha_example.py)
 
 ```python
 from python3_anticaptcha import CustomCaptchaTask
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # ссылка на изображение
 imageUrl = "https://files.anti-captcha.com/26/41f/c23/7c50ff19.jpg"
 # минимальный пример использования модуля
-my_custom_task = CustomCaptchaTask.CustomCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY).\
-                    captcha_handler(imageUrl=imageUrl)
+my_custom_task = CustomCaptchaTask.CustomCaptchaTask(anticaptcha_key=ANTICAPTCHA_KEY).
+    captcha_handler(imageUrl=imageUrl)
 print(my_custom_task)
 ```
 
@@ -192,6 +197,7 @@ print(my_custom_task)
 
 ```python
 from python3_anticaptcha import GeeTestTaskProxyless
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 # обязательные параметры
@@ -201,8 +207,8 @@ challenge = "a559b82bca2c500101a1c8a4f4204742"
 # пример работы с GeeTestTask без прокси
 result = GeeTestTaskProxyless.GeeTestTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY,
                                                    websiteURL=websiteURL,
-                                                   gt=gt).\
-            captcha_handler(challenge=challenge)
+                                                   gt=gt).
+    captcha_handler(challenge=challenge)
 
 print(result)
 ```
@@ -213,13 +219,14 @@ print(result)
 
 ```python
 from python3_anticaptcha import HCaptchaTaskProxyless
+
 # Enter the key to the AntiCaptcha service from your account. Anticaptcha service key.
 ANTICAPTCHA_KEY = ""
 WEB_URL = "https://dashboard.hcaptcha.com/signup"
 SITE_KEY = "00000000-0000-0000-0000-000000000000"
 
-result = HCaptchaTaskProxyless.HCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY).\
-            captcha_handler(websiteURL=WEB_URL, websiteKey=SITE_KEY)
+result = HCaptchaTaskProxyless.HCaptchaTaskProxyless(anticaptcha_key=ANTICAPTCHA_KEY).
+    captcha_handler(websiteURL=WEB_URL, websiteKey=SITE_KEY)
 
 print(result)
 ```

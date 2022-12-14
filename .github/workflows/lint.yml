@@ -5,14 +5,14 @@ on:
     branches: [ "main", "release"]
     paths:
       - '.github/workflows/lint.yml'
-      - 'python3_anticaptcha/**'
+      - 'src/**'
       - 'Makefile'
       - 'requirements.style.txt'
   pull_request:
     branches: [ "main", "release"]
     paths:
       - '.github/workflows/lint.yml'
-      - 'python3_anticaptcha/**'
+      - 'src/**'
       - 'Makefile'
       - 'requirements.style.txt'
 
