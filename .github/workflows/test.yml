@@ -51,3 +51,4 @@ jobs:
           files: /home/runner/work/python3-anticaptcha/coverage/coverage.xml
           fail_ci_if_error: true
           verbose: true
+        run: ls
