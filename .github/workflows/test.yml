@@ -1,0 +1,53 @@
+name: Tests
+
+on:
+  push:
+    branches: [ "main", "release"]
+    paths:
+      - '.github/workflows/test.yml'
+      - 'src/**'
+      - 'Makefile'
+      - 'requirements.test.txt'
+  pull_request:
+    branches: [ "main", "release"]
+    paths:
+      - '.github/workflows/test.yml'
+      - 'src/**'
+      - 'Makefile'
+      - 'requirements.test.txt'
+  schedule:
+    - cron: "5 0 * * 1"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      API_KEY: ${{ secrets.API_KEY }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.test.txt
+          pip install -r src/requirements.txt
+
+      - name: Test
+        run: make tests
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: /home/runner/work/python3-anticaptcha/python3-anticaptcha/src/coverage/coverage.xml
+          fail_ci_if_error: true
+          verbose: true

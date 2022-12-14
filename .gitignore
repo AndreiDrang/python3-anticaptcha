@@ -1,7 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/.name
 .idea/PythonAntiCaptcha.iml
-python3_anticaptcha/__pycache__/
+src/python3_anticaptcha/__pycache__/
 /.idea/
 /python3_anticaptcha.egg-info/
 
@@ -11,11 +11,19 @@ build/
 
 __pycache__/
 
-\.coverage
+src/.coverage
 
 *.xml
 
 dist/
 
-env/
 venv/
+env/
+/.coverage
+/src/python3_captchaai.egg-info/
+/src/.coverage
+/src/coverage/lcov.info
+/src/htmlcov/
+/src/coverage/
+/docs/_build/
+/src/python3_anticaptcha.egg-info/
