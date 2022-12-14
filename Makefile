@@ -7,8 +7,8 @@ remove:
 test:
 	coverage run --rcfile=.coveragerc -m pytest -s tests --disable-warnings && \
 	coverage report --precision=3 --sort=cover --skip-empty --show-missing && \
-	coverage html --precision=3 --skip-empty -d coverage/html/ && \
-	coverage xml -o coverage/coverage.xml
+	coverage html --precision=3 --skip-empty -d html/ && \
+	coverage xml -o coverage.xml
 
 refactor:
 	autoflake --in-place \
