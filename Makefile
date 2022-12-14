@@ -1,7 +1,7 @@
 install:
 	cd src/ && pip install -e .
 
-test:
+tests:
 	cd src/ && \
 	coverage run --rcfile=.coveragerc -m pytest -s tests --disable-warnings && \
 	coverage report --precision=3 --sort=cover --skip-empty --show-missing && \
