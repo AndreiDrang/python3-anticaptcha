@@ -4,41 +4,40 @@
 
 ![](../../_static/AntiCaptcha.png)
 
-[![PyPI version](https://badge.fury.io/py/python3-captchaai.svg)](https://badge.fury.io/py/python3-captchaai)
-[![Python versions](https://img.shields.io/pypi/pyversions/python3-captchaai.svg?logo=python&logoColor=FBE072)](https://badge.fury.io/py/python3-captchaai)
-[![Downloads](https://pepy.tech/badge/python3-captchaai/month)](https://pepy.tech/project/python3-captchaai)
+[![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
+[![Python versions](https://img.shields.io/pypi/pyversions/python3-anticaptcha.svg?logo=python&logoColor=FBE072)](https://badge.fury.io/py/python3-anticaptcha)
+[![Downloads](https://pepy.tech/badge/python3-anticaptcha/month)](https://pepy.tech/project/python3-anticaptcha)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/3431fd3fe71baf7eb9da/maintainability)](https://codeclimate.com/github/AndreiDrang/python3-captchaai/maintainability)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/323d4eda0fe1477bbea8fe8902b9e97e)](https://www.codacy.com/gh/AndreiDrang/python3-captchaai/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AndreiDrang/python3-captchaai&amp;utm_campaign=Badge_Grade)
-[![codecov](https://codecov.io/gh/AndreiDrang/python3-captchaai/branch/main/graph/badge.svg?token=2L4VVIF4G8)](https://codecov.io/gh/AndreiDrang/python3-captchaai)
+[![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2daabf7ff7974f01b9348fe64483c7af)](https://app.codacy.com/app/drang.andray/python3-anticaptcha?utm_source=github.com&utm_medium=referral&utm_content=AndreiDrang/python3-anticaptcha&utm_campaign=Badge_Grade_Settings)
+[![codecov](https://codecov.io/gh/AndreiDrang/python3-anticaptcha/branch/master/graph/badge.svg?token=W92nfZY6Tz)](https://codecov.io/gh/AndreiDrang/python3-anticaptcha)
 
-[![Build check](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/test_build.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/test_build.yml)
-[![Installation check](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/install.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/install.yml)
-[![Test](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/test.yml)
-[![Lint](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-captchaai/actions/workflows/lint.yml)
+[![Build check](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test_build.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test_build.yml)
+[![Installation check](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/install.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/install.yml)
+[![Test](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml)
+[![Lint](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml)
 
 
-Python3 library for [Capsolver](https://capsolver.com/) service API.
+Python 3 library for [AntiCaptcha](https://anti-captcha.com/) service API.
 
 Tested on UNIX based OS.
 
-The library is intended for software developers and is used to work with the [Capsolver](https://capsolver.com/) service API.
+The library is intended for software developers and is used to work with the [AntiCaptcha](https://anti-captcha.com/) service API.
 
 ## How to install?
 
-We recommend using the latest version of Python. `python3-captchaai` supports Python
-3.7+.
+We recommend using the latest version of Python. `python3-anticaptcha` supports Python 3.7+.
 
 ### pip
 
 ```bash
-pip install python3-captchaai
+pip install python3-anticaptcha
 ```
 
 ### Source
 ```bash
-git clone https://github.com/AndreiDrang/python3-captchaai.git
-cd python3-captchaai
+git clone https://github.com/AndreiDrang/python3-anticaptcha.git
+cd python3-anticaptcha
 python setup.py install
 ```
 

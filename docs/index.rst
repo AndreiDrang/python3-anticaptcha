@@ -2,7 +2,7 @@
 
 python3-anticaptcha
 ===================
-.. image:: _static/AntiCaptcha.png
+.. image:: _static/AntiCaptcha300x.png
     :align: center
 
 Python3 library for `AntiCaptcha API <http://getcaptchasolution.com/vchfpctqyz>`_.
