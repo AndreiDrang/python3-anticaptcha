@@ -48,6 +48,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/coverage.xml
+          files: coverage/coverage.xml
+          root_dir: python3_anticaptcha/
           fail_ci_if_error: true
           verbose: true
