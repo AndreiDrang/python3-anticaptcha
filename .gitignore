@@ -17,5 +17,12 @@ src/.coverage
 
 dist/
 
-env/
 venv/
+env/
+/.coverage
+/src/python3_captchaai.egg-info/
+/src/.coverage
+/src/coverage/lcov.info
+/src/htmlcov/
+/src/coverage/
+/docs/_build/

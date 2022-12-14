@@ -9,6 +9,9 @@ tests:
 	coverage xml -o coverage/coverage.xml
 
 refactor:
+	black docs/
+	isort docs/
+
 	cd src/ && \
 	autoflake --in-place \
 				--recursive \
@@ -16,9 +19,9 @@ refactor:
 				--remove-duplicate-keys \
 				--remove-all-unused-imports \
 				--ignore-init-module-imports \
-				python3_anticaptcha/ setup.py && \
-	black python3_anticaptcha/ setup.py && \
-	isort python3_anticaptcha/ setup.py
+				python3_anticaptcha/ tests/ && \
+	black python3_anticaptcha/ tests/ && \
+	isort python3_anticaptcha/ tests/
 
 lint:
 	cd src/ && \
@@ -33,3 +36,7 @@ release:
 upload:
 	pip install twine
 	cd src/ && python setup.py upload
+
+doc:
+	cd docs/ && \
+	make html -e
