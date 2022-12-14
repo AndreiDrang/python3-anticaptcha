@@ -26,3 +26,4 @@ env/
 /src/htmlcov/
 /src/coverage/
 /docs/_build/
+/src/python3_anticaptcha.egg-info/
