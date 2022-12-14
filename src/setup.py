@@ -50,7 +50,7 @@ class UploadCommand(Command):
 
     def run(self):
         logging.info("Clean builds . . .")
-        shutil.rmtree("../dist/", ignore_errors=True)
+        shutil.rmtree("./dist/", ignore_errors=True)
 
         logging.info("Building Source and Wheel distribution . . .")
         os.system("python setup.py bdist_wheel")
@@ -61,7 +61,7 @@ class UploadCommand(Command):
         logging.info("🤖 Uploaded . . .")
 
         logging.info("Clean builds . . .")
-        shutil.rmtree("../dist/")
+        shutil.rmtree("./dist/")
 
         sys.exit()
 
