@@ -31,10 +31,10 @@ Or email python-captcha@pm.me
 ***
 
 ### Additional info
-1. [Library usage examples && Docs](https://andreidrang.github.io/python3-captchaai/)
-2. [Capsolver errors list](https://captchaai.atlassian.net/wiki/spaces/CAPTCHAAI/pages/426145/)
+1. [Library usage examples && Docs](https://andreidrang.github.io/python3-anticaptcha/)
+2. [AntiCaptcha errors list](https://anti-captcha.com/apidoc/errors)
 
 
 ### Get API Key to work with the library
-1. On the page - https://dashboard.capsolver.com/overview/user-center
+1. On the page - https://anti-captcha.com/clients/settings/apisetup
 2. Find it: ![img.png](files/img.png)
