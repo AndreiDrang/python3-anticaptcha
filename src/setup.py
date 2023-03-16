@@ -59,10 +59,14 @@ class UploadCommand(Command):
         os.system("twine upload dist/* --verbose")
 
         logging.info("🤖 Uploaded . . .")
+        logging.info("Clean dist . . .")
+        shutil.rmtree("dist/")
 
-        logging.info("Clean builds . . .")
-        shutil.rmtree("./dist/")
+        logging.info("Clean build . . .")
+        shutil.rmtree("build/")
 
+        logging.info("Clean python3_anticaptcha.egg-info . . .")
+        shutil.rmtree("python3_anticaptcha.egg-info/")
         sys.exit()
 
 
@@ -81,6 +85,8 @@ setup(
     project_urls={
         "Documentation": URL,
         "Source": "https://github.com/AndreiDrang/python3-anticaptcha",
+        "Changelog": "https://github.com/AndreiDrang/python3-anticaptcha/releases",
+        "Issue tracker": "https://github.com/AndreiDrang/python3-anticaptcha/issues",
     },
     author_email=EMAIL,
     license="MIT",
