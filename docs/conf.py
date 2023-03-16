@@ -17,7 +17,7 @@ from python3_anticaptcha.__version__ import __version__
 # -- Project information -----------------------------------------------------
 
 project = "python3-anticaptcha"
-copyright = "2023, AndreiDrang"
+copyright = f"2023, AndreiDrang, Release - {__version__}"
 author = "AndreiDrang"
 
 # -- General configuration ---------------------------------------------------
