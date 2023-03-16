@@ -41,12 +41,6 @@ We recommend using the latest version of Python. `python3-anticaptcha` supports 
 pip install python3-anticaptcha
 ```
 
-### Source
-```bash
-git clone https://github.com/AndreiDrang/python3-anticaptcha.git
-cd python3-anticaptcha
-python setup.py install
-```
 
 ## How to test?
 
