@@ -17,3 +17,16 @@ The library is intended for software developers and is used to work with the `An
    modules/other-libs/info.md
    modules/license/info.md
    modules/contacts/info.md
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Captcha examples:
+
+   modules/turnstile/example.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Additional modules
+
+   modules/enum/info.rst
+   modules/serializer/info.rst

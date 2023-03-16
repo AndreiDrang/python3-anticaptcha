@@ -8,7 +8,7 @@ from pallets_sphinx_themes import ProjectLink
 os.chdir("../")
 sys.path.insert(0, os.path.abspath("src/"))
 
-for x in os.walk("src/python3_captchaai/"):
+for x in os.walk("src/python3_anticaptcha/"):
     sys.path.insert(0, x[0])
 
 from python3_anticaptcha import core, turnstile
@@ -17,7 +17,7 @@ from python3_anticaptcha.__version__ import __version__
 # -- Project information -----------------------------------------------------
 
 project = "python3-anticaptcha"
-copyright = "2022, AndreiDrang"
+copyright = "2023, AndreiDrang"
 author = "AndreiDrang"
 
 # -- General configuration ---------------------------------------------------
@@ -67,7 +67,7 @@ autodoc_typehints_format = "short"
 # Napoleon settings
 napoleon_google_docstring = True
 napoleon_numpy_docstring = False
-napoleon_include_init_with_doc = False
+napoleon_include_init_with_doc = True
 napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = False
 napoleon_use_admonition_for_examples = True

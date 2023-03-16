@@ -5,57 +5,7 @@ from python3_anticaptcha.core.enum import ProxyType, CaptchaTypeEnm
 from python3_anticaptcha.core.serializer import TurnstileOptionsSer, TurnstileProxylessOptionsSer
 
 
-class BaseTurnstile(BaseCaptcha):
-    """
-    The class is used to work with AntiCaptcha Turnstile method.
-
-    Args:
-        api_key: Capsolver API key
-        captcha_type: Captcha type
-        websiteURL: Address of the webpage
-        websiteKey: Turnstile sitekey
-        proxyType: Type of the proxy
-        proxyAddress: Proxy IP address IPv4/IPv6. Not allowed to use:
-                        host names instead of IPs,
-                        transparent proxies (where client IP is visible),
-                        proxies from local networks (192.., 10.., 127...)
-        proxyPort: Proxy port.
-        sleep_time: The waiting time between requests to get the result of the Captcha
-        kwargs: Additional not required params for main request body.
-                Like `callbackUrl`/`languagePool` and etc.
-                More info - https://anti-captcha.com/apidoc/methods/createTask
-
-    Examples:
-        >>> Turnstile(api_key="XXXXXXX...",
-        ...         captcha_type="TurnstileTaskProxyless",
-        ...         websiteURL="https://react-turnstile.vercel.app/",
-        ...         websiteKey="0xAAAAAAAABBBBBBBCCCCCC"
-        ...        ).captcha_handler()
-
-        >>> Turnstile(api_key="XXXXXXX...",
-        ...         captcha_type="TurnstileTask",
-        ...         websiteURL="https://react-turnstile.vercel.app/",
-        ...         websiteKey="0xAAAAAAAABBBBBBBCCCCCC",
-        ...         proxyType="http",
-        ...         proxyAddress="0.0.0.0",
-        ...         proxyPort=9988,
-        ...        ).captcha_handler()
-
-        >>> Turnstile(api_key="XXXXXXX...",
-        ...         captcha_type="TurnstileTask",
-        ...         websiteURL="https://react-turnstile.vercel.app/",
-        ...         websiteKey="0xAAAAAAAABBBBBBBCCCCCC",
-        ...         proxyType="http",
-        ...         proxyAddress="0.0.0.0",
-        ...         proxyPort=9988
-        ...        ).captcha_handler(proxyLogin="some_login",
-        ...                         proxyPassword="some_strong_password")
-
-    Notes:
-        https://anti-captcha.com/apidoc/task-types/TurnstileTask
-        https://anti-captcha.com/apidoc/task-types/TurnstileTaskProxyless
-    """
-
+class Turnstile(BaseCaptcha):
     def __init__(
         self,
         api_key: str,
@@ -68,22 +18,138 @@ class BaseTurnstile(BaseCaptcha):
         sleep_time: Optional[int] = 10,
         **kwargs,
     ):
+        """
+        The class is used to work with Turnstile.
+
+        Args:
+            api_key: Capsolver API key
+            captcha_type: Captcha type
+            websiteURL: Address of the webpage
+            websiteKey: Turnstile sitekey
+            proxyType: Type of the proxy
+            proxyAddress: Proxy IP address IPv4/IPv6. Not allowed to use:
+                            host names instead of IPs,
+                            transparent proxies (where client IP is visible),
+                            proxies from local networks (192.., 10.., 127...)
+            proxyPort: Proxy port.
+            sleep_time: The waiting time between requests to get the result of the Captcha
+            kwargs: Additional not required params for main request body.
+                    Like `callbackUrl`/`languagePool` and etc.
+                    More info - https://anti-captcha.com/apidoc/methods/createTask
+
+        Examples:
+            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="TurnstileTaskProxyless",
+            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
+            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN"
+            ...        ).captcha_handler()
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "token":"0.Qz0.....f1",
+                  "userAgent":"Mozilla/.....36"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
+            >>> await Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="TurnstileTaskProxyless",
+            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
+            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN"
+            ...        ).aio_captcha_handler()
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "token":"0.Qz0.....f1",
+                  "userAgent":"Mozilla/.....36"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
+            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="TurnstileTaskProxyless",
+            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
+            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN",
+            ...         proxyType="http",
+            ...         proxyAddress="0.0.0.0",
+            ...         proxyPort=9988,
+            ...        ).captcha_handler()
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "token":"0.Qz0.....f1",
+                  "userAgent":"Mozilla/.....36"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
+            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="TurnstileTaskProxyless",
+            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
+            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN",
+            ...         proxyType="http",
+            ...         proxyAddress="0.0.0.0",
+            ...         proxyPort=9988
+            ...        ).captcha_handler(proxyLogin="some_login",
+            ...                         proxyPassword="some_strong_password")
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "token":"0.Qz0.....f1",
+                  "userAgent":"Mozilla/.....36"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
+        Notes:
+            https://anti-captcha.com/apidoc/task-types/TurnstileTask
+            https://anti-captcha.com/apidoc/task-types/TurnstileTaskProxyless
+        """
+
         super().__init__(api_key=api_key, captcha_type=captcha_type, sleep_time=sleep_time, **kwargs)
 
         # validation of the received parameters
-        if self.captcha_type == CaptchaTypeEnm.TurnstileTask:
+        if captcha_type == CaptchaTypeEnm.TurnstileTask:
             self.task_params = TurnstileOptionsSer(type=captcha_type, **locals()).dict()
-        elif self.captcha_type == CaptchaTypeEnm.TurnstileTaskProxyless:
+        elif captcha_type == CaptchaTypeEnm.TurnstileTaskProxyless:
             self.task_params = TurnstileProxylessOptionsSer(type=captcha_type, **locals()).dict()
         else:
             raise ValueError(
                 f"""Invalid `captcha_type` parameter set for `{self.__class__.__name__}`,
                 available - {CaptchaTypeEnm.TurnstileTask.value, CaptchaTypeEnm.TurnstileTaskProxyless.value}"""
             )
-
-
-class Turnstile(BaseTurnstile):
-    __doc__ = BaseTurnstile.__doc__
 
     def captcha_handler(self, **additional_params) -> dict:
         """

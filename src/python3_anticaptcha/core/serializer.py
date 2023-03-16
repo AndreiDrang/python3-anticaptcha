@@ -6,11 +6,17 @@ from python3_anticaptcha.core.enum import ProxyType, CaptchaTypeEnm, ResponseSta
 from python3_anticaptcha.core.config import APP_KEY
 
 
-class BaseAPIRequestSer(BaseModel):
+class MyBaseModel(BaseModel):
+    class Config:
+        use_enum_values = True
+        validate_assignment = True
+
+
+class BaseAPIRequestSer(MyBaseModel):
     clientKey: constr(min_length=32, max_length=32)
 
 
-class BaseAPIResponseSer(BaseModel):
+class BaseAPIResponseSer(MyBaseModel):
     errorId: int = Field(..., description="Error identifier.")
     errorCode: str = Field(None, description="An error code.")
     errorDescription: str = Field(None, description="Short description of the error.")
@@ -23,11 +29,11 @@ class CreateTaskRequestSer(BaseAPIRequestSer):
     softId: int = Field(APP_KEY, const=True)
 
 
-class CreateTaskRequestTaskSer(BaseModel):
+class CreateTaskRequestTaskSer(MyBaseModel):
     type: CaptchaTypeEnm = Field(..., description="Captcha task type name")
 
 
-class ProxyDataOptionsSer(BaseModel):
+class ProxyDataOptionsSer(MyBaseModel):
     proxyType: ProxyType = Field(..., description="Type of proxy")
     proxyAddress: str = Field(
         ...,

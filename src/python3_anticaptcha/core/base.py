@@ -37,9 +37,7 @@ class BaseCaptcha:
 
     def __init__(self, api_key: str, captcha_type: Union[CaptchaTypeEnm, str], sleep_time: int, **kwargs):
         # validate captcha_type parameter
-        if captcha_type in CaptchaTypeEnm.list_values():
-            self.captcha_type = captcha_type
-        else:
+        if captcha_type not in CaptchaTypeEnm.list_values():
             raise ValueError(f"Invalid `captcha_type` parameter set, available - {CaptchaTypeEnm.list_values()}")
         self.__sleep_time = sleep_time
 
@@ -56,28 +54,11 @@ class BaseCaptcha:
         self.__session.mount("https://", HTTPAdapter(max_retries=RETRIES))
         self.__session.verify = False
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        if exc_type:
-            return False
-        return True
-
-    async def __aenter__(self):
-        return self
-
-    async def __aexit__(self, exc_type, exc_value, traceback):
-        if exc_type:
-            return False
-        return True
-
     """
     Sync part
     """
 
     def _processing_captcha(self) -> dict:
-
         # added task params to payload
         self.__params.task = self.task_params
 
@@ -110,8 +91,7 @@ class BaseCaptcha:
         time.sleep(self.__sleep_time)
 
         attempts = attempts_generator()
-        for i in attempts:
-            logging.info(f"Attempt #{i}")
+        for _ in attempts:
             try:
                 task_result_response = self.__session.post(
                     parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX), json=self._get_result_params.dict()
@@ -120,7 +100,6 @@ class BaseCaptcha:
                     task_result_data = GetTaskResultResponseSer(**task_result_response.json())
 
                     if task_result_data.errorId == 0:
-
                         if task_result_data.status == ResponseStatusEnm.processing:
                             time.sleep(self.__sleep_time)
                         else:
@@ -140,7 +119,6 @@ class BaseCaptcha:
     """
 
     async def _aio_processing_captcha(self) -> dict:
-
         # added task params to payload
         self.__params.task = self.task_params
 
@@ -178,8 +156,7 @@ class BaseCaptcha:
 
         attempts = attempts_generator()
         async with aiohttp.ClientSession() as session:
-            for i in attempts:
-                logging.info(f"Attempt #{i}")
+            for _ in attempts:
                 try:
                     async with session.post(
                         parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX),
@@ -189,7 +166,6 @@ class BaseCaptcha:
                             task_result_data = GetTaskResultResponseSer(**await task_result_response.json())
 
                             if task_result_data.errorId == 0:
-
                                 if task_result_data.status == ResponseStatusEnm.processing:
                                     time.sleep(self.__sleep_time)
                                 else:
@@ -203,3 +179,19 @@ class BaseCaptcha:
                 except Exception as error:
                     logging.exception(error)
                     raise
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            return False
+        return True

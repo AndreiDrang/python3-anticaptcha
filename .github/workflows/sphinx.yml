@@ -1,4 +1,4 @@
-name: Sphinx build
+name: Sphinx docs
 
 on:
   push:
@@ -17,10 +17,11 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
 
+      - name: Build docs requirements
+        run: pip install -r docs/requirements.txt
+
       - name: Build library requirements
-        run: |
-          pip install -r docs/requirements.txt && \
-          pip install -r src/requirements.txt
+        run: pip install -r src/requirements.txt
 
       - name: Build docs
         run: make doc

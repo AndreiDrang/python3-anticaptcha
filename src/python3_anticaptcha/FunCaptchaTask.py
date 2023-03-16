@@ -4,7 +4,8 @@ import asyncio
 import aiohttp
 import requests
 
-from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
+from python3_anticaptcha.config import app_key, create_task_url
+from python3_anticaptcha.get_answer import get_sync_result, get_async_result
 
 
 class FunCaptchaTask:
