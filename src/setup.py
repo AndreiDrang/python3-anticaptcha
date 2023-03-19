@@ -74,7 +74,7 @@ setup(
     name=NAME,
     version=VERSION,
     author=AUTHOR,
-    packages=["python3_anticaptcha"],
+    packages=["python3_anticaptcha", "python3_anticaptcha.core"],
     install_requires=REQUIRED,
     description=DESCRIPTION,
     long_description=long_description,
