@@ -53,7 +53,7 @@ class UploadCommand(Command):
         shutil.rmtree("./dist/", ignore_errors=True)
 
         logging.info("Building Source and Wheel distribution . . .")
-        os.system("python setup.py bdist_wheel")
+        os.system("python setup.py sdist bdist_wheel")
 
         logging.info("Uploading the package to PyPI via Twin . . .")
         os.system("twine upload dist/* --verbose")
