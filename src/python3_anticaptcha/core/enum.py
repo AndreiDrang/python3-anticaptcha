@@ -1,9 +1,12 @@
 from enum import Enum
-from types import DynamicClassAttribute
 from typing import List
 
 
 class MyEnum(Enum):
+    """
+    Base class for work with updated Enums
+    """
+
     @classmethod
     def list(cls) -> List[Enum]:
         return list(map(lambda c: c, cls))
@@ -15,20 +18,6 @@ class MyEnum(Enum):
     @classmethod
     def list_names(cls) -> List[str]:
         return list(map(lambda c: c.name, cls))
-
-    @DynamicClassAttribute
-    def name(self) -> str:
-        """
-        The name of the Enum member
-        """
-        return self._name_
-
-    @DynamicClassAttribute
-    def value(self) -> str:
-        """
-        The name of the Enum member
-        """
-        return self._value_
 
 
 class EndpointPostfixEnm(str, MyEnum):
