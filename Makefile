@@ -2,7 +2,7 @@ install:
 	cd src/ && pip install -e .
 
 tests: install
-	coverage run --rcfile=.coveragerc -m pytest -s tests --disable-warnings && \
+	coverage run --rcfile=.coveragerc -m pytest --verbose --showlocals --pastebin=all tests --disable-warnings && \
 	coverage report --precision=3 --sort=cover --skip-empty --show-missing && \
 	coverage html --precision=3 --skip-empty -d coverage/html/ && \
 	coverage xml -o coverage/coverage.xml
