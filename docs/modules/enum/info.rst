@@ -24,6 +24,10 @@ To import this module:
     :members:
     :undoc-members:
 
-.. autoclass:: core.enum.ProxyType
+.. autoclass:: core.enum.ProxyTypeEnm
+    :members:
+    :undoc-members:
+
+.. autoclass:: core.enum.ControlPostfixEnm
     :members:
     :undoc-members:

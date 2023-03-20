@@ -1,9 +1,9 @@
 from tenacity import AsyncRetrying
 from urllib3.util.retry import Retry
 
-from src.tests.conftest import BaseTest
+from tests.conftest import BaseTest
 from python3_anticaptcha.core.base import BaseCaptcha
-from python3_anticaptcha.core.enum import CaptchaTypeEnm
+from python3_anticaptcha.core.enum import MyEnum, CaptchaTypeEnm
 from python3_anticaptcha.core.config import RETRIES, ASYNC_RETRIES, BASE_REQUEST_URL, attempts_generator
 
 
@@ -60,3 +60,14 @@ class TestConfig(BaseTest):
         for attempt in attempts:
             assert isinstance(attempt, int)
         assert attempt == 4
+
+
+class TestEnum(BaseTest):
+    def test_enum_list(self):
+        assert isinstance(MyEnum.list(), list)
+
+    def test_enum_list_values(self):
+        assert isinstance(MyEnum.list_values(), list)
+
+    def test_enum_list_names(self):
+        assert isinstance(MyEnum.list_names(), list)

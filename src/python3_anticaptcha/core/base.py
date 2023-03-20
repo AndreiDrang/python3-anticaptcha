@@ -1,7 +1,7 @@
 import time
 import asyncio
 import logging
-from typing import Union
+from typing import Union, Optional
 from urllib import parse
 
 import aiohttp
@@ -35,24 +35,30 @@ class BaseCaptcha:
         request_url: API address for sending requests
     """
 
-    def __init__(self, api_key: str, captcha_type: Union[CaptchaTypeEnm, str], sleep_time: int, **kwargs):
+    def __init__(
+        self,
+        api_key: str,
+        captcha_type: Union[CaptchaTypeEnm, str],
+        sleep_time: int = 15,
+        **kwargs,
+    ):
         # validate captcha_type parameter
         if captcha_type not in CaptchaTypeEnm.list_values():
             raise ValueError(f"Invalid `captcha_type` parameter set, available - {CaptchaTypeEnm.list_values()}")
         self.__sleep_time = sleep_time
 
         # assign args to validator
-        self.__params = CreateTaskRequestSer(clientKey=api_key, **locals())
+        self._params = CreateTaskRequestSer(clientKey=api_key, **locals())
         # `task` body for task creation payload
         self.task_params = {}
         # prepare `get task result` payload
         self._get_result_params = GetTaskResultRequestSer(clientKey=api_key)
 
         # prepare session
-        self.__session = requests.Session()
-        self.__session.mount("http://", HTTPAdapter(max_retries=RETRIES))
-        self.__session.mount("https://", HTTPAdapter(max_retries=RETRIES))
-        self.__session.verify = False
+        self._session = requests.Session()
+        self._session.mount("http://", HTTPAdapter(max_retries=RETRIES))
+        self._session.mount("https://", HTTPAdapter(max_retries=RETRIES))
+        self._session.verify = False
 
     """
     Sync part
@@ -60,7 +66,7 @@ class BaseCaptcha:
 
     def _processing_captcha(self) -> dict:
         # added task params to payload
-        self.__params.task = self.task_params
+        self._params.task = self.task_params
 
         created_task = self._create_task()
 
@@ -69,12 +75,12 @@ class BaseCaptcha:
             return self._get_result().dict()
         return created_task.dict()
 
-    def _create_task(self) -> CreateTaskResponseSer:
+    def _create_task(self, url_postfix: str = CREATE_TASK_POSTFIX) -> CreateTaskResponseSer:
         """
         Function send SYNC request to service and wait for result
         """
         try:
-            resp = self.__session.post(parse.urljoin(BASE_REQUEST_URL, CREATE_TASK_POSTFIX), json=self.__params.dict())
+            resp = self._session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=self._params.dict())
             if resp.status_code == 200:
                 return CreateTaskResponseSer(**resp.json())
             else:
@@ -93,7 +99,7 @@ class BaseCaptcha:
         attempts = attempts_generator()
         for _ in attempts:
             try:
-                task_result_response = self.__session.post(
+                task_result_response = self._session.post(
                     parse.urljoin(BASE_REQUEST_URL, GET_RESULT_POSTFIX), json=self._get_result_params.dict()
                 )
                 if task_result_response.status_code == 200:
@@ -114,13 +120,32 @@ class BaseCaptcha:
                 logging.exception(error)
                 raise
 
+    @staticmethod
+    def _send_post_request(
+        payload: Optional[dict] = None,
+        session: requests.Session = requests.Session(),
+        url_postfix: str = CREATE_TASK_POSTFIX,
+    ) -> dict:
+        """
+        Function send SYNC request to service and wait for result
+        """
+        try:
+            resp = session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=payload)
+            if resp.status_code == 200:
+                return resp.json()
+            else:
+                raise ValueError(resp.raise_for_status())
+        except Exception as error:
+            logging.exception(error)
+            raise
+
     """
     Async part
     """
 
     async def _aio_processing_captcha(self) -> dict:
         # added task params to payload
-        self.__params.task = self.task_params
+        self._params.task = self.task_params
 
         created_task = await self._aio_create_task()
 
@@ -130,15 +155,13 @@ class BaseCaptcha:
             return result.dict()
         return created_task.dict()
 
-    async def _aio_create_task(self) -> CreateTaskResponseSer:
+    async def _aio_create_task(self, url_postfix: str = CREATE_TASK_POSTFIX) -> CreateTaskResponseSer:
         """
         Function send SYNC request to service and wait for result
         """
         async with aiohttp.ClientSession() as session:
             try:
-                async with session.post(
-                    parse.urljoin(BASE_REQUEST_URL, CREATE_TASK_POSTFIX), json=self.__params.dict()
-                ) as resp:
+                async with session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=self._params.dict()) as resp:
                     if resp.status == 200:
                         return CreateTaskResponseSer(**await resp.json())
                     else:
@@ -179,6 +202,25 @@ class BaseCaptcha:
                 except Exception as error:
                     logging.exception(error)
                     raise
+
+    @staticmethod
+    async def _aio_send_post_request(payload: Optional[dict] = None, url_postfix: str = CREATE_TASK_POSTFIX) -> dict:
+        """
+        Function send ASYNC request to service and wait for result
+        """
+
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=payload) as resp:
+                    if resp.status == 200:
+                        return await resp.json()
+                    else:
+                        raise ValueError(resp.reason)
+            except Exception as error:
+                logging.exception(error)
+                raise
+
+    # Context methods
 
     def __enter__(self):
         return self

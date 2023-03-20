@@ -20,9 +20,6 @@ jobs:
       - name: Build docs requirements
         run: pip install -r docs/requirements.txt
 
-      - name: Build library requirements
-        run: pip install -r src/requirements.txt
-
       - name: Build docs
         run: make doc
 

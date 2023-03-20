@@ -53,7 +53,7 @@ class UploadCommand(Command):
         shutil.rmtree("./dist/", ignore_errors=True)
 
         logging.info("Building Source and Wheel distribution . . .")
-        os.system("python setup.py bdist_wheel")
+        os.system("python setup.py sdist bdist_wheel")
 
         logging.info("Uploading the package to PyPI via Twin . . .")
         os.system("twine upload dist/* --verbose")
@@ -74,7 +74,7 @@ setup(
     name=NAME,
     version=VERSION,
     author=AUTHOR,
-    packages=["python3_anticaptcha"],
+    packages=["python3_anticaptcha", "python3_anticaptcha.core"],
     install_requires=REQUIRED,
     description=DESCRIPTION,
     long_description=long_description,

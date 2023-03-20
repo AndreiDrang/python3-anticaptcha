@@ -39,7 +39,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.test.txt
-          pip install -r src/requirements.txt
 
       - name: Test
         run: make tests
@@ -48,6 +47,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: /home/runner/work/python3-anticaptcha/python3-anticaptcha/src/coverage/coverage.xml
+          files: /home/runner/work/python3-anticaptcha/python3-anticaptcha/coverage/coverage.xml
           fail_ci_if_error: true
           verbose: true
