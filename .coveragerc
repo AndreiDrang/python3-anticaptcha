@@ -4,7 +4,7 @@ omit =
         */tests/*
 
 include =
-        */python3_anticaptcha/*
+        */src/python3_anticaptcha/*
 
 
 [report]
@@ -13,4 +13,4 @@ omit =
         */tests/*
 
 include =
-        */python3_anticaptcha/*
+        */src/python3_anticaptcha/*

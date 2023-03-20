@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath("src/"))
 for x in os.walk("src/python3_anticaptcha/"):
     sys.path.insert(0, x[0])
 
-from python3_anticaptcha import core, turnstile
+from python3_anticaptcha import core, control, turnstile
 from python3_anticaptcha.__version__ import __version__
 
 # -- Project information -----------------------------------------------------
@@ -45,9 +45,7 @@ html_show_sourcelink = False
 html_context = {
     "project_links": [
         ProjectLink("PyPI Releases", "https://pypi.org/project/python3-anticaptcha/"),
-        ProjectLink(
-            "Source Code", "https://github.com/AndreiDrang/python3-anticaptcha"
-        ),
+        ProjectLink("Source Code", "https://github.com/AndreiDrang/python3-anticaptcha"),
         ProjectLink(
             "AntiCaptcha",
             "http://getcaptchasolution.com/vchfpctqyz",

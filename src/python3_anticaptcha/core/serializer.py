@@ -2,7 +2,7 @@ from typing import Dict
 
 from pydantic import Field, BaseModel, constr
 
-from python3_anticaptcha.core.enum import ProxyType, CaptchaTypeEnm, ResponseStatusEnm
+from python3_anticaptcha.core.enum import ProxyTypeEnm, CaptchaTypeEnm, ResponseStatusEnm
 from python3_anticaptcha.core.config import APP_KEY
 
 
@@ -17,7 +17,7 @@ class BaseAPIRequestSer(MyBaseModel):
 
 
 class BaseAPIResponseSer(MyBaseModel):
-    errorId: int = Field(..., description="Error identifier.")
+    errorId: int = Field(None, description="Error identifier.")
     errorCode: str = Field(None, description="An error code.")
     errorDescription: str = Field(None, description="Short description of the error.")
 
@@ -34,7 +34,7 @@ class CreateTaskRequestTaskSer(MyBaseModel):
 
 
 class ProxyDataOptionsSer(MyBaseModel):
-    proxyType: ProxyType = Field(..., description="Type of proxy")
+    proxyType: ProxyTypeEnm = Field(..., description="Type of proxy")
     proxyAddress: str = Field(
         ...,
         description="Proxy IP address ipv4/ipv6. No host names or IP addresses from local networks",

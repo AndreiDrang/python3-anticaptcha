@@ -78,7 +78,7 @@ class ResponseStatusEnm(str, MyEnum):
     ready = "ready"  # Task is complete; you'll find a solution in the solution property
 
 
-class ProxyType(str, MyEnum):
+class ProxyTypeEnm(str, MyEnum):
     """
     Enum store proxy types
     """
@@ -87,3 +87,20 @@ class ProxyType(str, MyEnum):
     https = "https"
     socks4 = "socks4"
     socks5 = "socks5"
+
+
+class ControlPostfixEnm(str, MyEnum):
+    """
+    Enum store control methods URLs postfix
+    """
+
+    # get account info
+    GET_BALANCE = "getBalance"
+    GET_QUEUE_STATS = "getQueueStats"
+    GET_APP_STATS = "getAppStats"
+    GET_SPENDING_STATS = "getSpendingStats"
+    # reports
+    REPORT_INCORRECT_IMAGE_CAPTCHA = "reportIncorrectImageCaptcha"
+    REPORT_INCORRECT_RECAPTCHA = "reportIncorrectRecaptcha"
+    REPORT_CORRECT_RECAPTCHA = "reportCorrectRecaptcha"
+    REPORT_INCORRECT_HCAPTCHA = "reportIncorrectHcaptcha"

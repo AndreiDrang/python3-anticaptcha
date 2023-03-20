@@ -1,7 +1,7 @@
 from tenacity import AsyncRetrying
 from urllib3.util.retry import Retry
 
-from src.tests.conftest import BaseTest
+from tests.conftest import BaseTest
 from python3_anticaptcha.core.base import BaseCaptcha
 from python3_anticaptcha.core.enum import CaptchaTypeEnm
 from python3_anticaptcha.core.config import RETRIES, ASYNC_RETRIES, BASE_REQUEST_URL, attempts_generator

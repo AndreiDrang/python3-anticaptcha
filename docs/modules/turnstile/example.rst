@@ -8,5 +8,5 @@ To import this module:
     from python3_anticaptcha.turnstile import Turnstile
 
 
-.. autoclass:: turnstile.Turnstile
+.. autoclass:: python3_anticaptcha.turnstile.Turnstile
     :members:

@@ -1,8 +1,8 @@
 from typing import Union, Optional
 
-from python3_anticaptcha.core.base import BaseCaptcha
-from python3_anticaptcha.core.enum import ProxyType, CaptchaTypeEnm
-from python3_anticaptcha.core.serializer import TurnstileOptionsSer, TurnstileProxylessOptionsSer
+from .core.base import BaseCaptcha
+from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.serializer import TurnstileOptionsSer, TurnstileProxylessOptionsSer
 
 
 class Turnstile(BaseCaptcha):
@@ -12,7 +12,7 @@ class Turnstile(BaseCaptcha):
         captcha_type: Union[CaptchaTypeEnm, str],
         websiteURL: str,
         websiteKey: str,
-        proxyType: Optional[Union[ProxyType, str]] = None,
+        proxyType: Optional[Union[ProxyTypeEnm, str]] = None,
         proxyAddress: Optional[str] = None,
         proxyPort: Optional[int] = None,
         sleep_time: Optional[int] = 10,

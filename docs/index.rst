@@ -23,6 +23,7 @@ The library is intended for software developers and is used to work with the `An
    :caption: Captcha examples:
 
    modules/turnstile/example.rst
+   modules/control/example.rst
 
 .. toctree::
    :maxdepth: 2
