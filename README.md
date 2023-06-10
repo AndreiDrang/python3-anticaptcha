@@ -2,8 +2,6 @@
 
 ![AntiCaptcha](files/AntiCaptcha.png)
 
-[![Capsolver](https://user-images.githubusercontent.com/16991365/234852229-6e4b3f3c-f498-4fd5-9a6b-f7f269dd4bfc.gif)](https://dashboard.capsolver.com/passport/register?inviteCode=kQTn-tG07Jb1)
-
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
 [![Python versions](https://img.shields.io/pypi/pyversions/python3-anticaptcha.svg?logo=python&logoColor=FBE072)](https://badge.fury.io/py/python3-anticaptcha)
 [![Downloads](https://pepy.tech/badge/python3-anticaptcha/month)](https://pepy.tech/project/python3-anticaptcha)
