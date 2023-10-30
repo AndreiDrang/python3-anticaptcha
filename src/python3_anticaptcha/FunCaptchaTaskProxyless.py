@@ -4,7 +4,7 @@ import asyncio
 import aiohttp
 import requests
 
-from python3_anticaptcha import app_key, create_task_url, get_sync_result, get_async_result
+from python3_anticaptcha.core.config import APP_KEY, create_task_url, get_sync_result, get_async_result
 
 
 class FunCaptchaTaskProxyless:

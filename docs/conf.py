@@ -50,6 +50,7 @@ html_context = {
             "AntiCaptcha",
             "http://getcaptchasolution.com/vchfpctqyz",
         ),
+        ProjectLink("RedPandaDev", "https://red-panda-dev.xyz/"),
     ]
 }
 html_sidebars = {
