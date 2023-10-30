@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Literal
 
 from pydantic import Field, BaseModel, constr
 
@@ -26,7 +26,7 @@ class CreateTaskRequestSer(BaseAPIRequestSer):
     task: Dict = Field(None, description="Task object.")
     languagePool: str = Field("en", description="Sets workers' pool language. Only applies to image captchas.")
     callbackUrl: str = Field(None, description="Web address where we can send the results of captcha task processing.")
-    softId: int = Field(APP_KEY, const=True)
+    softId: Literal[APP_KEY] = APP_KEY
 
 
 class CreateTaskRequestTaskSer(MyBaseModel):
