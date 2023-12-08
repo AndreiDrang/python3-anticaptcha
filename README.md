@@ -38,6 +38,10 @@ Or email python-captcha@pm.me
 
 ***
 
+You can check our other projects here - [RedPandaDev group](https://red-panda-dev.xyz/blog/). For example - [Torrents Tracker bot](https://t.me/torrents_tracker_bot) for Telegram.
+
+***
+
 ## How to install?
 
 We recommend using the latest version of Python. `python3-anticaptcha` supports Python 3.7+.

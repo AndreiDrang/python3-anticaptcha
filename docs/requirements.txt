@@ -3,4 +3,4 @@ pallets_sphinx_themes==2.1.1
 myst-parser==2.0.0
 autodoc_pydantic==2.0.1
 pydantic==2.5.2
-pydantic-settings==2.0.3
+pydantic-settings==2.1.0
