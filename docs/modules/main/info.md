@@ -31,6 +31,11 @@ Tested on UNIX based OS.
 
 The library is intended for software developers and is used to work with the [AntiCaptcha](https://anti-captcha.com/) service API.
 
+***
+
+You can check our other projects here - [RedPandaDev group](https://red-panda-dev.xyz/blog/). For example - [Torrents Tracker bot](https://t.me/torrents_tracker_bot) for Telegram.
+
+***
 ## How to install?
 
 We recommend using the latest version of Python. `python3-anticaptcha` supports Python 3.7+.
