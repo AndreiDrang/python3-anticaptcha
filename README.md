@@ -2,11 +2,15 @@
 
 ![Logo](https://red-panda-dev.xyz/media/images/AntiCaptcha_MCSmjTi.original.png)
 
-<a href="https://dashboard.capsolver.com/passport/register?inviteCode=kQTn-tG07Jb1">
-    <img src="https://cdn.discordapp.com/attachments/1105172394655625306/1105180101802471575/20221207-160749.gif" alt="Capsolver's Banner">
-</a>
-<br>
-At the lowest price on the market, you may receive a variety of solutions, including reCAPTCHA V2, reCAPTCHA V3, hCaptcha, hCaptcha Click, FunCaptcha, picture-to-text, and more. With this service, 0.1s is the slowest speed ever measured.
+### [Capsolver](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+
+[![Capsolver](files/capsolver.jpg)](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+
+[Capsolver.com](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha) is
+an AI-powered service that provides automatic captcha solving capabilities. It supports a range of captcha types,
+including reCAPTCHA, hCaptcha, and FunCaptcha, AWS Captcha, Geetest, image captcha among others. Capsolver offers both
+Chrome and Firefox extensions for ease of use, API integration for developers, and various pricing packages to suit
+different needs.
 <hr>
 
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
