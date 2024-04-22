@@ -1,5 +1,5 @@
 sphinx==7.3.7
-pallets_sphinx_themes==2.1.1
+pallets_sphinx_themes==2.1.2
 myst-parser==2.0.0
 autodoc_pydantic==2.1.0
 pydantic==2.7.0
