@@ -2,6 +2,7 @@
 
 import os
 import sys
+from datetime import date
 
 from pallets_sphinx_themes import ProjectLink
 
@@ -17,7 +18,7 @@ from python3_anticaptcha.__version__ import __version__
 # -- Project information -----------------------------------------------------
 
 project = "python3-anticaptcha"
-copyright = f"2023, AndreiDrang, Release - {__version__}"
+copyright = f"{date.today().year}, AndreiDrang; Release - {__version__}; Last update - {date.today()}"
 author = "AndreiDrang"
 
 # -- General configuration ---------------------------------------------------
