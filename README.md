@@ -2,6 +2,10 @@
 
 ![Logo](https://red-panda-dev.xyz/media/images/AntiCaptcha_MCSmjTi.original.png)
 
+### [Capsolver](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+
+[![Capsolver](files/capsolver.png)](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+
 <hr>
 
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
