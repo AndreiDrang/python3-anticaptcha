@@ -4,6 +4,10 @@
 
 ![](../../_static/AntiCaptcha.png)
 
+### [Capsolver](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+
+[![Capsolver](../../_static/capsolver.png)](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+
 <hr>
 
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
