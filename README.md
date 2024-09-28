@@ -2,9 +2,9 @@
 
 ![Logo](https://red-panda-dev.xyz/media/images/AntiCaptcha_MCSmjTi.original.png)
 
-### [Capsolver](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+### [Capsolver](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
-[![Capsolver](files/capsolver.png)](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+[![Capsolver](files/capsolver.png)](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
 <hr>
 
