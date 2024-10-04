@@ -1,4 +1,0 @@
-requests>=2.21.0
-aiohttp>=3.7.4
-tenacity==9.*
-pydantic>=2.4.0

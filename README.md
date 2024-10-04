@@ -2,9 +2,9 @@
 
 ![Logo](https://red-panda-dev.xyz/media/images/AntiCaptcha_MCSmjTi.original.png)
 
-### [Capsolver](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+### [Capsolver](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
-[![Capsolver](files/capsolver.png)](https://capsolver.com?utm_source=github&utm_medium=banner_github&utm_campaign=python3-anticaptcha)
+[![Capsolver](files/capsolver.png)](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
 <hr>
 
@@ -17,7 +17,7 @@
 [![codecov](https://codecov.io/gh/AndreiDrang/python3-anticaptcha/branch/main/graph/badge.svg?token=W92nfZY6Tz)](https://codecov.io/gh/AndreiDrang/python3-anticaptcha)
 
 [![Sphinx docs](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/sphinx.yml/badge.svg?branch=release)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/sphinx.yml)
-[![Build check](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test_build.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test_build.yml)
+[![Building](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/build.yml/badge.svg)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/build.yml)
 [![Installation check](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/install.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/install.yml)
 [![Test](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml)
 [![Lint](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml)

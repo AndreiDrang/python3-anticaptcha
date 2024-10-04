@@ -1,5 +1,8 @@
 install:
-	cd src/ && pip install -e .
+	pip3 install -e .
+
+remove:
+	pip3 uninstall python3_anticaptcha -y
 
 tests: install
 	coverage run --rcfile=.coveragerc -m pytest --verbose --showlocals --pastebin=all tests --disable-warnings && \
@@ -26,9 +29,13 @@ lint:
 	black src/ --check && \
 	isort src/ --check-only
 
+build:
+	pip3 install --upgrade build setuptools
+	python3 -m build
+
 upload:
-	pip install twine
-	cd src/ && python setup.py upload
+	pip3 install twine wheel setuptools build
+	twine upload dist/*
 
 doc: install
 	cd docs/ && \
