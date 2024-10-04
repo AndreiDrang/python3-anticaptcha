@@ -4,13 +4,13 @@ on:
   push:
     branches: [ "main", "release"]
     paths:
-      - '.github/workflows/test_build.yml'
+      - '.github/workflows/build.yml'
       - 'src/**'
       - 'Makefile'
   pull_request:
     branches: [ "main", "release"]
     paths:
-      - '.github/workflows/test_build.yml'
+      - '.github/workflows/build.yml'
       - 'src/**'
       - 'Makefile'
 
@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v3
@@ -30,6 +30,4 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Local build checking
-      run: |
-        pip install twine wheel
-        cd src/ && python setup.py sdist bdist_wheel
+      run: make build
