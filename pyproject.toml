@@ -27,3 +27,79 @@ testpaths = [
     "tests",
 ]
 addopts = "-vv --tb=short --durations=5"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python3-anticaptcha"
+dynamic = ["version"]
+authors = [
+    {name = "AndreiDrang", email = "python-captcha@pm.me"},
+]
+description = "Python 3.9+ RuCaptcha library with AIO module."
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = [    "captcha",
+				"anticaptcha",
+				"deathbycaptcha",
+				"recaptcha",
+				"geetest",
+				"hcaptcha",
+				"capypuzzle",
+				"rotatecaptcha",
+				"funcaptcha",
+				"keycaptcha",
+				"python3",
+				"recaptcha",
+				"captcha",
+				"security",
+				"tencent",
+				"atb_captcha",
+				"python-library",
+				"python-anticaptcha",
+				"anticaptcha-client",
+				"yandex",
+				"turnstile",
+				"amazon",
+				"amazon_waf",
+				"friendly-captcha"
+            ]
+license = {text = "MIT License"}
+classifiers = [
+        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+        "Development Status :: 5 - Production/Stable",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Framework :: AsyncIO",
+        "Operating System :: Unix",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: MacOS",
+]
+dependencies = [
+    "requests>=2.21.0",
+    "aiohttp>=3.9.2",
+    "msgspec==0.18.*",
+    "tenacity>=8,<10"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["python3_anticaptcha*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "python3_anticaptcha.__version__"}
+
+[project.urls]
+Homepage = "https://andreidrang.github.io/python3-anticaptcha"
+Documentation = "https://andreidrang.github.io/python3-anticaptcha"
+Repository = "https://github.com/AndreiDrang/python3-anticaptcha"
+Issues = "https://github.com/AndreiDrang/python3-anticaptcha/issues"
+Changelog = "https://github.com/AndreiDrang/python3-anticaptcha/releases"
