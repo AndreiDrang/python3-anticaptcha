@@ -1,5 +1,8 @@
 install:
-	cd src/ && pip install -e .
+	pip3 install -e .
+
+remove:
+	pip3 uninstall python3_anticaptcha -y
 
 tests: install
 	coverage run --rcfile=.coveragerc -m pytest --verbose --showlocals --pastebin=all tests --disable-warnings && \
