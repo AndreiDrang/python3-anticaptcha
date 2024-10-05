@@ -134,7 +134,7 @@ class Turnstile(BaseCaptcha):
 
         Notes:
             https://anti-captcha.com/apidoc/task-types/TurnstileTask
-            
+
             https://anti-captcha.com/apidoc/task-types/TurnstileTaskProxyless
         """
 
