@@ -17,6 +17,8 @@ from .config import RETRIES, ASYNC_RETRIES, BASE_REQUEST_URL, CREATE_TASK_POSTFI
 from .serializer import CreateTaskBaseSer, CreateTaskResponseSer, GetTaskResultRequestSer, GetTaskResultResponseSer
 from .result_handler import get_sync_result, get_async_result
 
+__all__ = ("BaseCaptcha",)
+
 
 class BaseCaptcha:
     NO_CAPTCHA_ERR = "You did not send any file, local link or URL."
