@@ -150,14 +150,9 @@ class BaseCaptcha:
         elif captcha_link:
             try:
                 content = self.url_open(url=captcha_link, **kwargs).content
-                logging.warning(f"{save_format = }")
-                logging.warning(f"{save_format == SaveFormatsEnm.CONST.value = }")
-                logging.warning(f"{save_format == SaveFormatsEnm.CONST = }")
                 # according to the value of the passed parameter, select the function to save the image
                 if save_format == SaveFormatsEnm.CONST.value:
-                    logging.warning(f"TRY TO CREATE FOLDER WITH FILE")
                     self._file_const_saver(content, file_path, file_extension=file_extension)
-                    logging.warning(f"TRY TO CREATE FOLDER")
                 self.create_task_payload.task.update({"body": base64.b64encode(content).decode("utf-8")})
             except Exception as error:
                 self.result.errorId = 12
