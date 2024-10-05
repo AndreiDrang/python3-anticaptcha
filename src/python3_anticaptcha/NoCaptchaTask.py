@@ -47,7 +47,6 @@ class NoCaptchaTask:
             return False
         return True
 
-    # Работа с капчей
     def captcha_handler(self, websiteURL: str, websiteKey: str, recaptchaDataSValue: str = "", **kwargs) -> dict:
         """
         Метод получает ссылку на страницу, где расположена капча, и ключ капчи
