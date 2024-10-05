@@ -31,18 +31,36 @@ class ImageToTextCaptcha(BaseCaptcha):
 
         Examples:
             >>> ImageToTextCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
-            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN"
-            ...        ).captcha_handler()
+            ...                     save_format=SaveFormatsEnm.CONST
+            ...        ).captcha_handler(captcha_file='files/captcha-image.jpg')
             {
                "errorId": 0,
                "errorCode": None,
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1",
-                  "userAgent":"Mozilla/.....36"
+                  "text":"qGphJD",
+                  "url":"http://69.65.31.125/986/172815194092195.jpg"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
+            >>> ImageToTextCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...                     save_format=SaveFormatsEnm.CONST
+            ...        ).captcha_handler(captcha_link='https://........../captcha-image.jpg')
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "text":"qGphJD",
+                  "url":"http://69.65.31.125/986/172815194092195.jpg"
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
