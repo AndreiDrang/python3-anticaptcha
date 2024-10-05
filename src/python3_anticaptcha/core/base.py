@@ -13,7 +13,7 @@ import requests
 from requests.adapters import HTTPAdapter
 
 from .enum import SaveFormatsEnm
-from .config import RETRIES, BASE_REQUEST_URL, CREATE_TASK_POSTFIX
+from .config import RETRIES, ASYNC_RETRIES, BASE_REQUEST_URL, CREATE_TASK_POSTFIX
 from .serializer import CreateTaskBaseSer, CreateTaskResponseSer, GetTaskResultRequestSer, GetTaskResultResponseSer
 from .result_handler import get_sync_result, get_async_result
 
@@ -167,9 +167,19 @@ class BaseCaptcha:
     Async part
     """
 
+    async def aio_url_read(self, url: str, **kwargs) -> bytes:
+        """
+        Async method read bytes from link
+        """
+        async with aiohttp.ClientSession() as session:
+            async for attempt in ASYNC_RETRIES:
+                with attempt:
+                    async with session.get(url=url, **kwargs) as resp:
+                        return await resp.content.read()
+
     async def _aio_processing_captcha(self) -> dict:
         # added task params to payload
-        self.create_task_payload.task = self.task_params
+        self.create_task_payload.task.update(self.task_params)
 
         created_task = await self._aio_create_task()
 
@@ -215,6 +225,41 @@ class BaseCaptcha:
             except Exception as error:
                 logging.exception(error)
                 raise
+
+    async def _aio_body_file_processing(
+        self,
+        save_format: SaveFormatsEnm,
+        file_path: str,
+        file_extension: str = "png",
+        captcha_link: Optional[str] = None,
+        captcha_file: Optional[str] = None,
+        captcha_base64: Optional[bytes] = None,
+        **kwargs,
+    ):
+        # if a local file link is passed
+        if captcha_file:
+            self.create_task_payload.task.update(
+                {"body": base64.b64encode(self._local_file_captcha(captcha_file)).decode("utf-8")}
+            )
+        # if the file is transferred in base64 encoding
+        elif captcha_base64:
+            self.create_task_payload.task.update({"body": base64.b64encode(captcha_base64).decode("utf-8")})
+        # if a URL is passed
+        elif captcha_link:
+            try:
+                content = await self.aio_url_read(url=captcha_link, **kwargs)
+                # according to the value of the passed parameter, select the function to save the image
+                if save_format == SaveFormatsEnm.CONST.value:
+                    self._file_const_saver(content, file_path, file_extension=file_extension)
+                self.create_task_payload.task.update({"body": base64.b64encode(content).decode("utf-8")})
+            except Exception as error:
+                self.result.errorId = 12
+                self.result.errorCode = self.NO_CAPTCHA_ERR
+                self.result.errorDescription = str(error)
+
+        else:
+            self.result.errorId = 12
+            self.result.errorCode = self.NO_CAPTCHA_ERR
 
     # Context methods
 
