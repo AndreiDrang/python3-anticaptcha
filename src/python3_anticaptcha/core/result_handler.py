@@ -1,44 +1,49 @@
 import time
 import asyncio
+from urllib.parse import urljoin
 
 import aiohttp
 import requests
 from requests.adapters import HTTPAdapter
 
-from python3_anticaptcha.config import get_result_url, attempts_generator
+from .enum import ResponseStatusEnm
+from .config import RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, attempts_generator
+from .serializer import GetTaskResultRequestSer, GetTaskResultResponseSer
 
 
-def get_sync_result(result_payload: dict, sleep_time: int, **kwargs) -> dict:
+def get_sync_result(
+    result_payload: GetTaskResultRequestSer, sleep_time: int, url_response: str = GET_RESULT_POSTFIX
+) -> dict:
     # create a session
     session = requests.Session()
     # set the number of attempts to connect to the server in case of error
-    session.mount("http://", HTTPAdapter(max_retries=5))
-    session.mount("https://", HTTPAdapter(max_retries=5))
+    session.mount("http://", HTTPAdapter(max_retries=RETRIES))
+    session.mount("https://", HTTPAdapter(max_retries=RETRIES))
     session.verify = False
 
     attempts = attempts_generator()
     for _ in attempts:
-        captcha_response = session.post(get_result_url, json=result_payload, **kwargs).json()
+        captcha_response = GetTaskResultResponseSer(
+            **session.post(url=urljoin(BASE_REQUEST_URL, url_response), json=result_payload.to_dict()).json(),
+            taskId=result_payload.taskId,
+        )
 
-        if captcha_response["errorId"] == 0:
-            if captcha_response["status"] == "processing":
+        if captcha_response.errorId == 0:
+            if captcha_response.status == ResponseStatusEnm.processing:
                 time.sleep(sleep_time)
             else:
-                captcha_response.update({"taskId": result_payload["taskId"]})
                 session.close()
-                return captcha_response
         else:
-            captcha_response.update({"taskId": result_payload["taskId"]})
             session.close()
-            return captcha_response
+    return captcha_response.to_dict()
 
 
-async def get_async_result(result_payload: dict, sleep_time: int) -> dict:
+async def get_async_result(result_payload: dict, sleep_time: int, url_response: str = GET_RESULT_POSTFIX) -> dict:
     attempts = attempts_generator()
     # Send request for status of captcha solution.
     async with aiohttp.ClientSession() as session:
         for _ in attempts:
-            async with session.post(get_result_url, json=result_payload) as resp:
+            async with session.post(url=urljoin(BASE_REQUEST_URL, url_response), json=result_payload) as resp:
                 json_result = await resp.json()
                 # if there is no error, check CAPTCHA status
                 if json_result["errorId"] == 0:

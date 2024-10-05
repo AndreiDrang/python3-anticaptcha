@@ -2,7 +2,6 @@ from typing import Union, Optional
 
 from .core.base import BaseCaptcha
 from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
-from .core.serializer import TurnstileOptionsSer, TurnstileProxylessOptionsSer
 
 
 class Turnstile(BaseCaptcha):
@@ -12,11 +11,14 @@ class Turnstile(BaseCaptcha):
         captcha_type: Union[CaptchaTypeEnm, str],
         websiteURL: str,
         websiteKey: str,
+        action: Optional[str] = None,
+        turnstileCData: Optional[str] = None,
         proxyType: Optional[Union[ProxyTypeEnm, str]] = None,
         proxyAddress: Optional[str] = None,
         proxyPort: Optional[int] = None,
+        proxyLogin: Optional[str] = None,
+        proxyPassword: Optional[str] = None,
         sleep_time: Optional[int] = 10,
-        **kwargs,
     ):
         """
         The class is used to work with Turnstile.
@@ -33,9 +35,6 @@ class Turnstile(BaseCaptcha):
                             proxies from local networks (192.., 10.., 127...)
             proxyPort: Proxy port.
             sleep_time: The waiting time between requests to get the result of the Captcha
-            kwargs: Additional not required params for main request body.
-                    Like `callbackUrl`/`languagePool` and etc.
-                    More info - https://anti-captcha.com/apidoc/methods/createTask
 
         Examples:
             >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
@@ -138,17 +137,34 @@ class Turnstile(BaseCaptcha):
             https://anti-captcha.com/apidoc/task-types/TurnstileTaskProxyless
         """
 
-        super().__init__(api_key=api_key, captcha_type=captcha_type, sleep_time=sleep_time, **kwargs)
+        super().__init__(api_key=api_key, sleep_time=sleep_time)
 
         # validation of the received parameters
         if captcha_type == CaptchaTypeEnm.TurnstileTask:
-            self.task_params = TurnstileOptionsSer(type=captcha_type, **locals()).dict()
+            self.task_params = dict(
+                type=captcha_type,
+                websiteURL=websiteURL,
+                websiteKey=websiteKey,
+                action=action,
+                turnstileCData=turnstileCData,
+                proxyType=proxyType,
+                proxyAddress=proxyAddress,
+                proxyPort=proxyPort,
+                proxyLogin=proxyLogin,
+                proxyPassword=proxyPassword,
+            )
         elif captcha_type == CaptchaTypeEnm.TurnstileTaskProxyless:
-            self.task_params = TurnstileProxylessOptionsSer(type=captcha_type, **locals()).dict()
+            self.task_params = dict(
+                type=captcha_type,
+                websiteURL=websiteURL,
+                websiteKey=websiteKey,
+                action=action,
+                turnstileCData=turnstileCData,
+            )
         else:
             raise ValueError(
-                f"""Invalid `captcha_type` parameter set for `{self.__class__.__name__}`,
-                available - {CaptchaTypeEnm.TurnstileTask.value, CaptchaTypeEnm.TurnstileTaskProxyless.value}"""
+                f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
+                available - {CaptchaTypeEnm.TurnstileTaskProxyless.value,CaptchaTypeEnm.TurnstileTask.value}"
             )
 
     def captcha_handler(self, **additional_params) -> dict:
@@ -161,7 +177,7 @@ class Turnstile(BaseCaptcha):
                                 Like ``proxyLogin``, ``proxyPassword`` and etc. - more info in service docs
 
         Returns:
-            Full service response
+            Dict with full server response
 
         Notes:
             Check class docstirng for more info
@@ -180,7 +196,7 @@ class Turnstile(BaseCaptcha):
                                 Like ``proxyLogin``, ``proxyPassword`` and etc. - more info in service docs
 
         Returns:
-            Full service response
+            Dict with full server response
 
         Notes:
             Check class docstirng for more info

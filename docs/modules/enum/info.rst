@@ -31,3 +31,7 @@ To import this module:
 .. autoclass:: core.enum.ControlPostfixEnm
     :members:
     :undoc-members:
+
+.. autoclass:: core.enum.SaveFormatsEnm
+    :members:
+    :undoc-members:

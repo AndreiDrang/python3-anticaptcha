@@ -1,7 +1,7 @@
 from typing import Optional
 
 from .core.base import BaseCaptcha
-from .core.enum import CaptchaTypeEnm, ControlPostfixEnm
+from .core.enum import ControlPostfixEnm
 
 
 class Control(BaseCaptcha):
@@ -16,7 +16,6 @@ class Control(BaseCaptcha):
 
         Args:
             api_key: Capsolver API key
-            captcha_type: Captcha type
             websiteURL: Address of the webpage
             websiteKey: Turnstile sitekey
             proxyType: Type of the proxy
@@ -113,7 +112,7 @@ class Control(BaseCaptcha):
             https://anti-captcha.com/apidoc/methods/reportIncorrectImageCaptcha
         """
 
-        super().__init__(api_key=api_key, captcha_type=CaptchaTypeEnm.Control, *args, **kwargs)
+        super().__init__(api_key=api_key, *args, **kwargs)
 
     def get_balance(self) -> dict:
         """
@@ -135,7 +134,7 @@ class Control(BaseCaptcha):
         return self._send_post_request(
             session=self._session,
             url_postfix=ControlPostfixEnm.GET_BALANCE,
-            payload={"clientKey": self._params.clientKey},
+            payload={"clientKey": self.create_task_payload.clientKey},
         )
 
     async def aio_get_balance(self) -> dict:
@@ -157,7 +156,7 @@ class Control(BaseCaptcha):
         """
 
         return await self._aio_send_post_request(
-            url_postfix=ControlPostfixEnm.GET_BALANCE, payload={"clientKey": self._params.clientKey}
+            url_postfix=ControlPostfixEnm.GET_BALANCE, payload={"clientKey": self.create_task_payload.clientKey}
         )
 
     @staticmethod
@@ -290,7 +289,7 @@ class Control(BaseCaptcha):
         return self._send_post_request(
             session=self._session,
             url_postfix=ControlPostfixEnm.GET_SPENDING_STATS,
-            payload={"clientKey": self._params.clientKey, **kwargs},
+            payload={"clientKey": self.create_task_payload.clientKey, **kwargs},
         )
 
     async def aio_get_spending_stats(self, **kwargs) -> dict:
@@ -345,7 +344,8 @@ class Control(BaseCaptcha):
             https://anti-captcha.com/apidoc/methods/getSpendingStats
         """
         return await self._aio_send_post_request(
-            url_postfix=ControlPostfixEnm.GET_SPENDING_STATS, payload={"clientKey": self._params.clientKey, **kwargs}
+            url_postfix=ControlPostfixEnm.GET_SPENDING_STATS,
+            payload={"clientKey": self.create_task_payload.clientKey, **kwargs},
         )
 
     def get_app_stats(self, softId: int, mode: Optional[str] = None) -> dict:
@@ -388,7 +388,7 @@ class Control(BaseCaptcha):
         return self._send_post_request(
             session=self._session,
             url_postfix=ControlPostfixEnm.GET_APP_STATS,
-            payload={"clientKey": self._params.clientKey, "softId": softId, "mode": mode},
+            payload={"clientKey": self.create_task_payload.clientKey, "softId": softId, "mode": mode},
         )
 
     async def aio_get_app_stats(self, softId: int, mode: Optional[str] = None) -> dict:
@@ -430,7 +430,7 @@ class Control(BaseCaptcha):
 
         return await self._aio_send_post_request(
             url_postfix=ControlPostfixEnm.GET_APP_STATS,
-            payload={"clientKey": self._params.clientKey, "softId": softId, "mode": mode},
+            payload={"clientKey": self.create_task_payload.clientKey, "softId": softId, "mode": mode},
         )
 
     def report_incorrect_image(self, taskId: int) -> dict:
@@ -455,7 +455,7 @@ class Control(BaseCaptcha):
         return self._send_post_request(
             session=self._session,
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_IMAGE_CAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
 
     async def aio_report_incorrect_image(self, taskId: int) -> dict:
@@ -479,7 +479,7 @@ class Control(BaseCaptcha):
 
         return await self._aio_send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_IMAGE_CAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
 
     def report_incorrect_recaptcha(self, taskId: int) -> dict:
@@ -504,7 +504,7 @@ class Control(BaseCaptcha):
         return self._send_post_request(
             session=self._session,
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_RECAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
 
     async def aio_report_incorrect_recaptcha(self, taskId: int) -> dict:
@@ -527,7 +527,7 @@ class Control(BaseCaptcha):
         """
         return await self._aio_send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_RECAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
 
     def report_correct_recaptcha(self, taskId: int) -> dict:
@@ -552,7 +552,7 @@ class Control(BaseCaptcha):
         return self._send_post_request(
             session=self._session,
             url_postfix=ControlPostfixEnm.REPORT_CORRECT_RECAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
 
     async def aio_report_correct_recaptcha(self, taskId: int) -> dict:
@@ -575,7 +575,7 @@ class Control(BaseCaptcha):
         """
         return await self._aio_send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_CORRECT_RECAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
 
     def report_incorrect_hcaptcha(self, taskId: int) -> dict:
@@ -600,7 +600,7 @@ class Control(BaseCaptcha):
         return self._send_post_request(
             session=self._session,
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_HCAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
 
     async def aio_report_incorrect_hcaptcha(self, taskId: int) -> dict:
@@ -623,5 +623,5 @@ class Control(BaseCaptcha):
         """
         return await self._aio_send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_HCAPTCHA,
-            payload={"clientKey": self._params.clientKey, "taskId": taskId},
+            payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )

@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath("src/"))
 for x in os.walk("src/python3_anticaptcha/"):
     sys.path.insert(0, x[0])
 
-from python3_anticaptcha import core, control, turnstile
+from python3_anticaptcha import core, control, turnstile, image_captcha
 from python3_anticaptcha.__version__ import __version__
 
 # -- Project information -----------------------------------------------------

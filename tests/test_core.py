@@ -3,8 +3,8 @@ from urllib3.util.retry import Retry
 
 from tests.conftest import BaseTest
 from python3_anticaptcha.core.base import BaseCaptcha
-from python3_anticaptcha.core.enum import MyEnum, CaptchaTypeEnm
-from python3_anticaptcha.core.config import RETRIES, ASYNC_RETRIES, BASE_REQUEST_URL, attempts_generator
+from python3_anticaptcha.core.enum import MyEnum
+from python3_anticaptcha.core.config import RETRIES, ASYNC_RETRIES, attempts_generator
 
 
 class TestCore(BaseTest):
@@ -12,7 +12,7 @@ class TestCore(BaseTest):
     Success tests
     """
 
-    def test_reties(self):
+    def test_retries(self):
         assert isinstance(RETRIES, Retry)
 
     def test_async_reties(self):
@@ -21,24 +21,18 @@ class TestCore(BaseTest):
     def test_create_base(self):
         BaseCaptcha(
             api_key=self.get_random_string(32),
-            captcha_type=CaptchaTypeEnm.Control,
-            request_url=BASE_REQUEST_URL,
             sleep_time=self.sleep_time,
         )
 
     def test_aio_create_base(self):
         BaseCaptcha(
             api_key=self.get_random_string(32),
-            captcha_type=CaptchaTypeEnm.Control,
-            request_url=BASE_REQUEST_URL,
             sleep_time=self.sleep_time,
         )
 
     def test_create_base_context(self):
         with BaseCaptcha(
             api_key=self.get_random_string(32),
-            captcha_type=CaptchaTypeEnm.Control,
-            request_url=BASE_REQUEST_URL,
             sleep_time=self.sleep_time,
         ) as instance:
             pass
@@ -46,8 +40,6 @@ class TestCore(BaseTest):
     async def test_aio_create_base_context(self):
         async with BaseCaptcha(
             api_key=self.get_random_string(32),
-            captcha_type=CaptchaTypeEnm.Control,
-            request_url=BASE_REQUEST_URL,
             sleep_time=self.sleep_time,
         ) as instance:
             pass
