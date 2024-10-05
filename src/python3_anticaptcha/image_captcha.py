@@ -4,8 +4,6 @@ from typing import Union, Optional
 from .core.base import BaseCaptcha
 from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
 
-SAVE_FORMATS = ("const", "temp")
-
 
 class ImageToTextCaptcha(BaseCaptcha):
 
