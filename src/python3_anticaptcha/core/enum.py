@@ -93,3 +93,8 @@ class ControlPostfixEnm(str, MyEnum):
     REPORT_INCORRECT_RECAPTCHA = "reportIncorrectRecaptcha"
     REPORT_CORRECT_RECAPTCHA = "reportCorrectRecaptcha"
     REPORT_INCORRECT_HCAPTCHA = "reportIncorrectHcaptcha"
+
+
+class SaveFormatsEnm(str, MyEnum):
+    TEMP = "temp"
+    CONST = "const"
