@@ -8,42 +8,22 @@ To import this module:
     from python3_anticaptcha.core import serializer
 
 
-.. autopydantic_model:: core.serializer.BaseAPIRequestSer
+.. autoclass:: core.serializer.BaseAPIRequestSer
     :members:
     :undoc-members:
 
-.. autopydantic_model:: core.serializer.BaseAPIResponseSer
+.. autoclass:: core.serializer.BaseAPIResponseSer
     :members:
     :undoc-members:
 
-.. autopydantic_model:: core.serializer.CreateTaskRequestSer
+.. autoclass:: core.serializer.CreateTaskResponseSer
     :members:
     :undoc-members:
 
-.. autopydantic_model:: core.serializer.CreateTaskRequestTaskSer
+.. autoclass:: core.serializer.GetTaskResultRequestSer
     :members:
     :undoc-members:
 
-.. autopydantic_model:: core.serializer.ProxyDataOptionsSer
-    :members:
-    :undoc-members:
-
-.. autopydantic_model:: core.serializer.CreateTaskResponseSer
-    :members:
-    :undoc-members:
-
-.. autopydantic_model:: core.serializer.GetTaskResultRequestSer
-    :members:
-    :undoc-members:
-
-.. autopydantic_model:: core.serializer.GetTaskResultResponseSer
-    :members:
-    :undoc-members:
-
-.. autopydantic_model:: core.serializer.TurnstileProxylessOptionsSer
-    :members:
-    :undoc-members:
-
-.. autopydantic_model:: core.serializer.TurnstileOptionsSer
+.. autoclass:: core.serializer.GetTaskResultResponseSer
     :members:
     :undoc-members:

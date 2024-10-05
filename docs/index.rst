@@ -25,6 +25,7 @@ Check our other projects here - `RedPandaDev group <https://red-panda-dev.xyz/bl
    :caption: Captcha examples:
 
    modules/turnstile/example.rst
+   modules/image/example.rst
    modules/control/example.rst
 
 .. toctree::
