@@ -16,18 +16,6 @@ To import this module:
     :members:
     :undoc-members:
 
-.. autoclass:: core.serializer.CreateTaskRequestSer
-    :members:
-    :undoc-members:
-
-.. autoclass:: core.serializer.CreateTaskRequestTaskSer
-    :members:
-    :undoc-members:
-
-.. autoclass:: core.serializer.ProxyDataOptionsSer
-    :members:
-    :undoc-members:
-
 .. autoclass:: core.serializer.CreateTaskResponseSer
     :members:
     :undoc-members:
@@ -37,13 +25,5 @@ To import this module:
     :undoc-members:
 
 .. autoclass:: core.serializer.GetTaskResultResponseSer
-    :members:
-    :undoc-members:
-
-.. autoclass:: core.serializer.TurnstileProxylessOptionsSer
-    :members:
-    :undoc-members:
-
-.. autoclass:: core.serializer.TurnstileOptionsSer
     :members:
     :undoc-members:
