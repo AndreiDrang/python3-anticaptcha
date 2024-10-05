@@ -70,6 +70,27 @@ class ImageToTextCaptcha(BaseCaptcha):
                "taskId": 396687629
             }
 
+            >>> await ImageToTextCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...                     save_format=SaveFormatsEnm.CONST
+            ...        ).aio_captcha_handler(captcha_link='https://........../captcha-image.jpg')
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "text":"qGphJD",
+                  "url":"http://69.65.31.125/986/172815194092195.jpg"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
+
         Notes:
             https://anti-captcha.com/apidoc/task-types/ImageToTextTask
         """
@@ -117,6 +138,42 @@ class ImageToTextCaptcha(BaseCaptcha):
         )
         if not self.result.errorId:
             return self._processing_captcha()
+        return self.result.to_dict()
+
+    async def aio_captcha_handler(
+        self,
+        captcha_link: Optional[str] = None,
+        captcha_file: Optional[str] = None,
+        captcha_base64: Optional[bytes] = None,
+        **additional_params,
+    ) -> dict:
+        """
+        Asynchronous method for captcha solving
+
+        Args:
+            captcha_link: link to captcha image file
+            captcha_file: path to local captcha image file
+            captcha_base64: captcha image encoded in base64 format
+            additional_params: Some additional parameters that will be used in creating the task
+                                and will be passed to the payload under ``task`` key.
+                                Like ``proxyLogin``, ``proxyPassword`` and etc. - more info in service docs
+
+        Returns:
+            Dict with full server response
+
+        Notes:
+            Check class docstirng for more info
+        """
+        self.task_params.update({**additional_params})
+        await self._aio_body_file_processing(
+            save_format=self.save_format,
+            file_path=self.img_path,
+            captcha_link=captcha_link,
+            captcha_file=captcha_file,
+            captcha_base64=captcha_base64,
+        )
+        if not self.result.errorId:
+            return await self._aio_processing_captcha()
         return self.result.to_dict()
 
     def __del__(self):
