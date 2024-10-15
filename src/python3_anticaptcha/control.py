@@ -3,6 +3,8 @@ from typing import Optional
 from .core.base import BaseCaptcha
 from .core.enum import ControlPostfixEnm
 
+__all__ = ("Control",)
+
 
 class Control(BaseCaptcha):
     def __init__(

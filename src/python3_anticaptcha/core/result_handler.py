@@ -10,6 +10,8 @@ from .enum import ResponseStatusEnm
 from .config import RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, attempts_generator
 from .serializer import GetTaskResultRequestSer, GetTaskResultResponseSer
 
+__all__ = ("get_sync_result", "get_async_result")
+
 
 def get_sync_result(
     result_payload: GetTaskResultRequestSer, sleep_time: int, url_response: str = GET_RESULT_POSTFIX
