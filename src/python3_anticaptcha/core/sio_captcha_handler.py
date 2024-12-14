@@ -27,6 +27,7 @@ class SIOCaptchaHandler(CaptchaHandler):
     """
 
     def __init__(self, captcha_params: CaptchaParams):
+        super().__init__()
         self.captcha_params = captcha_params
         # prepare session
         self._session = requests.Session()
