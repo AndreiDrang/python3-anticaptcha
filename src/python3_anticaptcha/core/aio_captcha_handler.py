@@ -8,7 +8,8 @@ from urllib.parse import urljoin
 import aiohttp
 
 from .enum import SaveFormatsEnm
-from .const import ASYNC_RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX, attempts_generator
+from .const import ASYNC_RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
+from .utils import attempts_generator
 from .serializer import CreateTaskResponseSer
 
 __all__ = ("AIOCaptchaHandler",)
