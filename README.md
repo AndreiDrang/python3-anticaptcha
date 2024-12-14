@@ -4,7 +4,7 @@
 
 ### [Capsolver](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
-[![Capsolver](files/capsolver.png)](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
+[![Capsolver](files/capsolver.jpg)](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
 <hr>
 
