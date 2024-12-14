@@ -3,7 +3,7 @@ from typing import Dict, Literal, Optional
 from msgspec import Struct
 
 from .enum import ResponseStatusEnm
-from .config import APP_KEY
+from .const import APP_KEY
 
 
 class MyBaseModel(Struct):

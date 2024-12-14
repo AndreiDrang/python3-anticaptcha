@@ -4,7 +4,7 @@ from urllib3.util.retry import Retry
 from tests.conftest import BaseTest
 from python3_anticaptcha.core.base import BaseCaptcha
 from python3_anticaptcha.core.enum import MyEnum
-from python3_anticaptcha.core.config import RETRIES, ASYNC_RETRIES, attempts_generator
+from python3_anticaptcha.core.const import RETRIES, ASYNC_RETRIES, attempts_generator
 
 
 class TestCore(BaseTest):
