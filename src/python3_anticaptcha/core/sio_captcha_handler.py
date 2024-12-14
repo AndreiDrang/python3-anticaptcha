@@ -9,7 +9,8 @@ import requests
 
 from .base import BaseCaptcha
 from .enum import SaveFormatsEnm, ResponseStatusEnm
-from .const import BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX, attempts_generator
+from .const import BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
+from .utils import attempts_generator
 from .serializer import CreateTaskResponseSer, GetTaskResultResponseSer
 
 __all__ = ("SIOCaptchaHandler",)
