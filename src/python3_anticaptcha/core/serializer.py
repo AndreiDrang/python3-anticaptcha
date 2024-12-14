@@ -53,7 +53,7 @@ HTTP API Response
 
 
 class GetTaskResultResponseSer(BaseAPIResponseSer):
-    status: ResponseStatusEnm = ResponseStatusEnm.processing.value
+    status: ResponseStatusEnm = ResponseStatusEnm.error.value
     solution: dict = {}
     cost: float = 0.0
     ip: str = None

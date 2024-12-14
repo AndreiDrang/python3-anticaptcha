@@ -1,13 +1,15 @@
 import shutil
 from typing import Union, Optional
 
-from .core.base import BaseCaptcha
+from .core.base import CaptchaParams
 from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
+from .core.aio_captcha_handler import AIOCaptchaHandler
+from .core.sio_captcha_handler import SIOCaptchaHandler
 
 __all__ = ("ImageToTextCaptcha",)
 
 
-class ImageToTextCaptcha(BaseCaptcha):
+class ImageToTextCaptcha(CaptchaParams):
 
     def __init__(
         self,
@@ -127,18 +129,19 @@ class ImageToTextCaptcha(BaseCaptcha):
         Notes:
             Check class docstirng for more info
         """
-
         self.task_params.update({**additional_params})
-        self._body_file_processing(
+
+        captcha_handler = SIOCaptchaHandler(captcha_params=self)
+        captcha_handler.body_file_processing(
             save_format=self.save_format,
             file_path=self.img_path,
             captcha_link=captcha_link,
             captcha_file=captcha_file,
             captcha_base64=captcha_base64,
         )
-        if not self.result.errorId:
-            return self._processing_captcha()
-        return self.result.to_dict()
+        if not captcha_handler.result.errorId:
+            return captcha_handler.processing_captcha()
+        return captcha_handler.result.to_dict()
 
     async def aio_captcha_handler(
         self,
@@ -165,16 +168,18 @@ class ImageToTextCaptcha(BaseCaptcha):
             Check class docstirng for more info
         """
         self.task_params.update({**additional_params})
-        await self._aio_body_file_processing(
+
+        captcha_handler = AIOCaptchaHandler(captcha_params=self)
+        await captcha_handler.body_file_processing(
             save_format=self.save_format,
             file_path=self.img_path,
             captcha_link=captcha_link,
             captcha_file=captcha_file,
             captcha_base64=captcha_base64,
         )
-        if not self.result.errorId:
-            return await self._aio_processing_captcha()
-        return self.result.to_dict()
+        if not captcha_handler.result.errorId:
+            return await captcha_handler.processing_captcha()
+        return captcha_handler.result.to_dict()
 
     def __del__(self):
         if self.save_format == SaveFormatsEnm.CONST.value and self.img_clearing:

@@ -1,10 +1,10 @@
 from typing import Union, Optional
 
-from .core.base import BaseCaptcha
+from .core.base import CaptchaParams
 from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
 
 
-class Turnstile(BaseCaptcha):
+class Turnstile(CaptchaParams):
     def __init__(
         self,
         api_key: str,

@@ -1,6 +1,7 @@
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import MagicMock
 
 from tests.conftest import BaseTest
+from python3_anticaptcha.core.enum import SaveFormatsEnm, ResponseStatusEnm
 from python3_anticaptcha.image_captcha import ImageToTextCaptcha
 from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 
@@ -21,6 +22,26 @@ class TestImageCaptcha(BaseTest):
         "languagePool": "en",
     }
 
+    def test_sio_success_file(self, mocker):
+        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        result = instance.captcha_handler(captcha_file=self.captcha_file)
+
+        assert isinstance(result, dict)
+        ser_result = GetTaskResultResponseSer(**result)
+        assert ser_result.errorId == 0
+        assert ser_result.taskId is not None
+        assert ser_result.cost != 0.0
+
+    async def test_aio_success_file(self, mocker):
+        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        result = await instance.aio_captcha_handler(captcha_file=self.captcha_file)
+
+        assert isinstance(result, dict)
+        ser_result = GetTaskResultResponseSer(**result)
+        assert ser_result.errorId == 0
+        assert ser_result.taskId is not None
+        assert ser_result.cost != 0.0
+
     def test_methods_exists(self):
         assert "captcha_handler" in ImageToTextCaptcha.__dict__.keys()
         assert "aio_captcha_handler" in ImageToTextCaptcha.__dict__.keys()
@@ -31,8 +52,15 @@ class TestImageCaptcha(BaseTest):
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
         assert instance.create_task_payload.clientKey == self.API_KEY
 
+    def test_del(self, mocker):
+        mocked_method: MagicMock = mocker.patch("shutil.rmtree")
+        ImageToTextCaptcha(api_key=self.API_KEY, save_format=SaveFormatsEnm.CONST, img_clearing=True)
+        assert mocked_method.call_count == 1
+
     def test_kwargs(self, mocker):
-        mocked_method: MagicMock = mocker.patch("python3_anticaptcha.core.base.BaseCaptcha._body_file_processing")
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.sio_captcha_handler.SIOCaptchaHandler.body_file_processing"
+        )
 
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
         instance.captcha_handler(**self.kwargs_params)
@@ -43,7 +71,9 @@ class TestImageCaptcha(BaseTest):
         assert set(self.kwargs_params.values()).issubset(set(instance.task_params.values()))
 
     async def test_aio_kwargs(self, mocker):
-        mocked_method: AsyncMock = mocker.patch("python3_anticaptcha.core.base.BaseCaptcha._aio_body_file_processing")
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.aio_captcha_handler.AIOCaptchaHandler.body_file_processing"
+        )
 
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
         await instance.aio_captcha_handler(**self.kwargs_params)
@@ -53,24 +83,24 @@ class TestImageCaptcha(BaseTest):
         assert set(self.kwargs_params.keys()).issubset(set(instance.task_params.keys()))
         assert set(self.kwargs_params.values()).issubset(set(instance.task_params.values()))
 
-    def test_result_with_errorId(self, mocker):
-        mocked_method: MagicMock = mocker.patch("python3_anticaptcha.core.base.BaseCaptcha._body_file_processing")
-
+    def test_err_body_file_processing(self, mocker):
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
-        instance.result.errorId = 1
         result = instance.captcha_handler(**self.kwargs_params)
 
-        assert mocked_method.call_count == 1
         assert isinstance(result, dict)
-        assert result == GetTaskResultResponseSer(**result).to_dict()
+        ser_result = GetTaskResultResponseSer(**result)
+        assert ser_result.status == ResponseStatusEnm.error
+        assert ser_result.errorId == 12
+        assert ser_result.taskId is None
+        assert ser_result.cost == 0.0
 
-    async def test_aio_result_with_errorId(self, mocker):
-        mocked_method: AsyncMock = mocker.patch("python3_anticaptcha.core.base.BaseCaptcha._aio_body_file_processing")
-
+    async def test_aio_err_body_file_processing(self, mocker):
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
-        instance.result.errorId = 1
         result = await instance.aio_captcha_handler(**self.kwargs_params)
 
-        assert mocked_method.call_count == 1
         assert isinstance(result, dict)
-        assert result == GetTaskResultResponseSer(**result).to_dict()
+        ser_result = GetTaskResultResponseSer(**result)
+        assert ser_result.status == ResponseStatusEnm.error
+        assert ser_result.errorId == 12
+        assert ser_result.taskId is None
+        assert ser_result.cost == 0.0
