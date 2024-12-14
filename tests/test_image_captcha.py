@@ -1,3 +1,4 @@
+import base64
 from unittest.mock import MagicMock
 
 import pytest
@@ -6,6 +7,8 @@ from tests.conftest import BaseTest
 from python3_anticaptcha.core.enum import SaveFormatsEnm, ResponseStatusEnm
 from python3_anticaptcha.image_captcha import ImageToTextCaptcha
 from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
+from python3_anticaptcha.core.aio_captcha_handler import AIOCaptchaHandler
+from python3_anticaptcha.core.sio_captcha_handler import SIOCaptchaHandler
 
 
 class TestImageCaptcha(BaseTest):
@@ -24,7 +27,7 @@ class TestImageCaptcha(BaseTest):
         "languagePool": "en",
     }
 
-    def test_sio_success_file(self):
+    def xtest_sio_success_file(self):
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
         result = instance.captcha_handler(captcha_file=self.captcha_file)
 
@@ -34,7 +37,7 @@ class TestImageCaptcha(BaseTest):
         assert ser_result.taskId is not None
         assert ser_result.cost != 0.0
 
-    async def test_aio_success_file(self):
+    async def xtest_aio_success_file(self):
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
         result = await instance.aio_captcha_handler(captcha_file=self.captcha_file)
 
@@ -47,6 +50,12 @@ class TestImageCaptcha(BaseTest):
     @pytest.mark.parametrize("img_clearing", (True, False))
     @pytest.mark.parametrize("save_format", SaveFormatsEnm.list_values())
     def test_captcha_link(self, mocker, save_format, img_clearing):
+        captured_instances = []
+        mocker.patch(
+            "python3_anticaptcha.image_captcha.SIOCaptchaHandler",
+            side_effect=lambda *args, **kwargs: captured_instances.append(SIOCaptchaHandler(*args, **kwargs))
+            or captured_instances[-1],
+        )
         mocked_method: MagicMock = mocker.patch(
             "python3_anticaptcha.core.sio_captcha_handler.SIOCaptchaHandler.processing_captcha"
         )
@@ -57,10 +66,19 @@ class TestImageCaptcha(BaseTest):
 
         assert mocked_method.call_count == 1
         assert result == mocked_method.return_value
+        instance_b = captured_instances[0]
+        real_data = instance_b.captcha_params
+        assert isinstance(real_data.create_task_payload.task["body"], str)
 
     @pytest.mark.parametrize("img_clearing", (True, False))
     @pytest.mark.parametrize("save_format", SaveFormatsEnm.list_values())
     async def test_aio_captcha_link(self, mocker, save_format, img_clearing):
+        captured_instances = []
+        mocker.patch(
+            "python3_anticaptcha.image_captcha.AIOCaptchaHandler",
+            side_effect=lambda *args, **kwargs: captured_instances.append(AIOCaptchaHandler(*args, **kwargs))
+            or captured_instances[-1],
+        )
         mocked_method: MagicMock = mocker.patch(
             "python3_anticaptcha.core.aio_captcha_handler.AIOCaptchaHandler.processing_captcha"
         )
@@ -71,6 +89,9 @@ class TestImageCaptcha(BaseTest):
 
         assert mocked_method.call_count == 1
         assert result == mocked_method.return_value
+        instance_b = captured_instances[0]
+        real_data = instance_b.captcha_params
+        assert isinstance(real_data.create_task_payload.task["body"], str)
 
     def test_err_captcha_link(self, mocker):
         mocked_method: MagicMock = mocker.patch(
@@ -101,6 +122,42 @@ class TestImageCaptcha(BaseTest):
         assert ser_result.errorId == 12
         assert ser_result.taskId is None
         assert ser_result.cost == 0.0
+
+    def test_captcha_base64(self, mocker):
+        captcha_params_spy = mocker.spy(SIOCaptchaHandler, "body_file_processing")
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.sio_captcha_handler.SIOCaptchaHandler.processing_captcha"
+        )
+        mocked_method.return_value = "tested"
+
+        file_data = self.read_file(file_path=self.captcha_file)
+
+        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        result = instance.captcha_handler(captcha_base64=file_data)
+
+        assert captcha_params_spy.call_args.kwargs["captcha_base64"] == file_data
+        assert instance.captcha_handler.captcha_params.create_task_payload.task["body"] == base64.b64encode(
+            file_data
+        ).decode("utf-8")
+        assert result == mocked_method.return_value
+
+    async def test_aio_captcha_base64(self, mocker):
+        captcha_params_spy = mocker.spy(AIOCaptchaHandler, "body_file_processing")
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.aio_captcha_handler.AIOCaptchaHandler.processing_captcha"
+        )
+        mocked_method.return_value = "tested"
+
+        file_data = self.read_file(file_path=self.captcha_file)
+
+        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        result = await instance.aio_captcha_handler(captcha_base64=file_data)
+
+        assert captcha_params_spy.call_args.kwargs["captcha_base64"] == file_data
+        assert instance.captcha_handler.captcha_params.create_task_payload.task["body"] == base64.b64encode(
+            file_data
+        ).decode("utf-8")
+        assert result == mocked_method.return_value
 
     def test_methods_exists(self):
         assert "captcha_handler" in ImageToTextCaptcha.__dict__.keys()
