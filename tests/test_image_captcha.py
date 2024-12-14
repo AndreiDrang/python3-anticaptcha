@@ -1,5 +1,7 @@
 from unittest.mock import MagicMock
 
+import pytest
+
 from tests.conftest import BaseTest
 from python3_anticaptcha.core.enum import SaveFormatsEnm, ResponseStatusEnm
 from python3_anticaptcha.image_captcha import ImageToTextCaptcha
@@ -41,6 +43,64 @@ class TestImageCaptcha(BaseTest):
         assert ser_result.errorId == 0
         assert ser_result.taskId is not None
         assert ser_result.cost != 0.0
+
+    @pytest.mark.parametrize("img_clearing", (True, False))
+    @pytest.mark.parametrize("save_format", SaveFormatsEnm.list_values())
+    def test_captcha_link(self, mocker, save_format, img_clearing):
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.sio_captcha_handler.SIOCaptchaHandler.processing_captcha"
+        )
+        mocked_method.return_value = "tested"
+
+        instance = ImageToTextCaptcha(api_key=self.API_KEY, save_format=save_format, img_clearing=img_clearing)
+        result = instance.captcha_handler(captcha_link=self.captcha_url)
+
+        assert mocked_method.call_count == 1
+        assert result == mocked_method.return_value
+
+    @pytest.mark.parametrize("img_clearing", (True, False))
+    @pytest.mark.parametrize("save_format", SaveFormatsEnm.list_values())
+    async def test_aio_captcha_link(self, mocker, save_format, img_clearing):
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.aio_captcha_handler.AIOCaptchaHandler.processing_captcha"
+        )
+        mocked_method.return_value = "tested"
+
+        instance = ImageToTextCaptcha(api_key=self.API_KEY, save_format=save_format, img_clearing=img_clearing)
+        result = await instance.aio_captcha_handler(captcha_link=self.captcha_url)
+
+        assert mocked_method.call_count == 1
+        assert result == mocked_method.return_value
+
+    def test_err_captcha_link(self, mocker):
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.sio_captcha_handler.SIOCaptchaHandler._url_read"
+        )
+        mocked_method.side_effect = ValueError("Test error")
+
+        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        result = instance.captcha_handler(captcha_link=self.captcha_url)
+
+        assert isinstance(result, dict)
+        ser_result = GetTaskResultResponseSer(**result)
+        assert ser_result.errorId == 12
+        assert ser_result.taskId is None
+        assert ser_result.cost == 0.0
+
+    async def test_aio_err_captcha_link(self, mocker):
+        mocked_method: MagicMock = mocker.patch(
+            "python3_anticaptcha.core.aio_captcha_handler.AIOCaptchaHandler._url_read"
+        )
+        mocked_method.side_effect = ValueError("Test error")
+
+        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        result = await instance.aio_captcha_handler(captcha_link=self.captcha_url)
+
+        assert isinstance(result, dict)
+        ser_result = GetTaskResultResponseSer(**result)
+        assert ser_result.errorId == 12
+        assert ser_result.taskId is None
+        assert ser_result.cost == 0.0
 
     def test_methods_exists(self):
         assert "captcha_handler" in ImageToTextCaptcha.__dict__.keys()
