@@ -31,7 +31,6 @@ class CaptchaParams(SIOContextManager, AIOContextManager):
 
 class CaptchaHandler:
     NO_CAPTCHA_ERR = "You did not send any file, local link or URL."
-    result = GetTaskResultResponseSer()
     """
     Basic Captcha solving class
 
@@ -41,6 +40,9 @@ class CaptchaHandler:
         sleep_time: The waiting time between requests to get the result of the Captcha
         request_url: API address for sending requests
     """
+
+    def __init__(self):
+        self.result = GetTaskResultResponseSer()
 
     @staticmethod
     def _local_file_captcha(captcha_file: str):
