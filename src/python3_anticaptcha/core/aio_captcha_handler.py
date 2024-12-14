@@ -26,6 +26,7 @@ class AIOCaptchaHandler(CaptchaHandler):
     """
 
     def __init__(self, captcha_params: CaptchaParams):
+        super().__init__()
         self.captcha_params = captcha_params
 
     async def processing_captcha(self) -> dict:
