@@ -40,3 +40,7 @@ class BaseTest:
         letters = string.ascii_lowercase
         result_str = "".join(random.choice(letters) for _ in range(length))
         return result_str
+
+    def read_file(self, file_path: str) -> bytes:
+        with open(file_path, "rb") as file:
+            return file.read()
