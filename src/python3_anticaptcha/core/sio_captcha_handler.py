@@ -72,7 +72,7 @@ class SIOCaptchaHandler(CaptchaHandler):
         # if a URL is passed
         elif captcha_link:
             try:
-                content = self._url_open(url=captcha_link, **kwargs).content
+                content = self._url_read(url=captcha_link, **kwargs).content
                 # according to the value of the passed parameter, select the function to save the image
                 if save_format == SaveFormatsEnm.CONST.value:
                     self._file_const_saver(content, file_path, file_extension=file_extension)
@@ -121,7 +121,7 @@ class SIOCaptchaHandler(CaptchaHandler):
             logging.exception(error)
             raise
 
-    def _url_open(self, url: str, **kwargs):
+    def _url_read(self, url: str, **kwargs):
         """
         Method open links
         """
