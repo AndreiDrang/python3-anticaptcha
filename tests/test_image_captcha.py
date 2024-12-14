@@ -27,7 +27,7 @@ class TestImageCaptcha(BaseTest):
         "languagePool": "en",
     }
 
-    def xtest_sio_success_file(self):
+    def test_sio_success_file(self):
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
         result = instance.captcha_handler(captcha_file=self.captcha_file)
 
@@ -37,7 +37,7 @@ class TestImageCaptcha(BaseTest):
         assert ser_result.taskId is not None
         assert ser_result.cost != 0.0
 
-    async def xtest_aio_success_file(self):
+    async def test_aio_success_file(self):
         instance = ImageToTextCaptcha(api_key=self.API_KEY)
         result = await instance.aio_captcha_handler(captcha_file=self.captcha_file)
 
