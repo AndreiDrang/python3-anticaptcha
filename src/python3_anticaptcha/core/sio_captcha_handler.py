@@ -30,10 +30,10 @@ class SIOCaptchaHandler(CaptchaHandler):
         super().__init__()
         self.captcha_params = captcha_params
         # prepare session
-        self._session = requests.Session()
-        self._session.mount("http://", HTTPAdapter(max_retries=RETRIES))
-        self._session.mount("https://", HTTPAdapter(max_retries=RETRIES))
-        self._session.verify = False
+        self.session = requests.Session()
+        self.session.mount("http://", HTTPAdapter(max_retries=RETRIES))
+        self.session.mount("https://", HTTPAdapter(max_retries=RETRIES))
+        self.session.verify = False
 
     def processing_captcha(self) -> dict:
         # added task params to payload
@@ -104,7 +104,7 @@ class SIOCaptchaHandler(CaptchaHandler):
             raise
 
     @staticmethod
-    def _send_post_request(
+    def send_post_request(
         payload: Optional[dict] = None,
         session: requests.Session = requests.Session(),
         url_postfix: str = CREATE_TASK_POSTFIX,
