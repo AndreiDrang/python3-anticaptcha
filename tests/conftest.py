@@ -10,7 +10,7 @@ from python3_anticaptcha.core.enum import ProxyTypeEnm
 
 @pytest.fixture(scope="function")
 def delay_func():
-    time.sleep(0.3)
+    time.sleep(0.6)
 
 
 @pytest.fixture(scope="class")
