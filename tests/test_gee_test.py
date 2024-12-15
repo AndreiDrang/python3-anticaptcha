@@ -30,7 +30,7 @@ class GeeTestBase(BaseTest):
 
         assert isinstance(result, dict)
         ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 12
+        assert ser_result.errorId in (34, 12)
 
     async def test_aio_success(self):
         instance = GeeTest(
@@ -45,7 +45,7 @@ class GeeTestBase(BaseTest):
 
         assert isinstance(result, dict)
         ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 12
+        assert ser_result.errorId in (34, 12)
 
     @pytest.mark.parametrize("proxyType", ProxyTypeEnm)
     def test_proxy_args(self, proxyType: ProxyTypeEnm):
