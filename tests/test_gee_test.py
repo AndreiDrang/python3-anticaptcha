@@ -10,11 +10,13 @@ class GeeTestBase(BaseTest):
     websiteURL = "https://www.geetest.com/en/adaptive-captcha-demo"
     gt = "81388ea1fc187e0c335c0a8907ff2625"
     challenge = "12345678abc90123d45678ef90123a456b"
+    version = 0
 
     def get_proxy_args(self) -> dict:
         proxy_args = super().get_proxy_args()
         proxy_args.update({"userAgent": self.get_random_string()})
         return proxy_args
+
     def test_sio_success(self):
         instance = GeeTest(
             api_key=self.API_KEY,
@@ -78,7 +80,5 @@ class TestGeeTestV3(GeeTestBase):
     version = 3
 
 
-
 class TestGeeTestV4(GeeTestBase):
     version = 4
-
