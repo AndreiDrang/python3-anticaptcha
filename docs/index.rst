@@ -28,6 +28,7 @@ Check our other projects here - `RedPandaDev group <https://red-panda-dev.xyz/bl
    modules/turnstile/example.rst
    modules/image/example.rst
    modules/fun-captcha/example.rst
+   modules/gee-test/example.rst
 
 .. toctree::
    :maxdepth: 2

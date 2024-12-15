@@ -6,31 +6,38 @@ from .core.aio_captcha_handler import AIOCaptchaHandler
 from .core.sio_captcha_handler import SIOCaptchaHandler
 
 
-class FunCaptcha(CaptchaParams):
+class GeeTest(CaptchaParams):
     def __init__(
         self,
         api_key: str,
         captcha_type: Union[CaptchaTypeEnm, str],
         websiteURL: str,
-        websitePublicKey: str,
-        funcaptchaApiJSSubdomain: Optional[str] = None,
-        data: Optional[str] = None,
+        gt: str,
+        version: int = 3,
+        challenge: Optional[str] = None,
+        geetestApiServerSubdomain: Optional[str] = None,
+        initParameters: Optional[str] = None,
         proxyType: Optional[Union[ProxyTypeEnm, str]] = None,
         proxyAddress: Optional[str] = None,
         proxyPort: Optional[int] = None,
         proxyLogin: Optional[str] = None,
         proxyPassword: Optional[str] = None,
         userAgent: Optional[str] = None,
-        sleep_time: Optional[int] = 10,
+        sleep_time: int = 10,
     ):
         """
-        The class is used to work with FunCaptcha.
+        The class is used to work with GeeTest.
 
         Args:
             api_key: Capsolver API key
             captcha_type: Captcha type
             websiteURL: Address of the webpage
-            websitePublicKey: Arkose Labs public key.
+            gt: The domain public key, rarely updated.
+            version: Version number. Default version is 3. Supported versions: 3 and 4.
+            challenge: Changing token key. Make sure you grab a fresh one for each captcha; otherwise,
+                        you'll be charged for an error task. Required for version 3. Not required for version 4
+            geetestApiServerSubdomain:
+            initParameters: Additional initialization parameters for version 4
             proxyType: Type of the proxy
             proxyAddress: Proxy IP address IPv4/IPv6. Not allowed to use:
                             host names instead of IPs,
@@ -43,10 +50,12 @@ class FunCaptcha(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTaskProxyless",
-            ...         websiteURL="https://demo.arkoselabs.com",
-            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
+            >>> GeeTest(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="GeeTestTaskProxyless",
+            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...         gt="81388ea1fc187e0c335c0a8907ff2625",
+            ...         challenge="12345678abc90123d45678ef90123a456b",
+            ...         version=3,
             ...        ).captcha_handler()
             {
                "errorId": 0,
@@ -54,7 +63,9 @@ class FunCaptcha(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1"
+                    "challenge":"3c1c5153aa48011e92883aed820069f3hj",
+                    "validate":"47ad5a0a6eb98a95b2bcd9e9eecc8272",
+                    "seccode":"83fa4f2d23005fc91c3a015a1613f803|jordan"
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -64,10 +75,12 @@ class FunCaptcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTaskProxyless",
-            ...         websiteURL="https://demo.arkoselabs.com",
-            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
+            >>> await GeeTest(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="GeeTestTaskProxyless",
+            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...         gt="81388ea1fc187e0c335c0a8907ff2625",
+            ...         version=4,
+            ...         initParameters="additional_init_params"
             ...        ).aio_captcha_handler()
             {
                "errorId": 0,
@@ -75,7 +88,11 @@ class FunCaptcha(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1"
+                    "captcha_id": "fcd636b4514bf7ac4143922550b3008b",
+                    "lot_number": "354ab6dd4e594fdc903074c4d8d37b24",
+                    "pass_token": "b645946a654e60218c7922......8d660bbd1ed5",
+                    "gen_time": "1649921519",
+                    "captcha_output": "cFPIA.....rRoA=="
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -85,10 +102,10 @@ class FunCaptcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTask",
-            ...         websiteURL="https://demo.arkoselabs.com",
-            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
+            >>> GeeTest(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="GeeTestTask",
+            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...         gt="81388ea1fc187e0c335c0a8907ff2625",
             ...         proxyType="http",
             ...         proxyAddress="0.0.0.0",
             ...         proxyPort=9988,
@@ -102,7 +119,9 @@ class FunCaptcha(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1"
+                    "challenge":"3c1c5153aa48011e92883aed820069f3hj",
+                    "validate":"47ad5a0a6eb98a95b2bcd9e9eecc8272",
+                    "seccode":"83fa4f2d23005fc91c3a015a1613f803|jordan"
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -113,20 +132,22 @@ class FunCaptcha(CaptchaParams):
             }
 
         Notes:
-            https://anti-captcha.com/apidoc/task-types/FunCaptchaTask
+            https://anti-captcha.com/apidoc/task-types/GeeTestTask
 
-            https://anti-captcha.com/apidoc/task-types/FunCaptchaTaskProxyless
+            https://anti-captcha.com/apidoc/task-types/GeeTestTaskProxyless
         """
         super().__init__(api_key=api_key, sleep_time=sleep_time)
 
         # validation of the received parameters
-        if captcha_type == CaptchaTypeEnm.FunCaptchaTask:
+        if captcha_type == CaptchaTypeEnm.GeeTestTask:
             self.task_params = dict(
                 type=captcha_type,
                 websiteURL=websiteURL,
-                websitePublicKey=websitePublicKey,
-                funcaptchaApiJSSubdomain=funcaptchaApiJSSubdomain,
-                data=data,
+                gt=gt,
+                challenge=challenge,
+                geetestApiServerSubdomain=geetestApiServerSubdomain,
+                version=version,
+                initParameters=initParameters,
                 proxyType=proxyType,
                 proxyAddress=proxyAddress,
                 proxyPort=proxyPort,
@@ -134,18 +155,20 @@ class FunCaptcha(CaptchaParams):
                 proxyPassword=proxyPassword,
                 userAgent=userAgent,
             )
-        elif captcha_type == CaptchaTypeEnm.FunCaptchaTaskProxyless:
+        elif captcha_type == CaptchaTypeEnm.GeeTestTaskProxyless:
             self.task_params = dict(
                 type=captcha_type,
                 websiteURL=websiteURL,
-                websitePublicKey=websitePublicKey,
-                funcaptchaApiJSSubdomain=funcaptchaApiJSSubdomain,
-                data=data,
+                gt=gt,
+                challenge=challenge,
+                geetestApiServerSubdomain=geetestApiServerSubdomain,
+                version=version,
+                initParameters=initParameters,
             )
         else:
             raise ValueError(
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
-                available - {CaptchaTypeEnm.FunCaptchaTaskProxyless.value,CaptchaTypeEnm.FunCaptchaTask.value}"
+                available - {CaptchaTypeEnm.GeeTestTask.value,CaptchaTypeEnm.GeeTestTaskProxyless.value}"
             )
 
     def captcha_handler(self, **additional_params) -> dict:

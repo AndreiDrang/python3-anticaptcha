@@ -30,6 +30,14 @@ class CaptchaParams(SIOContextManager, AIOContextManager):
 
         self._captcha_handling_instrument = CaptchaHandler()
 
+    @classmethod
+    def captcha_handler(cls):
+        pass
+
+    @classmethod
+    def aio_captcha_handler(cls):
+        pass
+
 
 class CaptchaHandler:
     NO_CAPTCHA_ERR = "You did not send any file, local link or URL."
