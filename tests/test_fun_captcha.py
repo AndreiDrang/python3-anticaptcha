@@ -10,6 +10,11 @@ class TestFunCaptcha(BaseTest):
     websiteURL = "https://demo.arkoselabs.com/?key=DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
     websitePublicKey = "DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
 
+    def get_proxy_args(self) -> dict:
+        proxy_args = super().get_proxy_args()
+        proxy_args.update({"userAgent": self.get_random_string()})
+        return proxy_args
+
     def test_sio_success(self):
         instance = FunCaptcha(
             api_key=self.API_KEY,
