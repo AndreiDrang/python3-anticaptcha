@@ -39,7 +39,7 @@ class FunCaptcha(CaptchaParams):
             proxyPort: Proxy port.
             proxyLogin: Proxy login.
             proxyPassword: Proxy password.
-            userAgent: Proxy port.
+            userAgent: Browser UserAgent.
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
