@@ -1,7 +1,7 @@
 import shutil
 from typing import Union, Optional
 
-from .core.base import CaptchaParams, CaptchaHandler
+from .core.base import CaptchaParams
 from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
 from .core.aio_captcha_handler import AIOCaptchaHandler
 from .core.sio_captcha_handler import SIOCaptchaHandler
@@ -104,8 +104,6 @@ class ImageToTextCaptcha(CaptchaParams):
         self.img_path = img_path
 
         self.task_params = dict(type=captcha_type)
-
-        self._captcha_handling_instrument = CaptchaHandler
 
     def captcha_handler(
         self,

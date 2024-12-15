@@ -28,6 +28,8 @@ class CaptchaParams(SIOContextManager, AIOContextManager):
         # prepare `get task result` payload
         self.get_result_params = GetTaskResultRequestSer(clientKey=api_key)
 
+        self._captcha_handling_instrument = CaptchaHandler()
+
 
 class CaptchaHandler:
     NO_CAPTCHA_ERR = "You did not send any file, local link or URL."

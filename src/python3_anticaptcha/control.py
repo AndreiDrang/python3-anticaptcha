@@ -1,6 +1,6 @@
 from typing import Optional
 
-from .core.base import CaptchaParams, CaptchaHandler
+from .core.base import CaptchaParams
 from .core.enum import ControlPostfixEnm
 from .core.aio_captcha_handler import AIOCaptchaHandler
 from .core.sio_captcha_handler import SIOCaptchaHandler
@@ -116,7 +116,6 @@ class Control(CaptchaParams):
             https://anti-captcha.com/apidoc/methods/reportIncorrectImageCaptcha
         """
         super().__init__(api_key=api_key, *args, **kwargs)
-        self._captcha_handling_instrument = CaptchaHandler
 
     def get_balance(self) -> dict:
         """
