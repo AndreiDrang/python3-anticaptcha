@@ -34,7 +34,6 @@ class BaseTest:
             "proxyPort": 445,
             "proxyLogin": self.get_random_string(),
             "proxyPassword": self.get_random_string(),
-            "userAgent": self.get_random_string(),
         }
 
     @staticmethod
