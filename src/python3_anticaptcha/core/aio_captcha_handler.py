@@ -109,7 +109,7 @@ class AIOCaptchaHandler(CaptchaHandler):
                 raise
 
     @staticmethod
-    async def _send_post_request(payload: Optional[dict] = None, url_postfix: str = CREATE_TASK_POSTFIX) -> dict:
+    async def send_post_request(payload: Optional[dict] = None, url_postfix: str = CREATE_TASK_POSTFIX) -> dict:
         """
         Function send ASYNC request to service and wait for result
         """
