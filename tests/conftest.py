@@ -5,6 +5,8 @@ import string
 
 import pytest
 
+from python3_anticaptcha.core.enum import ProxyTypeEnm
+
 
 @pytest.fixture(scope="function")
 def delay_func():
@@ -25,8 +27,17 @@ class BaseTest:
     proxyAddress = "0.0.0.0"
     proxyPort = 9999
 
+    def get_proxy_args(self) -> dict:
+        return {
+            "proxyType": ProxyTypeEnm.http,
+            "proxyAddress": "0.0.0.0",
+            "proxyPort": 445,
+            "proxyLogin": self.get_random_string(),
+            "proxyPassword": self.get_random_string(),
+        }
+
     @staticmethod
-    def get_random_string(length: int) -> str:
+    def get_random_string(length: int = 10) -> str:
         """
         Method generate random string with set length
 
