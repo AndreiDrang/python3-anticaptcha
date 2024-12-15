@@ -4,6 +4,7 @@ from tests.conftest import BaseTest
 from python3_anticaptcha.core.enum import ProxyTypeEnm, CaptchaTypeEnm
 from python3_anticaptcha.turnstile import Turnstile
 from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
+from python3_anticaptcha.core.context_instr import AIOContextManager, SIOContextManager
 
 
 class TestTurnstile(BaseTest):
@@ -62,3 +63,47 @@ class TestTurnstile(BaseTest):
         )
         for key, value in proxy_args.items():
             assert instance.task_params[key] == value
+
+    def test_context(self, mocker):
+        context_enter_spy = mocker.spy(SIOContextManager, "__enter__")
+        context_exit_spy = mocker.spy(SIOContextManager, "__exit__")
+        with Turnstile(
+            api_key=self.API_KEY,
+            websiteKey=self.websiteKey,
+            websiteURL=self.websiteURL,
+            captcha_type=CaptchaTypeEnm.TurnstileTaskProxyless,
+        ) as instance:
+            assert context_enter_spy.call_count == 1
+        assert context_exit_spy.call_count == 1
+
+    async def test_aio_context(self, mocker):
+        context_enter_spy = mocker.spy(AIOContextManager, "__aenter__")
+        context_exit_spy = mocker.spy(AIOContextManager, "__aexit__")
+        async with Turnstile(
+            api_key=self.API_KEY,
+            websiteKey=self.websiteKey,
+            websiteURL=self.websiteURL,
+            captcha_type=CaptchaTypeEnm.TurnstileTaskProxyless,
+        ) as instance:
+            assert context_enter_spy.call_count == 1
+        assert context_exit_spy.call_count == 1
+
+    def test_err_context(self):
+        with pytest.raises(ValueError):
+            with Turnstile(
+                api_key=self.API_KEY,
+                websiteKey=self.websiteKey,
+                websiteURL=self.websiteURL,
+                captcha_type=CaptchaTypeEnm.TurnstileTaskProxyless,
+            ) as instance:
+                raise ValueError("Test error")
+
+    async def test_err_aio_context(self):
+        with pytest.raises(ValueError):
+            async with Turnstile(
+                api_key=self.API_KEY,
+                websiteKey=self.websiteKey,
+                websiteURL=self.websiteURL,
+                captcha_type=CaptchaTypeEnm.TurnstileTaskProxyless,
+            ) as instance:
+                raise ValueError("Test error")

@@ -169,7 +169,7 @@ class Turnstile(CaptchaParams):
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
                 available - {CaptchaTypeEnm.TurnstileTaskProxyless.value,CaptchaTypeEnm.TurnstileTask.value}"
             )
-        self.captcha_handling_instrument = CaptchaHandler
+        self._captcha_handling_instrument = CaptchaHandler
 
     def captcha_handler(self, **additional_params) -> dict:
         """
@@ -188,8 +188,8 @@ class Turnstile(CaptchaParams):
         """
 
         self.task_params.update({**additional_params})
-        self.captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
-        return self.captcha_handling_instrument.processing_captcha()
+        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        return self._captcha_handling_instrument.processing_captcha()
 
     async def aio_captcha_handler(self, **additional_params) -> dict:
         """
@@ -208,5 +208,5 @@ class Turnstile(CaptchaParams):
         """
 
         self.task_params.update({**additional_params})
-        self.captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
-        return await self.captcha_handling_instrument.processing_captcha()
+        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        return await self._captcha_handling_instrument.processing_captcha()
