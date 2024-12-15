@@ -45,8 +45,8 @@ class FunCaptcha(CaptchaParams):
         Examples:
             >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type="FunCaptchaTaskProxyless",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA"
+            ...         websiteURL="https://demo.arkoselabs.com",
+            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
             ...        ).captcha_handler()
             {
                "errorId": 0,
@@ -54,8 +54,7 @@ class FunCaptcha(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1",
-                  "userAgent":"Mozilla/.....36"
+                  "token":"0.Qz0.....f1"
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -64,6 +63,55 @@ class FunCaptcha(CaptchaParams):
                "solveCount": 0,
                "taskId": 396687629
             }
+
+            >>> await FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="FunCaptchaTaskProxyless",
+            ...         websiteURL="https://demo.arkoselabs.com",
+            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
+            ...        ).aio_captcha_handler()
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "token":"0.Qz0.....f1"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
+            >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="FunCaptchaTask",
+            ...         websiteURL="https://demo.arkoselabs.com",
+            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
+            ...         proxyType="http",
+            ...         proxyAddress="0.0.0.0",
+            ...         proxyPort=9988,
+            ...         proxyLogin="proxy_login",
+            ...         proxyPassword="proxy_password",
+            ...         userAgent="some_real_user_agent",
+            ...        ).captcha_handler()
+            {
+               "errorId": 0,
+               "errorCode": None,
+               "errorDescription": None,
+               "status":"ready",
+               "solution":{
+                  "token":"0.Qz0.....f1"
+               },
+               "cost": 0.002,
+               "ip": "46.53.249.230",
+               "createTime": 1679004358,
+               "endTime": 1679004368,
+               "solveCount": 0,
+               "taskId": 396687629
+            }
+
         Notes:
             https://anti-captcha.com/apidoc/task-types/FunCaptchaTask
 
