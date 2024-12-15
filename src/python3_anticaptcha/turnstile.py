@@ -1,7 +1,9 @@
 from typing import Union, Optional
 
-from .core.base import CaptchaParams
+from .core.base import CaptchaParams, CaptchaHandler
 from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.aio_captcha_handler import AIOCaptchaHandler
+from .core.sio_captcha_handler import SIOCaptchaHandler
 
 
 class Turnstile(CaptchaParams):
@@ -167,6 +169,7 @@ class Turnstile(CaptchaParams):
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
                 available - {CaptchaTypeEnm.TurnstileTaskProxyless.value,CaptchaTypeEnm.TurnstileTask.value}"
             )
+        self.captcha_handling_instrument = CaptchaHandler
 
     def captcha_handler(self, **additional_params) -> dict:
         """
@@ -185,7 +188,8 @@ class Turnstile(CaptchaParams):
         """
 
         self.task_params.update({**additional_params})
-        return self._processing_captcha()
+        self.captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        return self.captcha_handling_instrument.processing_captcha()
 
     async def aio_captcha_handler(self, **additional_params) -> dict:
         """
@@ -204,4 +208,5 @@ class Turnstile(CaptchaParams):
         """
 
         self.task_params.update({**additional_params})
-        return await self._aio_processing_captcha()
+        self.captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        return await self.captcha_handling_instrument.processing_captcha()
