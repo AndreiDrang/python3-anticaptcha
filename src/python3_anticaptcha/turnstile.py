@@ -41,8 +41,8 @@ class Turnstile(CaptchaParams):
         Examples:
             >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
-            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN"
+            ...         websiteURL="https://demo.turnstile.workers.dev/",
+            ...         websiteKey="1x00000000000000000000AA"
             ...        ).captcha_handler()
             {
                "errorId": 0,
@@ -63,8 +63,8 @@ class Turnstile(CaptchaParams):
 
             >>> await Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
-            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN"
+            ...         websiteURL="https://demo.turnstile.workers.dev/",
+            ...         websiteKey="1x00000000000000000000AA"
             ...        ).aio_captcha_handler()
             {
                "errorId": 0,
@@ -85,8 +85,8 @@ class Turnstile(CaptchaParams):
 
             >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
-            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN",
+            ...         websiteURL="https://demo.turnstile.workers.dev/",
+            ...         websiteKey="1x00000000000000000000AA",
             ...         proxyType="http",
             ...         proxyAddress="0.0.0.0",
             ...         proxyPort=9988,
@@ -110,8 +110,8 @@ class Turnstile(CaptchaParams):
 
             >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://rucaptcha.com/demo/cloudflare-turnstile",
-            ...         websiteKey="0x4AAAAAAAC3DHQFLr1GavRN",
+            ...         websiteURL="https://demo.turnstile.workers.dev/",
+            ...         websiteKey="1x00000000000000000000AA",
             ...         proxyType="http",
             ...         proxyAddress="0.0.0.0",
             ...         proxyPort=9988
