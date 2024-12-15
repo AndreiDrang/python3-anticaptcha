@@ -8,12 +8,12 @@ import pytest
 
 @pytest.fixture(scope="function")
 def delay_func():
-    time.sleep(1)
+    time.sleep(0.3)
 
 
 @pytest.fixture(scope="class")
 def delay_class():
-    time.sleep(1)
+    time.sleep(0.3)
 
 
 @pytest.mark.usefixtures("delay_func")
@@ -40,3 +40,7 @@ class BaseTest:
         letters = string.ascii_lowercase
         result_str = "".join(random.choice(letters) for _ in range(length))
         return result_str
+
+    def read_file(self, file_path: str) -> bytes:
+        with open(file_path, "rb") as file:
+            return file.read()

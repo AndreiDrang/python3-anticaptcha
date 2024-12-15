@@ -3,7 +3,7 @@ from typing import Dict, Literal, Optional
 from msgspec import Struct
 
 from .enum import ResponseStatusEnm
-from .config import APP_KEY
+from .const import APP_KEY
 
 
 class MyBaseModel(Struct):
@@ -53,7 +53,7 @@ HTTP API Response
 
 
 class GetTaskResultResponseSer(BaseAPIResponseSer):
-    status: ResponseStatusEnm = ResponseStatusEnm.processing.value
+    status: ResponseStatusEnm = ResponseStatusEnm.error.value
     solution: dict = {}
     cost: float = 0.0
     ip: str = None

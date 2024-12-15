@@ -65,6 +65,7 @@ class ResponseStatusEnm(str, MyEnum):
 
     processing = "processing"  # Task is not ready yet
     ready = "ready"  # Task is complete; you'll find a solution in the solution property
+    error = "error"  # Task failed
 
 
 class ProxyTypeEnm(str, MyEnum):
