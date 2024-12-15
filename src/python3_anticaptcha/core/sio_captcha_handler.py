@@ -92,7 +92,7 @@ class SIOCaptchaHandler(CaptchaHandler):
         Function send SYNC request to service and wait for result
         """
         try:
-            resp = self._session.post(
+            resp = self.session.post(
                 parse.urljoin(BASE_REQUEST_URL, url_postfix), json=self.captcha_params.create_task_payload.to_dict()
             )
             if resp.status_code == 200:
@@ -126,13 +126,13 @@ class SIOCaptchaHandler(CaptchaHandler):
         """
         Method open links
         """
-        return self._session.get(url=url, **kwargs)
+        return self.session.get(url=url, **kwargs)
 
     def _get_result(self, url_response: str = GET_RESULT_POSTFIX) -> dict:
         attempts = attempts_generator()
         for _ in attempts:
             captcha_response = GetTaskResultResponseSer(
-                **self._session.post(
+                **self.session.post(
                     url=urljoin(BASE_REQUEST_URL, url_response), json=self.captcha_params.get_result_params.to_dict()
                 ).json(),
                 taskId=self.captcha_params.get_result_params.taskId,
@@ -142,7 +142,7 @@ class SIOCaptchaHandler(CaptchaHandler):
                 if captcha_response.status == ResponseStatusEnm.processing:
                     time.sleep(self.captcha_params.sleep_time)
                 else:
-                    self._session.close()
+                    self.session.close()
             else:
-                self._session.close()
+                self.session.close()
         return captcha_response.to_dict()
