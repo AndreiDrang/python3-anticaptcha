@@ -86,7 +86,7 @@ class Turnstile(CaptchaParams):
             }
 
             >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTaskProxyless",
+            ...         captcha_type="TurnstileTask",
             ...         websiteURL="https://demo.turnstile.workers.dev/",
             ...         websiteKey="1x00000000000000000000AA",
             ...         proxyType="http",
@@ -111,7 +111,7 @@ class Turnstile(CaptchaParams):
             }
 
             >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTaskProxyless",
+            ...         captcha_type="TurnstileTask",
             ...         websiteURL="https://demo.turnstile.workers.dev/",
             ...         websiteKey="1x00000000000000000000AA",
             ...         proxyType="http",
