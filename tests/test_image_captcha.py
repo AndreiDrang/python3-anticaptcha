@@ -136,9 +136,9 @@ class TestImageCaptcha(BaseTest):
         result = instance.captcha_handler(captcha_base64=file_data)
 
         assert captcha_params_spy.call_args.kwargs["captcha_base64"] == file_data
-        assert instance.captcha_handling_instrument.captcha_params.create_task_payload.task["body"] == base64.b64encode(
-            file_data
-        ).decode("utf-8")
+        assert instance._captcha_handling_instrument.captcha_params.create_task_payload.task[
+            "body"
+        ] == base64.b64encode(file_data).decode("utf-8")
         assert result == mocked_method.return_value
 
     async def test_aio_captcha_base64(self, mocker):
@@ -154,9 +154,9 @@ class TestImageCaptcha(BaseTest):
         result = await instance.aio_captcha_handler(captcha_base64=file_data)
 
         assert captcha_params_spy.call_args.kwargs["captcha_base64"] == file_data
-        assert instance.captcha_handling_instrument.captcha_params.create_task_payload.task["body"] == base64.b64encode(
-            file_data
-        ).decode("utf-8")
+        assert instance._captcha_handling_instrument.captcha_params.create_task_payload.task[
+            "body"
+        ] == base64.b64encode(file_data).decode("utf-8")
         assert result == mocked_method.return_value
 
     def test_methods_exists(self):

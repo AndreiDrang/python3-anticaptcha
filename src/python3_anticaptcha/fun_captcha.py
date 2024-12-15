@@ -6,30 +6,31 @@ from .core.aio_captcha_handler import AIOCaptchaHandler
 from .core.sio_captcha_handler import SIOCaptchaHandler
 
 
-class Turnstile(CaptchaParams):
+class FunCaptcha(CaptchaParams):
     def __init__(
         self,
         api_key: str,
         captcha_type: Union[CaptchaTypeEnm, str],
         websiteURL: str,
-        websiteKey: str,
-        action: Optional[str] = None,
-        turnstileCData: Optional[str] = None,
+        websitePublicKey: str,
+        funcaptchaApiJSSubdomain: Optional[str] = None,
+        data: Optional[str] = None,
         proxyType: Optional[Union[ProxyTypeEnm, str]] = None,
         proxyAddress: Optional[str] = None,
         proxyPort: Optional[int] = None,
         proxyLogin: Optional[str] = None,
         proxyPassword: Optional[str] = None,
+        userAgent: Optional[str] = None,
         sleep_time: Optional[int] = 10,
     ):
         """
-        The class is used to work with Turnstile.
+        The class is used to work with FunCaptcha.
 
         Args:
             api_key: Capsolver API key
             captcha_type: Captcha type
             websiteURL: Address of the webpage
-            websiteKey: Turnstile sitekey
+            websitePublicKey: Arkose Labs public key.
             proxyType: Type of the proxy
             proxyAddress: Proxy IP address IPv4/IPv6. Not allowed to use:
                             host names instead of IPs,
@@ -38,13 +39,14 @@ class Turnstile(CaptchaParams):
             proxyPort: Proxy port.
             proxyLogin: Proxy login.
             proxyPassword: Proxy password.
+            userAgent: Proxy port.
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA"
+            >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="FunCaptchaTaskProxyless",
+            ...         websiteURL="https://demo.arkoselabs.com",
+            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
             ...        ).captcha_handler()
             {
                "errorId": 0,
@@ -52,8 +54,7 @@ class Turnstile(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1",
-                  "userAgent":"Mozilla/.....36"
+                  "token":"0.Qz0.....f1"
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -63,10 +64,10 @@ class Turnstile(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA"
+            >>> await FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="FunCaptchaTaskProxyless",
+            ...         websiteURL="https://demo.arkoselabs.com",
+            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
             ...        ).aio_captcha_handler()
             {
                "errorId": 0,
@@ -74,8 +75,7 @@ class Turnstile(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1",
-                  "userAgent":"Mozilla/.....36"
+                  "token":"0.Qz0.....f1"
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -85,13 +85,16 @@ class Turnstile(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTask",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA",
+            >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            ...         captcha_type="FunCaptchaTask",
+            ...         websiteURL="https://demo.arkoselabs.com",
+            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
             ...         proxyType="http",
             ...         proxyAddress="0.0.0.0",
             ...         proxyPort=9988,
+            ...         proxyLogin="proxy_login",
+            ...         proxyPassword="proxy_password",
+            ...         userAgent="some_real_user_agent",
             ...        ).captcha_handler()
             {
                "errorId": 0,
@@ -99,34 +102,7 @@ class Turnstile(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "token":"0.Qz0.....f1",
-                  "userAgent":"Mozilla/.....36"
-               },
-               "cost": 0.002,
-               "ip": "46.53.249.230",
-               "createTime": 1679004358,
-               "endTime": 1679004368,
-               "solveCount": 0,
-               "taskId": 396687629
-            }
-
-            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTask",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA",
-            ...         proxyType="http",
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988
-            ...        ).captcha_handler(proxyLogin="some_login",
-            ...                         proxyPassword="some_strong_password")
-            {
-               "errorId": 0,
-               "errorCode": None,
-               "errorDescription": None,
-               "status":"ready",
-               "solution":{
-                  "token":"0.Qz0.....f1",
-                  "userAgent":"Mozilla/.....36"
+                  "token":"0.Qz0.....f1"
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -137,39 +113,39 @@ class Turnstile(CaptchaParams):
             }
 
         Notes:
-            https://anti-captcha.com/apidoc/task-types/TurnstileTask
+            https://anti-captcha.com/apidoc/task-types/FunCaptchaTask
 
-            https://anti-captcha.com/apidoc/task-types/TurnstileTaskProxyless
+            https://anti-captcha.com/apidoc/task-types/FunCaptchaTaskProxyless
         """
-
         super().__init__(api_key=api_key, sleep_time=sleep_time)
 
         # validation of the received parameters
-        if captcha_type == CaptchaTypeEnm.TurnstileTask:
+        if captcha_type == CaptchaTypeEnm.FunCaptchaTask:
             self.task_params = dict(
                 type=captcha_type,
                 websiteURL=websiteURL,
-                websiteKey=websiteKey,
-                action=action,
-                turnstileCData=turnstileCData,
+                websitePublicKey=websitePublicKey,
+                funcaptchaApiJSSubdomain=funcaptchaApiJSSubdomain,
+                data=data,
                 proxyType=proxyType,
                 proxyAddress=proxyAddress,
                 proxyPort=proxyPort,
                 proxyLogin=proxyLogin,
                 proxyPassword=proxyPassword,
+                userAgent=userAgent,
             )
-        elif captcha_type == CaptchaTypeEnm.TurnstileTaskProxyless:
+        elif captcha_type == CaptchaTypeEnm.FunCaptchaTaskProxyless:
             self.task_params = dict(
                 type=captcha_type,
                 websiteURL=websiteURL,
-                websiteKey=websiteKey,
-                action=action,
-                turnstileCData=turnstileCData,
+                websitePublicKey=websitePublicKey,
+                funcaptchaApiJSSubdomain=funcaptchaApiJSSubdomain,
+                data=data,
             )
         else:
             raise ValueError(
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
-                available - {CaptchaTypeEnm.TurnstileTaskProxyless.value,CaptchaTypeEnm.TurnstileTask.value}"
+                available - {CaptchaTypeEnm.FunCaptchaTaskProxyless.value,CaptchaTypeEnm.FunCaptchaTask.value}"
             )
 
     def captcha_handler(self, **additional_params) -> dict:
@@ -187,7 +163,6 @@ class Turnstile(CaptchaParams):
         Notes:
             Check class docstirng for more info
         """
-
         self.task_params.update({**additional_params})
         self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
         return self._captcha_handling_instrument.processing_captcha()
@@ -207,7 +182,6 @@ class Turnstile(CaptchaParams):
         Notes:
             Check class docstirng for more info
         """
-
         self.task_params.update({**additional_params})
         self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
         return await self._captcha_handling_instrument.processing_captcha()

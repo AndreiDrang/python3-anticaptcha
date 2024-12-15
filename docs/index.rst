@@ -24,9 +24,10 @@ Check our other projects here - `RedPandaDev group <https://red-panda-dev.xyz/bl
    :maxdepth: 3
    :caption: Captcha examples:
 
+   modules/control/example.rst
    modules/turnstile/example.rst
    modules/image/example.rst
-   modules/control/example.rst
+   modules/fun-captcha/example.rst
 
 .. toctree::
    :maxdepth: 2
