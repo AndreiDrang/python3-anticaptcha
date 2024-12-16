@@ -36,7 +36,7 @@ class GeeTest(CaptchaParams):
             version: Version number. Default version is 3. Supported versions: 3 and 4.
             challenge: Changing token key. Make sure you grab a fresh one for each captcha; otherwise,
                         you'll be charged for an error task. Required for version 3. Not required for version 4
-            geetestApiServerSubdomain:
+            geetestApiServerSubdomain: Optional API subdomain. May be required for some implementations.
             initParameters: Additional initialization parameters for version 4
             proxyType: Type of the proxy
             proxyAddress: Proxy IP address IPv4/IPv6. Not allowed to use:
