@@ -58,7 +58,7 @@ class ReCaptchaV2(CaptchaParams):
         Examples:
             >>> ReCaptchaV2(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
-            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
             ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
             ...         recaptchaDataSValue="12345678abc90123d45678ef90123a456b",
             ...         isInvisible=False,
@@ -81,7 +81,7 @@ class ReCaptchaV2(CaptchaParams):
 
             >>> await ReCaptchaV2(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type=CaptchaTypeEnm.RecaptchaV2Task,
-            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
             ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
             ...         recaptchaDataSValue="12345678abc90123d45678ef90123a456b",
             ...         isInvisible=False,
@@ -111,7 +111,7 @@ class ReCaptchaV2(CaptchaParams):
 
             >>> ReCaptchaV2(api_key="99d7d111a0111dc11184111c8bb111da",
             ...         captcha_type=CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
-            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
             ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
             ...         enterprisePayload={
             ...                     "s": "SOME_ADDITIONAL_TOKEN"
