@@ -5,7 +5,7 @@ import pytest
 
 from tests.conftest import BaseTest
 from python3_anticaptcha.core.enum import SaveFormatsEnm, ResponseStatusEnm
-from python3_anticaptcha.image_captcha import ImageToTextCaptcha
+from python3_anticaptcha.image_captcha import ImageToText
 from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.core.aio_captcha_handler import AIOCaptchaHandler
 from python3_anticaptcha.core.sio_captcha_handler import SIOCaptchaHandler
@@ -28,7 +28,7 @@ class TestImageCaptcha(BaseTest):
     }
 
     def test_sio_success_file(self):
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = instance.captcha_handler(captcha_file=self.captcha_file)
 
         assert isinstance(result, dict)
@@ -38,7 +38,7 @@ class TestImageCaptcha(BaseTest):
         assert ser_result.cost != 0.0
 
     async def test_aio_success_file(self):
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = await instance.aio_captcha_handler(captcha_file=self.captcha_file)
 
         assert isinstance(result, dict)
@@ -61,7 +61,7 @@ class TestImageCaptcha(BaseTest):
         )
         mocked_method.return_value = "tested"
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY, save_format=save_format, img_clearing=img_clearing)
+        instance = ImageToText(api_key=self.API_KEY, save_format=save_format, img_clearing=img_clearing)
         result = instance.captcha_handler(captcha_link=self.captcha_url)
 
         assert mocked_method.call_count == 1
@@ -84,7 +84,7 @@ class TestImageCaptcha(BaseTest):
         )
         mocked_method.return_value = "tested"
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY, save_format=save_format, img_clearing=img_clearing)
+        instance = ImageToText(api_key=self.API_KEY, save_format=save_format, img_clearing=img_clearing)
         result = await instance.aio_captcha_handler(captcha_link=self.captcha_url)
 
         assert mocked_method.call_count == 1
@@ -99,7 +99,7 @@ class TestImageCaptcha(BaseTest):
         )
         mocked_method.side_effect = ValueError("Test error")
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = instance.captcha_handler(captcha_link=self.captcha_url)
 
         assert isinstance(result, dict)
@@ -114,7 +114,7 @@ class TestImageCaptcha(BaseTest):
         )
         mocked_method.side_effect = ValueError("Test error")
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = await instance.aio_captcha_handler(captcha_link=self.captcha_url)
 
         assert isinstance(result, dict)
@@ -132,7 +132,7 @@ class TestImageCaptcha(BaseTest):
 
         file_data = self.read_file(file_path=self.captcha_file)
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = instance.captcha_handler(captcha_base64=file_data)
 
         assert captcha_params_spy.call_args.kwargs["captcha_base64"] == file_data
@@ -150,7 +150,7 @@ class TestImageCaptcha(BaseTest):
 
         file_data = self.read_file(file_path=self.captcha_file)
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = await instance.aio_captcha_handler(captcha_base64=file_data)
 
         assert captcha_params_spy.call_args.kwargs["captcha_base64"] == file_data
@@ -160,18 +160,18 @@ class TestImageCaptcha(BaseTest):
         assert result == mocked_method.return_value
 
     def test_methods_exists(self):
-        assert "captcha_handler" in ImageToTextCaptcha.__dict__.keys()
-        assert "aio_captcha_handler" in ImageToTextCaptcha.__dict__.keys()
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        assert "captcha_handler" in ImageToText.__dict__.keys()
+        assert "aio_captcha_handler" in ImageToText.__dict__.keys()
+        instance = ImageToText(api_key=self.API_KEY)
         assert instance.create_task_payload.clientKey == self.API_KEY
 
     def test_args(self):
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         assert instance.create_task_payload.clientKey == self.API_KEY
 
     def test_del(self, mocker):
         mocked_method: MagicMock = mocker.patch("shutil.rmtree")
-        ImageToTextCaptcha(api_key=self.API_KEY, save_format=SaveFormatsEnm.CONST, img_clearing=True)
+        ImageToText(api_key=self.API_KEY, save_format=SaveFormatsEnm.CONST, img_clearing=True)
         assert mocked_method.call_count == 1
 
     def test_kwargs(self, mocker):
@@ -179,7 +179,7 @@ class TestImageCaptcha(BaseTest):
             "python3_anticaptcha.core.sio_captcha_handler.SIOCaptchaHandler.body_file_processing"
         )
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         instance.captcha_handler(**self.kwargs_params)
 
         assert mocked_method.call_count == 1
@@ -192,7 +192,7 @@ class TestImageCaptcha(BaseTest):
             "python3_anticaptcha.core.aio_captcha_handler.AIOCaptchaHandler.body_file_processing"
         )
 
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         await instance.aio_captcha_handler(**self.kwargs_params)
 
         assert mocked_method.call_count == 1
@@ -201,7 +201,7 @@ class TestImageCaptcha(BaseTest):
         assert set(self.kwargs_params.values()).issubset(set(instance.task_params.values()))
 
     def test_err_body_file_processing(self, mocker):
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = instance.captcha_handler(**self.kwargs_params)
 
         assert isinstance(result, dict)
@@ -212,7 +212,7 @@ class TestImageCaptcha(BaseTest):
         assert ser_result.cost == 0.0
 
     async def test_aio_err_body_file_processing(self, mocker):
-        instance = ImageToTextCaptcha(api_key=self.API_KEY)
+        instance = ImageToText(api_key=self.API_KEY)
         result = await instance.aio_captcha_handler(**self.kwargs_params)
 
         assert isinstance(result, dict)
