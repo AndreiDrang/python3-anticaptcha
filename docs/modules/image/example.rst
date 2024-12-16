@@ -1,5 +1,5 @@
 ImageToText
-==================
+===========
 
 To import this module:
 
