@@ -36,7 +36,6 @@ class CustomTask(CaptchaParams):
             domainsOfInterest: List of domain names where we should collect cookies and
                                     localStorage data.
                             This list can also be defined statically when editing а template.
-
             proxyType: Type of the proxy, must be https
             proxyAddress: Proxy IP address IPv4/IPv6. Not allowed to use:
                             host names instead of IPs,
