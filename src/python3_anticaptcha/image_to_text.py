@@ -6,10 +6,10 @@ from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
 from .core.aio_captcha_handler import AIOCaptchaHandler
 from .core.sio_captcha_handler import SIOCaptchaHandler
 
-__all__ = ("ImageToTextCaptcha",)
+__all__ = ("ImageToText",)
 
 
-class ImageToTextCaptcha(CaptchaParams):
+class ImageToText(CaptchaParams):
 
     def __init__(
         self,
@@ -32,7 +32,7 @@ class ImageToTextCaptcha(CaptchaParams):
             img_path: Folder to save captcha images
 
         Examples:
-            >>> ImageToTextCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            >>> ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
             ...                     save_format=SaveFormatsEnm.CONST
             ...        ).captcha_handler(captcha_file='files/captcha-image.jpg')
             {
@@ -52,7 +52,7 @@ class ImageToTextCaptcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> ImageToTextCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            >>> ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
             ...                     save_format=SaveFormatsEnm.CONST
             ...        ).captcha_handler(captcha_link='https://........../captcha-image.jpg')
             {
@@ -72,7 +72,7 @@ class ImageToTextCaptcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await ImageToTextCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
+            >>> await ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
             ...                     save_format=SaveFormatsEnm.CONST
             ...        ).aio_captcha_handler(captcha_link='https://........../captcha-image.jpg')
             {
