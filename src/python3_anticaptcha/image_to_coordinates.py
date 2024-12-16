@@ -125,7 +125,12 @@ class ImageToCoordinates(CaptchaParams):
         self.img_clearing = img_clearing
         self.img_path = img_path
 
-        self.task_params = dict(type=captcha_type)
+        self.task_params = dict(
+            type=captcha_type,
+            comment=comment,
+            mode=mode,
+            websiteURL=websiteURL,
+        )
 
     def captcha_handler(
         self,
