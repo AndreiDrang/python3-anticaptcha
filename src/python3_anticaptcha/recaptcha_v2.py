@@ -195,7 +195,7 @@ class ReCaptchaV2(CaptchaParams):
                 )
         else:
             raise ValueError(
-                f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
+                f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`,\
                 available - {CaptchaTypeEnm.RecaptchaV2Task.value,
                 CaptchaTypeEnm.RecaptchaV2TaskProxyless.value,
                 CaptchaTypeEnm.RecaptchaV2EnterpriseTask.value,
