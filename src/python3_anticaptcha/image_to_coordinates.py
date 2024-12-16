@@ -14,6 +14,9 @@ class ImageToCoordinates(CaptchaParams):
     def __init__(
         self,
         api_key: str,
+        comment: Optional[str] = None,
+        mode: str = "points",
+        websiteURL: Optional[str] = None,
         captcha_type: Union[CaptchaTypeEnm, str] = CaptchaTypeEnm.ImageToCoordinatesTask,
         sleep_time: int = 5,
         save_format: Union[str, SaveFormatsEnm] = SaveFormatsEnm.TEMP,
@@ -25,6 +28,10 @@ class ImageToCoordinates(CaptchaParams):
 
         Args:
             api_key: Capsolver API key
+            comment: Comments for the task in English characters only.
+                        Example: "Select objects in specified order" or "select all cars".
+            mode: Task mode, can be "points" or "rectangles". The default is "points".
+            websiteURL: Optional parameter to distinguish source of image captchas in spending statistics.
             captcha_type: Captcha type
             sleep_time: The waiting time between requests to get the result of the Captcha
             save_format: Image save format - temporary or persistance
@@ -33,7 +40,10 @@ class ImageToCoordinates(CaptchaParams):
 
         Examples:
             >>> ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST
+            ...                     save_format=SaveFormatsEnm.CONST,
+            ...                     comment="select all cars",
+            ...                     mode="rectangles",
+            ...                     websiteURL="https://some-website.xyz/"
             ...        ).captcha_handler(captcha_file='files/captcha-image.jpg')
             {
                "errorId": 0,
@@ -41,8 +51,10 @@ class ImageToCoordinates(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "text":"qGphJD",
-                  "url":"http://69.65.31.125/986/172815194092195.jpg"
+                    "coordinates":[
+                        [17,48,54,83],
+                        [76,93,140,164]
+                    ]
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -53,7 +65,10 @@ class ImageToCoordinates(CaptchaParams):
             }
 
             >>> ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST
+            ...                     save_format=SaveFormatsEnm.CONST,
+            ...                     comment="select 3 cats",
+            ...                     mode="points",
+            ...                     websiteURL="https://some-website.xyz/"
             ...        ).captcha_handler(captcha_link='https://........../captcha-image.jpg')
             {
                "errorId": 0,
@@ -61,8 +76,10 @@ class ImageToCoordinates(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "text":"qGphJD",
-                  "url":"http://69.65.31.125/986/172815194092195.jpg"
+                    "coordinates":[
+                        [17,48,54,83],
+                        [76,93,140,164]
+                    ]
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
@@ -73,7 +90,10 @@ class ImageToCoordinates(CaptchaParams):
             }
 
             >>> await ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST
+            ...                     save_format=SaveFormatsEnm.TEMP,
+            ...                     comment="select 3 cats",
+            ...                     mode="points",
+            ...                     websiteURL="https://some-website.xyz/"
             ...        ).aio_captcha_handler(captcha_link='https://........../captcha-image.jpg')
             {
                "errorId": 0,
@@ -81,8 +101,10 @@ class ImageToCoordinates(CaptchaParams):
                "errorDescription": None,
                "status":"ready",
                "solution":{
-                  "text":"qGphJD",
-                  "url":"http://69.65.31.125/986/172815194092195.jpg"
+                    "coordinates":[
+                        [17,48,54,83],
+                        [76,93,140,164]
+                    ]
                },
                "cost": 0.002,
                "ip": "46.53.249.230",
