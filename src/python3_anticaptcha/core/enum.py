@@ -36,6 +36,7 @@ class CaptchaTypeEnm(str, MyEnum):
 
     Control = "Control"  # custom captcha type
     ImageToTextTask = "ImageToTextTask"
+    ImageToCoordinatesTask = "ImageToCoordinatesTask"
     # Recaptcha
     RecaptchaV2Task = "RecaptchaV2Task"
     RecaptchaV2TaskProxyless = "RecaptchaV2TaskProxyless"
