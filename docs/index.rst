@@ -30,6 +30,7 @@ Check our other projects here - `RedPandaDev group <https://red-panda-dev.xyz/bl
    modules/fun-captcha/example.rst
    modules/gee-test/example.rst
    modules/custom-task/example.rst
+   modules/image-to-coordinates/example.rst
 
 .. toctree::
    :maxdepth: 2
