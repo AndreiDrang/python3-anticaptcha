@@ -52,7 +52,7 @@ class TestImageToText(BaseTest):
     def test_captcha_link(self, mocker, save_format, img_clearing):
         captured_instances = []
         mocker.patch(
-            "python3_anticaptcha.image_captcha.SIOCaptchaHandler",
+            "python3_anticaptcha.image_to_text.SIOCaptchaHandler",
             side_effect=lambda *args, **kwargs: captured_instances.append(SIOCaptchaHandler(*args, **kwargs))
             or captured_instances[-1],
         )
@@ -75,7 +75,7 @@ class TestImageToText(BaseTest):
     async def test_aio_captcha_link(self, mocker, save_format, img_clearing):
         captured_instances = []
         mocker.patch(
-            "python3_anticaptcha.image_captcha.AIOCaptchaHandler",
+            "python3_anticaptcha.image_to_text.AIOCaptchaHandler",
             side_effect=lambda *args, **kwargs: captured_instances.append(AIOCaptchaHandler(*args, **kwargs))
             or captured_instances[-1],
         )
