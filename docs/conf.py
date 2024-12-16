@@ -19,7 +19,7 @@ from python3_anticaptcha import (
     turnstile,
     custom_task,
     fun_captcha,
-    image_captcha,
+    image_to_text,
     image_to_coordinates,
 )
 from python3_anticaptcha.__version__ import __version__
