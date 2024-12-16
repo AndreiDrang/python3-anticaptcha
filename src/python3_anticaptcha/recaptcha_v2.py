@@ -5,8 +5,6 @@ from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
 from .core.aio_captcha_handler import AIOCaptchaHandler
 from .core.sio_captcha_handler import SIOCaptchaHandler
 
-MIN_SCORES = (0.3, 0.7, 0.9)
-
 
 class ReCaptchaV2(CaptchaParams):
     def __init__(
@@ -19,7 +17,6 @@ class ReCaptchaV2(CaptchaParams):
         isInvisible: bool = False,
         enterprisePayload: Optional[dict] = None,
         apiDomain: Optional[str] = None,
-        initParameters: Optional[str] = None,
         proxyType: Optional[Union[ProxyTypeEnm, str]] = None,
         proxyAddress: Optional[str] = None,
         proxyPort: Optional[int] = None,
