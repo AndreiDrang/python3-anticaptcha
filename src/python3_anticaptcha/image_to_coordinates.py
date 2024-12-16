@@ -14,7 +14,7 @@ class ImageToCoordinates(CaptchaParams):
     def __init__(
         self,
         api_key: str,
-        captcha_type: Union[CaptchaTypeEnm, str] = CaptchaTypeEnm.ImageToTextTask,
+        captcha_type: Union[CaptchaTypeEnm, str] = CaptchaTypeEnm.ImageToCoordinatesTask,
         sleep_time: int = 5,
         save_format: Union[str, SaveFormatsEnm] = SaveFormatsEnm.TEMP,
         img_clearing: bool = True,
