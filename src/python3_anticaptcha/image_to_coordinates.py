@@ -6,7 +6,7 @@ from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
 from .core.aio_captcha_handler import AIOCaptchaHandler
 from .core.sio_captcha_handler import SIOCaptchaHandler
 
-__all__ = ("ImageToText",)
+__all__ = ("ImageToCoordinates",)
 
 
 class ImageToCoordinates(CaptchaParams):
@@ -32,7 +32,7 @@ class ImageToCoordinates(CaptchaParams):
             img_path: Folder to save captcha images
 
         Examples:
-            >>> ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
+            >>> ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
             ...                     save_format=SaveFormatsEnm.CONST
             ...        ).captcha_handler(captcha_file='files/captcha-image.jpg')
             {
@@ -52,7 +52,7 @@ class ImageToCoordinates(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
+            >>> ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
             ...                     save_format=SaveFormatsEnm.CONST
             ...        ).captcha_handler(captcha_link='https://........../captcha-image.jpg')
             {
@@ -72,7 +72,7 @@ class ImageToCoordinates(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
+            >>> await ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
             ...                     save_format=SaveFormatsEnm.CONST
             ...        ).aio_captcha_handler(captcha_link='https://........../captcha-image.jpg')
             {
@@ -94,7 +94,7 @@ class ImageToCoordinates(CaptchaParams):
 
 
         Notes:
-            https://anti-captcha.com/apidoc/task-types/ImageToTextTask
+            https://anti-captcha.com/apidoc/task-types/ImageToCoordinatesTask
         """
 
         super().__init__(api_key=api_key, sleep_time=sleep_time)
