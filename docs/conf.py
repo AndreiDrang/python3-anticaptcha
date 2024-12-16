@@ -20,6 +20,7 @@ from python3_anticaptcha import (
     custom_task,
     fun_captcha,
     recaptcha_v2,
+    recaptcha_v3,
     image_to_text,
     image_to_coordinates,
 )
