@@ -4,7 +4,7 @@
 
 ### [Capsolver](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
-[![capsolver.jpg](https://s.vyjava.xyz/files/2024/12-December/17/54e1db0e/capsolver.jpg)](https://vyjava.xyz/dashboard/image/54e1db0e-619f-4a18-99ce-01e1127a2e12)
+[![capsolver.jpg](https://s.vyjava.xyz/files/2024/12-December/17/54e1db0e/capsolver.jpg)](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
 <hr>
 
