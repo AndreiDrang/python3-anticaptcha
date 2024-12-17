@@ -1,10 +1,10 @@
 # python3-anticaptcha
 
-![Logo](https://red-panda-dev.xyz/media/images/AntiCaptcha_MCSmjTi.original.png)
+[![AntiCaptcha.png](https://s.vyjava.xyz/files/2024/12-December/17/b18528fc/AntiCaptcha.png)](https://vyjava.xyz/dashboard/image/b18528fc-8572-4167-9d2f-abaacf4e1053)
 
 ### [Capsolver](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
 
-[![Capsolver](files/capsolver.jpg)](https://www.capsolver.com/?utm_source=github&utm_medium=repo&utm_campaign=scraping&utm_term=python3-anticaptcha)
+[![capsolver.jpg](https://s.vyjava.xyz/files/2024/12-December/17/54e1db0e/capsolver.jpg)](https://vyjava.xyz/dashboard/image/54e1db0e-619f-4a18-99ce-01e1127a2e12)
 
 <hr>
 
@@ -58,4 +58,4 @@ pip install python3-anticaptcha
 
 ### How to get API Key to work with the library
 1. On the page - https://anti-captcha.com/clients/settings/apisetup
-2. Find it: ![img.png](files/img.png)
+2. Find it: [![img.png](https://s.vyjava.xyz/files/2024/12-December/17/5d6a902c/img.png)](https://vyjava.xyz/dashboard/image/5d6a902c-6997-47dd-af2a-734bde9bd1fb)
