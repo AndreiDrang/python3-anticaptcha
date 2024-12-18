@@ -1,4 +1,3 @@
-import shutil
 from typing import Union, Optional
 
 from .core.base import CaptchaParams
@@ -132,16 +131,14 @@ class ImageToText(CaptchaParams):
         self.task_params.update({**additional_params})
 
         self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
-        self._captcha_handling_instrument.body_file_processing(
+        return self._captcha_handling_instrument.processing_image_captcha(
             save_format=self.save_format,
-            file_path=self.img_path,
+            img_clearing=self.img_clearing,
+            img_path=self.img_path,
             captcha_link=captcha_link,
             captcha_file=captcha_file,
             captcha_base64=captcha_base64,
         )
-        if not self._captcha_handling_instrument.result.errorId:
-            return self._captcha_handling_instrument.processing_captcha()
-        return self._captcha_handling_instrument.result.to_dict()
 
     async def aio_captcha_handler(
         self,
@@ -170,17 +167,11 @@ class ImageToText(CaptchaParams):
         self.task_params.update({**additional_params})
 
         self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        await self._captcha_handling_instrument.body_file_processing(
+        return await self._captcha_handling_instrument.processing_image_captcha(
             save_format=self.save_format,
-            file_path=self.img_path,
+            img_clearing=self.img_clearing,
+            img_path=self.img_path,
             captcha_link=captcha_link,
             captcha_file=captcha_file,
             captcha_base64=captcha_base64,
         )
-        if not self._captcha_handling_instrument.result.errorId:
-            return await self._captcha_handling_instrument.processing_captcha()
-        return self._captcha_handling_instrument.result.to_dict()
-
-    def __del__(self):
-        if self.save_format == SaveFormatsEnm.CONST.value and self.img_clearing:
-            shutil.rmtree(self.img_path, ignore_errors=True)

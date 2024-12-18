@@ -1,5 +1,6 @@
 import os
 import uuid
+import shutil
 from pathlib import Path
 
 from .serializer import GetTaskResultResponseSer
@@ -16,18 +17,26 @@ class FileInstrument:
         with open(captcha_file, "rb") as file:
             return file.read()
 
-    def _file_const_saver(self, content: bytes, file_path: str, file_extension: str = "png"):
+    @staticmethod
+    def _file_const_saver(content: bytes, file_path: str, file_extension: str = "png") -> str:
         """
         Method create and save file in folder
         """
         Path(file_path).mkdir(parents=True, exist_ok=True)
 
         # generate image name
-        self.file_name = f"file-{uuid.uuid4()}.{file_extension}"
+        file_name = f"file-{uuid.uuid4()}.{file_extension}"
+
+        full_file_path = os.path.join(file_path, file_name)
 
         # save image to folder
-        with open(os.path.join(file_path, self.file_name), "wb") as out_image:
+        with open(full_file_path, "wb") as out_image:
             out_image.write(content)
+        return full_file_path
+
+    @staticmethod
+    def _file_clean(full_file_path: str):
+        shutil.rmtree(full_file_path, ignore_errors=True)
 
 
 class CaptchaInstrument(FileInstrument):
