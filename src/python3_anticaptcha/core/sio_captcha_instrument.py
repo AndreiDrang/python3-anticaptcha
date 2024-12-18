@@ -8,7 +8,6 @@ from urllib.parse import urljoin
 import requests
 from requests.adapters import HTTPAdapter
 
-from .base import CaptchaParams
 from .enum import SaveFormatsEnm, ResponseStatusEnm
 from .const import RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
 from .utils import attempts_generator
@@ -23,7 +22,7 @@ class SIOCaptchaInstrument(CaptchaInstrument):
     Instrument for working with sync captcha
     """
 
-    def __init__(self, captcha_params: CaptchaParams):
+    def __init__(self, captcha_params: "CaptchaParams"):
         super().__init__()
         self.captcha_params = captcha_params
         # prepare session
