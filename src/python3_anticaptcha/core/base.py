@@ -1,11 +1,11 @@
-import os
-import uuid
-from pathlib import Path
-
-from .serializer import CreateTaskBaseSer, GetTaskResultRequestSer, GetTaskResultResponseSer
+from .serializer import CreateTaskBaseSer, GetTaskResultRequestSer
 from .context_instr import AIOContextManager, SIOContextManager
+from .captcha_instrument import CaptchaInstrument
+from .aio_captcha_instrument import AIOCaptchaInstrument
 
-__all__ = ("CaptchaParams", "CaptchaHandler")
+__all__ = ("CaptchaParams",)
+
+from .sio_captcha_instrument import SIOCaptchaInstrument
 
 
 class CaptchaParams(SIOContextManager, AIOContextManager):
@@ -28,49 +28,42 @@ class CaptchaParams(SIOContextManager, AIOContextManager):
         # prepare `get task result` payload
         self.get_result_params = GetTaskResultRequestSer(clientKey=api_key)
 
-        self._captcha_handling_instrument = CaptchaHandler()
+        self._captcha_handling_instrument = CaptchaInstrument()
 
-    @classmethod
-    def captcha_handler(cls):
-        pass
-
-    @classmethod
-    def aio_captcha_handler(cls):
-        pass
-
-
-class CaptchaHandler:
-    NO_CAPTCHA_ERR = "You did not send any file, local link or URL."
-    """
-    Basic Captcha solving class
-
-    Args:
-        api_key: Capsolver API key
-        captcha_type: Captcha type name, like `ReCaptchaV2Task` and etc.
-        sleep_time: The waiting time between requests to get the result of the Captcha
-        request_url: API address for sending requests
-    """
-
-    def __init__(self):
-        self.result = GetTaskResultResponseSer()
-
-    @staticmethod
-    def _local_file_captcha(captcha_file: str):
+    def captcha_handler(self, **additional_params) -> dict:
         """
-        Method get local file, read it and prepare for sending to Captcha solving service
-        """
-        with open(captcha_file, "rb") as file:
-            return file.read()
+        Synchronous method for captcha solving
 
-    def _file_const_saver(self, content: bytes, file_path: str, file_extension: str = "png"):
-        """
-        Method create and save file in folder
-        """
-        Path(file_path).mkdir(parents=True, exist_ok=True)
+        Args:
+            additional_params: Some additional parameters that will be used in creating the task
+                                and will be passed to the payload under ``task`` key.
+                                Like ``proxyLogin``, ``proxyPassword`` and etc. - more info in service docs
 
-        # generate image name
-        self.file_name = f"file-{uuid.uuid4()}.{file_extension}"
+        Returns:
+            Dict with full server response
 
-        # save image to folder
-        with open(os.path.join(file_path, self.file_name), "wb") as out_image:
-            out_image.write(content)
+        Notes:
+            Check class docstirng for more info
+        """
+        self.task_params.update({**additional_params})
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
+        return self._captcha_handling_instrument.processing_captcha()
+
+    async def aio_captcha_handler(self, **additional_params) -> dict:
+        """
+        Asynchronous method for captcha solving
+
+        Args:
+            additional_params: Some additional parameters that will be used in creating the task
+                                and will be passed to the payload under ``task`` key.
+                                Like ``proxyLogin``, ``proxyPassword`` and etc. - more info in service docs
+
+        Returns:
+            Dict with full server response
+
+        Notes:
+            Check class docstirng for more info
+        """
+        self.task_params.update({**additional_params})
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
+        return await self._captcha_handling_instrument.processing_captcha()

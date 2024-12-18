@@ -8,16 +8,17 @@ from urllib.parse import urljoin
 import requests
 from requests.adapters import HTTPAdapter
 
-from .base import CaptchaParams, CaptchaHandler
+from .base import CaptchaParams
 from .enum import SaveFormatsEnm, ResponseStatusEnm
 from .const import RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
 from .utils import attempts_generator
 from .serializer import CreateTaskResponseSer, GetTaskResultResponseSer
+from .captcha_instrument import CaptchaInstrument
 
-__all__ = ("SIOCaptchaHandler",)
+__all__ = ("SIOCaptchaInstrument",)
 
 
-class SIOCaptchaHandler(CaptchaHandler):
+class SIOCaptchaInstrument(CaptchaInstrument):
     """
     Basic Captcha solving class
 

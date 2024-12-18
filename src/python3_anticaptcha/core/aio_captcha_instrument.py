@@ -7,16 +7,17 @@ from urllib.parse import urljoin
 
 import aiohttp
 
-from .base import CaptchaParams, CaptchaHandler
+from .base import CaptchaParams
 from .enum import SaveFormatsEnm
 from .const import ASYNC_RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
 from .utils import attempts_generator
 from .serializer import CreateTaskResponseSer
+from .captcha_instrument import CaptchaInstrument
 
-__all__ = ("AIOCaptchaHandler",)
+__all__ = ("AIOCaptchaInstrument",)
 
 
-class AIOCaptchaHandler(CaptchaHandler):
+class AIOCaptchaInstrument(CaptchaInstrument):
     """
     Basic Captcha solving class
 

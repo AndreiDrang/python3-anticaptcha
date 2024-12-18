@@ -7,8 +7,8 @@ from tests.conftest import BaseTest
 from python3_anticaptcha.core.enum import SaveFormatsEnm, ResponseStatusEnm
 from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.image_to_coordinates import ImageToCoordinates
-from python3_anticaptcha.core.aio_captcha_handler import AIOCaptchaHandler
-from python3_anticaptcha.core.sio_captcha_handler import SIOCaptchaHandler
+from python3_anticaptcha.core.aio_captcha_instrument import AIOCaptchaInstrument
+from python3_anticaptcha.core.sio_captcha_instrument import SIOCaptchaInstrument
 
 
 class TestImageToCoordinates(BaseTest):
@@ -47,7 +47,7 @@ class TestImageToCoordinates(BaseTest):
         captured_instances = []
         mocker.patch(
             "python3_anticaptcha.image_to_coordinates.SIOCaptchaHandler",
-            side_effect=lambda *args, **kwargs: captured_instances.append(SIOCaptchaHandler(*args, **kwargs))
+            side_effect=lambda *args, **kwargs: captured_instances.append(SIOCaptchaInstrument(*args, **kwargs))
             or captured_instances[-1],
         )
         mocked_method: MagicMock = mocker.patch(
@@ -70,7 +70,7 @@ class TestImageToCoordinates(BaseTest):
         captured_instances = []
         mocker.patch(
             "python3_anticaptcha.image_to_coordinates.AIOCaptchaHandler",
-            side_effect=lambda *args, **kwargs: captured_instances.append(AIOCaptchaHandler(*args, **kwargs))
+            side_effect=lambda *args, **kwargs: captured_instances.append(AIOCaptchaInstrument(*args, **kwargs))
             or captured_instances[-1],
         )
         mocked_method: MagicMock = mocker.patch(
@@ -118,7 +118,7 @@ class TestImageToCoordinates(BaseTest):
         assert ser_result.cost == 0.0
 
     def test_captcha_base64(self, mocker):
-        captcha_params_spy = mocker.spy(SIOCaptchaHandler, "body_file_processing")
+        captcha_params_spy = mocker.spy(SIOCaptchaInstrument, "body_file_processing")
         mocked_method: MagicMock = mocker.patch(
             "python3_anticaptcha.core.sio_captcha_handler.SIOCaptchaHandler.processing_captcha"
         )
@@ -136,7 +136,7 @@ class TestImageToCoordinates(BaseTest):
         assert result == mocked_method.return_value
 
     async def test_aio_captcha_base64(self, mocker):
-        captcha_params_spy = mocker.spy(AIOCaptchaHandler, "body_file_processing")
+        captcha_params_spy = mocker.spy(AIOCaptchaInstrument, "body_file_processing")
         mocked_method: MagicMock = mocker.patch(
             "python3_anticaptcha.core.aio_captcha_handler.AIOCaptchaHandler.processing_captcha"
         )

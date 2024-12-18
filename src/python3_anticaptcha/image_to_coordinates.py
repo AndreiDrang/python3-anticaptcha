@@ -3,8 +3,8 @@ from typing import Union, Optional
 
 from .core.base import CaptchaParams
 from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
-from .core.aio_captcha_handler import AIOCaptchaHandler
-from .core.sio_captcha_handler import SIOCaptchaHandler
+from .core.aio_captcha_instrument import AIOCaptchaInstrument
+from .core.sio_captcha_instrument import SIOCaptchaInstrument
 
 __all__ = ("ImageToCoordinates",)
 
@@ -158,7 +158,7 @@ class ImageToCoordinates(CaptchaParams):
         """
         self.task_params.update({**additional_params})
 
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         self._captcha_handling_instrument.body_file_processing(
             save_format=self.save_format,
             file_path=self.img_path,
@@ -196,7 +196,7 @@ class ImageToCoordinates(CaptchaParams):
         """
         self.task_params.update({**additional_params})
 
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         await self._captcha_handling_instrument.body_file_processing(
             save_format=self.save_format,
             file_path=self.img_path,
