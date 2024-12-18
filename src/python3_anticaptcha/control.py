@@ -2,8 +2,8 @@ from typing import Optional
 
 from .core.base import CaptchaParams
 from .core.enum import ControlPostfixEnm
-from .core.aio_captcha_handler import AIOCaptchaHandler
-from .core.sio_captcha_handler import SIOCaptchaHandler
+from .core.aio_captcha_instrument import AIOCaptchaInstrument
+from .core.sio_captcha_instrument import SIOCaptchaInstrument
 
 __all__ = ("Control",)
 
@@ -134,7 +134,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getBalance
         """
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         return self._captcha_handling_instrument.send_post_request(
             session=self._captcha_handling_instrument.session,
             url_postfix=ControlPostfixEnm.GET_BALANCE,
@@ -158,7 +158,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getBalance
         """
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         return await self._captcha_handling_instrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_BALANCE, payload={"clientKey": self.create_task_payload.clientKey}
         )
@@ -196,7 +196,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getQueueStats
         """
-        return SIOCaptchaHandler.send_post_request(
+        return SIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_QUEUE_STATS, payload={"queueId": queue_id}
         )
 
@@ -233,7 +233,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getQueueStats
         """
-        return await AIOCaptchaHandler.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_QUEUE_STATS, payload={"queueId": queue_id}
         )
 
@@ -288,7 +288,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getSpendingStats
         """
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         return self._captcha_handling_instrument.send_post_request(
             session=self._captcha_handling_instrument.session,
             url_postfix=ControlPostfixEnm.GET_SPENDING_STATS,
@@ -346,7 +346,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getSpendingStats
         """
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         return await self._captcha_handling_instrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_SPENDING_STATS,
             payload={"clientKey": self.create_task_payload.clientKey, **kwargs},
@@ -388,7 +388,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getAppStats
         """
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         return self._captcha_handling_instrument.send_post_request(
             session=self._captcha_handling_instrument.session,
             url_postfix=ControlPostfixEnm.GET_APP_STATS,
@@ -431,7 +431,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getAppStats
         """
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         return await self._captcha_handling_instrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_APP_STATS,
             payload={"clientKey": self.create_task_payload.clientKey, "softId": softId, "mode": mode},
@@ -455,7 +455,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectImageCaptcha
         """
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         return self._captcha_handling_instrument.send_post_request(
             session=self._captcha_handling_instrument.session,
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_IMAGE_CAPTCHA,
@@ -480,7 +480,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectImageCaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         return await self._captcha_handling_instrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_IMAGE_CAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
@@ -504,7 +504,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectRecaptcha
         """
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         return self._captcha_handling_instrument.send_post_request(
             session=self._captcha_handling_instrument.session,
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_RECAPTCHA,
@@ -529,7 +529,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectRecaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         return await self._captcha_handling_instrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_RECAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
@@ -553,7 +553,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportCorrectRecaptcha
         """
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         return self._captcha_handling_instrument.send_post_request(
             session=self._captcha_handling_instrument.session,
             url_postfix=ControlPostfixEnm.REPORT_CORRECT_RECAPTCHA,
@@ -578,7 +578,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportCorrectRecaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         return await self._captcha_handling_instrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_CORRECT_RECAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
@@ -602,7 +602,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectHcaptcha
         """
-        self._captcha_handling_instrument = SIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = SIOCaptchaInstrument(captcha_params=self)
         return self._captcha_handling_instrument.send_post_request(
             session=self._captcha_handling_instrument.session,
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_HCAPTCHA,
@@ -627,7 +627,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectHcaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaHandler(captcha_params=self)
+        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
         return await self._captcha_handling_instrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_HCAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},

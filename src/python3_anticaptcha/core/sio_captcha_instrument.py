@@ -1,32 +1,28 @@
 import time
 import base64
 import logging
-from typing import Optional
+from typing import Union, Optional
 from urllib import parse
 from urllib.parse import urljoin
 
 import requests
 from requests.adapters import HTTPAdapter
 
-from .base import CaptchaParams, CaptchaHandler
 from .enum import SaveFormatsEnm, ResponseStatusEnm
 from .const import RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
 from .utils import attempts_generator
 from .serializer import CreateTaskResponseSer, GetTaskResultResponseSer
+from .captcha_instrument import CaptchaInstrument
 
-__all__ = ("SIOCaptchaHandler",)
+__all__ = ("SIOCaptchaInstrument",)
 
 
-class SIOCaptchaHandler(CaptchaHandler):
+class SIOCaptchaInstrument(CaptchaInstrument):
     """
-    Basic Captcha solving class
-
-    Args:
-        api_key: Capsolver API key
-        sleep_time: The waiting time between requests to get the result of the Captcha
+    Instrument for working with sync captcha
     """
 
-    def __init__(self, captcha_params: CaptchaParams):
+    def __init__(self, captcha_params: "CaptchaParams"):
         super().__init__()
         self.captcha_params = captcha_params
         # prepare session
@@ -50,9 +46,31 @@ class SIOCaptchaHandler(CaptchaHandler):
 
         return self._get_result()
 
-    def body_file_processing(
+    def processing_image_captcha(
+        self,
+        save_format: Union[str, SaveFormatsEnm],
+        img_clearing: bool,
+        captcha_link: str,
+        captcha_file: str,
+        captcha_base64: bytes,
+        img_path: str,
+    ) -> dict:
+        self.__body_file_processing(
+            save_format=save_format,
+            img_clearing=img_clearing,
+            file_path=img_path,
+            captcha_link=captcha_link,
+            captcha_file=captcha_file,
+            captcha_base64=captcha_base64,
+        )
+        if not self.result.errorId:
+            return self.processing_captcha()
+        return self.result.to_dict()
+
+    def __body_file_processing(
         self,
         save_format: SaveFormatsEnm,
+        img_clearing: bool,
         file_path: str,
         file_extension: str = "png",
         captcha_link: Optional[str] = None,
@@ -76,7 +94,9 @@ class SIOCaptchaHandler(CaptchaHandler):
                 content = self._url_read(url=captcha_link, **kwargs).content
                 # according to the value of the passed parameter, select the function to save the image
                 if save_format == SaveFormatsEnm.CONST.value:
-                    self._file_const_saver(content, file_path, file_extension=file_extension)
+                    full_file_path = self._file_const_saver(content, file_path, file_extension=file_extension)
+                    if img_clearing:
+                        self._file_clean(full_file_path=full_file_path)
                 self.captcha_params.create_task_payload.task.update({"body": base64.b64encode(content).decode("utf-8")})
             except Exception as error:
                 self.result.errorId = 12
