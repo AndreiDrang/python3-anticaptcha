@@ -19,11 +19,7 @@ __all__ = ("AIOCaptchaInstrument",)
 
 class AIOCaptchaInstrument(CaptchaInstrument):
     """
-    Basic Captcha solving class
-
-    Args:
-        api_key: Capsolver API key
-        sleep_time: The waiting time between requests to get the result of the Captcha
+    Instrument for working with async captcha
     """
 
     def __init__(self, captcha_params: CaptchaParams):
