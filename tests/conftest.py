@@ -10,12 +10,12 @@ from python3_anticaptcha.core.enum import ProxyTypeEnm
 
 @pytest.fixture(scope="function")
 def delay_func():
-    time.sleep(0.6)
+    time.sleep(1)
 
 
 @pytest.fixture(scope="class")
 def delay_class():
-    time.sleep(1)
+    time.sleep(2)
 
 
 @pytest.mark.usefixtures("delay_func")
