@@ -20,11 +20,7 @@ __all__ = ("SIOCaptchaInstrument",)
 
 class SIOCaptchaInstrument(CaptchaInstrument):
     """
-    Basic Captcha solving class
-
-    Args:
-        api_key: Capsolver API key
-        sleep_time: The waiting time between requests to get the result of the Captcha
+    Instrument for working with sync captcha
     """
 
     def __init__(self, captcha_params: CaptchaParams):
