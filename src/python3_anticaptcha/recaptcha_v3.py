@@ -3,6 +3,8 @@ from typing import Optional
 from .core.base import CaptchaParams
 from .core.enum import CaptchaTypeEnm
 
+__all__ = ("ReCaptchaV3",)
+
 
 class ReCaptchaV3(CaptchaParams):
     def __init__(

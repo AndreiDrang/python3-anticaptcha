@@ -101,16 +101,6 @@ class AIOCaptchaInstrument(CaptchaInstrument):
             self.result.errorId = 12
             self.result.errorCode = self.NO_CAPTCHA_ERR
 
-    async def _url_read(self, url: str, **kwargs) -> bytes:
-        """
-        Async method read bytes from link
-        """
-        async with aiohttp.ClientSession() as session:
-            async for attempt in ASYNC_RETRIES:
-                with attempt:
-                    async with session.get(url=url, **kwargs) as resp:
-                        return await resp.content.read()
-
     async def _create_task(self, url_postfix: str = CREATE_TASK_POSTFIX) -> CreateTaskResponseSer:
         """
         Function send SYNC request to service and wait for result
@@ -122,23 +112,6 @@ class AIOCaptchaInstrument(CaptchaInstrument):
                 ) as resp:
                     if resp.status == 200:
                         return CreateTaskResponseSer(**await resp.json())
-                    else:
-                        raise ValueError(resp.reason)
-            except Exception as error:
-                logging.exception(error)
-                raise
-
-    @staticmethod
-    async def send_post_request(payload: Optional[dict] = None, url_postfix: str = CREATE_TASK_POSTFIX) -> dict:
-        """
-        Function send ASYNC request to service and wait for result
-        """
-
-        async with aiohttp.ClientSession() as session:
-            try:
-                async with session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=payload) as resp:
-                    if resp.status == 200:
-                        return await resp.json()
                     else:
                         raise ValueError(resp.reason)
             except Exception as error:
@@ -166,3 +139,31 @@ class AIOCaptchaInstrument(CaptchaInstrument):
                     else:
                         json_result.update({"taskId": self.captcha_params.get_result_params.taskId})
                         return json_result
+
+    @staticmethod
+    async def _url_read(url: str, **kwargs) -> bytes:
+        """
+        Async method read bytes from link
+        """
+        async with aiohttp.ClientSession() as session:
+            async for attempt in ASYNC_RETRIES:
+                with attempt:
+                    async with session.get(url=url, **kwargs) as resp:
+                        return await resp.content.read()
+
+    @staticmethod
+    async def send_post_request(payload: Optional[dict] = None, url_postfix: str = CREATE_TASK_POSTFIX) -> dict:
+        """
+        Function send ASYNC request to service and wait for result
+        """
+
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=payload) as resp:
+                    if resp.status == 200:
+                        return await resp.json()
+                    else:
+                        raise ValueError(resp.reason)
+            except Exception as error:
+                logging.exception(error)
+                raise

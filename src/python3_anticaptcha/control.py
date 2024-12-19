@@ -158,8 +158,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getBalance
         """
-        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        return await self._captcha_handling_instrument.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_BALANCE, payload={"clientKey": self.create_task_payload.clientKey}
         )
 
@@ -346,8 +345,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getSpendingStats
         """
-        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        return await self._captcha_handling_instrument.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_SPENDING_STATS,
             payload={"clientKey": self.create_task_payload.clientKey, **kwargs},
         )
@@ -431,8 +429,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/getAppStats
         """
-        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        return await self._captcha_handling_instrument.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.GET_APP_STATS,
             payload={"clientKey": self.create_task_payload.clientKey, "softId": softId, "mode": mode},
         )
@@ -480,8 +477,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectImageCaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        return await self._captcha_handling_instrument.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_IMAGE_CAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
@@ -529,8 +525,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectRecaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        return await self._captcha_handling_instrument.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_RECAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
@@ -578,8 +573,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportCorrectRecaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        return await self._captcha_handling_instrument.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_CORRECT_RECAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
@@ -627,8 +621,7 @@ class Control(CaptchaParams):
         Notes:
             https://anti-captcha.com/apidoc/methods/reportIncorrectHcaptcha
         """
-        self._captcha_handling_instrument = AIOCaptchaInstrument(captcha_params=self)
-        return await self._captcha_handling_instrument.send_post_request(
+        return await AIOCaptchaInstrument.send_post_request(
             url_postfix=ControlPostfixEnm.REPORT_INCORRECT_HCAPTCHA,
             payload={"clientKey": self.create_task_payload.clientKey, "taskId": taskId},
         )
