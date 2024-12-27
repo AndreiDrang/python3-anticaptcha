@@ -23,6 +23,7 @@ class BaseAPIRequestSer(MyBaseModel):
 class CreateTaskBaseSer(BaseAPIRequestSer):
     task: Dict = {}
     softId: Literal[APP_KEY] = APP_KEY
+    callbackUrl: str = ""
 
 
 class BaseAPIResponseSer(MyBaseModel):

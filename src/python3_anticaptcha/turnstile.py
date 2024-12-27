@@ -3,6 +3,8 @@ from typing import Union, Optional
 from .core.base import CaptchaParams
 from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
 
+__all__ = ("Turnstile",)
+
 
 class Turnstile(CaptchaParams):
     def __init__(

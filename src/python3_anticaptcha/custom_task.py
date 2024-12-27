@@ -3,6 +3,8 @@ from typing import Optional
 from .core.base import CaptchaParams
 from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
 
+__all__ = ("CustomTask",)
+
 
 class CustomTask(CaptchaParams):
     def __init__(

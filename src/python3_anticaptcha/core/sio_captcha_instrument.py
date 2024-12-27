@@ -123,25 +123,6 @@ class SIOCaptchaInstrument(CaptchaInstrument):
             logging.exception(error)
             raise
 
-    @staticmethod
-    def send_post_request(
-        payload: Optional[dict] = None,
-        session: requests.Session = requests.Session(),
-        url_postfix: str = CREATE_TASK_POSTFIX,
-    ) -> dict:
-        """
-        Function send SYNC request to service and wait for result
-        """
-        try:
-            resp = session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=payload)
-            if resp.status_code == 200:
-                return resp.json()
-            else:
-                raise ValueError(resp.raise_for_status())
-        except Exception as error:
-            logging.exception(error)
-            raise
-
     def _url_read(self, url: str, **kwargs):
         """
         Method open links
@@ -166,3 +147,22 @@ class SIOCaptchaInstrument(CaptchaInstrument):
             else:
                 self.session.close()
         return captcha_response.to_dict()
+
+    @staticmethod
+    def send_post_request(
+        payload: Optional[dict] = None,
+        session: requests.Session = requests.Session(),
+        url_postfix: str = CREATE_TASK_POSTFIX,
+    ) -> dict:
+        """
+        Function send SYNC request to service and wait for result
+        """
+        try:
+            resp = session.post(parse.urljoin(BASE_REQUEST_URL, url_postfix), json=payload)
+            if resp.status_code == 200:
+                return resp.json()
+            else:
+                raise ValueError(resp.raise_for_status())
+        except Exception as error:
+            logging.exception(error)
+            raise
