@@ -45,6 +45,16 @@ class TestCore(BaseTest):
         ) as instance:
             pass
 
+    def test_set_callback_url(self):
+        callback_string = self.get_random_string()
+        instance = CaptchaParams(
+            api_key=self.get_random_string(32),
+            sleep_time=self.sleep_time,
+        )
+        instance.set_callback_url(callbackUrl=callback_string)
+
+        assert instance.create_task_payload.callbackUrl == callback_string
+
 
 class TestConfig(BaseTest):
     def test_attempts_generator(self):

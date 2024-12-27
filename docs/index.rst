@@ -38,5 +38,6 @@ Check our other projects here - `RedPandaDev group <https://red-panda-dev.xyz/bl
    :maxdepth: 2
    :caption: Additional modules
 
+   modules/core/info.rst
    modules/enum/info.rst
    modules/serializer/info.rst

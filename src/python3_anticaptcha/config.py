@@ -4,8 +4,6 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-callbackUrl: str = ""
-
 
 # Connection retry generator
 def attempts_generator(amount: int = 5) -> Generator:

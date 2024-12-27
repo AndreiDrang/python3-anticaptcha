@@ -9,7 +9,7 @@ __all__ = ("CaptchaParams",)
 
 class CaptchaParams(SIOContextManager, AIOContextManager):
     """
-    Basic Captcha solving class
+    Basic Captcha params class
 
     Args:
         api_key: Capsolver API key
@@ -28,6 +28,20 @@ class CaptchaParams(SIOContextManager, AIOContextManager):
         self.get_result_params = GetTaskResultRequestSer(clientKey=api_key)
 
         self._captcha_handling_instrument = CaptchaInstrument()
+
+    def set_callback_url(self, callbackUrl: str) -> None:
+        """
+        Method for `callbackUrl` param set.
+
+        Args:
+            callbackUrl: Optional web address where we can send the results of captcha task processing.
+                            Contents are sent by AJAX POST request and are identical
+                                to the contents of getTaskResult method.
+
+        Notes:
+            https://anti-captcha.com/apidoc/methods/createTask
+        """
+        self.create_task_payload.callbackUrl = callbackUrl
 
     def captcha_handler(self, **additional_params) -> dict:
         """

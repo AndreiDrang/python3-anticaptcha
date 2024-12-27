@@ -4,7 +4,6 @@ from msgspec import Struct
 
 from .enum import ResponseStatusEnm
 from .const import APP_KEY
-from ..config import callbackUrl
 
 
 class MyBaseModel(Struct):
@@ -24,7 +23,7 @@ class BaseAPIRequestSer(MyBaseModel):
 class CreateTaskBaseSer(BaseAPIRequestSer):
     task: Dict = {}
     softId: Literal[APP_KEY] = APP_KEY
-    callbackUrl: str = callbackUrl
+    callbackUrl: str = ""
 
 
 class BaseAPIResponseSer(MyBaseModel):
