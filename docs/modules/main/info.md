@@ -13,6 +13,7 @@
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
 [![Python versions](https://img.shields.io/pypi/pyversions/python3-anticaptcha.svg?logo=python&logoColor=FBE072)](https://badge.fury.io/py/python3-anticaptcha)
 [![Downloads](https://pepy.tech/badge/python3-anticaptcha/month)](https://pepy.tech/project/python3-anticaptcha)
+[![Static Badge](https://img.shields.io/badge/docs-Sphinx-green?label=Documentation&labelColor=gray)](https://andreidrang.github.io/python3-anticaptcha/)
 
 [![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7f49780f2edb48d4b133833887c850e8)](https://www.codacy.com/gh/AndreiDrang/python3-anticaptcha/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AndreiDrang/python3-anticaptcha&amp;utm_campaign=Badge_Grade)
