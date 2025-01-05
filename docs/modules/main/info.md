@@ -62,3 +62,9 @@ python setup.py install
 
 1. On the page - https://getcaptchasolution.com/vchfpctqyzclients/settings/apisetup
 2. Find it: [![img.png](https://s.vyjava.xyz/files/2024/12-December/17/5d6a902c/img.png)](https://vyjava.xyz/dashboard/image/5d6a902c-6997-47dd-af2a-734bde9bd1fb)
+
+### Contacts
+
+If you have any questions, please send a message to the [Telegram](https://t.me/pythoncaptcha) chat room.
+
+Or email python-captcha@pm.me
