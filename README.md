@@ -23,11 +23,11 @@
 [![Lint](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml)
 
 
-Python 3 library for [AntiCaptcha](https://anti-captcha.com/) service API.
+Python 3 library for [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyz) service API.
 
 Tested on UNIX based OS.
 
-The library is intended for software developers and is used to work with the [AntiCaptcha](https://anti-captcha.com/) service API.
+The library is intended for software developers and is used to work with the [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyz) service API.
 
 ***
 
@@ -53,9 +53,9 @@ pip install python3-anticaptcha
 
 ### Additional info
 1. [Library usage examples && Docs](https://andreidrang.github.io/python3-anticaptcha/)
-2. [AntiCaptcha errors list](https://anti-captcha.com/apidoc/errors)
+2. [AntiCaptcha errors list](https://getcaptchasolution.com/vchfpctqyzapidoc/errors)
 
 
 ### How to get API Key to work with the library
-1. On the page - https://anti-captcha.com/clients/settings/apisetup
+1. On the page - https://getcaptchasolution.com/vchfpctqyzclients/settings/apisetup
 2. Find it: [![img.png](https://s.vyjava.xyz/files/2024/12-December/17/5d6a902c/img.png)](https://vyjava.xyz/dashboard/image/5d6a902c-6997-47dd-af2a-734bde9bd1fb)
