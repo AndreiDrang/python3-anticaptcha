@@ -10,3 +10,4 @@ To import this module:
 
 .. autoclass:: python3_anticaptcha.image_to_text.ImageToText
     :members:
+    :inherited-members:
