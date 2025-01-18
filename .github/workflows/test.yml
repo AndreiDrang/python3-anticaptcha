@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/test.yml'
       - 'src/**'
+      - 'tests/**'
       - 'Makefile'
       - 'requirements.test.txt'
   pull_request:
