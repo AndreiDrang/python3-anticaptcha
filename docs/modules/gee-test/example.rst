@@ -10,3 +10,4 @@ To import this module:
 
 .. autoclass:: python3_anticaptcha.gee_test.GeeTest
     :members:
+    :inherited-members:
