@@ -55,6 +55,9 @@ class CaptchaTypeEnm(str, MyEnum):
     # Turnstile
     TurnstileTask = "TurnstileTask"
     TurnstileTaskProxyless = "TurnstileTaskProxyless"
+    # FriendlyCaptcha
+    FriendlyCaptchaTask = "FriendlyCaptchaTask"
+    FriendlyCaptchaTaskProxyless = "FriendlyCaptchaTaskProxyless"
     # Custom
     AntiGateTask = "AntiGateTask"
 
