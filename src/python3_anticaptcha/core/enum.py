@@ -58,6 +58,9 @@ class CaptchaTypeEnm(str, MyEnum):
     # FriendlyCaptcha
     FriendlyCaptchaTask = "FriendlyCaptchaTask"
     FriendlyCaptchaTaskProxyless = "FriendlyCaptchaTaskProxyless"
+    # FriendlyCaptcha
+    ProsopoTask = "ProsopoTask"
+    ProsopoTaskProxyless = "ProsopoTaskProxyless"
     # Custom
     AntiGateTask = "AntiGateTask"
 
