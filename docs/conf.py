@@ -22,6 +22,8 @@ from python3_anticaptcha import (
     recaptcha_v2,
     recaptcha_v3,
     image_to_text,
+    prosopo_captcha,
+    friendly_captcha,
     image_to_coordinates,
 )
 from python3_anticaptcha.__version__ import __version__
