@@ -13,8 +13,6 @@ class FriendlyCaptcha(CaptchaParams):
         websiteURL: str,
         websiteKey: str,
         captcha_type: Union[CaptchaTypeEnm, str] = CaptchaTypeEnm.FriendlyCaptchaTaskProxyless,
-        funcaptchaApiJSSubdomain: Optional[str] = None,
-        data: Optional[str] = None,
         proxyType: Optional[Union[ProxyTypeEnm, str]] = None,
         proxyAddress: Optional[str] = None,
         proxyPort: Optional[int] = None,
@@ -44,7 +42,7 @@ class FriendlyCaptcha(CaptchaParams):
 
         Examples:
             >>> FriendlyCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTaskProxyless",
+            ...         captcha_type="FriendlyCaptchaTaskProxyless",
             ...         websiteURL="https://demo.arkoselabs.com",
             ...         websiteKey="FCMDESUD3M34857N"
             ...        ).captcha_handler()
@@ -66,7 +64,7 @@ class FriendlyCaptcha(CaptchaParams):
             }
 
             >>> await FriendlyCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTaskProxyless",
+            ...         captcha_type="FriendlyCaptchaTaskProxyless",
             ...         websiteURL="https://demo.arkoselabs.com",
             ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
             ...        ).aio_captcha_handler()
@@ -88,7 +86,7 @@ class FriendlyCaptcha(CaptchaParams):
             }
 
             >>> FriendlyCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTask",
+            ...         captcha_type="FriendlyCaptchaTask",
             ...         websiteURL="https://demo.arkoselabs.com",
             ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
             ...         proxyType="http",
@@ -128,8 +126,6 @@ class FriendlyCaptcha(CaptchaParams):
                 type=captcha_type,
                 websiteURL=websiteURL,
                 websiteKey=websiteKey,
-                funcaptchaApiJSSubdomain=funcaptchaApiJSSubdomain,
-                data=data,
                 proxyType=proxyType,
                 proxyAddress=proxyAddress,
                 proxyPort=proxyPort,
@@ -142,8 +138,6 @@ class FriendlyCaptcha(CaptchaParams):
                 type=captcha_type,
                 websiteURL=websiteURL,
                 websiteKey=websiteKey,
-                funcaptchaApiJSSubdomain=funcaptchaApiJSSubdomain,
-                data=data,
             )
         else:
             raise ValueError(
