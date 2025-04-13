@@ -32,10 +32,6 @@ Tested on UNIX based OS.
 The library is intended for software developers and is used to work with the [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyz) service API.
 
 ***
-
-You can check our other projects here - [RedPandaDev group](https://red-panda-dev.xyz/blog/).
-
-***
 ## How to install?
 
 We recommend using the latest version of Python. `python3-anticaptcha` supports Python 3.7+.

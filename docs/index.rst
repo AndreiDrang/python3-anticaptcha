@@ -9,8 +9,6 @@ Python3 library for `AntiCaptcha API <http://getcaptchasolution.com/vchfpctqyz>`
 
 The library is intended for software developers and is used to work with the `AntiCaptcha API <http://getcaptchasolution.com/vchfpctqyz>`_.
 
-Check our other projects here - `RedPandaDev group <https://red-panda-dev.xyz/blog/>`_.
-
 .. toctree::
    :maxdepth: 1
    :caption: Start here:
