@@ -66,10 +66,8 @@ keywords = [    "captcha",
 				"amazon_waf",
 				"friendly-captcha"
             ]
-license = {text = "MIT License"}
+license = "MIT OR MPL-2.0"
 classifiers = [
-        "License :: OSI Approved :: MIT License",
-        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
