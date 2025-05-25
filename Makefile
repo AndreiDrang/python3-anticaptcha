@@ -35,7 +35,8 @@ build:
 	python3 -m build
 
 upload:
-	pip3 install twine wheel setuptools build
+	pip3 install wheel setuptools build
+	pip3 install twine==6.1.0
 	twine upload dist/*
 
 doc: install

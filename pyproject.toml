@@ -29,7 +29,7 @@ testpaths = [
 addopts = "-vv --tb=short --durations=5"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -66,7 +66,7 @@ keywords = [    "captcha",
 				"amazon_waf",
 				"friendly-captcha"
             ]
-license = "MIT OR MPL-2.0"
+license = "MIT"
 classifiers = [
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python",
