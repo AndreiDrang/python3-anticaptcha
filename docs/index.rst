@@ -28,9 +28,12 @@ The library is intended for software developers and is used to work with the `An
    modules/fun-captcha/example.rst
    modules/gee-test/example.rst
    modules/custom-task/example.rst
+   modules/friend/example.rst
+   modules/prosopo/example.rst
    modules/image-to-coordinates/example.rst
    modules/recaptcha-v2/example.rst
    modules/recaptcha-v3/example.rst
+   modules/amazon-waf/example.rst
 
 .. toctree::
    :maxdepth: 2

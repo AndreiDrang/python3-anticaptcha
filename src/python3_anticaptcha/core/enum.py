@@ -61,6 +61,9 @@ class CaptchaTypeEnm(str, MyEnum):
     # FriendlyCaptcha
     ProsopoTask = "ProsopoTask"
     ProsopoTaskProxyless = "ProsopoTaskProxyless"
+    # AmazonWAF
+    AmazonTask = "AmazonTask"
+    AmazonTaskProxyless = "AmazonTaskProxyless"
     # Custom
     AntiGateTask = "AntiGateTask"
 

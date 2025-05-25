@@ -17,6 +17,7 @@ from python3_anticaptcha import (
     control,
     gee_test,
     turnstile,
+    amazon_waf,
     custom_task,
     fun_captcha,
     recaptcha_v2,
