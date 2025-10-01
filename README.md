@@ -57,3 +57,10 @@ pip install python3-anticaptcha
 If you have any questions, please send a message to the [Telegram](https://t.me/pythoncaptcha) chat room.
 
 Or email python-captcha@pm.me
+
+<hr>
+
+## 💰 Sponsorship
+
+This project is supported by [TokenBel.info](https://dashboard.tokenbel.info/?utm_source=pypi), which helps maintain its development and acts as a sponsor.  
+TokenBel is an information platform for investing in tokens, providing analytics, financial data, and market insights.
