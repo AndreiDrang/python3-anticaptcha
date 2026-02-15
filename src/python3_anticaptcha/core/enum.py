@@ -64,6 +64,9 @@ class CaptchaTypeEnm(str, MyEnum):
     # AmazonWAF
     AmazonTask = "AmazonTask"
     AmazonTaskProxyless = "AmazonTaskProxyless"
+    # Altcha
+    AltchaTask = "AltchaTask"
+    AltchaTaskProxyless = "AltchaTaskProxyless"
     # Custom
     AntiGateTask = "AntiGateTask"
 
