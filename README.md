@@ -6,6 +6,7 @@
 [![Static Badge](https://img.shields.io/badge/docs-Sphinx-green?label=Documentation&labelColor=gray)](https://andreidrang.github.io/python3-anticaptcha/)
 [![Test](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml)
 [![Lint](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml)
+[![codecov](https://codecov.io/gh/AndreiDrang/python3-anticaptcha/graph/badge.svg?token=W92nfZY6Tz)](https://codecov.io/gh/AndreiDrang/python3-anticaptcha)
 
 Python 3 client library for [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyz) service - solve reCAPTCHA, hCaptcha, image captchas, and more programmatically.
 
