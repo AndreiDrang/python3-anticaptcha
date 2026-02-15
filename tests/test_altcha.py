@@ -1,8 +1,8 @@
 import pytest
 
 from tests.conftest import BaseTest
-from python3_anticaptcha.core.enum import ProxyTypeEnm, CaptchaTypeEnm
 from python3_anticaptcha.altcha import Altcha
+from python3_anticaptcha.core.enum import ProxyTypeEnm, CaptchaTypeEnm
 from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.core.context_instr import AIOContextManager, SIOContextManager
 
