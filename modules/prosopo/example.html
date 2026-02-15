@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prosopo &#8212; python3-anticaptcha (2.2.2)</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=7a9665a2" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jinja.css?v=85659ec6" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script data-project="python3-anticaptcha" data-version="" src="../../_static/describe_version.js?v=fa7f30d0"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ImageToCoordinates" href="../image-to-coordinates/example.html" />
+    <link rel="prev" title="FriendlyCaptcha" href="../friend/example.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../image-to-coordinates/example.html" title="ImageToCoordinates"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../friend/example.html" title="FriendlyCaptcha"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python3-anticaptcha (2.2.2)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Prosopo</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="prosopo">
+<h1>Prosopo<a class="headerlink" href="#prosopo" title="Link to this heading">¶</a></h1>
+<p>To import this module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">python3_anticaptcha.prosopo_captcha</span><span class="w"> </span><span class="kn">import</span> <span class="n">Prosopo</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="python3_anticaptcha.prosopo_captcha.Prosopo">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">python3_anticaptcha.prosopo_captcha.</span></span><span class="sig-name descname"><span class="pre">Prosopo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">websiteURL</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">websiteKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CaptchaTypeEnm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">CaptchaTypeEnm.ProsopoTaskProxyless</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ProxyTypeEnm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyAddress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyPort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyLogin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyPassword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userAgent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#python3_anticaptcha.prosopo_captcha.Prosopo" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="python3_anticaptcha.prosopo_captcha.Prosopo.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">websiteURL</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">websiteKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CaptchaTypeEnm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">CaptchaTypeEnm.ProsopoTaskProxyless</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ProxyTypeEnm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyAddress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyPort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyLogin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxyPassword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userAgent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#python3_anticaptcha.prosopo_captcha.Prosopo.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>The class is used to work with Prosopo captcha.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_key</strong> (<em>str</em>) – Capsolver API key</p></li>
+<li><p><strong>captcha_type</strong> (<em>CaptchaTypeEnm</em><em> | </em><em>str</em>) – Captcha type</p></li>
+<li><p><strong>websiteURL</strong> (<em>str</em>) – Address of the webpage</p></li>
+<li><p><strong>websiteKey</strong> (<em>str</em>) – Prosopo sitekey</p></li>
+<li><p><strong>proxyType</strong> (<em>ProxyTypeEnm</em><em> | </em><em>str</em><em> | </em><em>None</em>) – Type of the proxy</p></li>
+<li><p><strong>proxyAddress</strong> (<em>str</em><em> | </em><em>None</em>) – Proxy IP address IPv4/IPv6. Not allowed to use:
+host names instead of IPs,
+transparent proxies (where client IP is visible),
+proxies from local networks (192.., 10.., 127…)</p></li>
+<li><p><strong>proxyPort</strong> (<em>int</em><em> | </em><em>None</em>) – Proxy port.</p></li>
+<li><p><strong>proxyLogin</strong> (<em>str</em><em> | </em><em>None</em>) – Proxy login.</p></li>
+<li><p><strong>proxyPassword</strong> (<em>str</em><em> | </em><em>None</em>) – Proxy password.</p></li>
+<li><p><strong>userAgent</strong> (<em>str</em><em> | </em><em>None</em>) – Browser UserAgent.</p></li>
+<li><p><strong>sleep_time</strong> (<em>int</em><em> | </em><em>None</em>) – The waiting time between requests to get the result of the Captcha</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Prosopo</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;99d7d111a0111dc11184111c8bb111da&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">captcha_type</span><span class="o">=</span><span class="s2">&quot;ProsopoTaskProxyless&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">websiteURL</span><span class="o">=</span><span class="s2">&quot;https://demo.arkoselabs.com&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">websiteKey</span><span class="o">=</span><span class="s2">&quot;FCMDESUD3M34857N&quot;</span>
+<span class="gp">... </span>       <span class="p">)</span><span class="o">.</span><span class="n">captcha_handler</span><span class="p">()</span>
+<span class="go">{</span>
+<span class="go">   &quot;errorId&quot;: 0,</span>
+<span class="go">   &quot;errorCode&quot;: None,</span>
+<span class="go">   &quot;errorDescription&quot;: None,</span>
+<span class="go">   &quot;status&quot;:&quot;ready&quot;,</span>
+<span class="go">   &quot;solution&quot;:{</span>
+<span class="go">      &quot;token&quot;:&quot;0.Qz0.....f1&quot;,</span>
+<span class="go">      &quot;userAgent&quot;:&quot;Mozilla/5.0 (Wind.....&quot;,</span>
+<span class="go">   },</span>
+<span class="go">   &quot;cost&quot;: 0.002,</span>
+<span class="go">   &quot;ip&quot;: &quot;46.53.249.230&quot;,</span>
+<span class="go">   &quot;createTime&quot;: 1679004358,</span>
+<span class="go">   &quot;endTime&quot;: 1679004368,</span>
+<span class="go">   &quot;solveCount&quot;: 0,</span>
+<span class="go">   &quot;taskId&quot;: 396687629</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">await</span> <span class="n">Prosopo</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;99d7d111a0111dc11184111c8bb111da&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">captcha_type</span><span class="o">=</span><span class="s2">&quot;ProsopoTaskProxyless&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">websiteURL</span><span class="o">=</span><span class="s2">&quot;https://demo.arkoselabs.com&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">websitePublicKey</span><span class="o">=</span><span class="s2">&quot;DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6&quot;</span>
+<span class="gp">... </span>       <span class="p">)</span><span class="o">.</span><span class="n">aio_captcha_handler</span><span class="p">()</span>
+<span class="go">{</span>
+<span class="go">   &quot;errorId&quot;: 0,</span>
+<span class="go">   &quot;errorCode&quot;: None,</span>
+<span class="go">   &quot;errorDescription&quot;: None,</span>
+<span class="go">   &quot;status&quot;:&quot;ready&quot;,</span>
+<span class="go">   &quot;solution&quot;:{</span>
+<span class="go">      &quot;token&quot;:&quot;0.Qz0.....f1&quot;,</span>
+<span class="go">      &quot;userAgent&quot;:&quot;Mozilla/5.0 (Wind.....&quot;,</span>
+<span class="go">   },</span>
+<span class="go">   &quot;cost&quot;: 0.002,</span>
+<span class="go">   &quot;ip&quot;: &quot;46.53.249.230&quot;,</span>
+<span class="go">   &quot;createTime&quot;: 1679004358,</span>
+<span class="go">   &quot;endTime&quot;: 1679004368,</span>
+<span class="go">   &quot;solveCount&quot;: 0,</span>
+<span class="go">   &quot;taskId&quot;: 396687629</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Prosopo</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;99d7d111a0111dc11184111c8bb111da&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">captcha_type</span><span class="o">=</span><span class="s2">&quot;ProsopoTask&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">websiteURL</span><span class="o">=</span><span class="s2">&quot;https://demo.arkoselabs.com&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">websitePublicKey</span><span class="o">=</span><span class="s2">&quot;DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">proxyType</span><span class="o">=</span><span class="s2">&quot;http&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">proxyAddress</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">proxyPort</span><span class="o">=</span><span class="mi">9988</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">proxyLogin</span><span class="o">=</span><span class="s2">&quot;proxy_login&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">proxyPassword</span><span class="o">=</span><span class="s2">&quot;proxy_password&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">userAgent</span><span class="o">=</span><span class="s2">&quot;some_real_user_agent&quot;</span><span class="p">,</span>
+<span class="gp">... </span>       <span class="p">)</span><span class="o">.</span><span class="n">captcha_handler</span><span class="p">()</span>
+<span class="go">{</span>
+<span class="go">   &quot;errorId&quot;: 0,</span>
+<span class="go">   &quot;errorCode&quot;: None,</span>
+<span class="go">   &quot;errorDescription&quot;: None,</span>
+<span class="go">   &quot;status&quot;:&quot;ready&quot;,</span>
+<span class="go">   &quot;solution&quot;:{</span>
+<span class="go">      &quot;token&quot;:&quot;0.Qz0.....f1&quot;,</span>
+<span class="go">      &quot;userAgent&quot;:&quot;Mozilla/5.0 (Wind.....&quot;,</span>
+<span class="go">   },</span>
+<span class="go">   &quot;cost&quot;: 0.002,</span>
+<span class="go">   &quot;ip&quot;: &quot;46.53.249.230&quot;,</span>
+<span class="go">   &quot;createTime&quot;: 1679004358,</span>
+<span class="go">   &quot;endTime&quot;: 1679004368,</span>
+<span class="go">   &quot;solveCount&quot;: 0,</span>
+<span class="go">   &quot;taskId&quot;: 396687629</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+<dl>
+<dt>Notes</dt><dd><p><a class="reference external" href="https://anti-captcha.com/apidoc/task-types/ProsopoTask">https://anti-captcha.com/apidoc/task-types/ProsopoTask</a></p>
+<p><a class="reference external" href="https://anti-captcha.com/apidoc/task-types/ProsopoTaskProxyless">https://anti-captcha.com/apidoc/task-types/ProsopoTaskProxyless</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/AntiCaptcha.png" alt="Logo of python3-anticaptcha"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Prosopo</a><ul>
+<li><a class="reference internal" href="#python3_anticaptcha.prosopo_captcha.Prosopo"><code class="docutils literal notranslate"><span class="pre">Prosopo</span></code></a><ul>
+<li><a class="reference internal" href="#python3_anticaptcha.prosopo_captcha.Prosopo.__init__"><code class="docutils literal notranslate"><span class="pre">Prosopo.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="../friend/example.html" title="previous chapter">FriendlyCaptcha</a>
+          <li>Next: <a href="../image-to-coordinates/example.html" title="next chapter">ImageToCoordinates</a>
+    </ul>
+  </li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, AndreiDrang; Release - 2.2.2; Last update - 2026-02-15.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

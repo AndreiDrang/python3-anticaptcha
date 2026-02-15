@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Serializer &#8212; python3-anticaptcha (2.2.2)</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=7a9665a2" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jinja.css?v=85659ec6" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script data-project="python3-anticaptcha" data-version="" src="../../_static/describe_version.js?v=fa7f30d0"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Enum" href="../enum/info.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../enum/info.html" title="Enum"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python3-anticaptcha (2.2.2)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Serializer</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="serializer">
+<h1>Serializer<a class="headerlink" href="#serializer" title="Link to this heading">¶</a></h1>
+<p>To import this module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">python3_anticaptcha.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">serializer</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="core.serializer.BaseAPIRequestSer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">core.serializer.</span></span><span class="sig-name descname"><span class="pre">BaseAPIRequestSer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clientKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#core.serializer.BaseAPIRequestSer" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.BaseAPIRequestSer.clientKey">
+<span class="sig-name descname"><span class="pre">clientKey</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#core.serializer.BaseAPIRequestSer.clientKey" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.serializer.BaseAPIResponseSer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">core.serializer.</span></span><span class="sig-name descname"><span class="pre">BaseAPIResponseSer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">errorId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorCode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorDescription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#core.serializer.BaseAPIResponseSer" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.BaseAPIResponseSer.errorId">
+<span class="sig-name descname"><span class="pre">errorId</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#core.serializer.BaseAPIResponseSer.errorId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.BaseAPIResponseSer.errorCode">
+<span class="sig-name descname"><span class="pre">errorCode</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#core.serializer.BaseAPIResponseSer.errorCode" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.BaseAPIResponseSer.errorDescription">
+<span class="sig-name descname"><span class="pre">errorDescription</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#core.serializer.BaseAPIResponseSer.errorDescription" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.serializer.CreateTaskResponseSer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">core.serializer.</span></span><span class="sig-name descname"><span class="pre">CreateTaskResponseSer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">errorId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorCode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorDescription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#core.serializer.CreateTaskResponseSer" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.CreateTaskResponseSer.taskId">
+<span class="sig-name descname"><span class="pre">taskId</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#core.serializer.CreateTaskResponseSer.taskId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultRequestSer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">core.serializer.</span></span><span class="sig-name descname"><span class="pre">GetTaskResultRequestSer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">errorId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorCode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorDescription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clientKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#core.serializer.GetTaskResultRequestSer" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultRequestSer.clientKey">
+<span class="sig-name descname"><span class="pre">clientKey</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#core.serializer.GetTaskResultRequestSer.clientKey" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultRequestSer.taskId">
+<span class="sig-name descname"><span class="pre">taskId</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#core.serializer.GetTaskResultRequestSer.taskId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">core.serializer.</span></span><span class="sig-name descname"><span class="pre">GetTaskResultResponseSer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">errorId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorCode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorDescription</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../enum/info.html#core.enum.ResponseStatusEnm" title="core.enum.ResponseStatusEnm"><span class="pre">ResponseStatusEnm</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endTime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">createTime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solveCount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../enum/info.html#core.enum.ResponseStatusEnm" title="core.enum.ResponseStatusEnm"><span class="pre">ResponseStatusEnm</span></a></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.status" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.solution">
+<span class="sig-name descname"><span class="pre">solution</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.solution" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.cost">
+<span class="sig-name descname"><span class="pre">cost</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.cost" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.ip">
+<span class="sig-name descname"><span class="pre">ip</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.ip" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.endTime">
+<span class="sig-name descname"><span class="pre">endTime</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.endTime" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.createTime">
+<span class="sig-name descname"><span class="pre">createTime</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.createTime" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.solveCount">
+<span class="sig-name descname"><span class="pre">solveCount</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.solveCount" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.serializer.GetTaskResultResponseSer.taskId">
+<span class="sig-name descname"><span class="pre">taskId</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#core.serializer.GetTaskResultResponseSer.taskId" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/AntiCaptcha.png" alt="Logo of python3-anticaptcha"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Serializer</a><ul>
+<li><a class="reference internal" href="#core.serializer.BaseAPIRequestSer"><code class="docutils literal notranslate"><span class="pre">BaseAPIRequestSer</span></code></a><ul>
+<li><a class="reference internal" href="#core.serializer.BaseAPIRequestSer.clientKey"><code class="docutils literal notranslate"><span class="pre">BaseAPIRequestSer.clientKey</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#core.serializer.BaseAPIResponseSer"><code class="docutils literal notranslate"><span class="pre">BaseAPIResponseSer</span></code></a><ul>
+<li><a class="reference internal" href="#core.serializer.BaseAPIResponseSer.errorId"><code class="docutils literal notranslate"><span class="pre">BaseAPIResponseSer.errorId</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.BaseAPIResponseSer.errorCode"><code class="docutils literal notranslate"><span class="pre">BaseAPIResponseSer.errorCode</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.BaseAPIResponseSer.errorDescription"><code class="docutils literal notranslate"><span class="pre">BaseAPIResponseSer.errorDescription</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#core.serializer.CreateTaskResponseSer"><code class="docutils literal notranslate"><span class="pre">CreateTaskResponseSer</span></code></a><ul>
+<li><a class="reference internal" href="#core.serializer.CreateTaskResponseSer.taskId"><code class="docutils literal notranslate"><span class="pre">CreateTaskResponseSer.taskId</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultRequestSer"><code class="docutils literal notranslate"><span class="pre">GetTaskResultRequestSer</span></code></a><ul>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultRequestSer.clientKey"><code class="docutils literal notranslate"><span class="pre">GetTaskResultRequestSer.clientKey</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultRequestSer.taskId"><code class="docutils literal notranslate"><span class="pre">GetTaskResultRequestSer.taskId</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer</span></code></a><ul>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.status"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.status</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.solution"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.solution</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.cost"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.cost</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.ip"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.ip</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.endTime"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.endTime</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.createTime"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.createTime</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.solveCount"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.solveCount</span></code></a></li>
+<li><a class="reference internal" href="#core.serializer.GetTaskResultResponseSer.taskId"><code class="docutils literal notranslate"><span class="pre">GetTaskResultResponseSer.taskId</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="../enum/info.html" title="previous chapter">Enum</a>
+          
+    </ul>
+  </li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, AndreiDrang; Release - 2.2.2; Last update - 2026-02-15.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

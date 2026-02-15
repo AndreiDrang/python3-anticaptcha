@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ImageToCoordinates &#8212; python3-anticaptcha (2.2.2)</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=7a9665a2" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jinja.css?v=85659ec6" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script data-project="python3-anticaptcha" data-version="" src="../../_static/describe_version.js?v=fa7f30d0"></script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ReCaptchaV2" href="../recaptcha-v2/example.html" />
+    <link rel="prev" title="Prosopo" href="../prosopo/example.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../recaptcha-v2/example.html" title="ReCaptchaV2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../prosopo/example.html" title="Prosopo"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">python3-anticaptcha (2.2.2)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ImageToCoordinates</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="imagetocoordinates">
+<h1>ImageToCoordinates<a class="headerlink" href="#imagetocoordinates" title="Link to this heading">¶</a></h1>
+<p>To import this module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">python3_anticaptcha.image_to_coordinates</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToCoordinates</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="python3_anticaptcha.image_to_coordinates.ImageToCoordinates">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">python3_anticaptcha.image_to_coordinates.</span></span><span class="sig-name descname"><span class="pre">ImageToCoordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'points'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">websiteURL</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CaptchaTypeEnm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">CaptchaTypeEnm.ImageToCoordinatesTask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">SaveFormatsEnm</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">SaveFormatsEnm.TEMP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_clearing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'PythonAntiCaptchaImages'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="python3_anticaptcha.image_to_coordinates.ImageToCoordinates.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'points'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">websiteURL</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CaptchaTypeEnm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">CaptchaTypeEnm.ImageToCoordinatesTask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">SaveFormatsEnm</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">SaveFormatsEnm.TEMP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_clearing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'PythonAntiCaptchaImages'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>The class is used to work with ImageToTextTask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_key</strong> (<em>str</em>) – Capsolver API key</p></li>
+<li><p><strong>comment</strong> (<em>str</em><em> | </em><em>None</em>) – Comments for the task in English characters only.
+Example: “Select objects in specified order” or “select all cars”.</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Task mode, can be “points” or “rectangles”. The default is “points”.</p></li>
+<li><p><strong>websiteURL</strong> (<em>str</em><em> | </em><em>None</em>) – Optional parameter to distinguish source of image captchas in spending statistics.</p></li>
+<li><p><strong>captcha_type</strong> (<em>CaptchaTypeEnm</em><em> | </em><em>str</em>) – Captcha type</p></li>
+<li><p><strong>sleep_time</strong> (<em>int</em>) – The waiting time between requests to get the result of the Captcha</p></li>
+<li><p><strong>save_format</strong> (<em>str</em><em> | </em><em>SaveFormatsEnm</em>) – Image save format - temporary or persistance</p></li>
+<li><p><strong>img_clearing</strong> (<em>bool</em>) – True - delete file after solution, False - don’t delete file after solution</p></li>
+<li><p><strong>img_path</strong> (<em>str</em>) – Folder to save captcha images</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition-examples admonition">
+<p class="admonition-title">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ImageToCoordinates</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;99d7d111a0111dc11184111c8bb111da&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">save_format</span><span class="o">=</span><span class="n">SaveFormatsEnm</span><span class="o">.</span><span class="n">CONST</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;select all cars&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rectangles&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">websiteURL</span><span class="o">=</span><span class="s2">&quot;https://some-website.xyz/&quot;</span>
+<span class="gp">... </span>       <span class="p">)</span><span class="o">.</span><span class="n">captcha_handler</span><span class="p">(</span><span class="n">captcha_file</span><span class="o">=</span><span class="s1">&#39;files/captcha-image.jpg&#39;</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">   &quot;errorId&quot;: 0,</span>
+<span class="go">   &quot;errorCode&quot;: None,</span>
+<span class="go">   &quot;errorDescription&quot;: None,</span>
+<span class="go">   &quot;status&quot;:&quot;ready&quot;,</span>
+<span class="go">   &quot;solution&quot;:{</span>
+<span class="go">        &quot;coordinates&quot;:[</span>
+<span class="go">            [17,48,54,83],</span>
+<span class="go">            [76,93,140,164]</span>
+<span class="go">        ]</span>
+<span class="go">   },</span>
+<span class="go">   &quot;cost&quot;: 0.002,</span>
+<span class="go">   &quot;ip&quot;: &quot;46.53.249.230&quot;,</span>
+<span class="go">   &quot;createTime&quot;: 1679004358,</span>
+<span class="go">   &quot;endTime&quot;: 1679004368,</span>
+<span class="go">   &quot;solveCount&quot;: 0,</span>
+<span class="go">   &quot;taskId&quot;: 396687629</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ImageToCoordinates</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;99d7d111a0111dc11184111c8bb111da&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">save_format</span><span class="o">=</span><span class="n">SaveFormatsEnm</span><span class="o">.</span><span class="n">CONST</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;select 3 cats&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;points&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">websiteURL</span><span class="o">=</span><span class="s2">&quot;https://some-website.xyz/&quot;</span>
+<span class="gp">... </span>       <span class="p">)</span><span class="o">.</span><span class="n">captcha_handler</span><span class="p">(</span><span class="n">captcha_link</span><span class="o">=</span><span class="s1">&#39;https://........../captcha-image.jpg&#39;</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">   &quot;errorId&quot;: 0,</span>
+<span class="go">   &quot;errorCode&quot;: None,</span>
+<span class="go">   &quot;errorDescription&quot;: None,</span>
+<span class="go">   &quot;status&quot;:&quot;ready&quot;,</span>
+<span class="go">   &quot;solution&quot;:{</span>
+<span class="go">        &quot;coordinates&quot;:[</span>
+<span class="go">            [17,48,54,83],</span>
+<span class="go">            [76,93,140,164]</span>
+<span class="go">        ]</span>
+<span class="go">   },</span>
+<span class="go">   &quot;cost&quot;: 0.002,</span>
+<span class="go">   &quot;ip&quot;: &quot;46.53.249.230&quot;,</span>
+<span class="go">   &quot;createTime&quot;: 1679004358,</span>
+<span class="go">   &quot;endTime&quot;: 1679004368,</span>
+<span class="go">   &quot;solveCount&quot;: 0,</span>
+<span class="go">   &quot;taskId&quot;: 396687629</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">await</span> <span class="n">ImageToCoordinates</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;99d7d111a0111dc11184111c8bb111da&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">save_format</span><span class="o">=</span><span class="n">SaveFormatsEnm</span><span class="o">.</span><span class="n">TEMP</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;select 3 cats&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;points&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">websiteURL</span><span class="o">=</span><span class="s2">&quot;https://some-website.xyz/&quot;</span>
+<span class="gp">... </span>       <span class="p">)</span><span class="o">.</span><span class="n">aio_captcha_handler</span><span class="p">(</span><span class="n">captcha_link</span><span class="o">=</span><span class="s1">&#39;https://........../captcha-image.jpg&#39;</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">   &quot;errorId&quot;: 0,</span>
+<span class="go">   &quot;errorCode&quot;: None,</span>
+<span class="go">   &quot;errorDescription&quot;: None,</span>
+<span class="go">   &quot;status&quot;:&quot;ready&quot;,</span>
+<span class="go">   &quot;solution&quot;:{</span>
+<span class="go">        &quot;coordinates&quot;:[</span>
+<span class="go">            [17,48,54,83],</span>
+<span class="go">            [76,93,140,164]</span>
+<span class="go">        ]</span>
+<span class="go">   },</span>
+<span class="go">   &quot;cost&quot;: 0.002,</span>
+<span class="go">   &quot;ip&quot;: &quot;46.53.249.230&quot;,</span>
+<span class="go">   &quot;createTime&quot;: 1679004358,</span>
+<span class="go">   &quot;endTime&quot;: 1679004368,</span>
+<span class="go">   &quot;solveCount&quot;: 0,</span>
+<span class="go">   &quot;taskId&quot;: 396687629</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p><a class="reference external" href="https://anti-captcha.com/apidoc/task-types/ImageToCoordinatesTask">https://anti-captcha.com/apidoc/task-types/ImageToCoordinatesTask</a></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python3_anticaptcha.image_to_coordinates.ImageToCoordinates.captcha_handler">
+<span class="sig-name descname"><span class="pre">captcha_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">captcha_link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_base64</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.captcha_handler" title="Link to this definition">¶</a></dt>
+<dd><p>Synchronous method for captcha solving</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>captcha_link</strong> (<em>str</em><em> | </em><em>None</em>) – link to captcha image file</p></li>
+<li><p><strong>captcha_file</strong> (<em>str</em><em> | </em><em>None</em>) – path to local captcha image file</p></li>
+<li><p><strong>captcha_base64</strong> (<em>bytes</em><em> | </em><em>None</em>) – captcha image encoded in base64 format</p></li>
+<li><p><strong>additional_params</strong> – Some additional parameters that will be used in creating the task
+and will be passed to the payload under <code class="docutils literal notranslate"><span class="pre">task</span></code> key.
+Like <code class="docutils literal notranslate"><span class="pre">proxyLogin</span></code>, <code class="docutils literal notranslate"><span class="pre">proxyPassword</span></code> and etc. - more info in service docs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict with full server response</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Check class docstirng for more info</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python3_anticaptcha.image_to_coordinates.ImageToCoordinates.aio_captcha_handler">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">aio_captcha_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">captcha_link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captcha_base64</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.aio_captcha_handler" title="Link to this definition">¶</a></dt>
+<dd><p>Asynchronous method for captcha solving</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>captcha_link</strong> (<em>str</em><em> | </em><em>None</em>) – link to captcha image file</p></li>
+<li><p><strong>captcha_file</strong> (<em>str</em><em> | </em><em>None</em>) – path to local captcha image file</p></li>
+<li><p><strong>captcha_base64</strong> (<em>bytes</em><em> | </em><em>None</em>) – captcha image encoded in base64 format</p></li>
+<li><p><strong>additional_params</strong> – Some additional parameters that will be used in creating the task
+and will be passed to the payload under <code class="docutils literal notranslate"><span class="pre">task</span></code> key.
+Like <code class="docutils literal notranslate"><span class="pre">proxyLogin</span></code>, <code class="docutils literal notranslate"><span class="pre">proxyPassword</span></code> and etc. - more info in service docs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict with full server response</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Check class docstirng for more info</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="python3_anticaptcha.image_to_coordinates.ImageToCoordinates.set_callback_url">
+<span class="sig-name descname"><span class="pre">set_callback_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callbackUrl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.set_callback_url" title="Link to this definition">¶</a></dt>
+<dd><p>Method for <cite>callbackUrl</cite> param set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>callbackUrl</strong> (<em>str</em>) – <p>Optional web address where we can send the results of captcha task processing.
+Contents are sent by AJAX POST request and are identical</p>
+<blockquote>
+<div><p>to the contents of getTaskResult method.</p>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p><a class="reference external" href="https://anti-captcha.com/apidoc/methods/createTask">https://anti-captcha.com/apidoc/methods/createTask</a></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/AntiCaptcha.png" alt="Logo of python3-anticaptcha"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">ImageToCoordinates</a><ul>
+<li><a class="reference internal" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates"><code class="docutils literal notranslate"><span class="pre">ImageToCoordinates</span></code></a><ul>
+<li><a class="reference internal" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.__init__"><code class="docutils literal notranslate"><span class="pre">ImageToCoordinates.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.captcha_handler"><code class="docutils literal notranslate"><span class="pre">ImageToCoordinates.captcha_handler()</span></code></a></li>
+<li><a class="reference internal" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.aio_captcha_handler"><code class="docutils literal notranslate"><span class="pre">ImageToCoordinates.aio_captcha_handler()</span></code></a></li>
+<li><a class="reference internal" href="#python3_anticaptcha.image_to_coordinates.ImageToCoordinates.set_callback_url"><code class="docutils literal notranslate"><span class="pre">ImageToCoordinates.set_callback_url()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../index.html">Overview</a>
+    <ul>
+          <li>Previous: <a href="../prosopo/example.html" title="previous chapter">Prosopo</a>
+          <li>Next: <a href="../recaptcha-v2/example.html" title="next chapter">ReCaptchaV2</a>
+    </ul>
+  </li>
+</ul>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, AndreiDrang; Release - 2.2.2; Last update - 2026-02-15.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>
