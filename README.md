@@ -1,66 +1,153 @@
 # python3-anticaptcha
 
-[![AntiCaptcha.png](https://s.vyjava.xyz/files/2024/12-December/17/b18528fc/AntiCaptcha.png)](https://vyjava.xyz/dashboard/image/b18528fc-8572-4167-9d2f-abaacf4e1053)
-
-<hr>
-
 [![PyPI version](https://badge.fury.io/py/python3-anticaptcha.svg)](https://badge.fury.io/py/python3-anticaptcha)
 [![Python versions](https://img.shields.io/pypi/pyversions/python3-anticaptcha.svg?logo=python&logoColor=FBE072)](https://badge.fury.io/py/python3-anticaptcha)
 [![Downloads](https://static.pepy.tech/badge/python3-anticaptcha/month)](https://pepy.tech/project/python3-anticaptcha)
 [![Static Badge](https://img.shields.io/badge/docs-Sphinx-green?label=Documentation&labelColor=gray)](https://andreidrang.github.io/python3-anticaptcha/)
-
-[![Code Climate](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha/badges/gpa.svg)](https://codeclimate.com/github/AndreiDrang/python3-anticaptcha)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7f49780f2edb48d4b133833887c850e8)](https://www.codacy.com/gh/AndreiDrang/python3-anticaptcha/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AndreiDrang/python3-anticaptcha&amp;utm_campaign=Badge_Grade)
-[![codecov](https://codecov.io/gh/AndreiDrang/python3-anticaptcha/branch/main/graph/badge.svg?token=W92nfZY6Tz)](https://codecov.io/gh/AndreiDrang/python3-anticaptcha)
-
-[![Sphinx docs](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/sphinx.yml/badge.svg?branch=release)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/sphinx.yml)
-[![Building](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/build.yml/badge.svg)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/build.yml)
-[![Installation check](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/install.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/install.yml)
 [![Test](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/test.yml)
 [![Lint](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/AndreiDrang/python3-anticaptcha/actions/workflows/lint.yml)
 
+Python 3 client library for [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyz) service - solve reCAPTCHA, hCaptcha, image captchas, and more programmatically.
 
-Python 3 library for [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyz) service API.
+## Why use this library?
 
-The library is intended for software developers and is used to work with the [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyz) service API.
-Tested on UNIX based OS.
+AntiCaptcha is a paid captcha solving service. This library provides a clean Python interface to:
+- Submit captchas to AntiCaptcha's worker network
+- Poll for results automatically
+- Handle proxy rotation for high-volume requests
+- Support both synchronous and asynchronous workflows
 
-Love Rust? Me too! Check AntiCaptcha API binding for Rust - [Rust-AntiCaptcha crate](https://crates.io/crates/rust-anticaptcha).
+## Supported Captcha Types
 
-## How to install?
+| Type | Class | Use Case |
+|------|-------|----------|
+| reCAPTCHA v2 | `ReCaptchaV2` | Google reCAPTCHA V2 checkbox/invisible |
+| reCAPTCHA v3 | `ReCaptchaV3` | Google reCAPTCHA V3 score-based |
+| Image Captcha | `ImageToText` | Classic text-from-image captchas |
+| Image Coordinates | `ImageToCoordinates` | Click-on-image captchas |
+| FunCaptcha | `FunCaptcha` | Arkose Labs (formerly FunCaptcha) |
+| GeeTest | `GeeTest` | Chinese GeeTest captcha |
+| Turnstile | `Turnstile` | Cloudflare Turnstile |
+| FriendlyCaptcha | `FriendlyCaptcha` | FriendlyCaptcha puzzles |
+| Prosopo | `Prosopo` | Prosopo captcha |
+| Amazon WAF | `AmazonWAF` | AWS WAF Captcha |
 
-We recommend using the latest version of Python. `python3-anticaptcha` supports Python 3.7+.
+## Quick Start
 
-#### pip
+### 1. Install
 
 ```bash
 pip install python3-anticaptcha
 ```
 
+### 2. Get Your API Key
 
-## How to test?
+1. Log into [AntiCaptcha](https://getcaptchasolution.com/vchfpctqyzclients/settings/apisetup)
+2. Copy your API key from the "Setup" section
 
-1. You need set ``API_KEY`` in your environment(get this value from you account).
-2. Run command ``make tests``, from root directory.
+### 3. Solve a reCAPTCHA
 
-### Additional info
-1. [Library usage examples && Docs](https://andreidrang.github.io/python3-anticaptcha/)
-2. [AntiCaptcha errors list](https://getcaptchasolution.com/vchfpctqyzapidoc/errors)
+```python
+from python3_anticaptcha import ReCaptchaV2
+from python3_anticaptcha.core.enum import CaptchaTypeEnm
 
+# Basic usage (no proxy)
+result = ReCaptchaV2(
+    api_key="YOUR_API_KEY",
+    captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
+    websiteURL="https://example.com/page-with-captcha",
+    websiteKey="6LeIxAKTAAAAAJ309xRj9YBN2aaaaaaaaa",  # sitekey from the page
+).captcha_handler()
 
-### How to get API Key to work with the library
-1. On the page - https://getcaptchasolution.com/vchfpctqyzclients/settings/apisetup
-2. Find it: [![img.png](https://s.vyjava.xyz/files/2024/12-December/17/5d6a902c/img.png)](https://vyjava.xyz/dashboard/image/5d6a902c-6997-47dd-af2a-734bde9bd1fb)
+print(result["solution"]["gRecaptchaResponse"])
+```
 
-### Contacts
+### 4. Solve with Proxy
 
-If you have any questions, please send a message to the [Telegram](https://t.me/pythoncaptcha) chat room.
+```python
+from python3_anticaptcha import ReCaptchaV2
+from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
-Or email python-captcha@pm.me
+result = ReCaptchaV2(
+    api_key="YOUR_API_KEY",
+    captcha_type=CaptchaTypeEnm.RecaptchaV2Task,
+    websiteURL="https://example.com/page-with-captcha",
+    websiteKey="6LeIxAKTAAAAAJ309xRj9YBN2aaaaaaaaa",
+    proxyType=ProxyTypeEnm.HTTP,
+    proxyAddress="123.45.67.89",
+    proxyPort=8080,
+    proxyLogin="proxy_user",
+    proxyPassword="proxy_pass",
+    userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+).captcha_handler()
+```
 
-<hr>
+### 5. Async Usage
 
-## 💰 Sponsorship
+```python
+import asyncio
+from python3_anticaptcha import ReCaptchaV2
+from python3_anticaptcha.core.enum import CaptchaTypeEnm
 
-This project is supported by [TokenBel.info](https://dashboard.tokenbel.info/?utm_source=pypi), which helps maintain its development and acts as a sponsor.  
-TokenBel is an information platform for investing in tokens, providing analytics, financial data, and market insights.
+async def solve():
+    result = await ReCaptchaV2(
+        api_key="YOUR_API_KEY",
+        captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
+        websiteURL="https://example.com/page-with-captcha",
+        websiteKey="6LeIxAKTAAAAAJ309xRj9YBN2aaaaaaaaa",
+    ).aio_captcha_handler()
+    return result
+
+result = asyncio.run(solve())
+```
+
+## Environment Variable
+
+Set `API_KEY` to avoid passing it in code:
+
+```bash
+export API_KEY="your_api_key_here"
+```
+
+```python
+# Now you can omit api_key parameter
+from python3_anticaptcha import ImageToText
+
+result = ImageToText(captcha_file="captcha.png").captcha_handler()
+```
+
+## Configuration Options
+
+All captcha classes support these common parameters:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `api_key` | str | Your AntiCaptcha API key (or set `API_KEY` env var) |
+| `sleep_time` | int | Seconds between result polls (default: 10) |
+
+## Documentation
+
+- [Full Documentation](https://andreidrang.github.io/python3-anticaptcha/) - Detailed API reference
+- [AntiCaptcha Errors](https://getcaptchasolution.com/vchfpctqyzapidoc/errors) - Error code meanings
+
+## Development
+
+```bash
+# Run tests
+make tests
+
+# Run linters
+make lint
+
+# Build package
+make build
+```
+
+## Contacts
+
+- Telegram: [pythoncaptcha](https://t.me/pythoncaptcha)
+- Email: python-captcha@pm.me
+
+---
+
+Love Rust? Check out [Rust-AntiCaptcha](https://crates.io/crates/rust-anticaptcha) - same API for Rust projects.
