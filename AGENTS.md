@@ -62,11 +62,13 @@ python3-anticaptcha/
 - **Async**: All captcha classes have `captcha_handler()` sync + `aio_captcha_handler()` async
 
 ## ANTI-PATTERNS (THIS PROJECT)
-- **SSL**: `verify=False` in sio_captcha_instrument.py:32 - INTENTIONAL for proxy support, suppresses urllib3 warnings
+- **SSL**: `verify=False` in captcha_instrument.py:32 - INTENTIONAL for proxy support, suppresses urllib3 warnings
 - **apiDomain**: DO NOT use in ReCaptcha - deprecated by AntiCaptcha
 - **Proxy restrictions**: Never use hostnames, transparent proxies, local networks (192.*.*, 10.*.*, 127.*.*)
 - **Exceptions**: Only ValueError raised - no custom exception hierarchy
 - **Bare except**: Used in some cleanup - avoid expanding
+- **Type hints**: Use `Union[X,Y]`, `Optional[X]` - NOT `X | Y` (py310+ syntax forbidden)
+- **msgspec version**: Pinned <0.21 in pyproject.toml - may need updates for newer versions
 
 ## COMMANDS
 ```bash
