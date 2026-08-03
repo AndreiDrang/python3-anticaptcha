@@ -1,37 +1,47 @@
-# Tests
+# AGENTS.md
 
-## OVERVIEW
-pytest + pytest-asyncio with mock server responses.
+## Scope and inheritance
 
-## WHERE TO LOOK
-| Task | Location |
-|------|----------|
-| Test patterns | tests/*.py |
-| Mock responses | tests/static/responses.py |
-| Fixtures | tests/conftest.py - BaseTest class |
+Applies to: `tests/`. Inherits repo-wide guidance from `../AGENTS.md`.
 
-## CONVENTIONS
-- asyncio_mode = auto (pyproject.toml)
-- API_KEY from env or mock
-- Each captcha type has dedicated test file
-- Test class naming: `Test<CaptchaType>`
-- Method naming: `test_sio_*` (sync), `test_aio_*` (async)
-- Response validation: `GetTaskResultResponseSer` from serializer
+## What lives here
 
-## TEST PATTERNS
-- **BaseTest class**: Provides `get_proxy_args()`, `read_file()`, delay fixtures
-- **Parametrized tests**: `@pytest.mark.parametrize` for proxy types, captcha types
-- **Mocking**: `mocker.patch()` and `mocker.spy()` from pytest-mock
-- **Context managers**: Test via `mocker.spy(ContextManager, "__enter__")`
-- **Assertions**: `isinstance(result, dict)` + serializer validation
-
-## ANTI-PATTERNS
-- Don't skip BaseTest inheritance unless truly needed
-- Don't use real API calls in unit tests (use mocker)
-
-## COMMANDS
-```bash
-pytest                    # Run all tests
-pytest -k recaptcha       # Run specific tests
-make tests                # pytest + coverage
+```text
+tests/
+├── conftest.py            # BaseTest class + delay fixtures
+├── test_<module>.py       # one test module per source module
+└── __init__.py
 ```
+
+There is **no** `tests/static/` directory and no shared response fixture file. Mocking is
+done inline with `pytest-mock` (`mocker.patch` / `mocker.spy`); no tests make real API calls.
+
+## Conventions
+
+- `asyncio_mode = auto` (`pyproject.toml`) — async test functions run without
+  `@pytest.mark.asyncio`.
+- Test classes inherit `BaseTest` from `tests.conftest`:
+  ```python
+  from tests.conftest import BaseTest
+
+
+  class TestReCaptchaV2(BaseTest): ...
+  ```
+  `BaseTest` provides `API_KEY` (env or mock default), `sleep_time`, `get_proxy_args()`,
+  `get_random_string()`, `read_file()`, and the `delay_func` / `delay_class` fixtures.
+- Naming: class `Test<Type>`; methods `test_sio_*` (sync) / `test_aio_*` (async).
+- Import classes from their module, not the package root:
+  `from python3_anticaptcha.recaptcha_v2 import ReCaptchaV2`.
+- Avoid real network: spy on the context managers from `core.context_instr`
+  (`SIOContextManager.__enter__`, `AIOContextManager.__aenter__`) and patch the instruments.
+- Validate returned dicts against `GetTaskResultResponseSer` from `core.serializer`.
+
+## Validation
+
+```bash
+make tests              # coverage run + pytest + html/xml reports (from repo root)
+pytest                  # plain run
+pytest -k recaptcha     # filter by name
+```
+
+Coverage is configured in `.coveragerc` (includes `*/src/*`, omits `__init__` and tests).
