@@ -1,7 +1,7 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 from .core.base import CaptchaParams
-from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
 __all__ = ("Altcha",)
 
@@ -43,11 +43,12 @@ class Altcha(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> Altcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="AltchaTaskProxyless",
-            ...         websiteURL="https://example.com/",
-            ...         challengeURL="/api/challenge"
-            ...        ).captcha_handler()
+            >>> Altcha(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="AltchaTaskProxyless",
+            ...     websiteURL="https://example.com/",
+            ...     challengeURL="/api/challenge",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -65,11 +66,12 @@ class Altcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await Altcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="AltchaTaskProxyless",
-            ...         websiteURL="https://example.com/",
-            ...         challengeJSON='{"algorithm":"SHA-256","challenge":"..."}'
-            ...        ).aio_captcha_handler()
+            >>> await Altcha(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="AltchaTaskProxyless",
+            ...     websiteURL="https://example.com/",
+            ...     challengeJSON='{"algorithm":"SHA-256","challenge":"..."}',
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -87,14 +89,15 @@ class Altcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> Altcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="AltchaTask",
-            ...         websiteURL="https://example.com/",
-            ...         challengeURL="/api/challenge",
-            ...         proxyType="http",
-            ...         proxyAddress="1.2.3.4",
-            ...         proxyPort=8080
-            ...        ).captcha_handler()
+            >>> Altcha(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="AltchaTask",
+            ...     websiteURL="https://example.com/",
+            ...     challengeURL="/api/challenge",
+            ...     proxyType="http",
+            ...     proxyAddress="1.2.3.4",
+            ...     proxyPort=8080,
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,

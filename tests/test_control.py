@@ -1,6 +1,6 @@
-from tests.conftest import BaseTest
 from python3_anticaptcha.control import Control
 from python3_anticaptcha.core.serializer import BaseAPIResponseSer
+from tests.conftest import BaseTest
 
 
 class TestControl(BaseTest):

@@ -1,8 +1,8 @@
 from typing import Optional
 
+from .core.aio_captcha_instrument import AIOCaptchaInstrument
 from .core.base import CaptchaParams
 from .core.enum import ControlPostfixEnm
-from .core.aio_captcha_instrument import AIOCaptchaInstrument
 from .core.sio_captcha_instrument import SIOCaptchaInstrument
 
 __all__ = ("Control",)
@@ -62,7 +62,7 @@ class Control(CaptchaParams):
                ]
             }
 
-            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_app_stats(softId=867, mode='views')
+            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_app_stats(softId=867, mode="views")
             {
                "errorId":0,
                "chartData":[
@@ -254,8 +254,9 @@ class Control(CaptchaParams):
                ]
             }
 
-            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_spending_stats(softId=867,
-            ...                                                                         queue="English ImageToText")
+            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_spending_stats(
+            ...     softId=867, queue="English ImageToText"
+            ... )
             {
                "errorId":0,
                "data":[
@@ -312,8 +313,9 @@ class Control(CaptchaParams):
                ]
             }
 
-            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_spending_stats(softId=867,
-            ...                                                                             queue="English ImageToText")
+            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_spending_stats(
+            ...     softId=867, queue="English ImageToText"
+            ... )
             {
                "errorId":0,
                "data":[
@@ -326,7 +328,9 @@ class Control(CaptchaParams):
                ]
             }
 
-            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_spending_stats(queue="English ImageToText")
+            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_spending_stats(
+            ...     queue="English ImageToText"
+            ... )
             {
                "errorId":0,
                "data":[
@@ -356,7 +360,7 @@ class Control(CaptchaParams):
             Statistics are available only to the application owner. Improper access returns `ERROR_ACCESS_DENIED`.
 
         Examples:
-            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_app_stats(softId=867, mode='views')
+            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_app_stats(softId=867, mode="views")
             {
                "errorId":0,
                "chartData":[
@@ -368,7 +372,7 @@ class Control(CaptchaParams):
                "toDate":"19 Mar 23:48"
             }
 
-            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_app_stats(softId=867, mode='errors')
+            >>> Control(api_key="99d7d111a0111dc11184111c8bb111da").get_app_stats(softId=867, mode="errors")
             {
                "errorId":0,
                "chartData":[
@@ -399,7 +403,7 @@ class Control(CaptchaParams):
             Statistics are available only to the application owner. Improper access returns `ERROR_ACCESS_DENIED`.
 
         Examples:
-            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_app_stats(softId=867, mode='views')
+            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_app_stats(softId=867, mode="views")
             {
                "errorId":0,
                "chartData":[
@@ -411,7 +415,7 @@ class Control(CaptchaParams):
                "toDate":"19 Mar 23:48"
             }
 
-            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_app_stats(softId=867, mode='errors')
+            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_get_app_stats(softId=867, mode="errors")
             {
                "errorId":0,
                "chartData":[
@@ -512,7 +516,9 @@ class Control(CaptchaParams):
         Async complaints are accepted for V2 and V3 Recaptchas only, including Enterprise Recaptcha.
 
         Examples:
-            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_report_incorrect_recaptcha(taskId=425436541)
+            >>> await Control(api_key="99d7d111a0111dc11184111c8bb111da").aio_report_incorrect_recaptcha(
+            ...     taskId=425436541
+            ... )
             {
                 "errorId":0,
                 "status":"success"

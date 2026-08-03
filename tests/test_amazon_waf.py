@@ -1,9 +1,9 @@
 import pytest
 
-from tests.conftest import BaseTest
-from python3_anticaptcha.core.enum import ProxyTypeEnm, CaptchaTypeEnm
 from python3_anticaptcha.amazon_waf import AmazonWAF
+from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
 from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
+from tests.conftest import BaseTest
 
 
 class TestAmazonWAF(BaseTest):

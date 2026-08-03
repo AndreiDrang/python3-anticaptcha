@@ -1,4 +1,0 @@
-pytest==8.*
-coverage==7.*
-pytest-asyncio==1.*
-pytest-mock==3.15.1

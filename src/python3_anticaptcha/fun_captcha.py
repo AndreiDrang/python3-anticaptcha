@@ -1,7 +1,7 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 from .core.base import CaptchaParams
-from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
 __all__ = ("FunCaptcha",)
 
@@ -43,11 +43,12 @@ class FunCaptcha(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTaskProxyless",
-            ...         websiteURL="https://demo.arkoselabs.com",
-            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
-            ...        ).captcha_handler()
+            >>> FunCaptcha(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="FunCaptchaTaskProxyless",
+            ...     websiteURL="https://demo.arkoselabs.com",
+            ...     websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -64,11 +65,12 @@ class FunCaptcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTaskProxyless",
-            ...         websiteURL="https://demo.arkoselabs.com",
-            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
-            ...        ).aio_captcha_handler()
+            >>> await FunCaptcha(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="FunCaptchaTaskProxyless",
+            ...     websiteURL="https://demo.arkoselabs.com",
+            ...     websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -85,17 +87,18 @@ class FunCaptcha(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> FunCaptcha(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="FunCaptchaTask",
-            ...         websiteURL="https://demo.arkoselabs.com",
-            ...         websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
-            ...         proxyType="http",
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988,
-            ...         proxyLogin="proxy_login",
-            ...         proxyPassword="proxy_password",
-            ...         userAgent="some_real_user_agent",
-            ...        ).captcha_handler()
+            >>> FunCaptcha(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="FunCaptchaTask",
+            ...     websiteURL="https://demo.arkoselabs.com",
+            ...     websitePublicKey="DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6",
+            ...     proxyType="http",
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ...     proxyLogin="proxy_login",
+            ...     proxyPassword="proxy_password",
+            ...     userAgent="some_real_user_agent",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -145,5 +148,5 @@ class FunCaptcha(CaptchaParams):
         else:
             raise ValueError(
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
-                available - {CaptchaTypeEnm.FunCaptchaTaskProxyless.value,CaptchaTypeEnm.FunCaptchaTask.value}"
+                available - {CaptchaTypeEnm.FunCaptchaTaskProxyless.value, CaptchaTypeEnm.FunCaptchaTask.value}"
             )

@@ -1,15 +1,14 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
+from .core.aio_captcha_instrument import AIOCaptchaInstrument
 from .core.base import CaptchaParams
 from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
-from .core.aio_captcha_instrument import AIOCaptchaInstrument
 from .core.sio_captcha_instrument import SIOCaptchaInstrument
 
 __all__ = ("ImageToCoordinates",)
 
 
 class ImageToCoordinates(CaptchaParams):
-
     def __init__(
         self,
         api_key: str,
@@ -38,12 +37,13 @@ class ImageToCoordinates(CaptchaParams):
             img_path: Folder to save captcha images
 
         Examples:
-            >>> ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST,
-            ...                     comment="select all cars",
-            ...                     mode="rectangles",
-            ...                     websiteURL="https://some-website.xyz/"
-            ...        ).captcha_handler(captcha_file='files/captcha-image.jpg')
+            >>> ImageToCoordinates(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     save_format=SaveFormatsEnm.CONST,
+            ...     comment="select all cars",
+            ...     mode="rectangles",
+            ...     websiteURL="https://some-website.xyz/",
+            ... ).captcha_handler(captcha_file="files/captcha-image.jpg")
             {
                "errorId": 0,
                "errorCode": None,
@@ -63,12 +63,13 @@ class ImageToCoordinates(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST,
-            ...                     comment="select 3 cats",
-            ...                     mode="points",
-            ...                     websiteURL="https://some-website.xyz/"
-            ...        ).captcha_handler(captcha_link='https://........../captcha-image.jpg')
+            >>> ImageToCoordinates(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     save_format=SaveFormatsEnm.CONST,
+            ...     comment="select 3 cats",
+            ...     mode="points",
+            ...     websiteURL="https://some-website.xyz/",
+            ... ).captcha_handler(captcha_link="https://........../captcha-image.jpg")
             {
                "errorId": 0,
                "errorCode": None,
@@ -88,12 +89,13 @@ class ImageToCoordinates(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await ImageToCoordinates(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.TEMP,
-            ...                     comment="select 3 cats",
-            ...                     mode="points",
-            ...                     websiteURL="https://some-website.xyz/"
-            ...        ).aio_captcha_handler(captcha_link='https://........../captcha-image.jpg')
+            >>> await ImageToCoordinates(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     save_format=SaveFormatsEnm.TEMP,
+            ...     comment="select 3 cats",
+            ...     mode="points",
+            ...     websiteURL="https://some-website.xyz/",
+            ... ).aio_captcha_handler(captcha_link="https://........../captcha-image.jpg")
             {
                "errorId": 0,
                "errorCode": None,

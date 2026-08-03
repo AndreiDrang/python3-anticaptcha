@@ -1,15 +1,14 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
+from .core.aio_captcha_instrument import AIOCaptchaInstrument
 from .core.base import CaptchaParams
 from .core.enum import CaptchaTypeEnm, SaveFormatsEnm
-from .core.aio_captcha_instrument import AIOCaptchaInstrument
 from .core.sio_captcha_instrument import SIOCaptchaInstrument
 
 __all__ = ("ImageToText",)
 
 
 class ImageToText(CaptchaParams):
-
     def __init__(
         self,
         api_key: str,
@@ -31,9 +30,9 @@ class ImageToText(CaptchaParams):
             img_path: Folder to save captcha images
 
         Examples:
-            >>> ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST
-            ...        ).captcha_handler(captcha_file='files/captcha-image.jpg')
+            >>> ImageToText(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da", save_format=SaveFormatsEnm.CONST
+            ... ).captcha_handler(captcha_file="files/captcha-image.jpg")
             {
                "errorId": 0,
                "errorCode": None,
@@ -51,9 +50,9 @@ class ImageToText(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST
-            ...        ).captcha_handler(captcha_link='https://........../captcha-image.jpg')
+            >>> ImageToText(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da", save_format=SaveFormatsEnm.CONST
+            ... ).captcha_handler(captcha_link="https://........../captcha-image.jpg")
             {
                "errorId": 0,
                "errorCode": None,
@@ -71,9 +70,9 @@ class ImageToText(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await ImageToText(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...                     save_format=SaveFormatsEnm.CONST
-            ...        ).aio_captcha_handler(captcha_link='https://........../captcha-image.jpg')
+            >>> await ImageToText(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da", save_format=SaveFormatsEnm.CONST
+            ... ).aio_captcha_handler(captcha_link="https://........../captcha-image.jpg")
             {
                "errorId": 0,
                "errorCode": None,

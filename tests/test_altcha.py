@@ -1,10 +1,10 @@
 import pytest
 
-from tests.conftest import BaseTest
 from python3_anticaptcha.altcha import Altcha
-from python3_anticaptcha.core.enum import ProxyTypeEnm, CaptchaTypeEnm
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.core.context_instr import AIOContextManager, SIOContextManager
+from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
+from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
+from tests.conftest import BaseTest
 
 
 class TestAltcha(BaseTest):
@@ -22,9 +22,7 @@ class TestAltcha(BaseTest):
 
         assert isinstance(result, dict)
         ser_result = GetTaskResultResponseSer(**result)
-        assert (
-            ser_result.errorId != 0
-        )  # Expected error for test data (any non-zero error code)
+        assert ser_result.errorId != 0  # Expected error for test data (any non-zero error code)
 
     async def test_aio_success(self):
         instance = Altcha(
@@ -37,9 +35,7 @@ class TestAltcha(BaseTest):
 
         assert isinstance(result, dict)
         ser_result = GetTaskResultResponseSer(**result)
-        assert (
-            ser_result.errorId != 0
-        )  # Expected error for test data (any non-zero error code)
+        assert ser_result.errorId != 0  # Expected error for test data (any non-zero error code)
 
     def test_err_captcha_type(self):
         with pytest.raises(ValueError):

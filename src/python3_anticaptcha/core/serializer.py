@@ -2,8 +2,8 @@ from typing import Dict, Literal, Optional
 
 from msgspec import Struct
 
-from .enum import ResponseStatusEnm
 from .const import APP_KEY
+from .enum import ResponseStatusEnm
 
 
 class MyBaseModel(Struct):

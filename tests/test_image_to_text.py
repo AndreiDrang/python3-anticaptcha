@@ -3,13 +3,13 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from tests.conftest import BaseTest
-from python3_anticaptcha.core.enum import SaveFormatsEnm, ResponseStatusEnm
-from python3_anticaptcha.image_to_text import ImageToText
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
-from python3_anticaptcha.core.captcha_instrument import FileInstrument
 from python3_anticaptcha.core.aio_captcha_instrument import AIOCaptchaInstrument
+from python3_anticaptcha.core.captcha_instrument import FileInstrument
+from python3_anticaptcha.core.enum import ResponseStatusEnm, SaveFormatsEnm
+from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.core.sio_captcha_instrument import SIOCaptchaInstrument
+from python3_anticaptcha.image_to_text import ImageToText
+from tests.conftest import BaseTest
 
 
 class TestImageToText(BaseTest):
@@ -54,8 +54,9 @@ class TestImageToText(BaseTest):
         captured_instances = []
         mocker.patch(
             "python3_anticaptcha.image_to_text.SIOCaptchaInstrument",
-            side_effect=lambda *args, **kwargs: captured_instances.append(SIOCaptchaInstrument(*args, **kwargs))
-            or captured_instances[-1],
+            side_effect=lambda *args, **kwargs: (
+                captured_instances.append(SIOCaptchaInstrument(*args, **kwargs)) or captured_instances[-1]
+            ),
         )
         mocked_method: MagicMock = mocker.patch(
             "python3_anticaptcha.core.sio_captcha_instrument.SIOCaptchaInstrument.processing_captcha"
@@ -77,8 +78,9 @@ class TestImageToText(BaseTest):
         captured_instances = []
         mocker.patch(
             "python3_anticaptcha.image_to_text.AIOCaptchaInstrument",
-            side_effect=lambda *args, **kwargs: captured_instances.append(AIOCaptchaInstrument(*args, **kwargs))
-            or captured_instances[-1],
+            side_effect=lambda *args, **kwargs: (
+                captured_instances.append(AIOCaptchaInstrument(*args, **kwargs)) or captured_instances[-1]
+            ),
         )
         mocked_method: MagicMock = mocker.patch(
             "python3_anticaptcha.core.aio_captcha_instrument.AIOCaptchaInstrument.processing_captcha"

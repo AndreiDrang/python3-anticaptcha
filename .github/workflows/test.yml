@@ -2,20 +2,23 @@ name: Tests
 
 on:
   push:
-    branches: [ "main", "release"]
+    branches: ["main", "release"]
     paths:
-      - '.github/workflows/test.yml'
-      - 'src/**'
-      - 'tests/**'
-      - 'Makefile'
-      - 'requirements.test.txt'
+      - ".github/workflows/test.yml"
+      - "src/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
   pull_request:
-    branches: [ "main", "release"]
+    branches: ["main", "release"]
     paths:
-      - '.github/workflows/test.yml'
-      - 'src/**'
-      - 'Makefile'
-      - 'requirements.test.txt'
+      - ".github/workflows/test.yml"
+      - "src/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
   schedule:
     - cron: "5 0 * * 1"
 
@@ -30,20 +33,19 @@ jobs:
         python-version: ["3.12"]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
       - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -U -r requirements.test.txt
-
+        run: uv sync --extra test
       - name: Test
         run: make tests
-
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

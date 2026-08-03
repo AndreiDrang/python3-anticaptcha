@@ -1,10 +1,10 @@
 import pytest
 
-from tests.conftest import BaseTest
-from python3_anticaptcha.core.enum import CaptchaTypeEnm
-from python3_anticaptcha.recaptcha_v3 import ReCaptchaV3
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.core.context_instr import AIOContextManager, SIOContextManager
+from python3_anticaptcha.core.enum import CaptchaTypeEnm
+from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
+from python3_anticaptcha.recaptcha_v3 import ReCaptchaV3
+from tests.conftest import BaseTest
 
 
 class TestReCaptchaV3(BaseTest):

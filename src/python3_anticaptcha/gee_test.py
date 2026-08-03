@@ -1,7 +1,7 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 from .core.base import CaptchaParams
-from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
 __all__ = ("GeeTest",)
 
@@ -50,13 +50,14 @@ class GeeTest(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> GeeTest(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="GeeTestTaskProxyless",
-            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
-            ...         gt="81388ea1fc187e0c335c0a8907ff2625",
-            ...         challenge="12345678abc90123d45678ef90123a456b",
-            ...         version=3,
-            ...        ).captcha_handler()
+            >>> GeeTest(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="GeeTestTaskProxyless",
+            ...     websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...     gt="81388ea1fc187e0c335c0a8907ff2625",
+            ...     challenge="12345678abc90123d45678ef90123a456b",
+            ...     version=3,
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -75,13 +76,14 @@ class GeeTest(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await GeeTest(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="GeeTestTaskProxyless",
-            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
-            ...         gt="81388ea1fc187e0c335c0a8907ff2625",
-            ...         version=4,
-            ...         initParameters="additional_init_params"
-            ...        ).aio_captcha_handler()
+            >>> await GeeTest(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="GeeTestTaskProxyless",
+            ...     websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...     gt="81388ea1fc187e0c335c0a8907ff2625",
+            ...     version=4,
+            ...     initParameters="additional_init_params",
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -102,17 +104,18 @@ class GeeTest(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> GeeTest(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="GeeTestTask",
-            ...         websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
-            ...         gt="81388ea1fc187e0c335c0a8907ff2625",
-            ...         proxyType="http",
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988,
-            ...         proxyLogin="proxy_login",
-            ...         proxyPassword="proxy_password",
-            ...         userAgent="some_real_user_agent",
-            ...        ).captcha_handler()
+            >>> GeeTest(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="GeeTestTask",
+            ...     websiteURL="https://www.geetest.com/en/adaptive-captcha-demo",
+            ...     gt="81388ea1fc187e0c335c0a8907ff2625",
+            ...     proxyType="http",
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ...     proxyLogin="proxy_login",
+            ...     proxyPassword="proxy_password",
+            ...     userAgent="some_real_user_agent",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -168,5 +171,5 @@ class GeeTest(CaptchaParams):
         else:
             raise ValueError(
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
-                available - {CaptchaTypeEnm.GeeTestTask.value,CaptchaTypeEnm.GeeTestTaskProxyless.value}"
+                available - {CaptchaTypeEnm.GeeTestTask.value, CaptchaTypeEnm.GeeTestTaskProxyless.value}"
             )

@@ -1,7 +1,7 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 from .core.base import CaptchaParams
-from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
 __all__ = ("AmazonWAF",)
 
@@ -46,13 +46,14 @@ class AmazonWAF(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> AmazonWAF(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="AmazonTaskProxyless",
-            ...         websiteURL="https://efw47fpad9.execute-api.us-east-1.amazonaws.com/latest",
-            ...         websiteKey="AQIDAgghr5y45ywZwdADFLWk7XOA==",
-            ...         iv="CgAAXFFFFSAAABVk",
-            ...         context="qoJYgnKscdqwdqwdqwaormh/dYYK+Y=",
-            ...        ).captcha_handler()
+            >>> AmazonWAF(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="AmazonTaskProxyless",
+            ...     websiteURL="https://efw47fpad9.execute-api.us-east-1.amazonaws.com/latest",
+            ...     websiteKey="AQIDAgghr5y45ywZwdADFLWk7XOA==",
+            ...     iv="CgAAXFFFFSAAABVk",
+            ...     context="qoJYgnKscdqwdqwdqwaormh/dYYK+Y=",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -69,13 +70,14 @@ class AmazonWAF(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await AmazonWAF(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="AmazonTaskProxyless",
-            ...         websiteURL="https://efw47fpad9.execute-api.us-east-1.amazonaws.com/latest",
-            ...         websiteKey="AQIDAgghr5y45ywZwdADFLWk7XOA==",
-            ...         iv="CgAAXFFFFSAAABVk",
-            ...         context="qoJYgnKscdqwdqwdqwaormh/dYYK+Y=",
-            ...        ).aio_captcha_handler()
+            >>> await AmazonWAF(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="AmazonTaskProxyless",
+            ...     websiteURL="https://efw47fpad9.execute-api.us-east-1.amazonaws.com/latest",
+            ...     websiteKey="AQIDAgghr5y45ywZwdADFLWk7XOA==",
+            ...     iv="CgAAXFFFFSAAABVk",
+            ...     context="qoJYgnKscdqwdqwdqwaormh/dYYK+Y=",
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -92,19 +94,20 @@ class AmazonWAF(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> AmazonWAF(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="AmazonTaskProxyless",
-            ...         websiteURL="https://efw47fpad9.execute-api.us-east-1.amazonaws.com/latest",
-            ...         websiteKey="AQIDAgghr5y45ywZwdADFLWk7XOA==",
-            ...         iv="CgAAXFFFFSAAABVk",
-            ...         context="qoJYgnKscdqwdqwdqwaormh/dYYK+Y=",
-            ...         proxyType="http",
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988,
-            ...         proxyLogin="proxy_login",
-            ...         proxyPassword="proxy_password",
-            ...         userAgent="some_real_user_agent",
-            ...        ).captcha_handler()
+            >>> AmazonWAF(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="AmazonTaskProxyless",
+            ...     websiteURL="https://efw47fpad9.execute-api.us-east-1.amazonaws.com/latest",
+            ...     websiteKey="AQIDAgghr5y45ywZwdADFLWk7XOA==",
+            ...     iv="CgAAXFFFFSAAABVk",
+            ...     context="qoJYgnKscdqwdqwdqwaormh/dYYK+Y=",
+            ...     proxyType="http",
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ...     proxyLogin="proxy_login",
+            ...     proxyPassword="proxy_password",
+            ...     userAgent="some_real_user_agent",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -154,5 +157,5 @@ class AmazonWAF(CaptchaParams):
         else:
             raise ValueError(
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
-                available - {CaptchaTypeEnm.FunCaptchaTaskProxyless.value,CaptchaTypeEnm.FunCaptchaTask.value}"
+                available - {CaptchaTypeEnm.FunCaptchaTaskProxyless.value, CaptchaTypeEnm.FunCaptchaTask.value}"
             )

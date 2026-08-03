@@ -2,19 +2,23 @@ name: Lint
 
 on:
   push:
-    branches: [ "main", "release"]
+    branches: ["main", "release"]
     paths:
-      - '.github/workflows/lint.yml'
-      - 'src/**'
-      - 'Makefile'
-      - 'requirements.style.txt'
+      - ".github/workflows/lint.yml"
+      - "src/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
   pull_request:
-    branches: [ "main", "release"]
+    branches: ["main", "release"]
     paths:
-      - '.github/workflows/lint.yml'
-      - 'src/**'
-      - 'Makefile'
-      - 'requirements.style.txt'
+      - ".github/workflows/lint.yml"
+      - "src/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
 
 jobs:
   lint:
@@ -27,16 +31,16 @@ jobs:
         python-version: ["3.12"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install -r requirements.style.txt
-        
-    - name: Lint
-      run: make lint
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: uv sync --extra style
+      - name: Lint
+        run: make lint

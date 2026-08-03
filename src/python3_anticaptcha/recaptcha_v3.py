@@ -39,14 +39,15 @@ class ReCaptchaV3(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> ReCaptchaV3(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
-            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
-            ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
-            ...         minScore=0.3,
-            ...         pageAction="login",
-            ...         isEnterprise=False,
-            ...        ).captcha_handler()
+            >>> ReCaptchaV3(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
+            ...     websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
+            ...     websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
+            ...     minScore=0.3,
+            ...     pageAction="login",
+            ...     isEnterprise=False,
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -63,14 +64,15 @@ class ReCaptchaV3(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await ReCaptchaV3(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
-            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
-            ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
-            ...         minScore=0.3,
-            ...         pageAction="login",
-            ...         isEnterprise=True,
-            ...        ).aio_captcha_handler()
+            >>> await ReCaptchaV3(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
+            ...     websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
+            ...     websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
+            ...     minScore=0.3,
+            ...     pageAction="login",
+            ...     isEnterprise=True,
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -87,14 +89,15 @@ class ReCaptchaV3(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> ReCaptchaV3(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
-            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
-            ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
-            ...         minScore=0.3,
-            ...         pageAction="login",
-            ...         isEnterprise=True,
-            ...        ).captcha_handler()
+            >>> ReCaptchaV3(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
+            ...     websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
+            ...     websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
+            ...     minScore=0.3,
+            ...     pageAction="login",
+            ...     isEnterprise=True,
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,

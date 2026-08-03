@@ -1,84 +1,95 @@
-# PROJECT KNOWLEDGE BASE
+# AGENTS.md
 
-**Generated:** 2026-02-15
-**Commit:** 3a0e55c
-**Branch:** master
+## Repository overview
 
-## OVERVIEW
-Python client for AntiCaptcha service API. Supports 12 captcha types with sync/async handlers using msgspec for serialization.
+Python 3.9+ client library for the **AntiCaptcha** paid captcha-solving service. One
+class per captcha type, each exposing a synchronous (`requests`) and an asynchronous
+(`aiohttp`) handler. Serialization uses `msgspec`; package uses a `src/` layout.
 
-## STRUCTURE
+- Version: `src/python3_anticaptcha/__version__.py` (single source of truth).
+- API key: read from the `API_KEY` env var or passed as `api_key=` to each handler.
+- Base URL and retry config live in `src/python3_anticaptcha/core/const.py`
+  (`BASE_REQUEST_URL`, `RETRIES`, `ASYNC_RETRIES`) — **not** in `config.py`.
+
+## Where to work
+
+```text
+src/python3_anticaptcha/   # the library — see src/python3_anticaptcha/AGENTS.md
+├── core/                  # shared infra (base, enums, serializer, HTTP) — see core/AGENTS.md
+├── config.py              # attempts_generator + urllib3 warning suppression (small)
+├── __version__.py         # version string
+└── <captcha_type>.py      # one module per captcha type
+tests/                     # pytest + pytest-asyncio — see tests/AGENTS.md
+docs/                      # Sphinx RST docs (docs/modules/<type>.rst per type)
+.github/workflows/         # 5 CI workflows: test, install, lint, build, sphinx
+Makefile, pyproject.toml   # build / lint / test / format config
 ```
-python3-anticaptcha/
-├── src/python3_anticaptcha/    # Main package
-│   ├── core/                   # Shared: base classes, enums, serializer
-│   ├── recaptcha_v2.py         # Individual captcha modules
-│   ├── recaptcha_v3.py
-│   └── ...                     # 10 more captcha types
-├── tests/                      # pytest + asyncio
-├── docs/                       # Sphinx documentation
-├── Makefile                    # Build/test/lint commands
-└── .github/workflows/          # 5 CI workflows (test, install, lint, build, sphinx)
-```
 
-## WHERE TO LOOK
-| Task | Location | Notes |
-|------|----------|-------|
-| Add new captcha type | `src/python3_anticaptcha/` | Copy existing module pattern |
-| Base classes | `core/base.py` | CaptchaParams, CaptchaResponse |
-| Enums | `core/enum.py` | CaptchaTypeEnm, ProxyTypeEnm, ResponseStatusEnm |
-| HTTP handling | `core/captcha_instrument.py` | SynchronousInstrument, AsyncInstrument |
-| Serialization | `core/serializer.py` | msgspec.Struct base |
-| Config | `config.py` | API key, urls |
-| Tests | `tests/` | pytest-asyncio, mock server |
-| CI | `.github/workflows/` | 5 separate workflows |
+## Architecture and boundaries
 
-## CODE MAP
+- Each captcha type is a class inheriting `CaptchaParams` (`core/base.py`).
+- Every class exposes `captcha_handler()` (sync) and `aio_captcha_handler()` (async);
+  both return a `dict` (built from msgspec structs in `core/serializer.py`).
+- Sync path = `requests` session; async path = `aiohttp` session. The two HTTP
+  instruments must stay in lockstep (same endpoints, same request/response shapes).
+- Accepted `captcha_type` strings are enumerated in `CaptchaTypeEnm` (`core/enum.py`) —
+  the enum is the source of truth.
 
-| Symbol | Type | Location | Role |
-|--------|------|----------|------|
-| ReCaptchaV2 | Class | recaptcha_v2.py | Google reCAPTCHA v2 |
-| ReCaptchaV3 | Class | recaptcha_v3.py | Google reCAPTCHA v3 |
-| ImageToText | Class | image_to_text.py | Text from image |
-| FunCaptcha | Class | funcaptcha.py | Arkose Labs |
-| GeeTest | Class | geetest.py | GeeTest captcha |
-| Turnstile | Class | turnstile.py | Cloudflare Turnstile |
-| FriendlyCaptcha | Class | friendly_captcha.py | FriendlyCaptcha |
-| Prosopo | Class | prosopo.py | Prosopo captcha |
-| AmazonWAF | Class | amazon_waf.py | Amazon WAF captcha |
-| CustomTask | Class | custom_task.py | Custom task template |
-| Control | Class | control.py | Balance/status |
-| CaptchaParams | Base | core/base.py | Parent for all params |
-| CaptchaResponse | Base | core/base.py | Parent for responses |
-| SynchronousInstrument | Class | core/captcha_instrument.py | Sync HTTP client |
-| AsyncInstrument | Class | core/captcha_instrument.py | Async HTTP client |
+## Context routing
 
-## CONVENTIONS
-- **Format**: Black + isort (120 char, py310 target)
-- **Imports**: isort with black profile, length_sort
-- **Docstrings**: Google-style (Args/Returns/Examples/Notes)
-- **Serialization**: msgspec.Struct with type annotations
-- **Type hints**: Union[X,Y], Optional[X] syntax (not |)
-- **Async**: All captcha classes have `captcha_handler()` sync + `aio_captcha_handler()` async
+Read the relevant file before editing:
 
-## ANTI-PATTERNS (THIS PROJECT)
-- **SSL**: `verify=False` in sio_captcha_instrument.py:32 - INTENTIONAL for proxy support, suppresses urllib3 warnings
-- **apiDomain**: DO NOT use in ReCaptcha - deprecated by AntiCaptcha
-- **Proxy restrictions**: Never use hostnames, transparent proxies, local networks (192.*.*, 10.*.*, 127.*.*)
-- **Exceptions**: Only ValueError raised - no custom exception hierarchy
-- **Bare except**: Used in some cleanup - avoid expanding
+- Adding or changing a captcha type → `src/python3_anticaptcha/AGENTS.md`
+- Touching HTTP clients, serialization, enums, or base classes → `src/python3_anticaptcha/core/AGENTS.md`
+- Writing or changing tests → `tests/AGENTS.md`
+- Editing docs → `docs/` (Sphinx RST; each type has a `docs/modules/<name>.rst`)
+- Usage/reference intent → `README.md` (note: its `from python3_anticaptcha import X`
+  quick-start does **not** match `__init__.py`; import classes from their module — see below)
 
-## COMMANDS
+## Change rules (repo-wide invariants)
+
+- **Type hints use `Union[X, Y]` / `Optional[X]`** — never PEP 604 `X | Y`. This is the
+  established convention across every module.
+- **Only `ValueError` is raised** (12 raise sites). Do not introduce other exception
+  types without strong reason; there is no custom exception hierarchy.
+- **Do not add re-exports to `src/python3_anticaptcha/__init__.py`** — it exports only
+  `__version__`. Import public classes from their module, e.g.
+  `from python3_anticaptcha.recaptcha_v2 import ReCaptchaV2` (this is what the tests do).
+- **`src/` layout**: run `pip install -e .` (or `make install`) before importing the
+  package outside the installed environment.
+
+## Validation
+
+Run from the repo root (defined in `Makefile`):
+
 ```bash
-make tests          # pytest + coverage
-make lint           # autoflake/black/isort --check
-make build          # python3 -m build
-make doc            # sphinx-build
-make upload         # twine upload dist/*
+make tests    # coverage run + pytest + reports (html/xml)
+make lint     # autoflake + black + isort --check on src/
+make build    # python3 -m build
+make doc      # sphinx-build (cd docs && make html)
+make refactor # autoflake + black + isort applied to src/ tests/ (format/fix)
 ```
 
-## NOTES
-- API_KEY required as env var or constructor param
-- Tests use mock server (tests.static.responses)
-- Manual PyPI upload (make upload) - no auto-publish
-- Docs deploy only on release branch
+- Lint config: black `line-length=120`, `target-version=['py310']`; isort `profile=black`,
+  `length_sort=true` (`pyproject.toml`).
+- Tests: `asyncio_mode=auto` (no `@pytest.mark.asyncio` needed); `pytest -k <name>` to filter.
+
+## Repository-specific gotchas
+
+- **`verify=False` is intentional.** `core/sio_captcha_instrument.py:32` sets
+  `self.session.verify = False` for proxy support, and `urllib3.InsecureRequestWarning`
+  is suppressed in both `config.py` and `core/const.py`. Do **not** "fix" this — see
+  `src/python3_anticaptcha/core/AGENTS.md`.
+- **No auto-publish.** `make upload` runs `twine upload dist/*` manually; there is no
+  release automation in CI.
+- **`msgspec` is pinned** `>=0.18,<0.22` (`pyproject.toml`). A newer msgspec may break
+  the `Struct`-based serializers — check before bumping.
+- **Duplicate `attempts_generator`** exists in both `config.py` and `core/utils.py`;
+  the instruments import from `core/utils.py`. Edit the `core/utils.py` copy for retry
+  behavior.
+
+## Key docs
+
+- `README.md` — supported types, usage examples (import style caveat noted above).
+- `CONTRIBUTING.md` — fork → PR to `main`.
+- `docs/` — Sphinx source; `make doc` builds it.
