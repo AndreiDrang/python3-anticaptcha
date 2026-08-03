@@ -2,17 +2,21 @@ name: Test Build
 
 on:
   push:
-    branches: [ "main", "release"]
+    branches: ["main", "release"]
     paths:
-      - '.github/workflows/build.yml'
-      - 'src/**'
-      - 'Makefile'
+      - ".github/workflows/build.yml"
+      - "src/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
   pull_request:
-    branches: [ "main", "release"]
+    branches: ["main", "release"]
     paths:
-      - '.github/workflows/build.yml'
-      - 'src/**'
-      - 'Makefile'
+      - ".github/workflows/build.yml"
+      - "src/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "Makefile"
 
 jobs:
   test_build:
@@ -23,11 +27,14 @@ jobs:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Local build checking
-      run: make build
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Build package
+        run: make build
