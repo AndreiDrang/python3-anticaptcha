@@ -1,0 +1,15 @@
+@import url("pocoo.css");
+
+a, a.reference, a.footnote-reference {
+  color: #a00;
+  text-decoration-color: #a00;
+}
+
+a:hover {
+  color: #d00;
+  text-decoration-color: #d00;
+}
+
+p.version-warning {
+  background-color: #d40;
+}
