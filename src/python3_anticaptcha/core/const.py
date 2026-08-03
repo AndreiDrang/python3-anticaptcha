@@ -1,6 +1,6 @@
 import urllib3
-from tenacity import AsyncRetrying, wait_fixed, stop_after_attempt
 from requests.adapters import Retry
+from tenacity import AsyncRetrying, stop_after_attempt, wait_fixed
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 

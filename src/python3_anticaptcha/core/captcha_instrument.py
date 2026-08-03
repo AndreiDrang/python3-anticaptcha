@@ -1,6 +1,6 @@
 import os
-import uuid
 import shutil
+import uuid
 from pathlib import Path
 
 from .serializer import GetTaskResultResponseSer

@@ -1,18 +1,18 @@
-import time
 import base64
 import logging
-from typing import Union, Optional
+import time
+from typing import Optional, Union
 from urllib import parse
 from urllib.parse import urljoin
 
 import requests
 from requests.adapters import HTTPAdapter
 
-from .enum import SaveFormatsEnm, ResponseStatusEnm
-from .const import RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
-from .utils import attempts_generator
-from .serializer import CreateTaskResponseSer, GetTaskResultResponseSer
 from .captcha_instrument import CaptchaInstrument
+from .const import BASE_REQUEST_URL, CREATE_TASK_POSTFIX, GET_RESULT_POSTFIX, RETRIES
+from .enum import ResponseStatusEnm, SaveFormatsEnm
+from .serializer import CreateTaskResponseSer, GetTaskResultResponseSer
+from .utils import attempts_generator
 
 __all__ = ("SIOCaptchaInstrument",)
 

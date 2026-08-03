@@ -1,7 +1,7 @@
 from typing import Optional
 
 from .core.base import CaptchaParams
-from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
 __all__ = ("CustomTask",)
 
@@ -47,17 +47,16 @@ class CustomTask(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> CustomTask(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         websiteURL="https://anti-captcha.com/tutorials/v2-textarea",
-            ...         templateName="Anti-bot screen bypass",
-            ...         variables={
-            ...             "css_selector":"some value"
-            ...         },
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988,
-            ...         proxyLogin="proxy_login",
-            ...         proxyPassword="proxy_password",
-            ...        ).captcha_handler()
+            >>> CustomTask(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     websiteURL="https://anti-captcha.com/tutorials/v2-textarea",
+            ...     templateName="Anti-bot screen bypass",
+            ...     variables={"css_selector": "some value"},
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ...     proxyLogin="proxy_login",
+            ...     proxyPassword="proxy_password",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -74,17 +73,16 @@ class CustomTask(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await CustomTask(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         websiteURL="https://anti-captcha.com/tutorials/v2-textarea",
-            ...         templateName="Anti-bot screen bypass",
-            ...         variables={
-            ...             "css_selector":"some value"
-            ...         },
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988,
-            ...         proxyLogin="proxy_login",
-            ...         proxyPassword="proxy_password",
-            ...        ).aio_captcha_handler()
+            >>> await CustomTask(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     websiteURL="https://anti-captcha.com/tutorials/v2-textarea",
+            ...     templateName="Anti-bot screen bypass",
+            ...     variables={"css_selector": "some value"},
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ...     proxyLogin="proxy_login",
+            ...     proxyPassword="proxy_password",
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,

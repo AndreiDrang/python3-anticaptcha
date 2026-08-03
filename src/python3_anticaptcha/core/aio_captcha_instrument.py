@@ -1,17 +1,17 @@
-import base64
 import asyncio
+import base64
 import logging
-from typing import Union, Optional
+from typing import Optional, Union
 from urllib import parse
 from urllib.parse import urljoin
 
 import aiohttp
 
-from .enum import SaveFormatsEnm
-from .const import ASYNC_RETRIES, BASE_REQUEST_URL, GET_RESULT_POSTFIX, CREATE_TASK_POSTFIX
-from .utils import attempts_generator
-from .serializer import CreateTaskResponseSer
 from .captcha_instrument import CaptchaInstrument
+from .const import ASYNC_RETRIES, BASE_REQUEST_URL, CREATE_TASK_POSTFIX, GET_RESULT_POSTFIX
+from .enum import SaveFormatsEnm
+from .serializer import CreateTaskResponseSer
+from .utils import attempts_generator
 
 __all__ = ("AIOCaptchaInstrument",)
 

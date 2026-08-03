@@ -1,7 +1,7 @@
-from .serializer import CreateTaskBaseSer, GetTaskResultRequestSer
-from .context_instr import AIOContextManager, SIOContextManager
-from .captcha_instrument import CaptchaInstrument
 from .aio_captcha_instrument import AIOCaptchaInstrument
+from .captcha_instrument import CaptchaInstrument
+from .context_instr import AIOContextManager, SIOContextManager
+from .serializer import CreateTaskBaseSer, GetTaskResultRequestSer
 from .sio_captcha_instrument import SIOCaptchaInstrument
 
 __all__ = ("CaptchaParams",)

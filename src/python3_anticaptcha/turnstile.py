@@ -1,7 +1,7 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 from .core.base import CaptchaParams
-from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
 __all__ = ("Turnstile",)
 
@@ -41,11 +41,12 @@ class Turnstile(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA"
-            ...        ).captcha_handler()
+            >>> Turnstile(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="TurnstileTaskProxyless",
+            ...     websiteURL="https://demo.turnstile.workers.dev/",
+            ...     websiteKey="1x00000000000000000000AA",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -63,11 +64,12 @@ class Turnstile(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTaskProxyless",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA"
-            ...        ).aio_captcha_handler()
+            >>> await Turnstile(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="TurnstileTaskProxyless",
+            ...     websiteURL="https://demo.turnstile.workers.dev/",
+            ...     websiteKey="1x00000000000000000000AA",
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -85,14 +87,15 @@ class Turnstile(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTask",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA",
-            ...         proxyType="http",
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988,
-            ...        ).captcha_handler()
+            >>> Turnstile(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="TurnstileTask",
+            ...     websiteURL="https://demo.turnstile.workers.dev/",
+            ...     websiteKey="1x00000000000000000000AA",
+            ...     proxyType="http",
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -110,15 +113,15 @@ class Turnstile(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> Turnstile(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type="TurnstileTask",
-            ...         websiteURL="https://demo.turnstile.workers.dev/",
-            ...         websiteKey="1x00000000000000000000AA",
-            ...         proxyType="http",
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988
-            ...        ).captcha_handler(proxyLogin="some_login",
-            ...                         proxyPassword="some_strong_password")
+            >>> Turnstile(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type="TurnstileTask",
+            ...     websiteURL="https://demo.turnstile.workers.dev/",
+            ...     websiteKey="1x00000000000000000000AA",
+            ...     proxyType="http",
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ... ).captcha_handler(proxyLogin="some_login", proxyPassword="some_strong_password")
             {
                "errorId": 0,
                "errorCode": None,
@@ -169,5 +172,5 @@ class Turnstile(CaptchaParams):
         else:
             raise ValueError(
                 f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
-                available - {CaptchaTypeEnm.TurnstileTaskProxyless.value,CaptchaTypeEnm.TurnstileTask.value}"
+                available - {CaptchaTypeEnm.TurnstileTaskProxyless.value, CaptchaTypeEnm.TurnstileTask.value}"
             )

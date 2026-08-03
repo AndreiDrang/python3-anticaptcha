@@ -2,7 +2,6 @@ __all__ = ("SIOContextManager", "AIOContextManager")
 
 
 class SIOContextManager:
-
     # Context methods
     def __enter__(self):
         return self
@@ -14,7 +13,6 @@ class SIOContextManager:
 
 
 class AIOContextManager:
-
     # Context methods
     async def __aenter__(self):
         return self
