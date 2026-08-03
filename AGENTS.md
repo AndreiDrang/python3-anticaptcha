@@ -21,6 +21,7 @@ src/python3_anticaptcha/   # the library — see src/python3_anticaptcha/AGENTS.
 └── <captcha_type>.py      # one module per captcha type
 tests/                     # pytest + pytest-asyncio — see tests/AGENTS.md
 docs/                      # Sphinx RST docs (docs/modules/<type>.rst per type)
+okf/                       # OKF knowledge bundle — see okf/index.md
 .github/workflows/         # 5 CI workflows: test, install, lint, build, sphinx
 Makefile, pyproject.toml   # build / lint / test / format config
 ```
@@ -93,3 +94,4 @@ make refactor # autoflake + black + isort applied to src/ tests/ (format/fix)
 - `README.md` — supported types, usage examples (import style caveat noted above).
 - `CONTRIBUTING.md` — fork → PR to `main`.
 - `docs/` — Sphinx source; `make doc` builds it.
+- `okf/` — OKF v0.1 knowledge bundle; concept-oriented documentation for humans and AI agents.

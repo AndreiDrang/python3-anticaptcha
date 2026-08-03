@@ -114,6 +114,7 @@ python3-anticaptcha/
 │       └── context_instr.py        # SIO/AIO context-manager mix-ins (session lifecycle)
 ├── tests/                          # pytest + pytest-asyncio; one test_<module>.py per source module
 ├── docs/                           # Sphinx RST; docs/modules/<type> per type (make doc)
+├── okf/                           # OKF v0.1 knowledge bundle; concept-oriented docs for humans and AI agents
 ├── pyproject.toml                  # setuptools build, black/isort/pytest config, runtime deps
 ├── Makefile                        # install/tests/refactor/lint/build/doc/upload targets
 └── .github/workflows/              # test, install, lint, build, sphinx (release → gh-pages)
@@ -230,7 +231,9 @@ Repo-wide agent operating rules and task-based context routing live in `AGENTS.m
 local deltas in `src/python3_anticaptcha/AGENTS.md`,
 `src/python3_anticaptcha/core/AGENTS.md`, and `tests/AGENTS.md`. Per-type usage and live
 API references are in `README.md` and the Sphinx docs under `docs/`
-(`docs/modules/<type>` per captcha type). Operational commands (install/test/lint/build/
-release) are defined in `Makefile` and `.github/workflows/`.
+(`docs/modules/<type>` per captcha type). The OKF knowledge bundle in `okf/` provides
+concept-oriented documentation following the Open Knowledge Format v0.1 specification,
+designed for both human readability and AI agent traversal. Operational commands
+(install/test/lint/build/release) are defined in `Makefile` and `.github/workflows/`.
 
 No ADRs, `DESIGN.md`, or runbooks exist in this repository.
