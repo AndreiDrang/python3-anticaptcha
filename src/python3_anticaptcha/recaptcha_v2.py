@@ -1,7 +1,7 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 from .core.base import CaptchaParams
-from .core.enum import ProxyTypeEnm, CaptchaTypeEnm
+from .core.enum import CaptchaTypeEnm, ProxyTypeEnm
 
 __all__ = ("ReCaptchaV2",)
 
@@ -56,13 +56,14 @@ class ReCaptchaV2(CaptchaParams):
             sleep_time: The waiting time between requests to get the result of the Captcha
 
         Examples:
-            >>> ReCaptchaV2(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
-            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
-            ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
-            ...         recaptchaDataSValue="12345678abc90123d45678ef90123a456b",
-            ...         isInvisible=False,
-            ...        ).captcha_handler()
+            >>> ReCaptchaV2(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
+            ...     websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
+            ...     websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
+            ...     recaptchaDataSValue="12345678abc90123d45678ef90123a456b",
+            ...     isInvisible=False,
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -79,20 +80,21 @@ class ReCaptchaV2(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> await ReCaptchaV2(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type=CaptchaTypeEnm.RecaptchaV2Task,
-            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
-            ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
-            ...         recaptchaDataSValue="12345678abc90123d45678ef90123a456b",
-            ...         isInvisible=False,
-            ...         proxyType="http",
-            ...         proxyAddress="0.0.0.0",
-            ...         proxyPort=9988,
-            ...         proxyLogin="proxy_login",
-            ...         proxyPassword="proxy_password",
-            ...         userAgent="some_real_user_agent",
-            ...         cookies="some-cookies-data",
-            ...        ).aio_captcha_handler()
+            >>> await ReCaptchaV2(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type=CaptchaTypeEnm.RecaptchaV2Task,
+            ...     websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
+            ...     websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
+            ...     recaptchaDataSValue="12345678abc90123d45678ef90123a456b",
+            ...     isInvisible=False,
+            ...     proxyType="http",
+            ...     proxyAddress="0.0.0.0",
+            ...     proxyPort=9988,
+            ...     proxyLogin="proxy_login",
+            ...     proxyPassword="proxy_password",
+            ...     userAgent="some_real_user_agent",
+            ...     cookies="some-cookies-data",
+            ... ).aio_captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -109,15 +111,14 @@ class ReCaptchaV2(CaptchaParams):
                "taskId": 396687629
             }
 
-            >>> ReCaptchaV2(api_key="99d7d111a0111dc11184111c8bb111da",
-            ...         captcha_type=CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
-            ...         websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
-            ...         websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
-            ...         enterprisePayload={
-            ...                     "s": "SOME_ADDITIONAL_TOKEN"
-            ...         },
-            ...         apiDomain="www.google.com",
-            ...        ).captcha_handler()
+            >>> ReCaptchaV2(
+            ...     api_key="99d7d111a0111dc11184111c8bb111da",
+            ...     captcha_type=CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
+            ...     websiteURL="https://www.recaptcha.com/en/adaptive-captcha-demo",
+            ...     websiteKey="6Lc_aCMTAAAAABx7u2N0D1XnVbI_v6ZdbM6rYf16",
+            ...     enterprisePayload={"s": "SOME_ADDITIONAL_TOKEN"},
+            ...     apiDomain="www.google.com",
+            ... ).captcha_handler()
             {
                "errorId": 0,
                "errorCode": None,
@@ -194,10 +195,13 @@ class ReCaptchaV2(CaptchaParams):
                     )
                 )
         else:
-            raise ValueError(
-                f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, \
-                available - {CaptchaTypeEnm.RecaptchaV2Task.value,
+            available_captcha_types = (
+                CaptchaTypeEnm.RecaptchaV2Task.value,
                 CaptchaTypeEnm.RecaptchaV2TaskProxyless.value,
                 CaptchaTypeEnm.RecaptchaV2EnterpriseTask.value,
-                CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless.value}"
+                CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless.value,
+            )
+            raise ValueError(
+                f"Invalid `captcha_type` parameter set for `{self.__class__.__name__}`, "
+                f"available - {available_captcha_types}"
             )
