@@ -1,44 +1,32 @@
+.PHONY: install remove tests refactor lint build upload doc
+
 install:
-	pip3 install -e .
+	uv sync
 
 remove:
-	pip3 uninstall python3_anticaptcha -y
+	uv pip uninstall python3-anticaptcha
 
-tests: install
-	coverage run --rcfile=.coveragerc -m pytest --verbose --showlocals --pastebin=all  --disable-warnings \
+tests:
+	uv run --extra test coverage run --rcfile=.coveragerc -m pytest --verbose --showlocals --disable-warnings \
 	tests/ && \
-	coverage report --precision=3 --sort=cover --skip-empty --show-missing && \
-	coverage html --precision=3 --skip-empty -d coverage/html/ && \
-	coverage xml -o coverage/coverage.xml
+	uv run --extra test coverage report --precision=3 --sort=cover --skip-empty --show-missing && \
+	uv run --extra test coverage html --precision=3 --skip-empty -d coverage/html/ && \
+	uv run --extra test coverage xml -o coverage/coverage.xml
 
 refactor:
-	black docs/
-	isort docs/
-
-	autoflake --in-place \
-				--recursive \
-				--remove-unused-variables \
-				--remove-duplicate-keys \
-				--remove-all-unused-imports \
-				--ignore-init-module-imports \
-				src/ tests/ && \
-	black src/ tests/ && \
-	isort src/ tests/
+	uv run --extra style ruff check --fix src tests && \
+	uv run --extra style ruff format src tests
 
 lint:
-	autoflake --in-place --recursive src/ --check && \
-	black src/ --check && \
-	isort src/ --check-only
+	uv run --extra style ruff check src tests && \
+	uv run --extra style ruff format --check src tests
 
 build:
-	pip3 install --upgrade build setuptools
-	python3 -m build
+	uv build
 
 upload:
-	pip3 install wheel setuptools build
-	pip3 install twine==6.1.0
-	twine upload dist/*
+	uv build
+	uv publish
 
-doc: install
-	cd docs/ && \
-	make html -e
+doc:
+	uv run --extra docs sphinx-build -M html docs docs/_build

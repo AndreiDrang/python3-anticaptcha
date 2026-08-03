@@ -133,15 +133,32 @@ All captcha classes support these common parameters:
 
 ## Development
 
+Install [uv](https://docs.astral.sh/uv/) and create the project environment with all development extras:
+
+```bash
+uv sync --all-extras
+```
+
+The Makefile provides the standard project commands:
+
 ```bash
 # Run tests
 make tests
 
-# Run linters
+# Run Ruff checks
 make lint
 
 # Build package
 make build
+
+# Build documentation
+make doc
+```
+
+Ruff is the formatter and linter. To apply its safe fixes and formatting, run:
+
+```bash
+make refactor
 ```
 
 ## Contacts

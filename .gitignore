@@ -19,6 +19,7 @@ dist/
 
 venv/
 env/
+.venv/
 /.coverage
 /docs/_build/
 /src/python3_anticaptcha.egg-info/

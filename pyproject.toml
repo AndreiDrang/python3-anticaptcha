@@ -1,33 +1,3 @@
-[tool.black]
-line-length = 120
-target-version = ['py310']
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-
-[tool.isort]
-profile = "black"
-line_length = 120
-length_sort = true
-
-[tool.pytest.ini_options]
-minversion = "7.0"
-asyncio_mode = "auto"
-testpaths = [
-    "tests",
-]
-addopts = "-vv --tb=short --durations=5"
-
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -36,66 +6,79 @@ build-backend = "setuptools.build_meta"
 name = "python3-anticaptcha"
 dynamic = ["version"]
 authors = [
-    {name = "AndreiDrang", email = "python-captcha@pm.me"},
+    { name = "AndreiDrang", email = "python-captcha@pm.me" },
 ]
 description = "Python 3.9+ RuCaptcha library with AIO module."
 readme = "README.md"
 requires-python = ">=3.9"
-keywords = [    "captcha",
-				"anticaptcha",
-				"deathbycaptcha",
-				"recaptcha",
-				"geetest",
-				"hcaptcha",
-				"capypuzzle",
-				"rotatecaptcha",
-				"funcaptcha",
-				"keycaptcha",
-				"python3",
-				"recaptcha",
-				"captcha",
-				"security",
-				"tencent",
-				"atb_captcha",
-				"python-library",
-				"python-anticaptcha",
-				"anticaptcha-client",
-				"yandex",
-				"turnstile",
-				"amazon",
-				"amazon_waf",
-				"friendly-captcha"
-            ]
+keywords = [
+    "captcha",
+    "anticaptcha",
+    "deathbycaptcha",
+    "recaptcha",
+    "geetest",
+    "hcaptcha",
+    "capypuzzle",
+    "rotatecaptcha",
+    "funcaptcha",
+    "keycaptcha",
+    "python3",
+    "security",
+    "tencent",
+    "atb_captcha",
+    "python-library",
+    "python-anticaptcha",
+    "anticaptcha-client",
+    "yandex",
+    "turnstile",
+    "amazon",
+    "amazon_waf",
+    "friendly-captcha",
+]
 license = "MIT"
 classifiers = [
-        "Development Status :: 5 - Production/Stable",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Programming Language :: Python :: 3.13",
-        "Programming Language :: Python :: 3.14",
-        "Framework :: AsyncIO",
-        "Operating System :: Unix",
-        "Operating System :: Microsoft :: Windows",
-        "Operating System :: MacOS",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Framework :: AsyncIO",
+    "Operating System :: Unix",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
 ]
 dependencies = [
     "requests>=2.21.0",
     "aiohttp>=3.9.2",
     "msgspec>=0.18,<0.22",
-    "tenacity>=8,<10"
+    "tenacity>=8,<10",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["python3_anticaptcha*"]
-
-[tool.setuptools.dynamic]
-version = {attr = "python3_anticaptcha.__version__"}
+[project.optional-dependencies]
+test = [
+    "pytest>=7,<10",
+    "pytest-asyncio>=0.21,<2",
+    "pytest-mock>=3.15,<4",
+    "coverage>=7,<8",
+]
+style = [
+    "ruff==0.16.*",
+]
+docs = [
+    "sphinx==7.4.7; python_version < '3.10'",
+    "sphinx==7.4.7; python_version >= '3.10' and python_version < '3.12'",
+    "sphinx==9.1.0; python_version >= '3.12'",
+    "pallets_sphinx_themes==2.3.0; python_version < '3.10'",
+    "pallets_sphinx_themes==2.5.0; python_version >= '3.10'",
+    "myst-parser==3.0.1; python_version < '3.11'",
+    "myst-parser==4.0.1; python_version >= '3.11' and python_version < '3.12'",
+    "myst-parser==5.1.0; python_version >= '3.12'",
+]
 
 [project.urls]
 Homepage = "https://andreidrang.github.io/python3-anticaptcha"
@@ -103,3 +86,35 @@ Documentation = "https://andreidrang.github.io/python3-anticaptcha"
 Repository = "https://github.com/AndreiDrang/python3-anticaptcha"
 Issues = "https://github.com/AndreiDrang/python3-anticaptcha/issues"
 Changelog = "https://github.com/AndreiDrang/python3-anticaptcha/releases"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["python3_anticaptcha*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "python3_anticaptcha.__version__" }
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-vv --tb=short --durations=5"
+
+[tool.ruff]
+src = ["src"]
+target-version = "py39"
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "I"]
+ignore = ["E501", "E712", "F821"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**" = ["F841"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["python3_anticaptcha"]
