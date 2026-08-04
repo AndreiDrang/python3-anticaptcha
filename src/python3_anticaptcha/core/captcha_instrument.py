@@ -36,7 +36,16 @@ class FileInstrument:
 
     @staticmethod
     def _file_clean(full_file_path: str):
-        shutil.rmtree(full_file_path, ignore_errors=True)
+        # The path handed in may be either a single saved image file (the
+        # common img_clearing case) or a directory tree; handle both so that
+        # clearing actually removes the artifact from disk.
+        if os.path.isdir(full_file_path):
+            shutil.rmtree(full_file_path, ignore_errors=True)
+        else:
+            try:
+                os.remove(full_file_path)
+            except OSError:
+                pass
 
 
 class CaptchaInstrument(FileInstrument):

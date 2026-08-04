@@ -131,6 +131,7 @@ class SIOCaptchaInstrument(CaptchaInstrument):
 
     def _get_result(self, url_response: str = GET_RESULT_POSTFIX) -> dict:
         attempts = attempts_generator()
+        captcha_response = GetTaskResultResponseSer(taskId=self.captcha_params.get_result_params.taskId)
         for _ in attempts:
             captcha_response = GetTaskResultResponseSer(
                 **self.session.post(
@@ -139,13 +140,18 @@ class SIOCaptchaInstrument(CaptchaInstrument):
                 taskId=self.captcha_params.get_result_params.taskId,
             )
 
-            if captcha_response.errorId == 0:
-                if captcha_response.status == ResponseStatusEnm.processing:
-                    time.sleep(self.captcha_params.sleep_time)
-                else:
-                    self.session.close()
-            else:
+            # An error response is terminal — return immediately.
+            if captcha_response.errorId != 0:
                 self.session.close()
+                return captcha_response.to_dict()
+            # Still processing — wait and poll again.
+            if captcha_response.status == ResponseStatusEnm.processing:
+                time.sleep(self.captcha_params.sleep_time)
+                continue
+            # Any other status (e.g. ``ready``) is terminal.
+            self.session.close()
+            return captcha_response.to_dict()
+        # Attempts exhausted while still processing; return the last response.
         return captcha_response.to_dict()
 
     @staticmethod
