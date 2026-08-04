@@ -8,13 +8,16 @@ Applies to: `tests/`. Inherits repo-wide guidance from `../AGENTS.md`.
 
 ```text
 tests/
-├── conftest.py            # BaseTest class + delay fixtures
-├── test_<module>.py       # one test module per source module
+├── conftest.py            # BaseTest + root HTTP-fixture exports
+├── core/
+│   ├── conftest.py        # sync/async transport fakes and response builders
+│   └── test_<module>.py   # one test module per core source module
+├── test_<module>.py       # one test module per top-level source module
 └── __init__.py
 ```
 
-There is **no** `tests/static/` directory and no shared response fixture file. Mocking is
-done inline with `pytest-mock` (`mocker.patch` / `mocker.spy`); no tests make real API calls.
+There is **no** `tests/static/` directory. Transport fakes and deterministic response builders
+live in `tests/core/conftest.py`; no tests make real API calls.
 
 ## Conventions
 
@@ -28,13 +31,15 @@ done inline with `pytest-mock` (`mocker.patch` / `mocker.spy`); no tests make re
   class TestReCaptchaV2(BaseTest): ...
   ```
   `BaseTest` provides `API_KEY` (env or mock default), `sleep_time`, `get_proxy_args()`,
-  `get_random_string()`, `read_file()`, and the `delay_func` / `delay_class` fixtures.
-- Naming: class `Test<Type>`; methods `test_sio_*` (sync) / `test_aio_*` (async).
+  `get_random_string()`, and `read_file()`. It intentionally has no delay fixtures.
+- Naming: class `Test<Type>`; methods describe observable behavior. Async tests use
+  `async def` without `@pytest.mark.asyncio`.
 - Import classes from their module, not the package root:
   `from python3_anticaptcha.recaptcha_v2 import ReCaptchaV2`.
-- Avoid real network: spy on the context managers from `core.context_instr`
-  (`SIOContextManager.__enter__`, `AIOContextManager.__aenter__`) and patch the instruments.
-- Validate returned dicts against `GetTaskResultResponseSer` from `core.serializer`.
+- Never make real network calls. Use `sio_http` / `aio_http`; they patch only the HTTP
+  transport, allowing payload assembly, serialization, and polling to run for real.
+- Assert exact returned fields and request URL/JSON payloads; avoid truthiness-only assertions.
+
 
 ## Validation
 
