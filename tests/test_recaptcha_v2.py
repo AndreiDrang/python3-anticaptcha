@@ -1,161 +1,93 @@
+"""Behavioral tests for ``ReCaptchaV2`` payload assembly.
+
+No test calls the live service. The class's business contract is the exact task
+shape selected by the four accepted captcha types; transport state-machine tests
+live in ``tests/core/test_*captcha_instrument.py``.
+"""
+
 import pytest
 
-from python3_anticaptcha.core.context_instr import AIOContextManager, SIOContextManager
 from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.recaptcha_v2 import ReCaptchaV2
 from tests.conftest import BaseTest
 
 
 class TestReCaptchaV2(BaseTest):
-    recaptcha_v2_proxyless_types = (
-        CaptchaTypeEnm.RecaptchaV2TaskProxyless,
-        CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
+    BASE = {"websiteURL": "https://example.test", "websiteKey": "SITEKEY"}
+
+    @pytest.mark.parametrize(
+        "captcha_type",
+        [
+            CaptchaTypeEnm.RecaptchaV2TaskProxyless,
+            CaptchaTypeEnm.RecaptchaV2Task,
+            CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
+            CaptchaTypeEnm.RecaptchaV2EnterpriseTask,
+        ],
     )
-    recaptcha_v2_proxy_types = (
-        CaptchaTypeEnm.RecaptchaV2Task,
-        CaptchaTypeEnm.RecaptchaV2EnterpriseTask,
+    def test_accepts_every_supported_type(self, captcha_type):
+        instance = ReCaptchaV2(api_key=self.API_KEY, captcha_type=captcha_type, **self.BASE)
+        assert instance.task_params["type"] == captcha_type
+        assert instance.task_params["websiteURL"] == self.BASE["websiteURL"]
+        assert instance.task_params["websiteKey"] == self.BASE["websiteKey"]
+
+    @pytest.mark.parametrize(
+        "captcha_type",
+        [CaptchaTypeEnm.RecaptchaV2TaskProxyless, CaptchaTypeEnm.RecaptchaV2Task],
     )
-    recaptcha_v2_types = recaptcha_v2_proxy_types + recaptcha_v2_proxyless_types
-
-    websiteURL = "https://rucaptcha.com/demo/recaptcha-v2"
-    websiteKey = "6LfD3PIbAAAAAJs_eEHvoOl75_83eXSqpPSRFJ_u"
-    websiteURLEnterprise = "https://rucaptcha.com/demo/recaptcha-v2-enterprise"
-    websiteKeyEnterprise = "6Lf26sUnAAAAAIKLuWNYgRsFUfmI-3Lex3xT5N-s"
-
-    def test_sio_success(self):
+    def test_non_enterprise_fields_are_present(self, captcha_type):
         instance = ReCaptchaV2(
             api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
+            captcha_type=captcha_type,
+            recaptchaDataSValue="DATA-S",
+            isInvisible=True,
+            **self.BASE,
         )
-        result = instance.captcha_handler()
+        assert instance.task_params["recaptchaDataSValue"] == "DATA-S"
+        assert instance.task_params["isInvisible"] is True
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
-
-    async def test_aio_success(self):
-        instance = ReCaptchaV2(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
-        )
-        result = await instance.aio_captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
-
-    def test_sio_enterprise_success(self):
-        instance = ReCaptchaV2(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKeyEnterprise,
-            websiteURL=self.websiteURLEnterprise,
-            captcha_type=CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
-        )
-        result = instance.captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
-
-    async def test_aio_enterprise_success(self):
-        instance = ReCaptchaV2(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKeyEnterprise,
-            websiteURL=self.websiteURLEnterprise,
-            captcha_type=CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
-        )
-        result = await instance.aio_captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
-
-    def get_proxy_args(self) -> dict:
-        proxy_args = super().get_proxy_args()
-        proxy_args.update({"userAgent": self.get_random_string(), "cookies": self.get_random_string()})
-        return proxy_args
-
-    def test_err_captcha_type(self):
-        with pytest.raises(ValueError):
-            ReCaptchaV2(
-                api_key=self.API_KEY,
-                websiteKey=self.websiteKey,
-                websiteURL=self.websiteURL,
-                captcha_type=self.get_random_string(length=10),
-            )
-
-    @pytest.mark.parametrize("recaptcha_type", recaptcha_v2_proxy_types)
-    @pytest.mark.parametrize("proxyType", ProxyTypeEnm)
-    def test_proxy_args(self, proxyType: ProxyTypeEnm, recaptcha_type):
-        proxy_args = self.get_proxy_args()
-        proxy_args.update({"proxyType": proxyType})
-        instance = ReCaptchaV2(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            captcha_type=recaptcha_type,
-            **proxy_args,
-        )
-        for key, value in proxy_args.items():
+    @pytest.mark.parametrize(
+        "captcha_type",
+        [CaptchaTypeEnm.RecaptchaV2Task, CaptchaTypeEnm.RecaptchaV2EnterpriseTask],
+    )
+    def test_proxy_type_contains_exact_proxy_fields(self, captcha_type):
+        proxy = {
+            "proxyType": ProxyTypeEnm.http,
+            "proxyAddress": "1.2.3.4",
+            "proxyPort": 8080,
+            "proxyLogin": "user",
+            "proxyPassword": "pass",
+            "userAgent": "agent",
+            "cookies": "a=b",
+        }
+        instance = ReCaptchaV2(api_key=self.API_KEY, captcha_type=captcha_type, **self.BASE, **proxy)
+        for key, value in proxy.items():
             assert instance.task_params[key] == value
 
-    @pytest.mark.parametrize("recaptcha_type", recaptcha_v2_types)
-    def test_context(self, mocker, recaptcha_type):
-        context_enter_spy = mocker.spy(SIOContextManager, "__enter__")
-        context_exit_spy = mocker.spy(SIOContextManager, "__exit__")
-        with ReCaptchaV2(
+    def test_enterprise_fields_are_not_replaced_by_proxy_fields(self):
+        instance = ReCaptchaV2(
             api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            captcha_type=recaptcha_type,
-        ) as instance:
-            assert context_enter_spy.call_count == 1
-        assert context_exit_spy.call_count == 1
+            captcha_type=CaptchaTypeEnm.RecaptchaV2EnterpriseTaskProxyless,
+            enterprisePayload={"s": "TOKEN"},
+            apiDomain="www.google.com",
+            **self.BASE,
+        )
+        assert instance.task_params["enterprisePayload"] == {"s": "TOKEN"}
+        assert instance.task_params["apiDomain"] == "www.google.com"
+        assert "proxyType" not in instance.task_params
 
-    @pytest.mark.parametrize("recaptcha_type", recaptcha_v2_types)
-    async def test_aio_context(self, mocker, recaptcha_type):
-        context_enter_spy = mocker.spy(AIOContextManager, "__aenter__")
-        context_exit_spy = mocker.spy(AIOContextManager, "__aexit__")
-        async with ReCaptchaV2(
+    def test_rejects_unsupported_type(self):
+        with pytest.raises(ValueError, match="Invalid `captcha_type`"):
+            ReCaptchaV2(api_key=self.API_KEY, captcha_type="Unsupported", **self.BASE)
+
+    def test_handler_uses_configured_client_key_and_type(self, sio_http):
+        sio_http.post_sequence({"errorId": 1, "errorCode": "ERROR_KEY_DOES_NOT_EXIST"})
+        result = ReCaptchaV2(
             api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            captcha_type=recaptcha_type,
-        ) as instance:
-            assert context_enter_spy.call_count == 1
-        assert context_exit_spy.call_count == 1
+            captcha_type=CaptchaTypeEnm.RecaptchaV2TaskProxyless,
+            **self.BASE,
+        ).captcha_handler()
 
-    @pytest.mark.parametrize("recaptcha_type", recaptcha_v2_types)
-    def test_err_context(self, recaptcha_type):
-        with pytest.raises(ValueError):
-            with ReCaptchaV2(
-                api_key=self.API_KEY,
-                websiteKey=self.websiteKey,
-                websiteURL=self.websiteURL,
-                captcha_type=recaptcha_type,
-            ) as instance:
-                raise ValueError("Test error")
-
-    @pytest.mark.parametrize("recaptcha_type", recaptcha_v2_types)
-    async def test_err_aio_context(self, recaptcha_type):
-        with pytest.raises(ValueError):
-            async with ReCaptchaV2(
-                api_key=self.API_KEY,
-                websiteKey=self.websiteKey,
-                websiteURL=self.websiteURL,
-                captcha_type=recaptcha_type,
-            ) as instance:
-                raise ValueError("Test error")
+        assert result["errorId"] == 1
+        body = sio_http.post.call_args.kwargs["json"]
+        assert body["clientKey"] == self.API_KEY
+        assert body["task"]["type"] == CaptchaTypeEnm.RecaptchaV2TaskProxyless

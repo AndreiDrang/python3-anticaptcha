@@ -1,59 +1,45 @@
+"""Tests for the AntiGate/CustomTask payload."""
+
 from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.custom_task import CustomTask
 from tests.conftest import BaseTest
 
 
 class TestCustomTask(BaseTest):
-    websiteURL = "https://anti-captcha.com/tutorials/v2-textarea"
-    templateName = "Anti-bot screen bypass"
-    variables = {"css_selector": "some value"}
-
-    def get_proxy_args(self) -> dict:
-        proxy_args = super().get_proxy_args()
-        proxy_args.update({"proxyType": ProxyTypeEnm.https})
-        return proxy_args
-
-    def test_sio_success(self):
-        instance = CustomTask(
+    def make(self, **kwargs):
+        return CustomTask(
             api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            templateName=self.templateName,
-            variables=self.variables,
-            captcha_type=CaptchaTypeEnm.GeeTestTaskProxyless,
-            **self.get_proxy_args(),
+            websiteURL="https://example.test",
+            templateName="Template",
+            variables={"selector": "#challenge"},
+            proxyAddress="1.2.3.4",
+            proxyPort=8080,
+            proxyLogin="user",
+            proxyPassword="pass",
+            **kwargs,
         )
-        result = instance.captcha_handler()
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId in (24,)
+    def test_default_payload_contains_exact_custom_fields(self):
+        instance = self.make()
+        assert instance.task_params == {
+            "type": CaptchaTypeEnm.AntiGateTask,
+            "websiteURL": "https://example.test",
+            "templateName": "Template",
+            "variables": {"selector": "#challenge"},
+            "domainsOfInterest": [],
+            "proxyType": ProxyTypeEnm.https,
+            "proxyAddress": "1.2.3.4",
+            "proxyPort": 8080,
+            "proxyLogin": "user",
+            "proxyPassword": "pass",
+        }
 
-    async def test_aio_success(self):
-        instance = CustomTask(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            templateName=self.templateName,
-            variables=self.variables,
-            captcha_type=CaptchaTypeEnm.GeeTestTaskProxyless,
-            **self.get_proxy_args(),
-        )
-        result = await instance.aio_captcha_handler()
+    def test_preserves_domains_and_proxy_type(self):
+        instance = self.make(domainsOfInterest=["example.test"], proxyType=ProxyTypeEnm.http)
+        assert instance.task_params["domainsOfInterest"] == ["example.test"]
+        assert instance.task_params["proxyType"] == ProxyTypeEnm.http
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId in (24,)
-
-    def test_proxy_args(self):
-        proxy_args = self.get_proxy_args()
-
-        instance = CustomTask(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            templateName=self.templateName,
-            variables=self.variables,
-            captcha_type=CaptchaTypeEnm.GeeTestTaskProxyless,
-            **proxy_args,
-        )
-        for key, value in proxy_args.items():
-            assert instance.task_params[key] == value
+    def test_handler_sends_antigate_type(self, sio_http):
+        sio_http.post_sequence({"errorId": 1, "errorCode": "ERROR_KEY_DOES_NOT_EXIST"})
+        self.make().captcha_handler()
+        assert sio_http.post.call_args.kwargs["json"]["task"]["type"] == CaptchaTypeEnm.AntiGateTask

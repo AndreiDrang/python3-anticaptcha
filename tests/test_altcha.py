@@ -1,105 +1,44 @@
+"""Tests for Altcha URL/JSON and proxy task payloads."""
+
 import pytest
 
 from python3_anticaptcha.altcha import Altcha
-from python3_anticaptcha.core.context_instr import AIOContextManager, SIOContextManager
 from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from tests.conftest import BaseTest
 
 
 class TestAltcha(BaseTest):
-    websiteURL = "https://example.com/"
-    challengeURL = "/api/challenge"
+    BASE = {"websiteURL": "https://example.test"}
 
-    def test_sio_success(self):
+    @pytest.mark.parametrize("captcha_type", [CaptchaTypeEnm.AltchaTaskProxyless, CaptchaTypeEnm.AltchaTask])
+    def test_accepts_supported_types(self, captcha_type):
+        instance = Altcha(api_key=self.API_KEY, captcha_type=captcha_type, **self.BASE)
+        assert instance.task_params["type"] == captcha_type
+        assert instance.task_params["websiteURL"] == self.BASE["websiteURL"]
+
+    def test_proxyless_preserves_either_challenge_input(self):
         instance = Altcha(
             api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            challengeURL=self.challengeURL,
             captcha_type=CaptchaTypeEnm.AltchaTaskProxyless,
+            challengeURL="/challenge",
+            challengeJSON='{"algorithm":"SHA-256"}',
+            **self.BASE,
         )
-        result = instance.captcha_handler()
+        assert instance.task_params["challengeURL"] == "/challenge"
+        assert instance.task_params["challengeJSON"] == '{"algorithm":"SHA-256"}'
+        assert "proxyType" not in instance.task_params
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId != 0  # Expected error for test data (any non-zero error code)
-
-    async def test_aio_success(self):
-        instance = Altcha(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            challengeURL=self.challengeURL,
-            captcha_type=CaptchaTypeEnm.AltchaTaskProxyless,
-        )
-        result = await instance.aio_captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId != 0  # Expected error for test data (any non-zero error code)
-
-    def test_err_captcha_type(self):
-        with pytest.raises(ValueError):
-            Altcha(
-                api_key=self.API_KEY,
-                websiteURL=self.websiteURL,
-                challengeURL=self.challengeURL,
-                captcha_type=self.get_random_string(length=10),
-            )
-
-    @pytest.mark.parametrize("proxyType", ProxyTypeEnm)
-    def test_proxy_args(self, proxyType: ProxyTypeEnm):
-        proxy_args = self.get_proxy_args()
-        proxy_args.update({"proxyType": proxyType})
-        instance = Altcha(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            challengeURL=self.challengeURL,
-            captcha_type=CaptchaTypeEnm.AltchaTask,
-            **proxy_args,
-        )
-        for key, value in proxy_args.items():
+    def test_proxy_task_has_exact_proxy_values(self):
+        proxy = {"proxyType": ProxyTypeEnm.http, "proxyAddress": "1.2.3.4", "proxyPort": 8080}
+        instance = Altcha(api_key=self.API_KEY, captcha_type=CaptchaTypeEnm.AltchaTask, **self.BASE, **proxy)
+        for key, value in proxy.items():
             assert instance.task_params[key] == value
 
-    def test_context(self, mocker):
-        context_enter_spy = mocker.spy(SIOContextManager, "__enter__")
-        context_exit_spy = mocker.spy(SIOContextManager, "__exit__")
-        with Altcha(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            challengeURL=self.challengeURL,
-            captcha_type=CaptchaTypeEnm.AltchaTaskProxyless,
-        ) as instance:
-            assert context_enter_spy.call_count == 1
-        assert context_exit_spy.call_count == 1
+    def test_rejects_unsupported_type(self):
+        with pytest.raises(ValueError, match="Invalid `captcha_type`"):
+            Altcha(api_key=self.API_KEY, captcha_type="bad", **self.BASE)
 
-    async def test_aio_context(self, mocker):
-        context_enter_spy = mocker.spy(AIOContextManager, "__aenter__")
-        context_exit_spy = mocker.spy(AIOContextManager, "__aexit__")
-        async with Altcha(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            challengeURL=self.challengeURL,
-            captcha_type=CaptchaTypeEnm.AltchaTaskProxyless,
-        ) as instance:
-            assert context_enter_spy.call_count == 1
-        assert context_exit_spy.call_count == 1
-
-    def test_err_context(self):
-        with pytest.raises(ValueError):
-            with Altcha(
-                api_key=self.API_KEY,
-                websiteURL=self.websiteURL,
-                challengeURL=self.challengeURL,
-                captcha_type=CaptchaTypeEnm.AltchaTaskProxyless,
-            ) as instance:
-                raise ValueError("Test error")
-
-    async def test_err_aio_context(self):
-        with pytest.raises(ValueError):
-            async with Altcha(
-                api_key=self.API_KEY,
-                websiteURL=self.websiteURL,
-                challengeURL=self.challengeURL,
-                captcha_type=CaptchaTypeEnm.AltchaTaskProxyless,
-            ) as instance:
-                raise ValueError("Test error")
+    def test_handler_sends_type(self, sio_http):
+        sio_http.post_sequence({"errorId": 1, "errorCode": "ERROR_KEY_DOES_NOT_EXIST"})
+        Altcha(api_key=self.API_KEY, captcha_type=CaptchaTypeEnm.AltchaTaskProxyless, **self.BASE).captcha_handler()
+        assert sio_http.post.call_args.kwargs["json"]["task"]["type"] == CaptchaTypeEnm.AltchaTaskProxyless

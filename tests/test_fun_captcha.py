@@ -1,68 +1,54 @@
+"""Tests for FunCaptcha proxyless/proxy task payload selection."""
+
 import pytest
 
 from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.fun_captcha import FunCaptcha
 from tests.conftest import BaseTest
 
 
 class TestFunCaptcha(BaseTest):
-    websiteURL = "https://demo.arkoselabs.com/?key=DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
-    websitePublicKey = "DF9C4D87-CB7B-4062-9FEB-BADB6ADA61E6"
+    BASE = {"websiteURL": "https://example.test", "websitePublicKey": "PUBLIC"}
 
-    def get_proxy_args(self) -> dict:
-        proxy_args = super().get_proxy_args()
-        proxy_args.update({"userAgent": self.get_random_string()})
-        return proxy_args
+    @pytest.mark.parametrize("captcha_type", [CaptchaTypeEnm.FunCaptchaTaskProxyless, CaptchaTypeEnm.FunCaptchaTask])
+    def test_accepts_supported_types(self, captcha_type):
+        instance = FunCaptcha(api_key=self.API_KEY, captcha_type=captcha_type, **self.BASE)
+        assert instance.task_params["type"] == captcha_type
+        assert instance.task_params["websiteURL"] == self.BASE["websiteURL"]
+        assert instance.task_params["websitePublicKey"] == self.BASE["websitePublicKey"]
 
-    def test_sio_success(self):
+    def test_proxyless_excludes_proxy_fields(self):
         instance = FunCaptcha(
             api_key=self.API_KEY,
-            websitePublicKey=self.websitePublicKey,
-            websiteURL=self.websiteURL,
             captcha_type=CaptchaTypeEnm.FunCaptchaTaskProxyless,
+            funcaptchaApiJSSubdomain="sub",
+            data="DATA",
+            **self.BASE,
         )
-        result = instance.captcha_handler()
+        assert instance.task_params["funcaptchaApiJSSubdomain"] == "sub"
+        assert instance.task_params["data"] == "DATA"
+        assert "proxyType" not in instance.task_params
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 24
-        assert "This domain name is banned from solving" in ser_result.errorDescription
-
-    async def test_aio_success(self):
-        instance = FunCaptcha(
-            api_key=self.API_KEY,
-            websitePublicKey=self.websitePublicKey,
-            websiteURL=self.websiteURL,
-            captcha_type=CaptchaTypeEnm.FunCaptchaTaskProxyless,
-        )
-        result = await instance.aio_captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 24
-        assert "This domain name is banned from solving" in ser_result.errorDescription
-
-    @pytest.mark.parametrize("proxyType", ProxyTypeEnm)
-    def test_proxy_args(self, proxyType: ProxyTypeEnm):
-        proxy_args = self.get_proxy_args()
-        proxy_args.update({"proxyType": proxyType})
-
-        instance = FunCaptcha(
-            api_key=self.API_KEY,
-            websitePublicKey=self.websitePublicKey,
-            websiteURL=self.websiteURL,
-            captcha_type=CaptchaTypeEnm.FunCaptchaTask,
-            **proxy_args,
-        )
-        for key, value in proxy_args.items():
+    def test_proxy_task_preserves_exact_proxy_values(self):
+        proxy = {
+            "proxyType": ProxyTypeEnm.http,
+            "proxyAddress": "1.2.3.4",
+            "proxyPort": 8080,
+            "proxyLogin": "u",
+            "proxyPassword": "p",
+            "userAgent": "agent",
+        }
+        instance = FunCaptcha(api_key=self.API_KEY, captcha_type=CaptchaTypeEnm.FunCaptchaTask, **self.BASE, **proxy)
+        for key, value in proxy.items():
             assert instance.task_params[key] == value
 
-    def test_err_captcha_type(self):
-        with pytest.raises(ValueError):
-            FunCaptcha(
-                api_key=self.API_KEY,
-                websitePublicKey=self.websitePublicKey,
-                websiteURL=self.websiteURL,
-                captcha_type=self.get_random_string(length=10),
-            )
+    def test_rejects_unsupported_type(self):
+        with pytest.raises(ValueError, match="Invalid `captcha_type`"):
+            FunCaptcha(api_key=self.API_KEY, captcha_type="bad", **self.BASE)
+
+    def test_handler_sends_selected_type(self, sio_http):
+        sio_http.post_sequence({"errorId": 1, "errorCode": "ERROR_KEY_DOES_NOT_EXIST"})
+        FunCaptcha(
+            api_key=self.API_KEY, captcha_type=CaptchaTypeEnm.FunCaptchaTaskProxyless, **self.BASE
+        ).captcha_handler()
+        assert sio_http.post.call_args.kwargs["json"]["task"]["type"] == CaptchaTypeEnm.FunCaptchaTaskProxyless

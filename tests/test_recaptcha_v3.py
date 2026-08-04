@@ -1,139 +1,53 @@
+"""Tests for ReCaptchaV3 task assembly and sync/async delegation."""
+
 import pytest
 
-from python3_anticaptcha.core.context_instr import AIOContextManager, SIOContextManager
 from python3_anticaptcha.core.enum import CaptchaTypeEnm
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.recaptcha_v3 import ReCaptchaV3
 from tests.conftest import BaseTest
 
 
 class TestReCaptchaV3(BaseTest):
-    pageAction = "demo_action"
-    minScore = 0.3
-    websiteURL = "https://rucaptcha.com/demo/recaptcha-v3"
-    websiteKey = "6LfB5_IbAAAAAMCtsjEHEHKqcB9iQocwwxTiihJu"
-    websiteURLEnterprise = "https://rucaptcha.com/demo/recaptcha-v3-enterprise"
-    websiteKeyEnterprise = "6Lel38UnAAAAAMRwKj9qLH2Ws4Tf2uTDQCyfgR6b"
-
-    def test_sio_success(self):
-        instance = ReCaptchaV3(
+    def make(self, captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless, **kwargs):
+        return ReCaptchaV3(
             api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
-            pageAction=self.pageAction,
-            minScore=self.minScore,
+            websiteURL="https://example.test",
+            websiteKey="SITEKEY",
+            minScore=0.7,
+            captcha_type=captcha_type,
+            **kwargs,
         )
-        result = instance.captcha_handler()
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
+    @pytest.mark.parametrize(
+        "captcha_type",
+        [CaptchaTypeEnm.RecaptchaV3TaskProxyless, "RecaptchaV3EnterpriseTaskProxyless"],
+    )
+    def test_preserves_type_and_v3_fields(self, captcha_type):
+        instance = self.make(captcha_type, pageAction="login", isEnterprise=True, apiDomain="www.google.com")
+        assert instance.task_params == {
+            "type": captcha_type,
+            "websiteURL": "https://example.test",
+            "websiteKey": "SITEKEY",
+            "minScore": 0.7,
+            "pageAction": "login",
+            "isEnterprise": True,
+            "apiDomain": "www.google.com",
+        }
 
-    async def test_aio_success(self):
-        instance = ReCaptchaV3(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
-            pageAction=self.pageAction,
-            minScore=self.minScore,
-        )
-        result = await instance.aio_captcha_handler()
+    def test_default_optional_fields_are_explicit(self):
+        instance = self.make()
+        assert instance.task_params["pageAction"] is None
+        assert instance.task_params["isEnterprise"] is False
+        assert instance.task_params["apiDomain"] is None
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
+    def test_sync_handler_returns_create_error(self, sio_http):
+        sio_http.post_sequence({"errorId": 1, "errorCode": "ERROR_KEY_DOES_NOT_EXIST"})
+        result = self.make().captcha_handler()
+        assert result["errorId"] == 1
+        assert sio_http.post.call_count == 1
 
-    def test_sio_enterprise_success(self):
-        instance = ReCaptchaV3(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKeyEnterprise,
-            websiteURL=self.websiteURLEnterprise,
-            captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
-            isEnterprise=True,
-            pageAction=self.pageAction,
-            minScore=self.minScore,
-        )
-        result = instance.captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
-
-    async def test_aio_enterprise_success(self):
-        instance = ReCaptchaV3(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKeyEnterprise,
-            websiteURL=self.websiteURLEnterprise,
-            captcha_type=CaptchaTypeEnm.RecaptchaV3TaskProxyless,
-            isEnterprise=True,
-            pageAction=self.pageAction,
-            minScore=self.minScore,
-        )
-        result = await instance.aio_captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId == 0
-        assert ser_result.taskId is not None
-        assert ser_result.cost != 0.0
-
-    def get_proxy_args(self) -> dict:
-        proxy_args = super().get_proxy_args()
-        proxy_args.update({"userAgent": self.get_random_string(), "cookies": self.get_random_string()})
-        return proxy_args
-
-    def test_context(self, mocker):
-        context_enter_spy = mocker.spy(SIOContextManager, "__enter__")
-        context_exit_spy = mocker.spy(SIOContextManager, "__exit__")
-        with ReCaptchaV3(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            pageAction=self.pageAction,
-            minScore=self.minScore,
-        ) as instance:
-            assert context_enter_spy.call_count == 1
-        assert context_exit_spy.call_count == 1
-
-    async def test_aio_context(self, mocker):
-        context_enter_spy = mocker.spy(AIOContextManager, "__aenter__")
-        context_exit_spy = mocker.spy(AIOContextManager, "__aexit__")
-        async with ReCaptchaV3(
-            api_key=self.API_KEY,
-            websiteKey=self.websiteKey,
-            websiteURL=self.websiteURL,
-            pageAction=self.pageAction,
-            minScore=self.minScore,
-        ) as instance:
-            assert context_enter_spy.call_count == 1
-        assert context_exit_spy.call_count == 1
-
-    def test_err_context(self):
-        with pytest.raises(ValueError):
-            with ReCaptchaV3(
-                api_key=self.API_KEY,
-                websiteKey=self.websiteKey,
-                websiteURL=self.websiteURL,
-                pageAction=self.pageAction,
-                minScore=self.minScore,
-            ) as instance:
-                raise ValueError("Test error")
-
-    async def test_err_aio_context(self):
-        with pytest.raises(ValueError):
-            async with ReCaptchaV3(
-                api_key=self.API_KEY,
-                websiteKey=self.websiteKey,
-                websiteURL=self.websiteURL,
-                pageAction=self.pageAction,
-                minScore=self.minScore,
-            ) as instance:
-                raise ValueError("Test error")
+    async def test_async_handler_returns_create_error(self, aio_http):
+        aio_http.enqueue_post({"errorId": 1, "errorCode": "ERROR_KEY_DOES_NOT_EXIST"})
+        result = await self.make().aio_captcha_handler()
+        assert result["errorId"] == 1
+        assert len(aio_http.post_calls) == 1

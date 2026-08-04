@@ -1,84 +1,49 @@
+"""Tests for GeeTest v3/v4 task payload assembly."""
+
 import pytest
 
 from python3_anticaptcha.core.enum import CaptchaTypeEnm, ProxyTypeEnm
-from python3_anticaptcha.core.serializer import GetTaskResultResponseSer
 from python3_anticaptcha.gee_test import GeeTest
 from tests.conftest import BaseTest
 
 
-class GeeTestBase(BaseTest):
-    websiteURL = "https://www.geetest.com/en/adaptive-captcha-demo"
-    gt = "81388ea1fc187e0c335c0a8907ff2625"
-    challenge = "12345678abc90123d45678ef90123a456b"
-    version = 0
+class TestGeeTest(BaseTest):
+    BASE = {"websiteURL": "https://example.test", "gt": "GT"}
 
-    def get_proxy_args(self) -> dict:
-        proxy_args = super().get_proxy_args()
-        proxy_args.update({"userAgent": self.get_random_string()})
-        return proxy_args
+    @pytest.mark.parametrize("captcha_type", [CaptchaTypeEnm.GeeTestTaskProxyless, CaptchaTypeEnm.GeeTestTask])
+    def test_accepts_supported_types(self, captcha_type):
+        instance = GeeTest(api_key=self.API_KEY, captcha_type=captcha_type, **self.BASE)
+        assert instance.task_params["type"] == captcha_type
+        assert instance.task_params["version"] == 3
 
-    def test_sio_success(self):
+    def test_preserves_v3_and_v4_options(self):
         instance = GeeTest(
             api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            gt=self.gt,
-            challenge=self.challenge,
-            version=self.version,
             captcha_type=CaptchaTypeEnm.GeeTestTaskProxyless,
+            challenge="CHALLENGE",
+            version=4,
+            initParameters="INIT",
+            geetestApiServerSubdomain="api",
+            **self.BASE,
         )
-        result = instance.captcha_handler()
+        assert instance.task_params["challenge"] == "CHALLENGE"
+        assert instance.task_params["version"] == 4
+        assert instance.task_params["initParameters"] == "INIT"
+        assert instance.task_params["geetestApiServerSubdomain"] == "api"
 
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId in (34, 12)
-
-    async def test_aio_success(self):
-        instance = GeeTest(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            gt=self.gt,
-            challenge=self.challenge,
-            version=self.version,
-            captcha_type=CaptchaTypeEnm.GeeTestTaskProxyless,
-        )
-        result = await instance.aio_captcha_handler()
-
-        assert isinstance(result, dict)
-        ser_result = GetTaskResultResponseSer(**result)
-        assert ser_result.errorId in (34, 12)
-
-    @pytest.mark.parametrize("proxyType", ProxyTypeEnm)
-    def test_proxy_args(self, proxyType: ProxyTypeEnm):
-        proxy_args = self.get_proxy_args()
-        proxy_args.update({"proxyType": proxyType})
-
-        instance = GeeTest(
-            api_key=self.API_KEY,
-            websiteURL=self.websiteURL,
-            gt=self.gt,
-            challenge=self.challenge,
-            version=self.version,
-            captcha_type=CaptchaTypeEnm.GeeTestTask,
-            **proxy_args,
-        )
-        for key, value in proxy_args.items():
+    def test_proxy_fields_only_on_proxy_task(self):
+        proxy = {"proxyType": ProxyTypeEnm.https, "proxyAddress": "1.2.3.4", "proxyPort": 443}
+        instance = GeeTest(api_key=self.API_KEY, captcha_type=CaptchaTypeEnm.GeeTestTask, **self.BASE, **proxy)
+        for key, value in proxy.items():
             assert instance.task_params[key] == value
 
-    def test_err_captcha_type(self):
-        with pytest.raises(ValueError):
-            GeeTest(
-                api_key=self.API_KEY,
-                websiteURL=self.websiteURL,
-                gt=self.gt,
-                challenge=self.challenge,
-                version=self.version,
-                captcha_type=self.get_random_string(length=10),
-            )
+    def test_rejects_unsupported_type(self):
+        with pytest.raises(ValueError, match="Invalid `captcha_type`"):
+            GeeTest(api_key=self.API_KEY, captcha_type="bad", **self.BASE)
 
-
-class TestGeeTestV3(GeeTestBase):
-    version = 3
-
-
-class TestGeeTestV4(GeeTestBase):
-    version = 4
+    async def test_async_handler_sends_type(self, aio_http):
+        aio_http.enqueue_post({"errorId": 1, "errorCode": "ERROR_KEY_DOES_NOT_EXIST"})
+        await GeeTest(
+            api_key=self.API_KEY, captcha_type=CaptchaTypeEnm.GeeTestTaskProxyless, **self.BASE
+        ).aio_captcha_handler()
+        assert aio_http.post_calls[0]["kwargs"]["json"]["task"]["type"] == CaptchaTypeEnm.GeeTestTaskProxyless
