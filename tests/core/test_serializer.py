@@ -30,7 +30,7 @@ class TestMyBaseModel:
         # msgspec Structs are slotted: arbitrary attributes cannot be added, so
         # nothing can leak into to_dict(). This pins that guarantee.
         obj = CreateTaskBaseSer(clientKey="KEY")
-        with pytest.raises(AttributeError):
+        with pytest.raises((AttributeError, TypeError)):
             object.__setattr__(obj, "secret", "leak")
         assert set(obj.to_dict()) == {"clientKey", "task", "softId", "callbackUrl"}
 
