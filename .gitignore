@@ -24,3 +24,4 @@ env/
 /docs/_build/
 /src/python3_anticaptcha.egg-info/
 /coverage/
+.osgrep
