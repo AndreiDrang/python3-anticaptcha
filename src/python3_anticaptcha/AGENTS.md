@@ -21,7 +21,7 @@ python3_anticaptcha/
 Captcha-type modules and their classes (file→class names are intentionally irregular):
 
 | File | Class |
-|------|-------|
+| ------ | ------- |
 | `recaptcha_v2.py` | `ReCaptchaV2` |
 | `recaptcha_v3.py` | `ReCaptchaV3` |
 | `image_to_text.py` | `ImageToText` |
@@ -54,7 +54,9 @@ Captcha-type modules and their classes (file→class names are intentionally irr
 3. If new request/response fields are needed, extend the msgspec structs in
    `core/serializer.py` (do not bypass it).
 4. Add `tests/test_<type>.py` mirroring an existing test (see `tests/AGENTS.md`).
-5. Add `docs/modules/<type>.rst`.
+5. Add `docs/modules/<type>/example.rst` (one directory per type) and register it in
+   the `docs/index.rst` toctree.
+6. Add `okf/captcha-types/<type>.md` + its `index.md` entry (see `okf/AGENTS.md`).
 
 ## Safe change rules
 

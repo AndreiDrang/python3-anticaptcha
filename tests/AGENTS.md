@@ -24,13 +24,15 @@ live in `tests/core/conftest.py`; no tests make real API calls.
 - `asyncio_mode = auto` (`pyproject.toml`) — async test functions run without
   `@pytest.mark.asyncio`.
 - Test classes inherit `BaseTest` from `tests.conftest`:
+
   ```python
   from tests.conftest import BaseTest
 
 
   class TestReCaptchaV2(BaseTest): ...
   ```
-  `BaseTest` provides `API_KEY` (env or mock default), `sleep_time`, `get_proxy_args()`,
+
+  `BaseTest` provides `API_KEY` (deterministic fake key, `"0" * 32`), `sleep_time`, `get_proxy_args()`,
   `get_random_string()`, and `read_file()`. It intentionally has no delay fixtures.
 - Naming: class `Test<Type>`; methods describe observable behavior. Async tests use
   `async def` without `@pytest.mark.asyncio`.
@@ -40,13 +42,12 @@ live in `tests/core/conftest.py`; no tests make real API calls.
   transport, allowing payload assembly, serialization, and polling to run for real.
 - Assert exact returned fields and request URL/JSON payloads; avoid truthiness-only assertions.
 
-
 ## Validation
 
 ```bash
-make tests              # coverage run + pytest + html/xml reports (from repo root)
-pytest                  # plain run
-pytest -k recaptcha     # filter by name
+make tests                                # coverage run + pytest + html/xml reports (from repo root)
+uv run --extra test pytest                # plain run
+uv run --extra test pytest -k recaptcha   # filter by name
 ```
 
 Coverage is configured in `.coveragerc` (includes `*/src/*`, omits `__init__` and tests).

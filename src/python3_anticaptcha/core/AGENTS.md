@@ -54,8 +54,9 @@ whose handler stubs are annotated `-> dict`. Response shapes are msgspec structs
 
 ## Validation
 
-Repo-wide commands live in the root `AGENTS.md`. To target this subsystem:
+Repo-wide commands live in the root `AGENTS.md`. Core tests live in `tests/core/`
+(one `test_<module>.py` per core source module):
 
 ```bash
-pytest tests/test_core.py
+uv run --extra test pytest tests/core/
 ```
