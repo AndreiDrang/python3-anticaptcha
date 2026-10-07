@@ -55,7 +55,7 @@ classifiers = [
 dependencies = [
     "requests>=2.21.0",
     "aiohttp>=3.9.2",
-    "msgspec>=0.18,<0.22",
+    "msgspec>=0.18,<0.23",
     "tenacity>=8,<10",
 ]
 
