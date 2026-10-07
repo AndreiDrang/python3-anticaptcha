@@ -24,9 +24,12 @@ lint:
 build:
 	uv build
 
+# PyPI upload token: create one at https://pypi.org/manage/account/token/
+# and save it to the gitignored .pypi-token file:  echo pypi-xxxx > .pypi-token
 upload:
+	@test -f .pypi-token || { echo "missing .pypi-token (see Makefile comment)"; exit 1; }
 	uv build
-	uv publish
+	@ UV_PUBLISH_TOKEN=`cat .pypi-token` uv publish
 
 doc:
 	uv run --extra docs sphinx-build -M html docs docs/_build
