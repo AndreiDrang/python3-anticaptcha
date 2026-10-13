@@ -67,7 +67,7 @@ test = [
     "coverage>=7,<8",
 ]
 style = [
-    "ruff==0.16.*",
+    "ruff>=0.16,<0.18",
 ]
 docs = [
     "sphinx==7.4.7; python_version < '3.10'",
